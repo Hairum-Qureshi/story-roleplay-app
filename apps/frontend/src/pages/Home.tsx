@@ -40,7 +40,7 @@ export default function Home() {
 
 				{/* CTA Buttons */}
 				<div className="flex flex-col items-center gap-4">
-					<button className="group relative flex items-center gap-3 bg-white text-slate-900 px-8 py-3.5 rounded-lg font-medium hover:bg-slate-100 transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)]">
+					<button className="group relative flex items-center gap-3 bg-white text-slate-900 px-8 py-3.5 rounded-lg font-medium hover:bg-slate-100 transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] hover:cursor-pointer">
 						<svg className="w-5 h-5" viewBox="0 0 24 24">
 							<path
 								d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
