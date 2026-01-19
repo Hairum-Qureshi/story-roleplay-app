@@ -78,8 +78,8 @@ export default function Home() {
 						text="Write seamlessly with others in a live chat interface. See the story unfold instantly."
 					/>
 					<FeatureColumn
-						title="Character & World Building"
-						text="Define your roles, create unique personas, and build rich, shared universes solely through text."
+						title="Downloadable Stories"
+						text="Done your story or want to see the progress so far? Have the ability to download it all in its entirety."
 						hasBorder
 					/>
 					<FeatureColumn
