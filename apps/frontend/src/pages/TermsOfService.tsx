@@ -2,9 +2,14 @@ export default function TermsOfService() {
 	return (
 		<div className="min-h-screen bg-slate-950 text-white relative overflow-hidden flex flex-col">
 			<div className="relative flex flex-col px-8 py-20 max-w-5xl mx-auto z-10 space-y-10">
-				<h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-					Terms of Service
-				</h1>
+				<div>
+					<h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+						Terms of Service
+					</h1>
+					<p className="text-slate-400 text-base mt-4 font-light leading-relaxed">
+						Last updated: 1/21/2026
+					</p>
+				</div>
 
 				<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
 					Welcome to TaleWeaver. By accessing or using our platform, you agree
