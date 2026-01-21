@@ -130,7 +130,7 @@ export default function AdForm() {
 							id="premise"
 							name="premise"
 							rows={4}
-							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 min-h-20"
 							placeholder="Describe the premise of your role-play"
 						></textarea>
 					</div>
@@ -192,7 +192,7 @@ export default function AdForm() {
 							id="content-notes"
 							name="content-notes"
 							rows={4}
-							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 min-h-20"
 							placeholder="Specify any content notes"
 						></textarea>
 					</div>
