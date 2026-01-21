@@ -4,13 +4,22 @@ import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import { FaPlusSquare } from "react-icons/fa";
 import { HiQuestionMarkCircle } from "react-icons/hi";
+import { IoHomeSharp } from "react-icons/io5";
 
 export default function Navbar() {
 	return (
 		<div className="w-full h-16 bg-slate-900 border-b border-slate-700 flex items-center justify-center px-6 space-x-4 ">
 			<Link to="/">
 				<h1
-					className="border border-yellow-700 px-3 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-xl"
+					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 text-xl font-bold text-zinc-100 flex items-center"
+					title="Home"
+				>
+					<IoHomeSharp className="text-sky-400" />
+				</h1>
+			</Link>
+			<Link to="/role-play-ads">
+				<h1
+					className="border border-yellow-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-xl"
 					title="Main Feed"
 				>
 					<FaStar className="text-yellow-400" />
