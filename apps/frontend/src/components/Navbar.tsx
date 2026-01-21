@@ -1,14 +1,18 @@
 import { FaUser } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import { FaPlusSquare } from "react-icons/fa";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 import { IoHomeSharp } from "react-icons/io5";
 
 export default function Navbar() {
+	const location = useLocation();
+
 	return (
-		<div className="w-full h-16 bg-slate-900 border-b border-slate-700 flex items-center justify-center px-6 space-x-4 ">
+		<div
+			className={`w-full h-16 bg-slate-900 border-b border-slate-700 flex items-center justify-center px-6 space-x-4 ${location.pathname !== "inbox" && "sticky top-0 z-50"}`}
+		>
 			<Link to="/">
 				<h1
 					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 text-xl font-bold text-zinc-100 flex items-center"
