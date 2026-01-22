@@ -11,7 +11,7 @@ export default function Navbar() {
 
 	return (
 		<div
-			className={`w-full h-16 bg-slate-900 border-b border-slate-700 flex items-center justify-center px-6 space-x-4 ${location.pathname !== "inbox" && "sticky top-0 z-50"}`}
+			className={`w-full h-16 bg-slate-900 border-b border-slate-700 flex items-center justify-center px-6 space-x-4 ${location.pathname !== "/inbox" && "sticky top-0 z-50"}`}
 		>
 			<Link to="/">
 				<h1
