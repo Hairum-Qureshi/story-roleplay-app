@@ -5,6 +5,8 @@ import { FaStar } from "react-icons/fa6";
 import { FaPlusSquare } from "react-icons/fa";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 import { IoHomeSharp } from "react-icons/io5";
+import { FaUserPlus } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 
 export default function Navbar() {
 	const location = useLocation();
@@ -51,6 +53,22 @@ export default function Navbar() {
 					title="Create New Ad"
 				>
 					<FaPlusSquare className="text-sky-400" />
+				</h1>
+			</Link>
+			<Link to="/new-character">
+				<h1
+					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+					title="Create Character"
+				>
+					<FaUserPlus className="text-sky-400" />
+				</h1>
+			</Link>
+			<Link to="/character-bios">
+				<h1
+					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+					title="Character Bios"
+				>
+					<FaUsers className="text-sky-400" />
 				</h1>
 			</Link>
 			<Link to="/about">
