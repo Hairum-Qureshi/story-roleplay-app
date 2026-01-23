@@ -22,6 +22,7 @@ export default function App() {
 				<Route path="/role-play-ads" element={<Advertisements />} />
 				<Route path="/new-ad" element={<AdForm />} />
 				<Route path="/inbox" element={<Inbox />} />
+				<Route path="/inbox/:chatID" element={<Inbox />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 				<Route path="/terms-of-service" element={<TermsOfService />} />
