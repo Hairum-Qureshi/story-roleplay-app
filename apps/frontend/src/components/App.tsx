@@ -13,6 +13,7 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import TermsOfService from "../pages/TermsOfService";
 import CharacterBioForm from "../pages/CharacterBioForm";
 import CharacterBios from "../pages/CharacterBios";
+import FAQ from "../pages/FAQ";
 
 export default function App() {
 	return (
@@ -28,6 +29,7 @@ export default function App() {
 				<Route path="/inbox" element={<Inbox />} />
 				<Route path="/inbox/:chatID" element={<Inbox />} />
 				<Route path="/profile" element={<Profile />} />
+				<Route path="/faq" element={<FAQ />} />
 				<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 				<Route path="/terms-of-service" element={<TermsOfService />} />
 				<Route path="*" element={<NotFound />} />
