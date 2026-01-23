@@ -31,7 +31,7 @@ export default function AdForm() {
 				<h1 className="text-3xl font-bold text-zinc-100 mt-10 mb-5">
 					Create Your Role-Play Ad
 				</h1>
-				<div className="border border-slate-700 bg-slate-900 rounded-md p-4 mb-7">
+				<div className="border border-slate-700 bg-slate-900 rounded-md p-4">
 					<div className="flex items-start gap-3">
 						<div className="text-sky-500 mt-1">
 							<IoMdInformationCircleOutline />
@@ -67,6 +67,24 @@ export default function AdForm() {
 							</ul>
 						</div>
 					</div>
+				</div>
+				<div className="my-5 bg-slate-900 p-3 rounded-md border border-slate-700">
+					<h2 className="text-xl font-semibold text-slate-200 mb-3">
+						{" "}
+						Want to create a character bio?{" "}
+					</h2>
+					<p className="text-sm text-slate-400 mb-4">
+						Character bios help potential role-play partners learn more about
+						your character. You can{" "}
+						<a href="/new-character" className="text-sky-500 underline">
+							create a new character bio
+						</a>{" "}
+						or{" "}
+						<a href="/character-bios" className="text-sky-500 underline">
+							view your existing characters
+						</a>{" "}
+						to share with your role-play partners.
+					</p>
 				</div>
 				<form className="bg-slate-900 border border-sky-700 rounded-md p-5 mb-7 space-y-4">
 					<div>
@@ -196,9 +214,15 @@ export default function AdForm() {
 							placeholder="Specify any content notes"
 						></textarea>
 					</div>
+					<p className="text-sm mt-10 text-sky-300 italic">
+						By posting this role-play ad, I certify that it does not promote
+						illegal activities and that it is entirely my own work. I understand
+						that failure to adhere to these guidelines may result in the removal
+						of the ad and possible suspension of my account.
+					</p>
 					<button
 						type="submit"
-						className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+						className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer"
 					>
 						Post Ad
 					</button>
