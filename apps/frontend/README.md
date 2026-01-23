@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# TaleWeaver
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TaleWeaver is a collaborative, chat-based role‑playing platform built to make finding and writing stories with others fast, focused, and enjoyable. Instead of overwhelming users with bloated profiles and complex systems, TaleWeaver emphasizes simplicity: post an ad, connect with another writer, and start writing.
 
-Currently, two official plugins are available:
+This repository is a **monorepo** containing both the backend and frontend applications. It uses Nest.js, React, Tailwind CSS, and Socket.IO to support real-time, chat-based collaborative storytelling, while maintaining a clean separation of concerns and long-term sca
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## What Is TaleWeaver?
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+TaleWeaver is designed to make collaborative role‑playing simple and efficient.
 
-## Expanding the ESLint configuration
+Unlike traditional role‑play sites that can feel cluttered or intimidating, TaleWeaver focuses on what matters most:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Quickly connecting you with other storytellers
+- Letting conversations turn into stories naturally
+- Keeping the interface clean, modern, and distraction‑free
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Users can post role‑play ads with minimal friction—no lengthy profiles or mandatory character sheets. Just describe what you’re looking for, wait for replies, and begin writing together in a real‑time chat environment.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Core Philosophy
+
+- **Chat‑first storytelling** – Stories unfold organically through conversation
+- **Low friction** – Minimal setup before you can start role‑playing
+- **Optional depth** – Support for character bios and planning without forcing them
+- **Modern UX** – Clean UI built with modern web tooling
+
+---
+
+## Tech Stack
+
+This project uses a modern TypeScript‑first stack and is organized as a monorepo.
+
+### Backend
+
+- **NestJS** – Scalable Node.js framework
+- **Socket.IO** – Real‑time chat and events
+- **REST + WebSockets** – Hybrid API design
+
+### Frontend
+
+- **React** – UI framework
+- **Vite** – Fast development and build tooling
+- **Tailwind CSS** – Utility‑first styling
+
+### Tooling
+
+- **TurboRepo** – Task orchestration and caching
+- **Single lockfile** – Consistent dependency resolution
+
+---
+
+## Repository Structure
+
+```
+.
+├── apps/
+│   ├── backend/          # NestJS backend application
+│   └── frontend/         # React + Vite + Tailwind frontend
+├── packages/             # Optional shared packages (empty by default)
+├── package.json          # Root workspace + Turbo configuration
+├── package-lock.json     # Single lockfile for the entire monorepo
+├── turbo.json            # Turbo task pipeline
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Features (Current & Planned)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Role‑play ad creation and discovery
+- One‑on‑one role‑play chats (DMs)
+- Real‑time messaging via WebSockets
+- Optional character bios per role‑play
+
+Planned features may include:
+
+- Multiple characters per user
+- Character reuse across chats
+- Advanced filtering for role‑play ads
+
+---
+
+## Development Status
+
+TaleWeaver is currently under active development. The architecture is being designed with long‑term scalability in mind, prioritizing clean boundaries between domain logic, transport layers, and UI concerns.
+
+This repository is intended for experimentation, iteration, and growth as features evolve.
+
+If you’re interested in collaborative storytelling, real‑time writing, or building modern full‑stack applications, TaleWeaver aims to be a thoughtful and flexible foundation.
