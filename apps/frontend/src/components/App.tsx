@@ -12,6 +12,7 @@ import Profile from "../pages/Profile";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 import TermsOfService from "../pages/TermsOfService";
 import CharacterBioForm from "../pages/CharacterBioForm";
+import CharacterBios from "../pages/CharacterBios";
 
 export default function App() {
 	return (
@@ -22,6 +23,7 @@ export default function App() {
 				<Route path="/about" element={<About />} />
 				<Route path="/role-play-ads" element={<Advertisements />} />
 				<Route path="/new-ad" element={<AdForm />} />
+				<Route path="/character-bios" element={<CharacterBios />} />
 				<Route path="/new-character" element={<CharacterBioForm />} />
 				<Route path="/inbox" element={<Inbox />} />
 				<Route path="/inbox/:chatID" element={<Inbox />} />
