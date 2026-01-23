@@ -11,7 +11,6 @@ export default function useGoogleAuth(): UseGoogleAuthHook {
 		try {
 			const result = await signInWithPopup(auth, googleProvider);
 			const token = await result.user.getIdToken();
-			console.log(token);
 			return token;
 		} catch (error) {
 			console.log(error);
