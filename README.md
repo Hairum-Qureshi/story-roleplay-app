@@ -1,15 +1,54 @@
-**NestJS + React + Vite + Tailwind + Turbo Template**
+# TaleWeaver
 
-This repository is a **full-stack monorepo template** using **npm workspaces** and **Turborepo** to manage a React frontend and a NestJS backend in a single repository.
+TaleWeaver is a collaborative, chat-based role‑playing platform built to make finding and writing stories with others fast, focused, and enjoyable. Instead of overwhelming users with bloated profiles and complex systems, TaleWeaver emphasizes simplicity: post an ad, connect with another writer, and start writing.
 
-The goal of this template is to provide:
+This repository is a **monorepo** containing both the backend and frontend applications. It uses Nest.js, React, Tailwind CSS, and Socket.IO to support real-time, chat-based collaborative storytelling, while maintaining a clean separation of concerns and long-term sca
 
-- A minimal but correct monorepo setup
-- Clear separation of frontend and backend concerns
-- Centralized dependency management
-- Coordinated development scripts without over-engineering
+---
 
-This is a **template**, not a production-ready system.
+## What Is TaleWeaver?
+
+TaleWeaver is designed to make collaborative role‑playing simple and efficient.
+
+Unlike traditional role‑play sites that can feel cluttered or intimidating, TaleWeaver focuses on what matters most:
+
+- Quickly connecting you with other storytellers
+- Letting conversations turn into stories naturally
+- Keeping the interface clean, modern, and distraction‑free
+
+Users can post role‑play ads with minimal friction—no lengthy profiles or mandatory character sheets. Just describe what you’re looking for, wait for replies, and begin writing together in a real‑time chat environment.
+
+---
+
+## Core Philosophy
+
+- **Chat‑first storytelling** – Stories unfold organically through conversation
+- **Low friction** – Minimal setup before you can start role‑playing
+- **Optional depth** – Support for character bios and planning without forcing them
+- **Modern UX** – Clean UI built with modern web tooling
+
+---
+
+## Tech Stack
+
+This project uses a modern TypeScript‑first stack and is organized as a monorepo.
+
+### Backend
+
+- **NestJS** – Scalable Node.js framework
+- **Socket.IO** – Real‑time chat and events
+- **REST + WebSockets** – Hybrid API design
+
+### Frontend
+
+- **React** – UI framework
+- **Vite** – Fast development and build tooling
+- **Tailwind CSS** – Utility‑first styling
+
+### Tooling
+
+- **TurboRepo** – Task orchestration and caching
+- **Single lockfile** – Consistent dependency resolution
 
 ---
 
@@ -27,191 +66,27 @@ This is a **template**, not a production-ready system.
 └── README.md
 ```
 
-### Key Structural Notes
+---
 
-- This **is a monorepo**
-- Dependency management is centralized at the **root**
-- Each app remains a **standalone project**
-- No code is shared by default
-- Shared packages are optional, not assumed
+## Features (Current & Planned)
+
+- Role‑play ad creation and discovery
+- One‑on‑one role‑play chats (DMs)
+- Real‑time messaging via WebSockets
+- Optional character bios per role‑play
+
+Planned features may include:
+
+- Multiple characters per user
+- Character reuse across chats
+- Advanced filtering for role‑play ads
 
 ---
 
-## Tech Stack
+## Development Status
 
-### Backend (`apps/backend`)
+TaleWeaver is currently under active development. The architecture is being designed with long‑term scalability in mind, prioritizing clean boundaries between domain logic, transport layers, and UI concerns.
 
-- NestJS
-- TypeScript
-- Basic “Hello World” API
+This repository is intended for experimentation, iteration, and growth as features evolve.
 
-### Frontend (`apps/frontend`)
-
-- React
-- Vite
-- TailwindCSS
-- TypeScript
-
-### Tooling
-
-- npm workspaces (monorepo management)
-- Turborepo (task orchestration and caching)
-
----
-
-## Prerequisites
-
-You need:
-
-- Node.js (LTS recommended)
-- npm (v7+ required for workspaces)
-
----
-
-## Installation
-
-From the **repository root**:
-
-```bash
-npm install
-```
-
-This installs dependencies for **all workspace packages** and generates a **single `package-lock.json`**.
-
-Do not run `npm install` inside individual apps.
-
----
-
-## Development
-
-Run all development servers concurrently:
-
-```bash
-npm run dev
-```
-
-This command:
-
-- Uses Turbo to run the `dev` script in each app
-- Starts the NestJS backend
-- Starts the Vite frontend
-- Streams logs with app prefixes
-
-### Default Ports
-
-- Backend: `http://localhost:3000`
-- Frontend: `http://localhost:5173`
-
----
-
-## Building the Project
-
-To build all apps:
-
-```bash
-npm run build
-```
-
-Turbo will:
-
-- Run builds in the correct order
-- Cache outputs for faster rebuilds
-- Skip unchanged packages when possible
-
----
-
-## Linting
-
-To lint all packages:
-
-```bash
-npm run lint
-```
-
-Each app is responsible for defining its own lint configuration.
-
----
-
-## App Independence
-
-Even though this is a monorepo:
-
-- Frontend and backend **do not depend on each other**
-- They can be deployed independently
-- They can be developed in isolation
-- No API client or shared types are included by default
-
-If you want frontend ↔ backend communication, you must:
-
-- Configure CORS in the backend
-- Add environment variables in the frontend
-- Implement API calls manually
-
-This is intentional.
-
----
-
-## Turbo Configuration
-
-Turbo is configured via `turbo.json` and operates on **script names**, not commands.
-
-If an app does not define a script (e.g. `dev`, `build`, `lint`), Turbo will skip it.
-
-Turbo is used only for:
-
-- Task orchestration
-- Caching
-- Parallel execution
-
-It does not manage dependencies or enforce architecture.
-
----
-
-## Shared Packages (Optional)
-
-If you want shared code (e.g. types, utilities):
-
-```
-packages/
-└── shared/
-    ├── src/
-    └── package.json
-```
-
-Shared packages are:
-
-- Explicit opt-in
-- Versioned like normal npm packages
-- Imported normally by frontend/backend
-
-Nothing is shared by default.
-
----
-
-## What This Template Intentionally Does NOT Include
-
-- Authentication
-- Database setup
-- API clients
-- Shared domain models
-- Docker or deployment configs
-- CI/CD pipelines
-
-Those decisions are left to the user.
-
----
-
-## Design Philosophy
-
-This template prioritizes:
-
-- Explicit boundaries
-- Minimal assumptions
-- Correct monorepo fundamentals
-- Ease of extension without lock-in
-
-It avoids:
-
-- Over-abstracted tooling
-- Implicit coupling
-- Opinionated infrastructure choices
+If you’re interested in collaborative storytelling, real‑time writing, or building modern full‑stack applications, TaleWeaver aims to be a thoughtful and flexible foundation.
