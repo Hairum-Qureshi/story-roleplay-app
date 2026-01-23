@@ -51,8 +51,6 @@ export default function AdForm() {
 								<li>Expected reply length or posting pace</li>
 								<li>Any triggers</li>
 								<li>Your timezone</li>
-								<li>Whether you prefer OOC planning or improvisation</li>
-								<li>Your preferred communication method (DMs, email, etc.)</li>
 								<li>Fandom or original setting details</li>
 								<li>
 									Whether you're open to plot suggestions from your partner
