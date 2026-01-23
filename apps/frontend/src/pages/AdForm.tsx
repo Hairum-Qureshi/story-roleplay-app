@@ -57,6 +57,11 @@ export default function AdForm() {
 								<li>
 									Whether you're open to plot suggestions from your partner
 								</li>
+								<li>
+									Do you prefer your partners to already have a character bio or
+									do you prefer character descriptions expressed within the
+									story itself?
+								</li>
 								<li>Your overall availability</li>
 								<li>
 									Whether you're looking for a long-term or short-term role-play
