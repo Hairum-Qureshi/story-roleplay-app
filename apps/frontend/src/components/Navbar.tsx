@@ -7,6 +7,7 @@ import { HiQuestionMarkCircle } from "react-icons/hi";
 import { IoHomeSharp } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
+import { IoIosInformationCircle } from "react-icons/io";
 
 export default function Navbar() {
 	const location = useLocation();
@@ -69,6 +70,14 @@ export default function Navbar() {
 					title="Character Bios"
 				>
 					<FaUsers className="text-sky-400" />
+				</h1>
+			</Link>
+			<Link to="/faq">
+				<h1
+					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+					title="FAQ"
+				>
+					<IoIosInformationCircle className="text-sky-400" />
 				</h1>
 			</Link>
 			<Link to="/about">
