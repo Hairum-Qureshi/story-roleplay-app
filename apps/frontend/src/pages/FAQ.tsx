@@ -21,6 +21,15 @@ export default function FAQ() {
 					</div>
 					<div>
 						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
+							Can I change my username?
+						</h2>
+						<p className="text-lg">
+							At this time, usernames are permanent and randomly generated
+							during the account creation process.
+						</p>
+					</div>
+					<div>
+						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
 							How do I create a role-play ad?
 						</h2>
 						<p className="text-lg">
