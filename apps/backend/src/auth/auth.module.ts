@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/User';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './jwt-strategy';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => {
         return {
-          secret: config.get<string>('JWT_SECRET'), 
+          secret: config.get<string>('JWT_SECRET'),
           signOptions: {
             expiresIn: Number(config.get<string>('JWT_EXPIRES')),
           },
@@ -29,7 +30,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       },
     ]),
   ],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy], // <-- add it here!
   controllers: [AuthController],
+  exports: [PassportModule, JwtStrategy], // <-- add this here too; exporting this stuff will allow you to access it elsewhere in your other services/controllers
 })
 export class AuthModule {}
