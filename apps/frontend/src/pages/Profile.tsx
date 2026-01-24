@@ -6,44 +6,6 @@ export default function Profile() {
 
 	const { data: currUserData } = useCurrentUser();
 
-	const user = {
-		avatarUrl: "/placeholder-pfp.png",
-		name: "RoleplayUser",
-		email: "user@example.com"
-	};
-
-	const roleplayAds = [
-		{
-			id: "ad-1",
-			title: "Enemies to Lovers Fantasy RP",
-			description:
-				"Looking for a long-term partner for a slow-burn enemies to lovers plot set in a dark fantasy world."
-		},
-		{
-			id: "ad-2",
-			title: "Cyberpunk Noir RP",
-			description:
-				"Rain-soaked megacities, corruption, and morally gray characters. Third person, novella style."
-		}
-	];
-
-	const characterBios = [
-		{
-			id: "char-1",
-			name: "Aeris Vale",
-			summary:
-				"A former court mage turned fugitive after refusing to serve a tyrannical empire.",
-			genre: "Fantasy"
-		},
-		{
-			id: "char-2",
-			name: "Nyx Calder",
-			summary:
-				"A private investigator navigating a cyberpunk city ruled by corporations and secrets.",
-			genre: "Sci-Fi"
-		}
-	];
-
 	return (
 		<div className="min-h-screen bg-slate-950 text-slate-100 px-6 py-10">
 			<div className="mx-auto max-w-5xl space-y-10">
