@@ -8,9 +8,13 @@ import { IoHomeSharp } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { IoIosInformationCircle } from "react-icons/io";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function Navbar() {
 	const location = useLocation();
+	const { data: currUserData } = useCurrentUser();
+
+	console.log(currUserData);
 
 	return (
 		<div
@@ -32,46 +36,50 @@ export default function Navbar() {
 					<FaStar className="text-yellow-400" />
 				</h1>
 			</Link>
-			<Link to="/profile">
-				<h1
-					className="border border-slate-700 px-3 py-1 rounded-full h-10 w-10 text-xl font-bold text-zinc-100 flex items-center"
-					title="Profile"
-				>
-					<FaUser className="text-sky-400" />
-				</h1>
-			</Link>
-			<Link to="/inbox">
-				<h1
-					className="border border-slate-700 px-3 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-xl"
-					title="Messages"
-				>
-					<FaMessage className="text-sky-400" />
-				</h1>
-			</Link>
-			<Link to="/new-ad">
-				<h1
-					className="border border-slate-700 px-3 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-xl"
-					title="Create New Ad"
-				>
-					<FaPlusSquare className="text-sky-400" />
-				</h1>
-			</Link>
-			<Link to="/new-character">
-				<h1
-					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
-					title="Create Character"
-				>
-					<FaUserPlus className="text-sky-400" />
-				</h1>
-			</Link>
-			<Link to="/character-bios">
-				<h1
-					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
-					title="Character Bios"
-				>
-					<FaUsers className="text-sky-400" />
-				</h1>
-			</Link>
+			{currUserData && (
+				<>
+					<Link to="/profile">
+						<h1
+							className="border border-slate-700 px-3 py-1 rounded-full h-10 w-10 text-xl font-bold text-zinc-100 flex items-center"
+							title="Profile"
+						>
+							<FaUser className="text-sky-400" />
+						</h1>
+					</Link>
+					<Link to="/inbox">
+						<h1
+							className="border border-slate-700 px-3 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-xl"
+							title="Messages"
+						>
+							<FaMessage className="text-sky-400" />
+						</h1>
+					</Link>
+					<Link to="/new-ad">
+						<h1
+							className="border border-slate-700 px-3 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-xl"
+							title="Create New Ad"
+						>
+							<FaPlusSquare className="text-sky-400" />
+						</h1>
+					</Link>
+					<Link to="/new-character">
+						<h1
+							className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+							title="Create Character"
+						>
+							<FaUserPlus className="text-sky-400" />
+						</h1>
+					</Link>
+					<Link to="/character-bios">
+						<h1
+							className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+							title="Character Bios"
+						>
+							<FaUsers className="text-sky-400" />
+						</h1>
+					</Link>
+				</>
+			)}
 			<Link to="/faq">
 				<h1
 					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
