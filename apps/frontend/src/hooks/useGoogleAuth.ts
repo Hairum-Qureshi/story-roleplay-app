@@ -2,13 +2,16 @@ import { signInWithPopup } from "@firebase/auth";
 import { auth, googleProvider } from "../config/firebase";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UseGoogleAuthHook {
 	googleSignInMutation: () => Promise<void>;
+	signOut: () => Promise<void>;
 }
 
 export default function useGoogleAuth(): UseGoogleAuthHook {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const handleGoogleSignIn = async () => {
 		try {
@@ -33,8 +36,22 @@ export default function useGoogleAuth(): UseGoogleAuthHook {
 			}
 		);
 
+		await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+
 		navigate("/profile");
 	};
 
-	return { googleSignInMutation };
+	const signOut = async () => {
+		await axios.post(
+			`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/sign-out`,
+			{},
+			{
+				withCredentials: true
+			}
+		);
+
+		queryClient.setQueryData(["currentUser"], null);
+	};
+
+	return { googleSignInMutation, signOut };
 }
