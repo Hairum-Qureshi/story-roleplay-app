@@ -21,11 +21,14 @@ export default function FAQ() {
 					</div>
 					<div>
 						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							Can I change my username?
+							Can I change my username or profile picture?
 						</h2>
 						<p className="text-lg">
 							At this time, usernames are permanent and randomly generated
-							during the account creation process.
+							during the account creation process. The same goes for profile
+							pictures, which are pulled from your Google account and cannot be
+							changed within the site. Future updates may include options to
+							customize these elements.
 						</p>
 					</div>
 					<div>
