@@ -3,11 +3,8 @@ import { auth, googleProvider } from "../config/firebase";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import type { UseGoogleAuthHook } from "../interfaces";
 
-interface UseGoogleAuthHook {
-	googleSignInMutation: () => Promise<void>;
-	signOut: () => Promise<void>;
-}
 
 export default function useGoogleAuth(): UseGoogleAuthHook {
 	const navigate = useNavigate();
