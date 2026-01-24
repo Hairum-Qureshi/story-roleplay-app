@@ -6,6 +6,7 @@ import { User, UserDocument } from 'src/schemas/User';
 import * as admin from 'firebase-admin';
 import { JwtService } from '@nestjs/jwt';
 import { UserPayload } from 'src/types';
+import { generateUsername } from 'unique-username-generator';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,18 @@ export class AuthService {
     @Inject('FIREBASE_ADMIN') private firebase: admin.app.App,
   ) {}
 
-  async googleAuth(token: string): Promise<{ jwtToken: string }> {
+  private createCookieWithJwtToken(jwtToken: string, res: Response) {
+    res.cookie('auth-session', jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+  }
+
+  async googleAuth(
+    token: string,
+    res: Response,
+  ): Promise<{ jwtToken: string }> {
     const payload = await this.firebase.auth().verifyIdToken(token);
     const payloadUID: string = payload.uid;
     const userRecord = await this.firebase.auth().getUser(payloadUID);
@@ -29,8 +41,9 @@ export class AuthService {
         lastName: userRecord.displayName
           ? userRecord.displayName.split(' ').slice(1).join(' ')
           : 'GoogleUser',
+        username: generateUsername('', 2, 19),
         email: userRecord.email,
-        password: Math.random().toString(36).slice(-8),
+        profilePicture: userRecord.photoURL,
       });
       await user.save();
     }
@@ -38,6 +51,8 @@ export class AuthService {
     const jwtToken = this.jwtService.sign({
       id: user._id,
     });
+
+    this.createCookieWithJwtToken(jwtToken, res);
 
     return { jwtToken };
   }
