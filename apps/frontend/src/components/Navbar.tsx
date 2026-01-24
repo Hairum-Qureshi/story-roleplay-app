@@ -10,10 +10,12 @@ import { FaUsers } from "react-icons/fa";
 import { IoIosInformationCircle } from "react-icons/io";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import useGoogleAuth from "../hooks/useGoogleAuth";
 
 export default function Navbar() {
 	const location = useLocation();
 	const { data: currUserData } = useCurrentUser();
+	const { signOut } = useGoogleAuth();
 
 	return (
 		<div
@@ -95,14 +97,16 @@ export default function Navbar() {
 					<HiQuestionMarkCircle className="text-sky-400" />
 				</h1>
 			</Link>
-			<Link to="/">
-				<h1
-					className="border border-red-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
-					title="Logout"
-				>
-					<RiLogoutBoxRFill className="text-red-600" />
-				</h1>
-			</Link>
+			{currUserData && (
+				<Link to="/" onClick={() => signOut()}>
+					<h1
+						className="border border-red-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+						title="Logout"
+					>
+						<RiLogoutBoxRFill className="text-red-600" />
+					</h1>
+				</Link>
+			)}
 		</div>
 	);
 }
