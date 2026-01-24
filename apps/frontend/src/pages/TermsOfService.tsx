@@ -7,7 +7,7 @@ export default function TermsOfService() {
 						Terms of Service
 					</h1>
 					<p className="text-slate-400 text-base mt-4 font-light leading-relaxed">
-						Last updated: 1/21/2026
+						Last updated: 1/24/2026
 					</p>
 				</div>
 
@@ -22,17 +22,27 @@ export default function TermsOfService() {
 					</h2>
 					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
 						Users are responsible for maintaining the confidentiality of their
-						accounts and passwords. You agree to notify us immediately of any
-						unauthorized use of your account.
+						accounts. Accounts are created and authenticated through Google
+						sign-in, and password management is handled by Google. You agree to
+						notify us immediately of any unauthorized access or use of your
+						account.
 					</p>
 				</section>
 
 				<section className="space-y-6">
-					<h2 className="text-2xl font-semibold text-white">Content Rules</h2>
+					<h2 className="text-2xl font-semibold text-white">User Content</h2>
 					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						You are responsible for the content you post. Content must comply
-						with our community guidelines and applicable laws. We reserve the
-						right to remove content that violates these rules.
+						You are responsible for all content you post on the platform,
+						including role-play ads, character bios, messages, and conversation
+						history. All user content is handled in accordance with our{" "}
+						<a
+							href="/privacy-policy"
+							className="text-indigo-500 hover:underline"
+						>
+							Privacy Policy
+						</a>
+						. We reserve the right to remove content that violates our rules or
+						applicable laws.
 					</p>
 				</section>
 
@@ -55,6 +65,24 @@ export default function TermsOfService() {
 						TaleWeaver is provided "as is" without warranties of any kind. We
 						are not liable for any damages arising from your use of the
 						platform.
+					</p>
+				</section>
+
+				<section className="space-y-6">
+					<h2 className="text-2xl font-semibold text-white">
+						Data Handling and Security
+					</h2>
+					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
+						While we take reasonable steps to protect user data, no system is
+						completely secure. For details on how your information is collected,
+						used, and protected, see our{" "}
+						<a
+							href="/privacy-policy"
+							className="text-indigo-500 hover:underline"
+						>
+							Privacy Policy
+						</a>
+						.
 					</p>
 				</section>
 
