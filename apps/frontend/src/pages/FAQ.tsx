@@ -8,6 +8,19 @@ export default function FAQ() {
 				<div className="space-y-8">
 					<div>
 						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
+							What is a story role-play?
+						</h2>
+						<p className="text-lg">
+							A story role-play is a collaborative writing activity where two or
+							more participants create and develop a fictional narrative by
+							taking on the roles of characters within the story. Each
+							participant contributes to the storyline by writing from their
+							character's perspective, often in a back-and-forth manner, to
+							build the plot, dialogue, and character interactions.
+						</p>
+					</div>
+					<div>
+						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
 							How do I create a role-play ad?
 						</h2>
 						<p className="text-lg">
@@ -70,7 +83,8 @@ export default function FAQ() {
 							a good way to wrap up your role-playing experience if you're done
 							your storyline or if you've lost interested and don't have plans
 							to continue. Note that this will end the session for both you and
-							your role-play partner.
+							your role-play partner and you will no longer be able to send any
+							more messages.
 						</p>
 					</div>
 					<div>
@@ -82,6 +96,22 @@ export default function FAQ() {
 							Role-Play' button, the action is permanent and cannot be undone.
 							You will need to re-initiate a new role-play session if you wish
 							to continue.
+						</p>
+					</div>
+					<div>
+						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
+							Can I delete a role-play conversation?
+						</h2>
+						<p className="text-lg">
+							Yes, you can delete a role-play conversation from your inbox.
+							However, this action is permanent and cannot be undone. Deleting a
+							conversation will only remove it from your view; your role-play
+							partner will still have access to the chat history unless they
+							also choose to delete it. If both parties delete the conversation,
+							it will be removed entirely. If the role-play has not ended and
+							your partner sends a message, the conversation will reappear in
+							your inbox. In order to stop receiving notifications and messages
+							from a role-play, you must end the role-play.
 						</p>
 					</div>
 				</div>
