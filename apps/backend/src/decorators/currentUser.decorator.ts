@@ -12,6 +12,11 @@ export const CurrentUser = createParamDecorator(
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      profilePicture: user.profilePicture,
+      username: user.username,
+      characterBios: user.characterBios,
+      conversations: user.conversations,
+      rolePlayAds: user.rolePlayAds,
     };
     return userPayload;
   },
