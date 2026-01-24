@@ -30,8 +30,8 @@ import { JwtStrategy } from './jwt-strategy';
       },
     ]),
   ],
-  providers: [AuthService, JwtStrategy], // <-- add it here!
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports: [PassportModule, JwtStrategy], // <-- add this here too; exporting this stuff will allow you to access it elsewhere in your other services/controllers
+  exports: [PassportModule, JwtStrategy],
 })
 export class AuthModule {}
