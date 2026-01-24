@@ -114,12 +114,23 @@ export default function FAQ() {
 						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
 							Do messages support markdown?
 						</h2>
-						<p className="text-lg">
-							Yes, messages support basic markdown formatting such as bold,
-							italics, quotes, and underline. You can use these formatting
-							options to enhance your writing and make certain parts of your
-							messages stand out.
-						</p>
+						<div className="text-lg">
+							<p>
+								Yes, messages support basic markdown formatting such as bold,
+								italics, quotes, and underline. You can use these formatting
+								options to enhance your writing and make certain parts of your
+								messages stand out.
+							</p>
+							<ul className="list-disc list-inside mt-2 space-y-1">
+								<li>To bold text, wrap it in double asterisks (**bold**).</li>
+								<li>For italics, use single asterisks (*italics*).</li>
+								<li>For underline, use double underscores (__underline__).</li>
+								<li>
+									For a blockquote, start the line with a greater-than symbol
+									(&gt; quote).
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div>
 						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
