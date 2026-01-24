@@ -49,6 +49,19 @@ export default function FAQ() {
 					</div>
 					<div>
 						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
+							Do I have to have a character bio?
+						</h2>
+						<p className="text-lg">
+							No, having a character bio is optional. You can role-play using
+							just your imagination, describe your character(s) within the story
+							through writing as well; but creating a bio can enhance the
+							experience by providing more depth to your character. It also
+							depends on the preferences of your role-play partner if their ad
+							requires one.
+						</p>
+					</div>
+					<div>
+						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
 							What does the 'End Role-Play' button do?
 						</h2>
 						<p className="text-lg">
