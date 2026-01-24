@@ -24,13 +24,13 @@ export class User {
   })
   profilePicture: string;
 
-  @Prop({ type: [Types.ObjectId], ref: 'CharacterBio' })
+  @Prop({ type: [Types.ObjectId], ref: 'CharacterBio', default: [] })
   characterBios: Types.ObjectId[];
 
-  @Prop({ type: [Types.ObjectId], ref: 'Conversation' })
+  @Prop({ type: [Types.ObjectId], ref: 'Conversation', default: [] })
   conversations: Types.ObjectId[];
 
-  @Prop({ type: [Types.ObjectId], ref: 'RolePlayAd' })
+  @Prop({ type: [Types.ObjectId], ref: 'RolePlayAd', default: [] })
   rolePlayAds: Types.ObjectId[];
 
   @Prop({ default: Date.now })
