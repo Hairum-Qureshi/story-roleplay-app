@@ -112,6 +112,17 @@ export default function FAQ() {
 					</div>
 					<div>
 						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
+							Do messages support markdown?
+						</h2>
+						<p className="text-lg">
+							Yes, messages support basic markdown formatting such as bold,
+							italics, quotes, and underline. You can use these formatting
+							options to enhance your writing and make certain parts of your
+							messages stand out.
+						</p>
+					</div>
+					<div>
+						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
 							Can I delete a role-play conversation?
 						</h2>
 						<p className="text-lg">
