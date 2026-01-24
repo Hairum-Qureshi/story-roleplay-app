@@ -14,6 +14,7 @@ import TermsOfService from "../pages/TermsOfService";
 import CharacterBioForm from "../pages/CharacterBioForm";
 import CharacterBios from "../pages/CharacterBios";
 import FAQ from "../pages/FAQ";
+import ProtectedRoutesGuard from "./ProtectedRoutesGuard";
 
 export default function App() {
 	return (
@@ -23,12 +24,54 @@ export default function App() {
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/role-play-ads" element={<Advertisements />} />
-				<Route path="/new-ad" element={<AdForm />} />
-				<Route path="/character-bios" element={<CharacterBios />} />
-				<Route path="/new-character" element={<CharacterBioForm />} />
-				<Route path="/inbox" element={<Inbox />} />
-				<Route path="/inbox/:chatID" element={<Inbox />} />
-				<Route path="/profile" element={<Profile />} />
+				<Route
+					path="/new-ad"
+					element={
+						<ProtectedRoutesGuard>
+							<AdForm />
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/character-bios"
+					element={
+						<ProtectedRoutesGuard>
+							<CharacterBios />
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/new-character"
+					element={
+						<ProtectedRoutesGuard>
+							<CharacterBioForm />
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/inbox"
+					element={
+						<ProtectedRoutesGuard>
+							<Inbox />
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/inbox/:chatID"
+					element={
+						<ProtectedRoutesGuard>
+							<Inbox />
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/profile"
+					element={
+						<ProtectedRoutesGuard>
+							<Profile />
+						</ProtectedRoutesGuard>
+					}
+				/>
 				<Route path="/faq" element={<FAQ />} />
 				<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 				<Route path="/terms-of-service" element={<TermsOfService />} />
