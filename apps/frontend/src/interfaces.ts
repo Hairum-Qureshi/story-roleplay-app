@@ -4,4 +4,9 @@ interface FeatureColumnProps {
 	hasBorder?: boolean;
 }
 
-export type { FeatureColumnProps };
+interface UseGoogleAuthHook {
+	googleSignInMutation: () => Promise<void>;
+	signOut: () => Promise<void>;
+}
+
+export type { FeatureColumnProps, UseGoogleAuthHook };
