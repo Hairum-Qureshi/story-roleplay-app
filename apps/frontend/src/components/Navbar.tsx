@@ -8,13 +8,12 @@ import { IoHomeSharp } from "react-icons/io5";
 import { FaUserPlus } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { IoIosInformationCircle } from "react-icons/io";
+import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function Navbar() {
 	const location = useLocation();
 	const { data: currUserData } = useCurrentUser();
-
-	console.log(currUserData);
 
 	return (
 		<div
@@ -22,7 +21,7 @@ export default function Navbar() {
 		>
 			<Link to="/">
 				<h1
-					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 text-xl font-bold text-zinc-100 flex items-center"
+					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 text-xl font-bold text-zinc-100 flex items-center justify-center"
 					title="Home"
 				>
 					<IoHomeSharp className="text-sky-400" />
@@ -30,7 +29,7 @@ export default function Navbar() {
 			</Link>
 			<Link to="/role-play-ads">
 				<h1
-					className="border border-yellow-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-xl"
+					className="border border-yellow-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center justify-center text-xl"
 					title="Main Feed"
 				>
 					<FaStar className="text-yellow-400" />
@@ -94,6 +93,14 @@ export default function Navbar() {
 					title="About"
 				>
 					<HiQuestionMarkCircle className="text-sky-400" />
+				</h1>
+			</Link>
+			<Link to="/">
+				<h1
+					className="border border-red-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+					title="Logout"
+				>
+					<RiLogoutBoxRFill className="text-red-600" />
 				</h1>
 			</Link>
 		</div>
