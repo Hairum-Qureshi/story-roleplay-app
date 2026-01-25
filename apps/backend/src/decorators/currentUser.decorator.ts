@@ -8,7 +8,7 @@ export const CurrentUser = createParamDecorator(
     if (!user) return null;
 
     const userPayload = {
-      id: user._id,
+      _id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
