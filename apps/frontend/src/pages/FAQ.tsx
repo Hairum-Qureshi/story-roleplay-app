@@ -1,153 +1,163 @@
 export default function FAQ() {
+	const faqSections = [
+		{
+			title: "General",
+			items: [
+				{
+					question: "What is a story role-play?",
+					answer:
+						"A story role-play is a collaborative writing activity where two or more participants create and develop a fictional narrative by taking on the roles of characters within the story. Each participant contributes to the storyline by writing from their character's perspective, often in a back-and-forth manner, to build the plot, dialogue, and character interactions."
+				},
+				{
+					question: "Can I have group role-plays with more than 2 people?",
+					answer:
+						"At this time, the platform only supports one-on-one role-plays. Group role-plays with more than 2 participants are not currently available."
+				},
+				{
+					question: "Can I change my username or profile picture?",
+					answer:
+						"Usernames are permanent and randomly generated during account creation. Profile pictures are pulled from your Google account and cannot be changed within the site. Future updates may include options to customize these elements."
+				}
+			]
+		},
+		{
+			title: "Role-Play Management",
+			items: [
+				{
+					question: "How do I create a role-play ad?",
+					answer:
+						"Navigate to the 'New Ad' page, fill out the required fields including title, premise, tags, and preferences, and submit your ad for others to see."
+				},
+				{
+					question: "How can I find role-play partners?",
+					answer:
+						"Browse the 'Role-Play Ads' section, use filters to narrow down your search, and reach out to users whose ads interest you."
+				},
+				{
+					question: "Is there a way to manage my conversations?",
+					answer:
+						"You can manage conversations through the 'Inbox' page, where you can view ongoing chats, send messages, and organize your role-play interactions."
+				},
+				{
+					question: "What does the 'End Role-Play' button do?",
+					answer:
+						"This button concludes the current role-play session, saving the conversation history. The session ends for both participants and no further messages can be sent."
+				},
+				{
+					question: "Can I undo the 'End Role-Play' button?",
+					answer:
+						"No, once pressed, the action is permanent. A new role-play session must be initiated to continue."
+				}
+			]
+		},
+		{
+			title: "Character Bios",
+			items: [
+				{
+					question: "How do I create a character bio?",
+					answer:
+						"Go to the 'New Character' page, fill in details about your character including name, appearance, personality traits, and background, and save it for future role-plays."
+				},
+				{
+					question: "Do I have to have a character bio?",
+					answer:
+						"No, character bios are optional. You can role-play using imagination alone, but bios provide depth and may be required by some role-play partners."
+				}
+			]
+		},
+		{
+			title: "Ads & Partners",
+			items: [
+				{
+					question: "How long do my role-play ads last on the site?",
+					answer:
+						"Ads remain active on the main feed for 1 hour. They are still accessible through your profile, where you can repost, edit, or delete them."
+				},
+				{
+					question: "Can I save role-play ads to revisit later?",
+					answer:
+						"You can save ads by clicking the heart icon. Favorited ads are accessible from the 'Favorited Ads' page. Note that deleted ads will no longer be accessible."
+				},
+				{
+					question:
+						"What happens if I have an ongoing role-play with an ad that gets deleted?",
+					answer:
+						"The conversation remains accessible in your inbox, but the role-play ends as if the 'End Role-Play' button was pressed."
+				},
+				{
+					question:
+						"Can I tag my role-play ads with specific themes or genres?",
+					answer:
+						"At this time, tagging is not supported. Future updates may include the ability to add tags for better ad discoverability."
+				}
+			]
+		},
+		{
+			title: "Messaging",
+			items: [
+				{
+					question: "Do messages support markdown?",
+					answer: (
+						<div>
+							<p>
+								Yes, basic markdown formatting such as bold, italics, quotes,
+								and underline is supported:
+							</p>
+							<ul className="list-disc list-inside mt-2 space-y-1">
+								<li>
+									Bold: <code>**bold**</code>
+								</li>
+								<li>
+									Italics: <code>*italics*</code>
+								</li>
+								<li>
+									Underline: <code>__underline__</code>
+								</li>
+								<li>
+									Blockquote: <code>&gt; quote</code>
+								</li>
+							</ul>
+						</div>
+					)
+				},
+				{
+					question: "Can I delete a role-play conversation?",
+					answer:
+						"You can delete conversations from your inbox. This is permanent and only removes it from your view. Your partner will still have access unless they delete it as well."
+				},
+				{
+					question: "Are images and links supported in messages?",
+					answer:
+						"Images are not supported. Links are supported but not clickable; users need to copy and paste URLs into their browser."
+				}
+			]
+		}
+	];
+
 	return (
 		<div className="min-h-screen bg-slate-950 text-white">
 			<div className="max-w-4xl mx-auto px-6 py-10">
 				<h1 className="text-4xl font-bold mb-6">
 					Frequently Asked Questions (FAQ)
 				</h1>
-				<div className="space-y-8">
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							What is a story role-play?
-						</h2>
-						<p className="text-lg">
-							A story role-play is a collaborative writing activity where two or
-							more participants create and develop a fictional narrative by
-							taking on the roles of characters within the story. Each
-							participant contributes to the storyline by writing from their
-							character's perspective, often in a back-and-forth manner, to
-							build the plot, dialogue, and character interactions.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							Can I change my username or profile picture?
-						</h2>
-						<p className="text-lg">
-							At this time, usernames are permanent and randomly generated
-							during the account creation process. The same goes for profile
-							pictures, which are pulled from your Google account and cannot be
-							changed within the site. Future updates may include options to
-							customize these elements.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							How do I create a role-play ad?
-						</h2>
-						<p className="text-lg">
-							To create a role-play ad, navigate to the "New Ad" page, fill out
-							the required fields including title, premise, tags, and
-							preferences, and submit your ad for others to see.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							How can I find role-play partners?
-						</h2>
-						<p className="text-lg">
-							You can find role-play partners by browsing the "Role-Play Ads"
-							section, using filters to narrow down your search, and reaching
-							out to users whose ads interest you.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							Is there a way to manage my conversations?
-						</h2>
-						<p className="text-lg">
-							Yes, you can manage your conversations through the "Inbox" page,
-							where you can view ongoing chats, send messages, and organize your
-							role-play interactions.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							How do I create a character bio?
-						</h2>
-						<p className="text-lg">
-							To create a character bio, go to the "New Character" page, fill in
-							the details about your character including name, appearance,
-							personality traits, and background, and save it for future use in
-							role-plays.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							Do I have to have a character bio?
-						</h2>
-						<p className="text-lg">
-							No, having a character bio is optional. You can role-play using
-							just your imagination, describe your character(s) within the story
-							through writing as well; but creating a bio can enhance the
-							experience by providing more depth to your character. It also
-							depends on the preferences of your role-play partner if their ad
-							requires one.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							What does the 'End Role-Play' button do?
-						</h2>
-						<p className="text-lg">
-							The 'End Role-Play' button allows you to conclude the current
-							role-play session. This will save the conversation history and is
-							a good way to wrap up your role-playing experience if you're done
-							your storyline or if you've lost interested and don't have plans
-							to continue. Note that this will end the session for both you and
-							your role-play partner and you will no longer be able to send any
-							more messages.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							Can I undo the 'End Role-Play' button?
-						</h2>
-						<p className="text-lg">
-							No, once you (or your role-play partner) clicks the 'End
-							Role-Play' button, the action is permanent and cannot be undone.
-							You will need to re-initiate a new role-play session if you wish
-							to continue.
-						</p>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							Do messages support markdown?
-						</h2>
-						<div className="text-lg">
-							<p>
-								Yes, messages support basic markdown formatting such as bold,
-								italics, quotes, and underline. You can use these formatting
-								options to enhance your writing and make certain parts of your
-								messages stand out.
-							</p>
-							<ul className="list-disc list-inside mt-2 space-y-1">
-								<li>To bold text, wrap it in double asterisks (**bold**).</li>
-								<li>For italics, use single asterisks (*italics*).</li>
-								<li>For underline, use double underscores (__underline__).</li>
-								<li>
-									For a blockquote, start the line with a greater-than symbol
-									(&gt; quote).
-								</li>
-							</ul>
+				<div className="space-y-12">
+					{faqSections.map(section => (
+						<div key={section.title}>
+							<h2 className="text-3xl font-bold mb-4 text-yellow-400">
+								{section.title}
+							</h2>
+							<div className="space-y-8">
+								{section.items.map(item => (
+									<div key={item.question} className="ml-5">
+										<h3 className="text-2xl font-semibold mb-2 text-sky-500">
+											{item.question}
+										</h3>
+										<div className="text-base">{item.answer}</div>
+									</div>
+								))}
+							</div>
 						</div>
-					</div>
-					<div>
-						<h2 className="text-2xl font-semibold mb-2 text-sky-500">
-							Can I delete a role-play conversation?
-						</h2>
-						<p className="text-lg">
-							Yes, you can delete a role-play conversation from your inbox.
-							However, this action is permanent and cannot be undone. Deleting a
-							conversation will only remove it from your view; your role-play
-							partner will still have access to the chat history unless they
-							also choose to delete it. If both parties delete the conversation,
-							it will be removed entirely. If the role-play has not ended and
-							your partner sends a message, the conversation will reappear in
-							your inbox. In order to stop receiving notifications and messages
-							from a role-play, you must end the role-play.
-						</p>
-					</div>
+					))}
 				</div>
 			</div>
 		</div>
