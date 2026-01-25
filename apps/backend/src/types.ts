@@ -25,7 +25,6 @@ type RolePlayAd = {
   pov: PovType;
   adultRoleplay: boolean;
   premise: string;
-  traitsAndSkills: string[];
   writingExpectations: string[];
   contentNotes: string;
   author: Types.ObjectId;
