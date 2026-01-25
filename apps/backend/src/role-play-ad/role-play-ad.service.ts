@@ -14,7 +14,22 @@ export class RolePlayAdService {
     private rolePlayAdModel: Model<RolePlayAdDocument>,
   ) {}
 
-  createAd(createAdDto: CreateAd, user: UserPayload) {
-    console.log(createAdDto, user);
+  async createAd(createAdDto: CreateAd, user: UserPayload) {
+    const { title, pov, isAdult, premise, writingExpectations, contentNotes } =
+      createAdDto;
+
+    const createdAd = await this.rolePlayAdModel.create({
+      title,
+      pov,
+      adultRoleplay: isAdult,
+      premise,
+      writingExpectations,
+      contentNotes,
+      author: user._id,
+    });
+
+    await this.userModel.findByIdAndUpdate(user._id, {
+      $addToSet: { rolePlayAds: createdAd._id },
+    });
   }
 }
