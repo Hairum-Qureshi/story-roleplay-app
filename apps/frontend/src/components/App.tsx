@@ -1,5 +1,3 @@
-import "../css/index.css";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
@@ -15,6 +13,8 @@ import CharacterBioForm from "../pages/CharacterBioForm";
 import CharacterBios from "../pages/CharacterBios";
 import FAQ from "../pages/FAQ";
 import ProtectedRoutesGuard from "./ProtectedRoutesGuard";
+import "../css/index.css";
+import FavoritedAds from "../pages/FavoritedAds";
 
 export default function App() {
 	return (
@@ -69,6 +69,14 @@ export default function App() {
 					element={
 						<ProtectedRoutesGuard>
 							<Profile />
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/favorited-ads"
+					element={
+						<ProtectedRoutesGuard>
+							<FavoritedAds />
 						</ProtectedRoutesGuard>
 					}
 				/>
