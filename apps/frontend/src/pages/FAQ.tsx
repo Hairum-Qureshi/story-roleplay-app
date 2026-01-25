@@ -71,7 +71,7 @@ export default function FAQ() {
 				{
 					question: "How long do my role-play ads last on the site?",
 					answer:
-						"Ads remain active on the main feed for 1 hour. They are still accessible through your profile, where you can repost, edit, or delete them."
+						"Ads remain active on the main feed for 1 hour. They are still accessible through your profile, where you can repost, edit, or delete them. Once you repost an ad, you will need to wait another hour before reposting again."
 				},
 				{
 					question: "Can I save role-play ads to revisit later?",
@@ -128,7 +128,7 @@ export default function FAQ() {
 				{
 					question: "Are images and links supported in messages?",
 					answer:
-						"Images are not supported. Links are supported but not clickable; users need to copy and paste URLs into their browser."
+						"Images are not supported. Links are supported but not clickable; users need to copy and paste URLs into their browser. Be cautious when opening links from users you don't know. It's preferred to share character bios and ad details within the platform rather than external links."
 				}
 			]
 		}
