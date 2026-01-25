@@ -8,17 +8,23 @@ export default function Footer() {
 					About
 				</Link>
 				<span className="hidden md:inline text-slate-700">|</span>
-				<Link to="/terms" className="hover:text-slate-300 transition-colors">
+				<Link
+					to="/terms-of-service"
+					className="hover:text-slate-300 transition-colors"
+				>
 					Terms of Service
 				</Link>
 				<span className="hidden md:inline text-slate-700">|</span>
-				<Link to="/privacy" className="hover:text-slate-300 transition-colors">
+				<Link
+					to="/privacy-policy"
+					className="hover:text-slate-300 transition-colors"
+				>
 					Privacy Policy
 				</Link>
-				<span className="hidden md:inline text-slate-700">|</span>
+				{/* <span className="hidden md:inline text-slate-700">|</span>
 				<Link to="/contact" className="hover:text-slate-300 transition-colors">
 					Contact
-				</Link>
+				</Link> */}
 			</div>
 		</footer>
 	);
