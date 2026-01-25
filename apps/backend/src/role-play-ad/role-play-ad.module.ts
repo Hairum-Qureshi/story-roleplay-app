@@ -10,16 +10,8 @@ import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
   imports: [
     AuthModule,
     MongooseModule.forFeature([
-      {
-        name: User.name,
-        schema: UserSchema,
-      },
-    ]),
-    MongooseModule.forFeature([
-      {
-        name: RolePlayAd.name,
-        schema: RolePlayAdSchema,
-      },
+      { name: User.name, schema: UserSchema },
+      { name: RolePlayAd.name, schema: RolePlayAdSchema },
     ]),
   ],
   providers: [RolePlayAdService],
