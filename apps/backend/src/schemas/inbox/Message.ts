@@ -3,8 +3,8 @@ import { HydratedDocument, Types } from 'mongoose';
 
 @Schema()
 export class Message {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  sender: Types.ObjectId;
+  @Prop({ ref: 'User', required: true })
+  sender: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Conversation', required: true })
   conversation: Types.ObjectId;

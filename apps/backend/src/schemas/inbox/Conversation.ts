@@ -3,8 +3,8 @@ import { HydratedDocument, Types } from 'mongoose';
 
 @Schema()
 export class Conversation {
-  @Prop({ type: [Types.ObjectId], ref: 'User', required: true })
-  participants: Types.ObjectId[];
+  @Prop({ type: [String], ref: 'User', required: true })
+  participants: string[];
 
   @Prop({ type: Types.ObjectId, ref: 'RolePlayAd', required: true })
   roleplayAd: Types.ObjectId;

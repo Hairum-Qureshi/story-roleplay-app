@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 enum PovType {
   FirstPerson = 'First Person',
@@ -27,8 +27,8 @@ export class RolePlayAd {
   @Prop({ required: true })
   contentNotes: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  author: Types.ObjectId;
+  @Prop({ ref: 'User' })
+  author: string;
 
   @Prop({ default: Date.now })
   createdAt: Date;

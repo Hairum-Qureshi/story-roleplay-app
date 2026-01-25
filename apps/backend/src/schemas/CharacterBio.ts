@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class CharacterBio {
@@ -18,8 +18,8 @@ export class CharacterBio {
   @Prop({ required: true, type: [String] })
   traits: string[];
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  author: Types.ObjectId;
+  @Prop({ ref: 'User' })
+  author: string;
 
   @Prop({ type: String })
   backstory: string;
