@@ -1,13 +1,17 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { RolePlayAdService } from './role-play-ad.service';
 import { CreateAd } from 'src/DTOs/CreateAd.dto';
+import { CurrentUser } from 'src/decorators/currentUser.decorator';
+import { type UserPayload } from 'src/types';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('role-play-ad')
 export class RolePlayAdController {
   constructor(private readonly rolePlayAdService: RolePlayAdService) {}
 
   @Post('create')
-  createAd(@Body() createAdDto: CreateAd) {
-    return this.rolePlayAdService.createAd(createAdDto);
+  @UseGuards(AuthGuard())
+  createAd(@Body() createAdDto: CreateAd, @CurrentUser() user: UserPayload) {
+    return this.rolePlayAdService.createAd(createAdDto, user);
   }
 }
