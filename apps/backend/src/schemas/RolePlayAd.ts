@@ -22,9 +22,6 @@ export class RolePlayAd {
   premise: string;
 
   @Prop({ type: [String], required: true })
-  traitsAndSkills: string[];
-
-  @Prop({ type: [String], required: true })
   writingExpectations: string[];
 
   @Prop({ required: true })
