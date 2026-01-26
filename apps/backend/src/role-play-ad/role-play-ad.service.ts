@@ -32,4 +32,19 @@ export class RolePlayAdService {
       $addToSet: { rolePlayAds: createdAd._id },
     });
   }
+
+  async getAllAds() {
+    const ONE_HOUR = 60 * 60 * 1000;
+
+    return await this.rolePlayAdModel
+      .find({
+        createdAt: { $gte: new Date(Date.now() - ONE_HOUR) },
+      })
+      .populate({
+        path: 'author',
+        select: 'username profilePicture',
+      })
+      .select('-__v')
+      .sort({ createdAt: -1 });
+  }
 }
