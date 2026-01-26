@@ -1,3 +1,5 @@
+import type { Socket } from "socket.io-client";
+
 interface FeatureColumnProps {
 	title: string;
 	text: string;
@@ -69,6 +71,13 @@ interface Message {
 	content: string;
 }
 
+interface SocketStore {
+	socket: Socket | null;
+	connectSocket: (userId: string) => void;
+	disconnectSocket: () => void;
+	rolePlayAd: RolePlayAd | null;
+}
+
 export type {
 	FeatureColumnProps,
 	UseGoogleAuthHook,
@@ -77,5 +86,6 @@ export type {
 	Conversation,
 	Message,
 	PovType,
-	User
+	User,
+	SocketStore
 };
