@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { RolePlayAdService } from './role-play-ad.service';
 import { CreateAd } from 'src/DTOs/CreateAd.dto';
 import { CurrentUser } from 'src/decorators/currentUser.decorator';
@@ -13,5 +13,10 @@ export class RolePlayAdController {
   @UseGuards(AuthGuard())
   createAd(@Body() createAdDto: CreateAd, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.createAd(createAdDto, user);
+  }
+
+  @Get('all')
+  getAllAds() {
+    return this.rolePlayAdService.getAllAds();
   }
 }
