@@ -33,6 +33,9 @@ export class RolePlayAd {
   @Prop({ default: Date.now })
   createdAt: Date;
 
+  @Prop({ default: false })
+  isDeleted: boolean;
+
   @Prop({ default: Date.now })
   updatedAt: Date;
 }
