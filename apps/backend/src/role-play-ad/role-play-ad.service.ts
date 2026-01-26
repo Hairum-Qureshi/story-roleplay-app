@@ -20,7 +20,7 @@ export class RolePlayAdService {
     const { title, pov, isAdult, premise, writingExpectations, contentNotes } =
       createAdDto;
 
-    const createdAd = await this.rolePlayAdModel.create({
+    const createdAd: RolePlayAdDocument = await this.rolePlayAdModel.create({
       title,
       pov,
       adultRoleplay: isAdult,
