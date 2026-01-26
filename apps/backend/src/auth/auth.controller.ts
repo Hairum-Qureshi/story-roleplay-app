@@ -21,11 +21,20 @@ export class AuthController {
 
   @Post('google/sign-in')
   @UsePipes(new ValidationPipe())
-  googleAuth(
+  async googleAuth(
     @BearerToken() token: string,
     @Res({ passthrough: true }) res: express.Response,
   ): Promise<{ jwtToken: string }> {
-    return this.authService.googleAuth(token, res);
+    const { jwtToken } = await this.authService.googleAuth(token);
+
+    res.cookie('auth-session', jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return { jwtToken };
   }
 
   @Post('sign-out')
