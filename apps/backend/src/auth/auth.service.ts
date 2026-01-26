@@ -16,15 +16,6 @@ export class AuthService {
     @Inject('FIREBASE_ADMIN') private firebase: admin.app.App,
   ) {}
 
-  private createCookieWithJwtToken(jwtToken: string, res: Response) {
-    res.cookie('auth-session', jwtToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
-    });
-  }
-
   getAuthCookieOptions() {
     return {
       httpOnly: true,
@@ -35,7 +26,6 @@ export class AuthService {
 
   async googleAuth(
     token: string,
-    res: Response,
   ): Promise<{ jwtToken: string }> {
     const payload = await this.firebase.auth().verifyIdToken(token);
     const payloadUID: string = payload.uid;
@@ -60,8 +50,6 @@ export class AuthService {
     const jwtToken = this.jwtService.sign({
       _id: user._id,
     });
-
-    this.createCookieWithJwtToken(jwtToken, res);
 
     return { jwtToken };
   }
