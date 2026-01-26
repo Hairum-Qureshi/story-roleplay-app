@@ -1,9 +1,19 @@
 import { useState, type ChangeEvent } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
+import { type PovType } from "../interfaces";
+import useForm from "../hooks/useForm";
 
 export default function AdForm() {
 	const [inputs, setInputs] = useState([{ expectation: "" }]);
+	const [title, setTitle] = useState("");
+	const [pov, setPov] = useState<PovType | "">("");
+	const [isAdult, setIsAdult] = useState(false);
+	const [premise, setPremise] = useState("");
+	const [writingExpectations, setWritingExpectations] = useState<string[]>([]);
+	const [contentNotes, setContentNotes] = useState("");
+
+	const { createRoleplayAd } = useForm();
 
 	const handleAddInput = () => {
 		setInputs([...inputs, { expectation: "" }]);
@@ -17,13 +27,28 @@ export default function AdForm() {
 		const onChangeValue = [...inputs];
 		onChangeValue[index] = { ...onChangeValue[index], expectation: value };
 		setInputs(onChangeValue);
+		setWritingExpectations(onChangeValue.map(item => item.expectation));
 	};
 
 	const handleDeleteInput = (index: number) => {
 		const newArray = [...inputs];
 		newArray.splice(index, 1);
 		setInputs(newArray);
+		setWritingExpectations(newArray.map(item => item.expectation));
 	};
+
+	function handleSubmit(event: React.FormEvent) {
+		event.preventDefault();
+
+		createRoleplayAd(
+			title,
+			pov,
+			isAdult,
+			premise,
+			writingExpectations,
+			contentNotes
+		);
+	}
 
 	return (
 		<div className="min-h-screen bg-slate-950">
@@ -89,7 +114,10 @@ export default function AdForm() {
 						to share with your role-play partners.
 					</p>
 				</div>
-				<form className="bg-slate-900 border border-sky-700 rounded-md p-5 mb-7 space-y-4">
+				<form
+					className="bg-slate-900 border border-sky-700 rounded-md p-5 mb-7 space-y-4"
+					onSubmit={handleSubmit}
+				>
 					<div>
 						<label
 							htmlFor="title"
@@ -103,6 +131,8 @@ export default function AdForm() {
 							name="title"
 							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
 							placeholder="Enter the title of your role-play"
+							value={title}
+							onChange={e => setTitle(e.target.value)}
 						/>
 					</div>
 					<div>
@@ -113,29 +143,44 @@ export default function AdForm() {
 							Choose Your POV <span className="text-red-500">*</span>
 						</label>
 						<div className="space-x-4 my-2">
-							<button className="px-3 py-1 bg-slate-800 text-sky-400 border border-slate-700 rounded-md hover:bg-slate-700 hover:text-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer">
+							<button
+								className={`px-3 py-1 border border-slate-700 rounded-md hover:cursor-pointer ${pov === "First Person" ? "bg-sky-700 text-sky-300 hover:bg-sky-800 " : "bg-slate-800 text-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:bg-slate-700 hover:text-sky-300"}`}
+								onClick={() => setPov("First Person")}
+							>
 								First Person
 							</button>
-							<button className="px-3 py-1 bg-slate-800 text-sky-400 border border-slate-700 rounded-md hover:bg-slate-700 hover:text-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer">
+							<button
+								className={`px-3 py-1 border border-slate-700 rounded-md hover:text-sky-300 hover:cursor-pointer ${pov === "Second Person" ? "bg-sky-700 text-sky-300 hover:bg-sky-800" : "bg-slate-800 text-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:bg-slate-700"}`}
+								onClick={() => setPov("Second Person")}
+							>
 								Second Person
 							</button>
-							<button className="px-3 py-1 bg-slate-800 text-sky-400 border border-slate-700 rounded-md hover:bg-slate-700 hover:text-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer">
+							<button
+								className={`px-3 py-1 border border-slate-700 rounded-md hover:text-sky-300 hover:cursor-pointer ${pov === "Third Person" ? "bg-sky-700 text-sky-300 hover:bg-sky-800" : "bg-slate-800 text-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:bg-slate-700"}`}
+								onClick={() => setPov("Third Person")}
+							>
 								Third Person
 							</button>
 						</div>
 					</div>
 					<div>
 						<label
-							htmlFor="tags"
+							htmlFor="adult-roleplay"
 							className="block text-zinc-200 font-medium mb-1"
 						>
 							Is this role-play 18+? <span className="text-red-500">*</span>
 						</label>
 						<div className="space-x-4 my-2">
-							<button className="px-3 py-1 bg-slate-800 text-sky-400 border border-slate-700 rounded-md hover:bg-slate-700 hover:text-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer">
+							<button
+								className={`px-3 py-1 border border-slate-700 rounded-md hover:text-sky-300 hover:cursor-pointer ${isAdult === true ? "bg-sky-700 text-sky-300 hover:bg-sky-800" : "bg-slate-800 text-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:bg-slate-700"}`}
+								onClick={() => setIsAdult(true)}
+							>
 								Yes
 							</button>
-							<button className="px-3 py-1 bg-slate-800 text-sky-400 border border-slate-700 rounded-md hover:bg-slate-700 hover:text-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer">
+							<button
+								className={`px-3 py-1 border border-slate-700 rounded-md hover:text-sky-300 hover:cursor-pointer ${isAdult === false ? "bg-sky-700 text-sky-300 hover:bg-sky-800" : "bg-slate-800 text-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:bg-slate-700"}`}
+								onClick={() => setIsAdult(false)}
+							>
 								No
 							</button>
 						</div>
@@ -153,6 +198,8 @@ export default function AdForm() {
 							rows={4}
 							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 min-h-20"
 							placeholder="Describe the premise of your role-play"
+							value={premise}
+							onChange={e => setPremise(e.target.value)}
 						></textarea>
 					</div>
 					<div>
@@ -171,7 +218,6 @@ export default function AdForm() {
 								+ Add
 							</button>
 						</div>
-
 						{inputs.map((item, index) => (
 							<div key={index}>
 								<div className="flex items-center">
@@ -215,6 +261,8 @@ export default function AdForm() {
 							rows={4}
 							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 min-h-20"
 							placeholder="Specify any content notes"
+							value={contentNotes}
+							onChange={e => setContentNotes(e.target.value)}
 						></textarea>
 					</div>
 					<p className="text-sm mt-10 text-sky-300 italic">
