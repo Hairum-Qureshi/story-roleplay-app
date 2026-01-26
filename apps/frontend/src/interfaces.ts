@@ -22,6 +22,19 @@ interface CharacterBio {
 	updatedAt: Date;
 }
 
+interface User {
+	_id: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	profilePicture?: string;
+	username?: string;
+	characterBios: CharacterBio[];
+	conversations: Conversation[];
+	rolePlayAds: RolePlayAd[];
+	createdAt: Date;
+}
+
 type PovType = "First Person" | "Second Person" | "Third Person";
 
 interface RolePlayAd {
@@ -63,5 +76,6 @@ export type {
 	RolePlayAd,
 	Conversation,
 	Message,
-	PovType
+	PovType,
+	User
 };
