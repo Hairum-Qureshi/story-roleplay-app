@@ -25,6 +25,14 @@ export class AuthService {
     });
   }
 
+  getAuthCookieOptions() {
+    return {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax' as const,
+    };
+  }
+
   async googleAuth(
     token: string,
     res: Response,
@@ -50,21 +58,12 @@ export class AuthService {
     }
 
     const jwtToken = this.jwtService.sign({
-      id: user._id,
+      _id: user._id,
     });
 
     this.createCookieWithJwtToken(jwtToken, res);
 
     return { jwtToken };
-  }
-
-  signOut(res: Response): { message: string } {
-    res.clearCookie('auth-session', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-    });
-    return { message: 'success' };
   }
 
   getCurrentUser(user: UserPayload): UserPayload {
