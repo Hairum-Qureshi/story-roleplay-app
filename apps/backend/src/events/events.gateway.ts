@@ -1,5 +1,6 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
+import { RolePlayAd } from 'src/types';
 // import { CreateMessageDto } from 'src/DTOs/create-message.dto';
 // import { UpdateMessageDto } from 'src/DTOs/update-message.dto';
 
@@ -32,7 +33,7 @@ export class EventsGateway {
   }
 
   // Method to emit a new ad to all connected clients
-  emitNewAd(ad: any) {
+  emitNewAd(ad: RolePlayAd) {
     this.server.emit('newRolePlayAd', ad);
   }
 
