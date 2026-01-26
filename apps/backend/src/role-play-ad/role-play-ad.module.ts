@@ -5,6 +5,7 @@ import { AuthModule } from 'src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/User';
 import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
+import { EventsModule } from 'src/events/events.module';
 
 @Module({
   imports: [
@@ -13,9 +14,9 @@ import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
       { name: User.name, schema: UserSchema },
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
     ]),
+    EventsModule,
   ],
   providers: [RolePlayAdService],
   controllers: [RolePlayAdController],
-  exports: [RolePlayAdService],
 })
 export class RolePlayAdModule {}
