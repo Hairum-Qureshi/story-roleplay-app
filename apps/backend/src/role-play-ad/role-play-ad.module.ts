@@ -16,5 +16,6 @@ import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
   ],
   providers: [RolePlayAdService],
   controllers: [RolePlayAdController],
+  exports: [RolePlayAdService],
 })
 export class RolePlayAdModule {}
