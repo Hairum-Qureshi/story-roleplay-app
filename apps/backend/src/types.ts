@@ -9,6 +9,7 @@ type CharacterBio = {
   traits: string[];
   author: Types.ObjectId;
   backstory?: string;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -28,6 +29,7 @@ type RolePlayAd = {
   writingExpectations: string[];
   contentNotes: string;
   author: string;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
