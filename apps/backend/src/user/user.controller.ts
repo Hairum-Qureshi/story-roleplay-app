@@ -15,11 +15,11 @@ export class UserController {
 
   @Delete('delete-account')
   @UseGuards(AuthGuard())
-  deleteAccount(
+  async deleteAccount(
     @CurrentUser() user: UserPayload,
     @Res({ passthrough: true }) res: Response,
   ) {
-    this.userService.deleteUserById(user._id);
+    await this.userService.deleteUserById(user._id);
 
     res.clearCookie('auth-session', this.authService.getAuthCookieOptions());
   }
