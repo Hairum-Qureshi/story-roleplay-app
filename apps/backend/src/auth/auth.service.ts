@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Response } from 'express';
 import { User, UserDocument } from 'src/schemas/User';
 import * as admin from 'firebase-admin';
 import { JwtService } from '@nestjs/jwt';
@@ -24,9 +23,7 @@ export class AuthService {
     };
   }
 
-  async googleAuth(
-    token: string,
-  ): Promise<{ jwtToken: string }> {
+  async googleAuth(token: string): Promise<{ jwtToken: string }> {
     const payload = await this.firebase.auth().verifyIdToken(token);
     const payloadUID: string = payload.uid;
     const userRecord = await this.firebase.auth().getUser(payloadUID);
