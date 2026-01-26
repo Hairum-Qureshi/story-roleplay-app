@@ -6,6 +6,10 @@ import { User, UserSchema } from 'src/schemas/User';
 import { CharacterBio, CharacterBioSchema } from 'src/schemas/CharacterBio';
 import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
 import { AuthModule } from 'src/auth/auth.module';
+import {
+  Conversation,
+  ConversationSchema,
+} from 'src/schemas/inbox/Conversation';
 
 @Module({
   imports: [
@@ -20,6 +24,7 @@ import { AuthModule } from 'src/auth/auth.module';
         name: RolePlayAd.name,
         schema: RolePlayAdSchema,
       },
+      { name: Conversation.name, schema: ConversationSchema },
     ]),
   ],
   providers: [UserService],
