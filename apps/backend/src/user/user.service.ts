@@ -24,7 +24,7 @@ export class UserService {
       firstName: null,
       lastName: null,
       username: `deleted_user_${userId.slice(-6)}`,
-      profilePicture: '../assets/deleted-user-pfp.jpg',
+      profilePicture: `${process.env.BACKEND_URL}/assets/deleted-user-pfp.jpg`,
       characterBios: [],
       rolePlayAds: [],
     });
