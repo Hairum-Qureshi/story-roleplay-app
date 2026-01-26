@@ -42,7 +42,10 @@ export class RolePlayAdService {
 
     return await this.rolePlayAdModel
       .find({
-        createdAt: { $gte: new Date(Date.now() - ONE_HOUR) }, // only retrieves ads that are less than an hour old
+        createdAt: {
+          $gte: new Date(Date.now() - ONE_HOUR),
+        },
+        isDeleted: { $ne: true }, // only retrieves ads that are less than an hour old and not set to deleted
       })
       .populate({
         path: 'author',
@@ -50,5 +53,9 @@ export class RolePlayAdService {
       })
       .select('-__v')
       .sort({ createdAt: -1 });
+  }
+
+  async deleteAd(adID: string, user: UserPayload) {
+    // second we need to end the chats that belong to this specific ad
   }
 }
