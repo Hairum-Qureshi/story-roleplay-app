@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 type CharacterBio = {
   _id: string;
@@ -20,14 +20,14 @@ enum PovType {
 }
 
 type RolePlayAd = {
-  _id: string;
+  _id: Types.ObjectId;
   title: string;
   pov: PovType;
   adultRoleplay: boolean;
   premise: string;
   writingExpectations: string[];
   contentNotes: string;
-  author: Types.ObjectId;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -67,6 +67,8 @@ type AuthRequest = Request & {
   user?: UserPayload;
 };
 
+type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
+
 export type {
   UserPayload,
   AuthRequest,
@@ -75,4 +77,5 @@ export type {
   Conversation,
   Message,
   PovType,
+  RolePlayAdDocument,
 };
