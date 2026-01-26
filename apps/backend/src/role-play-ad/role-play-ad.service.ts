@@ -38,7 +38,7 @@ export class RolePlayAdService {
 
     return await this.rolePlayAdModel
       .find({
-        createdAt: { $gte: new Date(Date.now() - ONE_HOUR) },
+        createdAt: { $gte: new Date(Date.now() - ONE_HOUR) }, // only retrieves ads that are less than an hour old
       })
       .populate({
         path: 'author',
