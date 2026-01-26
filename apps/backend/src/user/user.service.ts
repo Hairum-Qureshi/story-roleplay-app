@@ -5,6 +5,7 @@ import { CharacterBio, CharacterBioDocument } from 'src/schemas/CharacterBio';
 import { RolePlayAd, RolePlayAdDocument } from 'src/schemas/RolePlayAd';
 import { User, UserDocument } from 'src/schemas/User';
 import * as admin from 'firebase-admin';
+import { Conversation } from 'src/schemas/inbox/Conversation';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,8 @@ export class UserService {
     @InjectModel(RolePlayAd.name)
     private rolePlayAdModel: Model<RolePlayAdDocument>,
     @Inject('FIREBASE_ADMIN') private firebase: admin.app.App,
+    @InjectModel(Conversation.name)
+    private conversationModel: Model<Conversation>,
   ) {}
 
   async deleteUserById(userId: string) {
@@ -32,8 +35,56 @@ export class UserService {
     // delete the email from Firebase
     await this.firebase.auth().deleteUser(userId);
 
-    // delete all the user's ads and character bios
-    await this.characterBioModel.deleteMany({ author: userId });
-    await this.rolePlayAdModel.deleteMany({ author: userId });
+    // first need to check if any of the user's character bios are attached to ongoing conversations
+    const conversationsWithUserBios = await this.conversationModel.find({
+      characterBios: {
+        $in: await this.characterBioModel.find({ author: userId }),
+      },
+    });
+
+    if (conversationsWithUserBios.length > 0) {
+      const biosInUse = conversationsWithUserBios.flatMap(
+        (conversation) => conversation.characterBios,
+      );
+
+      await this.characterBioModel.updateMany(
+        { _id: { $in: biosInUse } },
+        { isDeleted: true },
+      );
+    } else {
+      // if not, delete them since they're not used anywhere
+      await this.characterBioModel.deleteMany({ author: userId });
+    }
+
+    // second need to check if any of the user's ads are attached to ongoing conversations
+    // if so, set isDeleted to true for those ads
+    const conversationsWithUserAds = await this.conversationModel.find({
+      roleplayAd: {
+        $in: await this.rolePlayAdModel.find({ author: userId }),
+      },
+    });
+
+    if (conversationsWithUserAds.length > 0) {
+      const adsInUse = conversationsWithUserAds.map(
+        (conversation) => conversation.roleplayAd,
+      );
+
+      await this.rolePlayAdModel.updateMany(
+        { _id: { $in: adsInUse } },
+        { isDeleted: true },
+      );
+    } else {
+      // if not, delete them since they're not used anywhere
+      await this.rolePlayAdModel.deleteMany({ author: userId });
+    }
+
+    if (
+      conversationsWithUserAds.length === 0 &&
+      conversationsWithUserBios.length === 0
+    ) {
+      // if none of the user's ads or bios are attached to any conversations, we can delete them all
+      await this.characterBioModel.deleteMany({ author: userId });
+      await this.rolePlayAdModel.deleteMany({ author: userId });
+    }
   }
 }
