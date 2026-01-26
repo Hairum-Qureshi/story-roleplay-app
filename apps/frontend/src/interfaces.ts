@@ -20,6 +20,7 @@ interface CharacterBio {
 	traits: string[];
 	author: string;
 	backstory?: string;
+	isDeleted: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -49,6 +50,7 @@ interface RolePlayAd {
 	writingExpectations: string[];
 	contentNotes: string;
 	author: string;
+	isDeleted: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 }
