@@ -8,9 +8,11 @@ import {
 } from 'src/schemas/inbox/Conversation';
 import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
 import { User, UserSchema } from 'src/schemas/User';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     MongooseModule.forFeature([
       { name: Conversation.name, schema: ConversationSchema },
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
