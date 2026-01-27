@@ -134,6 +134,11 @@ export default function FAQ() {
 					question: "Are my chats private?",
 					answer:
 						"Yes, all role-play conversations are private between the participants. However, please be aware that messages are stored on our servers to facilitate the chat functionality and they are NOT encrypted."
+				},
+				{
+					question: "Can I edit or delete messages after sending?",
+					answer:
+						"Yes, you can edit or delete your messages. Edited messages will show an 'edited' label. Deleted messages will be replaced with a placeholder indicating deletion."
 				}
 			]
 		}
