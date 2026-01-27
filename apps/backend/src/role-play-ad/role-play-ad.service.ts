@@ -6,6 +6,7 @@ import { EventsGateway } from 'src/events/events.gateway';
 import { RolePlayAd, RolePlayAdDocument } from 'src/schemas/RolePlayAd';
 import { User, UserDocument } from 'src/schemas/User';
 import { UserPayload } from 'src/types';
+import { Conversation } from 'src/schemas/inbox/Conversation';
 
 @Injectable()
 export class RolePlayAdService {
@@ -14,6 +15,8 @@ export class RolePlayAdService {
     @InjectModel(RolePlayAd.name)
     private rolePlayAdModel: Model<RolePlayAdDocument>,
     private readonly eventsGateway: EventsGateway,
+    @InjectModel(Conversation.name)
+    private conversationModel: Model<Conversation>,
   ) {}
 
   async createAd(createAdDto: CreateAd, user: UserPayload) {
@@ -55,7 +58,20 @@ export class RolePlayAdService {
       .sort({ createdAt: -1 });
   }
 
-  async deleteAd(adID: string, user: UserPayload) {
-    // second we need to end the chats that belong to this specific ad
+  async deleteAd(adID: string) {
+    // first we need to check if this ad belongs in any conversations
+    const conversationsWithAd = await this.conversationModel.find({
+      roleplayAd: adID,
+    });
+
+    if (conversationsWithAd.length > 0) {
+      // if so, we set isDeleted to true instead of deleting it
+      await this.rolePlayAdModel.findByIdAndUpdate(adID, {
+        isDeleted: true,
+      });
+    } else {
+      // if it doesn't exist in ANY conversations, we can delete it outright
+      await this.rolePlayAdModel.findByIdAndDelete(adID);
+    }
   }
 }
