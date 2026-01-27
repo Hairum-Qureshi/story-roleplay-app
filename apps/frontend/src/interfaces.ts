@@ -48,7 +48,11 @@ interface RolePlayAd {
 	premise: string;
 	writingExpectations: string[];
 	contentNotes: string;
-	author: string;
+	author: {
+		_id: string;
+		username: string;
+		profilePicture: string;
+	};
 	isDeleted: boolean;
 	createdAt: Date;
 	updatedAt: Date;
