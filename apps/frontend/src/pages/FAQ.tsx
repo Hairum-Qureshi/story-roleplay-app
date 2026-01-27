@@ -129,6 +129,11 @@ export default function FAQ() {
 					question: "Are images and links supported in messages?",
 					answer:
 						"Images are not supported. Links are supported but not clickable; users need to copy and paste URLs into their browser. Be cautious when opening links from users you don't know. It's preferred to share character bios and ad details within the platform rather than external links."
+				},
+				{
+					question: "Are my chats private?",
+					answer:
+						"Yes, all role-play conversations are private between the participants. However, please be aware that messages are stored on our servers to facilitate the chat functionality and they are NOT encrypted."
 				}
 			]
 		}
