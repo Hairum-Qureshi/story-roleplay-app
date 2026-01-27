@@ -42,6 +42,11 @@ export class ChatService {
       throw new Error('Role Play Ad not found');
     }
 
+    // if the ad poster is you, prevent conversation creation
+    if (ad.author === user._id) {
+      throw new Error('Cannot create a conversation with your own ad');
+    }
+
     if (existingConversation) {
       // if they do, return the existing conversation
       return { conversation: existingConversation, rolePlayAd: ad };
@@ -67,5 +72,12 @@ export class ChatService {
     });
 
     return { conversation: newConversation, rolePlayAd: ad };
+  }
+
+  async getAllConversations(user: UserPayload) {
+    // TODO - may need to alter returned data structure here later
+    return await this.conversationModel.find({
+      participants: user._id,
+    });
   }
 }
