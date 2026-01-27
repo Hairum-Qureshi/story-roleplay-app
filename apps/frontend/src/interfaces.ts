@@ -60,7 +60,11 @@ interface RolePlayAd {
 
 interface Message {
 	_id: string;
-	sender: string;
+	sender: {
+		_id: string;
+		username: string;
+		profilePicture?: string;
+	};
 	conversation: string;
 	content: string;
 }
