@@ -46,7 +46,6 @@ interface RolePlayAd {
 	pov: PovType;
 	adultRoleplay: boolean;
 	premise: string;
-	traitsAndSkills: string[];
 	writingExpectations: string[];
 	contentNotes: string;
 	author: string;
