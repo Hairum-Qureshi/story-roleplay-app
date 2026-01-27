@@ -1,56 +1,111 @@
 import { useState } from "react";
 import ChatContainer from "../components/inbox/ChatContainer";
+import Ad from "../components/Ad";
+import { Link } from "react-router-dom";
 import ChatBubble from "../components/inbox/ChatBubble";
+import useRolePlayChat from "../hooks/useRolePlayChat";
+import type { Conversation, Message } from "../interfaces";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function Inbox() {
-	const [fullWidth, setFullWith] = useState(false);
+	const [fullWidth, setFullWith] = useState(true);
+	const { rolePlayChats } = useRolePlayChat();
+	const [noMessageOpened, setNoMessageOpened] = useState(true);
+	const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
+	const { data: currUser } = useCurrentUser();
+
+	// TODO - add basic markdown support for chat messages (namely just bold, quote, and italics)
+	// TODO - when a user selects a character, make sure a message/notification is shown in the chat that says "You have selected [character name] for this chat which, for the role-play partner would link to that specific character bio for them to view."
+
+	// TODO - need to pass time stamps to ChatBubble component
 
 	return (
 		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
 			<div className="w-1/4 h-[100vh - 4rem] space-y-3 overflow-y-scroll border-r border-slate-700">
-				<ChatContainer />
+				{rolePlayChats?.length > 0
+					? rolePlayChats.map((chat: Conversation) => (
+							<Link
+								to={`/inbox/${chat._id}`}
+								onClick={() => {
+									setNoMessageOpened(false);
+									setSelectedChat(chat);
+								}}
+							>
+								<ChatContainer key={chat._id} chat={chat} />
+							</Link>
+						))
+					: null}
 			</div>
 			<div
 				className={`w-1/2 min-h-[100vh - 4rem] max-h-auto ${fullWidth ? "w-3/4" : "w-1/2"}`}
 			>
-				<div className="w-full border-b border-slate-700 flex">
-					<h3 className="text-lg font-semibold flex items-center mr-auto ml-4">
-						Chat Title Here
-					</h3>
-					<button
-						onClick={() => setFullWith(!fullWidth)}
-						className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer justify-end"
-					>
-						{fullWidth ? "Show" : "Hide"} Side Panel
-					</button>
-				</div>
-				<div className="min-h-[85vh] overflow-y-scroll relative">
-					<div className="overflow-y-scroll h-[75vh]">
-						<ChatBubble you={true} message="Hello, how are you?" />
-						<ChatBubble
-							you={false}
-							message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum aut officia culpa magnam quas voluptas, eaque ipsa nostrum atque mollitia corporis dolor in beatae sapiente quis nobis repellat similique eos."
-						/>
-						<ChatBubble
-							you={true}
-							message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum aut officia culpa magnam quas voluptas, eaque ipsa nostrum atque mollitia corporis dolor in beatae sapiente quis nobis repellat similique eos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum aut officia culpa magnam quas voluptas, eaque ipsa nostrum atque mollitia corporis dolor in beatae sapiente quis nobis repellat similique eos."
-						/>
-						<ChatBubble
-							you={true}
-							message="Eaque ipsa nostrum atque mollitia corporis dolor in beatae sapiente quis nobis repellat similique eos."
-						/>
-						<ChatBubble
-							you={false}
-							message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum aut officia culpa magnam quas voluptas."
-						/>
-					</div>
-					<div className="border border-blue-500 w-full absolute bottom-0">
-						<textarea
-							className="w-full h-16 bg-slate-900 text-white p-2 resize-none outline-none"
-							placeholder="Type your message..."
-						></textarea>
-					</div>
-				</div>
+				{noMessageOpened ? (
+					<p className="text-gray-400 text-center m-10 min-h-[85vh] relative">
+						Select a chat to view messages
+					</p>
+				) : (
+					<>
+						<div className="w-full border-b border-slate-700 flex items-center">
+							<h3
+								className={
+									fullWidth
+										? "text-lg w-[54%] truncate overflow-hidden font-semibold mr-auto ml-4"
+										: "w-[32%] ml-3 truncate font-semibold text-lg"
+								}
+							>
+								{selectedChat?.title}
+							</h3>
+							<div className="m-2 bg-red-500 border border-red-600 rounded-md px-2 py-1 hover:cursor-pointer">
+								End Role-Play
+							</div>
+							<select className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer">
+								<option value="" disabled selected>
+									Choose Character
+								</option>
+								<option value="character1">Character 1</option>
+								<option value="character2">Character 2</option>
+								<option value="character3">Character 3</option>
+							</select>
+							<button
+								onClick={() => setFullWith(!fullWidth)}
+								className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer justify-end"
+							>
+								{fullWidth ? "Show" : "Hide"} Side Panel
+							</button>
+						</div>{" "}
+						<div className="min-h-[85vh] overflow-y-scroll relative">
+							<div className="overflow-y-scroll h-[75vh]">
+								{selectedChat && (
+									<div className="m-4">
+										<Ad rolePlayAd={selectedChat?.roleplayAd} hideButton />
+									</div>
+								)}
+
+								{selectedChat?.messages.map((message: Message) =>
+									message.sender.username === "SYSTEM" ? (
+										<div
+											dangerouslySetInnerHTML={{ __html: message.content }}
+											className="text-center text-gray-400 my-6 mx-2 italic"
+											key={message._id}
+										/>
+									) : (
+										<ChatBubble
+											key={message._id}
+											message={message.content}
+											you={message.sender._id === currUser?._id}
+										/>
+									)
+								)}
+							</div>
+							<div className="border border-blue-500 w-full absolute bottom-0">
+								<textarea
+									className="w-full h-16 bg-slate-900 text-white p-2 resize-none outline-none"
+									placeholder="Type your message..."
+								></textarea>
+							</div>
+						</div>
+					</>
+				)}
 			</div>
 			<div
 				className={`border border-slate-700 w-1/4 min-h-[100vh - 4rem] max-h-auto ${fullWidth ? "hidden" : "block"}`}
