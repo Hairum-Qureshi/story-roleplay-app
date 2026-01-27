@@ -58,22 +58,28 @@ interface RolePlayAd {
 	updatedAt: Date;
 }
 
-interface Conversation {
-	_id: string;
-	participants: string[];
-	roleplayAd: string;
-	title: string;
-	messages: string[];
-	chatEnded: boolean;
-	characterBios?: string[];
-	createdAt: Date;
-}
-
 interface Message {
 	_id: string;
 	sender: string;
 	conversation: string;
 	content: string;
+}
+
+interface Conversation {
+	_id: string;
+	participants: [
+		{
+			_id: string;
+			username: string;
+			profilePicture?: string;
+		}
+	];
+	roleplayAd: RolePlayAd;
+	title: string;
+	messages: Message[];
+	chatEnded: boolean;
+	characterBios?: string[];
+	createdAt: Date;
 }
 
 interface SocketStore {
