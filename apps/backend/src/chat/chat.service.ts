@@ -58,6 +58,8 @@ export class ChatService {
 
     const newConversation: ConversationDocument =
       await this.conversationModel.create({
+        title: ad.title,
+        roleplayAd: ad._id,
         participants: [user._id, ad.author],
         messages: [],
       });
