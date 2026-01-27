@@ -89,6 +89,11 @@ interface SocketStore {
 	rolePlayAd: RolePlayAd | null;
 }
 
+interface AdProps {
+	hideButton?: boolean;
+	rolePlayAd: RolePlayAd;
+}
+
 export type {
 	FeatureColumnProps,
 	UseGoogleAuthHook,
@@ -98,5 +103,6 @@ export type {
 	Message,
 	PovType,
 	User,
-	SocketStore
+	SocketStore,
+	AdProps
 };
