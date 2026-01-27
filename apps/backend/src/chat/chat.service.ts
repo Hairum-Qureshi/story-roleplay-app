@@ -9,6 +9,8 @@ import type {
   RolePlayAd as RolePlayAdInterface,
 } from 'src/types';
 import { User, UserDocument } from 'src/schemas/User';
+import { Message } from 'src/schemas/inbox/Message';
+import type { Message as MessageInterface } from 'src/types';
 
 @Injectable()
 export class ChatService {
@@ -19,6 +21,8 @@ export class ChatService {
     private rolePlayAdModel: Model<RolePlayAdInterface>,
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
+    @InjectModel(Message.name)
+    private messageModel: Model<Message>,
   ) {}
 
   async createConversation(
@@ -28,18 +32,27 @@ export class ChatService {
     conversation: ConversationDocument;
     rolePlayAd: RolePlayAdInterface;
   }> {
-    // first need to check whether the user has a conversation with this exact ad already
-    const existingConversation: ConversationDocument | null =
-      await this.conversationModel.findOne({
-        ad: adID,
-        participants: user._id,
-      });
-
     // get the ad data:
     const ad: RolePlayAdInterface | null =
       await this.rolePlayAdModel.findById(adID);
+
     if (!ad) {
       throw new Error('Role Play Ad not found');
+    }
+
+    // first need to check whether the user has a conversation with this exact ad already
+    const existingConversation: ConversationDocument | null =
+      await this.conversationModel.findOne({
+        roleplayAd: ad._id,
+        title: ad.title,
+        participants: {
+          $all: [user._id, ad.author],
+        },
+      });
+
+    if (existingConversation) {
+      // if they do, return the existing conversation
+      return { conversation: existingConversation, rolePlayAd: ad };
     }
 
     // if the ad poster is you, prevent conversation creation
@@ -47,15 +60,9 @@ export class ChatService {
       throw new Error('Cannot create a conversation with your own ad');
     }
 
-    if (existingConversation) {
-      // if they do, return the existing conversation
-      return { conversation: existingConversation, rolePlayAd: ad };
-    }
-
     // if not, create a new conversation
 
     // create the conversation with the ad and the user as participants
-
     const newConversation: ConversationDocument =
       await this.conversationModel.create({
         title: ad.title,
@@ -63,6 +70,18 @@ export class ChatService {
         participants: [user._id, ad.author],
         messages: [],
       });
+
+    // create a welcome message from SYSTEM to both users
+    const message: MessageInterface = await this.messageModel.create({
+      sender: 'SYSTEM', // SYSTEM message
+      conversation: newConversation._id,
+      content: `<p>A role-play chat has been started between you and ${user.username}. Optionally, before you start role-playing, you can select an existing character from above or <a href = "/new-character">create a new one</a> to share with your role-play partner.</p>`,
+    });
+
+    // update conversation model with the message ID
+    await this.conversationModel.findByIdAndUpdate(newConversation._id, {
+      $push: { messages: message._id },
+    });
 
     // update both users' conversation arrays
     await this.userModel.findByIdAndUpdate(user._id, {
@@ -77,9 +96,27 @@ export class ChatService {
   }
 
   async getAllConversations(user: UserPayload) {
-    // TODO - may need to alter returned data structure here later
-    return await this.conversationModel.find({
-      participants: user._id,
-    });
+    return await this.conversationModel
+      .find({
+        participants: user._id,
+      })
+      .populate({
+        path: 'participants',
+        select: 'username profilePicture',
+      })
+      .populate({
+        path: 'messages',
+        select: 'sender content',
+      })
+      .populate({
+        path: 'roleplayAd',
+        select: '-__v',
+        populate: {
+          path: 'author',
+          select: 'username profilePicture',
+        },
+      })
+      .sort({ createdAt: -1 })
+      .exec();
   }
 }
