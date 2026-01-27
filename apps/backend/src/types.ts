@@ -36,7 +36,7 @@ type RolePlayAd = {
 
 type Conversation = {
   _id: string;
-  participants: Types.ObjectId[];
+  participants: string[];
   roleplayAd: Types.ObjectId;
   title: string;
   messages: Types.ObjectId[];
@@ -70,6 +70,7 @@ type AuthRequest = Request & {
 };
 
 type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
+type ConversationDocument = HydratedDocument<Conversation>;
 
 export type {
   UserPayload,
@@ -80,4 +81,5 @@ export type {
   Message,
   PovType,
   RolePlayAdDocument,
+  ConversationDocument,
 };
