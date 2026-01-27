@@ -71,7 +71,7 @@ export default function FAQ() {
 				{
 					question: "How long do my role-play ads last on the site?",
 					answer:
-						"Ads remain active on the main feed for 1 hour. They are still accessible through your profile, where you can repost, edit, or delete them. Once you repost an ad, you will need to wait another hour before reposting again."
+						"Ads remain active on the main feed for 1 hour. They are still accessible through your profile, where you can repost, edit, or delete them. Once you repost an ad, you will need to wait another hour before reposting that same ad again."
 				},
 				{
 					question: "Can I save role-play ads to revisit later?",
