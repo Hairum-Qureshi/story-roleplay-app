@@ -73,7 +73,7 @@ export class ChatService {
 
     // create a welcome message from SYSTEM to both users
     const message: MessageInterface = await this.messageModel.create({
-      sender: 'SYSTEM', // SYSTEM message
+      sender: '000000000000000000000001', // SYSTEM user ID
       conversation: newConversation._id,
       content: `<p>A role-play chat has been started between you and ${user.username}. Optionally, before you start role-playing, you can select an existing character from above or <a href = "/new-character">create a new one</a> to share with your role-play partner.</p>`,
     });
@@ -107,6 +107,10 @@ export class ChatService {
       .populate({
         path: 'messages',
         select: 'sender content',
+        populate: {
+          path: 'sender',
+          select: 'username profilePicture',
+        },
       })
       .populate({
         path: 'roleplayAd',
