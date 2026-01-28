@@ -21,8 +21,8 @@ interface CharacterBio {
 	author: string;
 	backstory?: string;
 	isDeleted: boolean;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 }
 
 interface User {
@@ -35,7 +35,7 @@ interface User {
 	characterBios: CharacterBio[];
 	conversations: Conversation[];
 	rolePlayAds: RolePlayAd[];
-	createdAt: Date;
+	createdAt: string;
 }
 
 type PovType = "First Person" | "Second Person" | "Third Person";
@@ -54,8 +54,8 @@ interface RolePlayAd {
 		profilePicture: string;
 	};
 	isDeleted: boolean;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 }
 
 interface Message {
@@ -67,8 +67,8 @@ interface Message {
 	};
 	conversation: string;
 	content: string;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 }
 
 interface Conversation {
@@ -85,7 +85,7 @@ interface Conversation {
 	messages: Message[];
 	chatEnded: boolean;
 	characterBios?: string[];
-	createdAt: Date;
+	createdAt: string;
 }
 
 interface SocketStore {
