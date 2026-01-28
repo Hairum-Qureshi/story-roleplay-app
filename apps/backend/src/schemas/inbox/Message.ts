@@ -14,6 +14,9 @@ export class Message {
 
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
+
+  @Prop({ type: Date, default: Date.now })
+  updatedAt: Date;
 }
 
 SchemaFactory.createForClass(Message);
