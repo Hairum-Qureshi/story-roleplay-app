@@ -43,7 +43,6 @@ type Conversation = {
   chatEnded: boolean;
   characterBios?: Types.ObjectId[];
   createdAt: Date;
-  updatedAt: Date;
 };
 
 type Message = {
