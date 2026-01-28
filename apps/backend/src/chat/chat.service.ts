@@ -133,6 +133,28 @@ export class ChatService {
     return { conversation: newConversation, rolePlayAd: ad };
   }
 
+  async getAllMessagesInConversation(chatID: string, user: UserPayload) {
+    const conversation: ConversationDocument | null =
+      await this.conversationModel.findById(chatID).populate({
+        path: 'messages',
+        populate: {
+          path: 'sender',
+          select: 'username profilePicture',
+        },
+      });
+
+    if (!conversation) {
+      throw new Error('Conversation not found');
+    }
+
+    // validate that the user is a participant in the chat
+    if (!conversation.participants.includes(user._id)) {
+      throw new Error('User is not a participant in this conversation');
+    }
+
+    return conversation.messages;
+  }
+
   async getAllConversations(user: UserPayload) {
     return await this.conversationModel
       .find({
