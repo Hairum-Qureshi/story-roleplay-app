@@ -28,6 +28,15 @@ export class ChatController {
     return this.chatService.createConversation(adID, user);
   }
 
+  @Get('/:chatID/all-messages')
+  @UseGuards(AuthGuard())
+  getAllMessagesInConversation(
+    @Param('chatID') chatID: string,
+    @CurrentUser() user: UserPayload,
+  ) {
+    return this.chatService.getAllMessagesInConversation(chatID, user);
+  }
+
   @Get('all')
   @UseGuards(AuthGuard())
   getAllConversations(@CurrentUser() user: UserPayload) {
