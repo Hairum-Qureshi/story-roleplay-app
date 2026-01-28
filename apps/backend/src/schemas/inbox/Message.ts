@@ -11,6 +11,9 @@ export class Message {
 
   @Prop({ type: String, required: true })
   content: string;
+
+  @Prop({ type: Date, default: Date.now })
+  createdAt: Date;
 }
 
 SchemaFactory.createForClass(Message);
