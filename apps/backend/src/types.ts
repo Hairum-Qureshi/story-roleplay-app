@@ -51,7 +51,8 @@ type Message = {
   sender: Types.ObjectId | string;
   conversation: Types.ObjectId | string;
   content: string;
-  createdAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 type UserPayload = {
