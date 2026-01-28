@@ -11,6 +11,8 @@ import type {
 import { User, UserDocument } from 'src/schemas/User';
 import { Message } from 'src/schemas/inbox/Message';
 import type { Message as MessageInterface } from 'src/types';
+import { CreateMessage } from 'src/DTOs/CreateMessage.dto';
+import type { MessageDocument } from 'src/types';
 
 @Injectable()
 export class ChatService {
@@ -24,6 +26,41 @@ export class ChatService {
     @InjectModel(Message.name)
     private messageModel: Model<Message>,
   ) {}
+
+  async createConversationMessage(
+    chatID: string,
+    messageDto: CreateMessage,
+    user: UserPayload,
+  ): Promise<MessageInterface> {
+    // first get the chat data by ID
+    const conversation: ConversationDocument | null =
+      await this.conversationModel.findById(chatID);
+
+    if (!conversation) {
+      throw new Error('Conversation not found');
+    }
+
+    // validate that the user is a participant in the chat
+    if (!conversation.participants.includes(user._id)) {
+      throw new Error('User is not a participant in this conversation');
+    }
+
+    // create the message
+    const message: MessageDocument = await this.messageModel.create({
+      sender: user._id,
+      conversation: conversation._id,
+      content: messageDto.message,
+    });
+
+    await message.populate('sender', 'username profilePicture');
+
+    // update the conversation's messages array with that message ID
+    await this.conversationModel.findByIdAndUpdate(conversation._id, {
+      $push: { messages: message._id },
+    });
+
+    return message;
+  }
 
   async createConversation(
     adID: string,
@@ -72,10 +109,11 @@ export class ChatService {
       });
 
     // create a welcome message from SYSTEM to both users
+    // TODO - need to rethink this logic
     const message: MessageInterface = await this.messageModel.create({
       sender: '000000000000000000000001', // SYSTEM user ID
       conversation: newConversation._id,
-      content: `<p>A role-play chat has been started between you and ${user.username}. Optionally, before you start role-playing, you can select an existing character from above or <a href = "/new-character">create a new one</a> to share with your role-play partner.</p>`,
+      content: `<p>A role-play chat has been started between you and @${user.username}. Optionally, before you start role-playing, you can select an existing character from above or <a href = "/new-character">create a new one</a> to share with your role-play partner.</p>`,
     });
 
     // update conversation model with the message ID
