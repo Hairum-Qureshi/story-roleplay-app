@@ -43,6 +43,7 @@ type Conversation = {
   chatEnded: boolean;
   characterBios?: Types.ObjectId[];
   createdAt: Date;
+  updatedAt: Date;
 };
 
 type Message = {
@@ -50,6 +51,7 @@ type Message = {
   sender: Types.ObjectId | string;
   conversation: Types.ObjectId | string;
   content: string;
+  createdAt: string;
 };
 
 type UserPayload = {
