@@ -67,6 +67,8 @@ interface Message {
 	};
 	conversation: string;
 	content: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 interface Conversation {
