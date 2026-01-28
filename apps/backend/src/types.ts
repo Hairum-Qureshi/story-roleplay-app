@@ -71,6 +71,7 @@ type AuthRequest = Request & {
 
 type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
 type ConversationDocument = HydratedDocument<Conversation>;
+type MessageDocument = HydratedDocument<Message>;
 
 export type {
   UserPayload,
@@ -82,4 +83,5 @@ export type {
   PovType,
   RolePlayAdDocument,
   ConversationDocument,
+  MessageDocument,
 };
