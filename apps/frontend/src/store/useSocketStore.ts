@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { io } from "socket.io-client";
 import type { SocketStore } from "../interfaces";
+import type { Message } from "../interfaces";
 
 const useSocketStore = create<SocketStore>((set, get) => ({
 	socket: null,
 	rolePlayAd: null,
-
+	message: null,
 	connectSocket: (userId: string) => {
 		const socket = io(import.meta.env.VITE_BACKEND_BASE_URL, {
 			auth: { userId }
@@ -29,6 +30,10 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
 		socket.on("newRolePlayAd", ad => {
 			set({ rolePlayAd: ad });
+		});
+
+		socket.on("newMessage", (message: Message) => {
+			set({ message });
 		});
 
 		socket.connect();
