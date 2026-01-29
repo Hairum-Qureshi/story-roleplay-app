@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ChatContainer from "../components/inbox/ChatContainer";
 import Ad from "../components/Ad";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ChatBubble from "../components/inbox/ChatBubble";
 import useRolePlayChat from "../hooks/useRolePlayChat";
 import type { Conversation, Message } from "../interfaces";
@@ -9,15 +9,33 @@ import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function Inbox() {
 	const [fullWidth, setFullWith] = useState(true);
-	const { rolePlayChats } = useRolePlayChat();
+	const { chatID } = useParams();
+
+	const { rolePlayChats, sendMessage, rolePlayChatMessages } = useRolePlayChat(
+		chatID || ""
+	);
 	const [noMessageOpened, setNoMessageOpened] = useState(true);
 	const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
 	const { data: currUser } = useCurrentUser();
+	const [message, setMessage] = useState("");
+	const bottomOfContainer = useRef<HTMLDivElement>(null);
+	const isFirstLoad = useRef(true);
 
-	// TODO - add basic markdown support for chat messages (namely just bold, quote, and italics)
+	useEffect(() => {
+		if (!bottomOfContainer.current) return;
+
+		if (isFirstLoad) {
+			// Initial positioning — no animation
+			// For cases when you first opened the chat, you're instantly led to the latest message
+			bottomOfContainer.current.scrollIntoView({ behavior: "auto" });
+			isFirstLoad.current = false;
+		} else {
+			// New message arrived — animate
+			bottomOfContainer.current?.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [rolePlayChatMessages]);
+
 	// TODO - when a user selects a character, make sure a message/notification is shown in the chat that says "You have selected [character name] for this chat which, for the role-play partner would link to that specific character bio for them to view."
-
-	// TODO - need to pass time stamps to ChatBubble component
 
 	return (
 		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
@@ -37,10 +55,10 @@ export default function Inbox() {
 					: null}
 			</div>
 			<div
-				className={`w-1/2 min-h-[100vh - 4rem] max-h-auto ${fullWidth ? "w-3/4" : "w-1/2"}`}
+				className={`w-1/2 min-h-[100vh - 4rem] ${fullWidth ? "w-3/4" : "w-1/2"}`}
 			>
 				{noMessageOpened ? (
-					<p className="text-gray-400 text-center m-10 min-h-[85vh] relative">
+					<p className="text-sky-600 mt-50 text-center text-3xl font-semibold min-h-[65.5vh]">
 						Select a chat to view messages
 					</p>
 				) : (
@@ -73,15 +91,14 @@ export default function Inbox() {
 								{fullWidth ? "Show" : "Hide"} Side Panel
 							</button>
 						</div>{" "}
-						<div className="min-h-[85vh] overflow-y-scroll relative">
+						<div className="min-h-[85vh] relative">
 							<div className="overflow-y-scroll h-[75vh]">
 								{selectedChat && (
 									<div className="m-4">
 										<Ad rolePlayAd={selectedChat?.roleplayAd} hideButton />
 									</div>
 								)}
-
-								{selectedChat?.messages.map((message: Message) =>
+								{rolePlayChatMessages?.map((message: Message) =>
 									message.sender.username === "SYSTEM" ? (
 										<div
 											dangerouslySetInnerHTML={{ __html: message.content }}
@@ -91,17 +108,34 @@ export default function Inbox() {
 									) : (
 										<ChatBubble
 											key={message._id}
-											message={message.content}
-											you={message.sender._id === currUser?._id}
+											messageData={{
+												message: message.content,
+												you: message.sender._id === currUser?._id,
+												timestamp: message.createdAt
+											}}
 										/>
 									)
 								)}
+								<div ref={bottomOfContainer} />
 							</div>
-							<div className="border border-blue-500 w-full absolute bottom-0">
+							<div className="flex items-center w-full bg-slate-800 shadow-md px-4 py-2">
 								<textarea
-									className="w-full h-16 bg-slate-900 text-white p-2 resize-none outline-none"
+									className="flex-1 bg-transparent resize-none outline-none text-white placeholder-slate-400 h-14 p-2 focus:ring-0"
 									placeholder="Type your message..."
+									value={message}
+									onChange={e => setMessage(e.target.value)}
 								></textarea>
+								{selectedChat && (
+									<button
+										className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 transition-colors duration-200 rounded-md hover:cursor-pointer"
+										onClick={() => {
+											sendMessage(selectedChat?._id, message);
+											setMessage("");
+										}}
+									>
+										Send
+									</button>
+								)}
 							</div>
 						</div>
 					</>
