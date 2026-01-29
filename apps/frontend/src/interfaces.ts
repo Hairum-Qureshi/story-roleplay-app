@@ -93,6 +93,7 @@ interface SocketStore {
 	connectSocket: (userId: string) => void;
 	disconnectSocket: () => void;
 	rolePlayAd: RolePlayAd | null;
+	message: Message | null;
 }
 
 interface AdProps {
