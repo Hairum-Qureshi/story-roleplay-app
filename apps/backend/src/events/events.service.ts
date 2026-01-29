@@ -2,17 +2,27 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class EventsService {
-  private socketToUserMap: Map<string, number> = new Map<string, number>();
+  private socketToUserMap: Map<string, string> = new Map<string, string>();
 
-  identifyUser(socketId: string, userId: number) {
-    this.socketToUserMap.set(socketId, userId);
+  identifyUser(socketID: string, userID: string) {
+    this.socketToUserMap.set(socketID, userID);
   }
 
-  viewMap(): Map<string, number> {
+  viewMap(): Map<string, string> {
     return this.socketToUserMap;
   }
 
-  removeUserBySocketId(socketId: string) {
-    this.socketToUserMap.delete(socketId);
+  removeUserBySocketId(socketID: string) {
+    this.socketToUserMap.delete(socketID);
+  }
+
+  getUserSocketId(userID: string): string | undefined {
+    for (const [socketID, uid] of this.socketToUserMap.entries()) {
+      if (uid === userID) {
+        return socketID;
+      }
+    }
+
+    return undefined;
   }
 }
