@@ -9,6 +9,8 @@ import {
 import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
 import { User, UserSchema } from 'src/schemas/User';
 import { AuthModule } from 'src/auth/auth.module';
+import { Message, MessageSchema } from 'src/schemas/inbox/Message';
+import { EventsModule } from 'src/events/events.module';
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { AuthModule } from 'src/auth/auth.module';
       { name: Conversation.name, schema: ConversationSchema },
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
       { name: User.name, schema: UserSchema },
+      { name: Message.name, schema: MessageSchema },
     ]),
+    EventsModule,
   ],
   providers: [ChatService],
   controllers: [ChatController],
