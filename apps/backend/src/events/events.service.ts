@@ -1,27 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { RolePlayAdService } from 'src/role-play-ad/role-play-ad.service';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly rolePlayAdService: RolePlayAdService) {}
+  private socketToUserMap: Map<string, number> = new Map<string, number>();
 
-  // create(createMessageDto: CreateMessageDto) {
-  //   return 'This action adds a new message';
-  // }
-
-  async findAll() {
-    return await this.rolePlayAdService.getAllAds();
+  identifyUser(socketId: string, userId: number) {
+    this.socketToUserMap.set(socketId, userId);
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} message`;
-  // }
+  viewMap(): Map<string, number> {
+    return this.socketToUserMap;
+  }
 
-  // update(id: number, updateMessageDto: UpdateMessageDto) {
-  //   return `This action updates a #${id} message`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} message`;
-  // }
+  removeUserBySocketId(socketId: string) {
+    this.socketToUserMap.delete(socketId);
+  }
 }
