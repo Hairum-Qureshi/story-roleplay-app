@@ -13,6 +13,7 @@ import { Message } from 'src/schemas/inbox/Message';
 import type { Message as MessageInterface } from 'src/types';
 import { CreateMessage } from 'src/DTOs/CreateMessage.dto';
 import type { MessageDocument } from 'src/types';
+import { EventsGateway } from 'src/events/events.gateway';
 
 @Injectable()
 export class ChatService {
@@ -25,6 +26,7 @@ export class ChatService {
     private userModel: Model<UserDocument>,
     @InjectModel(Message.name)
     private messageModel: Model<Message>,
+    private readonly eventsGateway: EventsGateway,
   ) {}
 
   async createConversationMessage(
@@ -40,8 +42,10 @@ export class ChatService {
       throw new Error('Conversation not found');
     }
 
+    const participants: string[] = conversation.participants;
+
     // validate that the user is a participant in the chat
-    if (!conversation.participants.includes(user._id)) {
+    if (!participants.includes(user._id)) {
       throw new Error('User is not a participant in this conversation');
     }
 
@@ -58,6 +62,12 @@ export class ChatService {
     await this.conversationModel.findByIdAndUpdate(conversation._id, {
       $push: { messages: message._id },
     });
+
+    const otherParticipantID: string = participants.find(
+      (participantID) => participantID !== user._id,
+    ) as string;
+
+    this.eventsGateway.sendMessageToUser(otherParticipantID, message);
 
     return message;
   }
@@ -135,17 +145,19 @@ export class ChatService {
 
   async getAllMessagesInConversation(chatID: string, user: UserPayload) {
     const conversation: ConversationDocument | null =
-      await this.conversationModel.findById(chatID).populate({
-        path: 'messages',
-        populate: {
-          path: 'sender',
-          select: 'username profilePicture',
-        },
-      });
+      await this.conversationModel.findById(chatID);
 
     if (!conversation) {
       throw new Error('Conversation not found');
     }
+
+    await conversation.populate({
+      path: 'messages',
+      populate: {
+        path: 'sender',
+        select: 'username profilePicture',
+      },
+    });
 
     // validate that the user is a participant in the chat
     if (!conversation.participants.includes(user._id)) {
