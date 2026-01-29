@@ -1,8 +1,18 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {
+  ConnectedSocket,
+  MessageBody,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
-import { RolePlayAd } from 'src/types';
-// import { CreateMessageDto } from 'src/DTOs/create-message.dto';
-// import { UpdateMessageDto } from 'src/DTOs/update-message.dto';
+import { Message, RolePlayAd } from 'src/types';
+import { EventsService } from './events.service';
+
+interface Payload {
+  message: string;
+  chatID: string;
+}
 
 @WebSocketGateway({
   cors: {
@@ -14,38 +24,49 @@ export class EventsGateway {
   @WebSocketServer()
   server: Server;
 
-  // @SubscribeMessage('createMessage')
-  // create(@MessageBody() createMessageDto: CreateMessageDto) {
-  //   return this.eventsService.create(createMessageDto);
-  // }
+  constructor(private eventsService: EventsService) {}
 
   handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+    const { userId } = client.handshake.auth;
+
+    console.log(`Client connected: ${client.id} with uid: ${userId}`);
 
     client.emit('connected', {
       message: 'Successfully connected to WebSocket gateway',
       socketId: client.id,
     });
+
+    this.eventsService.identifyUser(client.id, userId);
+    console.log(this.eventsService.viewMap());
   }
 
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
+
+    this.eventsService.removeUserBySocketId(client.id);
+    console.log(this.eventsService.viewMap());
   }
 
-  // Method to emit a new ad to all connected clients
   emitNewAd(ad: RolePlayAd) {
     this.server.emit('newRolePlayAd', ad);
   }
 
-  // @SubscribeMessage('findAllPosts')
-  // async findAllPosts() {
-  //   return await this.eventsService.findAll();
-  // }
+  @SubscribeMessage('sendMessage')
+  handleMessage(
+    @MessageBody() payload: Payload,
+    @ConnectedSocket() client: Socket,
+  ) {
+    console.log(`Received message from ${client.id}:`, payload);
+  }
 
-  // @SubscribeMessage('findOneMessage')
-  // findOne(@MessageBody() id: number) {
-  //   return this.eventsService.findOne(id);
-  // }
+  sendMessageToUser(userID: string, message: Message) {
+    const socketID: string | undefined =
+      this.eventsService.getUserSocketId(userID);
+
+    if (socketID) {
+      this.server.to(socketID).emit('newMessage', message);
+    }
+  }
 
   // @SubscribeMessage('updateMessage')
   // update(@MessageBody() updateMessageDto: UpdateMessageDto) {
@@ -55,11 +76,6 @@ export class EventsGateway {
   // @SubscribeMessage('removeMessage')
   // remove(@MessageBody() id: number) {
   //   return this.eventsService.remove(id);
-  // }
-
-  // @SubscribeMessage('join')
-  // joinRoom() {
-  //   // Logic for joining a room can be implemented here
   // }
 
   // @SubscribeMessage('typing')
