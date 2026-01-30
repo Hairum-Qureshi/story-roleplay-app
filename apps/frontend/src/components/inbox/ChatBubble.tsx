@@ -1,17 +1,7 @@
 import reactStringReplace from "react-string-replace";
 import moment from "moment";
 import { FaEdit, FaTrash } from "react-icons/fa";
-
-interface ChatBubbleProps {
-	messageData: {
-		message: string;
-		you: boolean;
-		timestamp: string;
-	};
-	onEdit?: () => void;
-	onDelete?: () => void;
-	chatEnded: boolean;
-}
+import type { ChatBubbleProps } from "../../interfaces";
 
 export default function ChatBubble({
 	messageData,
