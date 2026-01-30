@@ -52,7 +52,11 @@ export class PdfService {
         size: 'LETTER',
         margins: { top: 60, bottom: 60, left: 60, right: 60 },
         bufferPages: true,
+        info: {
+          Title: `${conversationDoc.roleplayAd.title} Role-Play Transcript`,
+        },
       });
+
       const buffers: Buffer[] = [];
       doc.on('data', buffers.push.bind(buffers));
       doc.on('end', () => resolve(Buffer.concat(buffers)));
