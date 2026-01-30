@@ -6,17 +6,20 @@ import ChatBubble from "../components/inbox/ChatBubble";
 import useRolePlayChat from "../hooks/useRolePlayChat";
 import type { Conversation, Message } from "../interfaces";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import useSocketStore from "../store/useSocketStore";
 
 export default function Inbox() {
 	const [fullWidth, setFullWith] = useState(true);
 	const { chatID } = useParams();
+	const { endedConversationID } = useSocketStore();
 
 	const {
 		rolePlayChats,
 		sendMessage,
 		rolePlayChatMessages,
 		deleteMessage,
-		editMessage
+		editMessage,
+		endRolePlayConversation
 	} = useRolePlayChat(chatID || "");
 
 	const [noMessageOpened, setNoMessageOpened] = useState(chatID ? false : true);
@@ -41,6 +44,10 @@ export default function Inbox() {
 	}, [rolePlayChatMessages]);
 
 	// TODO - when a user selects a character, make sure a message/notification is shown in the chat that says "You have selected [character name] for this chat which, for the role-play partner would link to that specific character bio for them to view."
+
+	useEffect(() => {
+		setNoMessageOpened(chatID ? false : true);
+	}, [chatID]);
 
 	return (
 		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
@@ -78,7 +85,10 @@ export default function Inbox() {
 							>
 								{selectedChat?.title}
 							</h3>
-							<div className="m-2 bg-red-500 border border-red-600 rounded-md px-2 py-1 hover:cursor-pointer">
+							<div
+								className="m-2 bg-red-500 border border-red-600 rounded-md px-2 py-1 hover:cursor-pointer"
+								onClick={() => chatID && endRolePlayConversation(chatID)}
+							>
 								End Role-Play
 							</div>
 							<select className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer">
@@ -126,29 +136,40 @@ export default function Inbox() {
 								<div ref={bottomOfContainer} />
 							</div>
 							<div className="flex items-center w-full bg-slate-800 shadow-md px-4 py-2">
-								{selectedChat?.chatEnded ? (
-									<p className="text-red-500 italic">
-										This role-play has ended. You can no longer send messages in
-										this chat. To learn more, check out the FAQ.
-									</p>
+								{selectedChat?.chatEnded || endedConversationID ? (
+									<div className="text-center w-full py-1.5 border border-red-600 text-red-500 rounded-md">
+										<p>
+											This role-play has ended. You can no longer send messages
+											in this chat.
+										</p>
+										<p className="text-sm mt-1">
+											To learn more, check out the{" "}
+											<a href="/faq" className="underline hover:text-red-800">
+												FAQ
+											</a>
+											.
+										</p>
+									</div>
 								) : (
-									<textarea
-										className="flex-1 bg-transparent resize-none outline-none text-white placeholder-slate-400 h-14 p-2 focus:ring-0"
-										placeholder="Type your message..."
-										value={message}
-										onChange={e => setMessage(e.target.value)}
-									/>
-								)}
-								{selectedChat && (
-									<button
-										className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 transition-colors duration-200 rounded-md hover:cursor-pointer"
-										onClick={() => {
-											sendMessage(selectedChat?._id, message);
-											setMessage("");
-										}}
-									>
-										Send
-									</button>
+									<div className="flex items-center space-x-2 w-full">
+										<textarea
+											className="flex-1 bg-transparent w-full resize-none outline-none text-white placeholder-slate-400 h-14 p-2 focus:ring-0 rounded-md"
+											placeholder="Type your message..."
+											value={message}
+											onChange={e => setMessage(e.target.value)}
+										/>
+										{selectedChat && (
+											<button
+												className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 transition-colors duration-200 rounded-md"
+												onClick={() => {
+													sendMessage(selectedChat._id, message);
+													setMessage("");
+												}}
+											>
+												Send
+											</button>
+										)}
+									</div>
 								)}
 							</div>
 						</div>
@@ -186,7 +207,7 @@ export default function Inbox() {
 							className="m-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium rounded-md px-4 py-2 transition-colors duration-200 hover:cursor-pointer"
 							onClick={() => {
 								window.open(
-									`${import.meta.env.VITE_BACKEND_BASE_URL}/api/pdf/${selectedChat?._id}/role-play`,
+									`${import.meta.env.VITE_BACKEND_BASE_URL}/pdf/${selectedChat?._id}/role-play`,
 									"_blank"
 								);
 							}}
