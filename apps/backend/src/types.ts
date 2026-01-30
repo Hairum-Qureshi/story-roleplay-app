@@ -71,9 +71,38 @@ type AuthRequest = Request & {
   user?: UserPayload;
 };
 
+type HydratedConversation = {
+  _id: string;
+  participants: Array<{
+    _id: string;
+    username: string;
+    profilePicture?: string;
+  }>;
+  roleplayAd: RolePlayAd;
+  title: string;
+  messages: HydratedMessage[];
+  chatEnded: boolean;
+  characterBios?: Types.ObjectId[];
+  createdAt: Date;
+};
+
+type HydratedMessage = {
+  _id: Types.ObjectId | string;
+  sender: {
+    _id: Types.ObjectId | string;
+    username: string;
+    profilePicture?: string;
+  };
+  conversation: Types.ObjectId | string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
 type ConversationDocument = HydratedDocument<Conversation>;
 type MessageDocument = HydratedDocument<Message>;
+type HydratedConversationDocument = HydratedDocument<HydratedConversation>;
 
 export type {
   UserPayload,
@@ -86,4 +115,7 @@ export type {
   RolePlayAdDocument,
   ConversationDocument,
   MessageDocument,
+  HydratedConversation,
+  HydratedConversationDocument,
+  HydratedMessage,
 };
