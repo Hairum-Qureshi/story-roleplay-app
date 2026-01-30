@@ -6,8 +6,6 @@ import {
   Conversation,
   ConversationDocument,
 } from 'src/schemas/inbox/Conversation';
-import { User, UserDocument } from 'src/schemas/User';
-import { Message, MessageDocument } from 'src/schemas/inbox/Message';
 import type { HydratedConversation } from 'src/types';
 import PDFDocument from 'pdfkit';
 
@@ -16,10 +14,6 @@ export class PdfService {
   constructor(
     @InjectModel(Conversation.name)
     private readonly conversationModel: Model<ConversationDocument>,
-    @InjectModel(User.name)
-    private readonly userModel: Model<UserDocument>,
-    @InjectModel(Message.name)
-    private readonly messageModel: Model<MessageDocument>,
   ) {}
 
   async generatePDF(
