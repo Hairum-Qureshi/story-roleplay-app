@@ -86,10 +86,20 @@ export default function Inbox() {
 								{selectedChat?.title}
 							</h3>
 							<div
-								className="m-2 bg-red-500 border border-red-600 rounded-md px-2 py-1 hover:cursor-pointer"
-								onClick={() => chatID && endRolePlayConversation(chatID)}
+								className={`m-2 bg-red-500 border border-red-600 rounded-md px-2 py-1 ${
+									selectedChat?.chatEnded || endedConversationID
+										? "cursor-not-allowed opacity-50"
+										: "hover:bg-red-600 active:bg-red-700 hover:cursor-pointer"
+								}`}
+								onClick={() => {
+									if (!selectedChat?.chatEnded && !endedConversationID) {
+										endRolePlayConversation(selectedChat!._id);
+									}
+								}}
 							>
-								End Role-Play
+								{selectedChat?.chatEnded || endedConversationID
+									? "Ended"
+									: "End Role-Play"}
 							</div>
 							<select className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer">
 								<option value="" disabled selected>
