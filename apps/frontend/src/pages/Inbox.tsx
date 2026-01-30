@@ -18,7 +18,6 @@ export default function Inbox() {
 		sendMessage,
 		rolePlayChatMessages,
 		deleteMessage,
-		editMessage,
 		endRolePlayConversation
 	} = useRolePlayChat(chatID || "");
 
@@ -47,6 +46,8 @@ export default function Inbox() {
 
 	// TODO - fix issue where if fullWidth is false, and the side panel is open, the 'hide side panel' button is not aligned all the way to the right
 
+	// ! Bug - when you open a new conversation, it says that the chat has ended even if it hasn't. Needs to be fixed. A refreshes fixes this.
+
 	useEffect(() => {
 		setNoMessageOpened(chatID ? false : true);
 		setSelectedChat(
@@ -56,7 +57,7 @@ export default function Inbox() {
 
 	return (
 		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
-			<div className="w-1/4 h-[100vh - 4rem] space-y-3 overflow-y-scroll border-r border-slate-700">
+			<div className="w-1/4 h-[91vh] space-y-3 overflow-y-scroll border-r border-slate-700">
 				{rolePlayChats?.length > 0
 					? rolePlayChats.map((chat: Conversation) => (
 							<Link
@@ -121,7 +122,7 @@ export default function Inbox() {
 								{fullWidth ? "Show" : "Hide"} Side Panel
 							</button>
 						</div>
-						<div className="min-h-[85vh] relative">
+						<div className="relative">
 							<div className="overflow-y-scroll h-[75vh]">
 								{selectedChat && (
 									<div className="m-4">
@@ -143,9 +144,16 @@ export default function Inbox() {
 												you: message.sender._id === currUser?._id,
 												timestamp: message.createdAt
 											}}
-											onEdit={() => editMessage(message._id)}
-											onDelete={() => deleteMessage(message._id)}
-											chatEnded={selectedChat?.chatEnded || !!endedConversationID}
+											onDelete={() =>
+												selectedChat &&
+												deleteMessage(selectedChat?._id, message._id)
+											}
+											chatEnded={
+												selectedChat?.chatEnded || !!endedConversationID
+											}
+											isDeleted={message.isDeleted}
+											isEdited={message.isEdited || false}
+											messageID={message._id}
 										/>
 									)
 								)}
