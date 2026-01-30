@@ -33,7 +33,10 @@ export class ChatService {
     chatID: string,
     messageDto: CreateMessage,
     user: UserPayload,
-  ): Promise<MessageInterface> {
+  ): Promise<{
+    message: MessageInterface;
+    chatID: string;
+  }> {
     // first get the chat data by ID
     const conversation: ConversationDocument | null =
       await this.conversationModel.findById(chatID);
@@ -69,7 +72,10 @@ export class ChatService {
 
     this.eventsGateway.sendMessageToUser(otherParticipantID, message);
 
-    return message;
+    return {
+      message,
+      chatID: conversation._id,
+    };
   }
 
   async createConversation(
@@ -194,5 +200,22 @@ export class ChatService {
       })
       .sort({ createdAt: -1 })
       .exec();
+  }
+
+  async endConversation(chatID: string) {
+    const conversation: ConversationDocument | null =
+      await this.conversationModel.findById(chatID);
+
+    if (!conversation) {
+      throw new Error('Conversation not found');
+    }
+
+    // update the conversation's chatEnded field to true
+    await this.conversationModel.findByIdAndUpdate(conversation._id, {
+      chatEnded: true,
+    });
+
+    this.eventsGateway.endConversation(conversation._id);
+    return { message: 'Conversation ended successfully' };
   }
 }
