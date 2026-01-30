@@ -1,18 +1,7 @@
-import {
-  ConnectedSocket,
-  MessageBody,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
-} from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { Message, RolePlayAd } from 'src/types';
 import { EventsService } from './events.service';
-
-interface Payload {
-  message: string;
-  chatID: string;
-}
 
 @WebSocketGateway({
   cors: {
@@ -51,14 +40,6 @@ export class EventsGateway {
     this.server.emit('newRolePlayAd', ad);
   }
 
-  @SubscribeMessage('sendMessage')
-  handleMessage(
-    @MessageBody() payload: Payload,
-    @ConnectedSocket() client: Socket,
-  ) {
-    console.log(`Received message from ${client.id}:`, payload);
-  }
-
   sendMessageToUser(userID: string, message: Message) {
     const socketID: string | undefined =
       this.eventsService.getUserSocketId(userID);
@@ -66,6 +47,10 @@ export class EventsGateway {
     if (socketID) {
       this.server.to(socketID).emit('newMessage', message);
     }
+  }
+
+  endConversation(chatID: string) {
+    this.server.emit('conversationEnded', { chatID });
   }
 
   // @SubscribeMessage('updateMessage')
