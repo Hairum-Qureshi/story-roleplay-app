@@ -12,7 +12,11 @@ interface UseRolePlayChatHook {
 	sendMessage: (adID: string, message: string) => void;
 	rolePlayChatMessages: Message[];
 	deleteMessage: (chatID: string, messageID: string) => void;
-	editMessage: (chatID: string, messageID: string) => void;
+	editMessage: (
+		chatID: string,
+		messageID: string,
+		editedMessage: string
+	) => void;
 	endRolePlayConversation: (chatID: string) => void;
 }
 
@@ -120,12 +124,17 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 	}
 
 	useEffect(() => {
-		if (message && message.conversation === chatID) {
-			queryClient.setQueryData<Message[]>(
-				["chat-messages", chatID],
-				(oldMessages = []) => [...oldMessages, message]
-			);
-		}
+		if (!message || message.conversation !== chatID) return;
+
+		queryClient.setQueryData<Message[]>(
+			["chat-messages", chatID],
+			(oldMessages = []) => {
+				if (oldMessages.some(m => m._id === message._id)) {
+					return oldMessages;
+				}
+				return [...oldMessages, message];
+			}
+		);
 	}, [message, chatID]);
 
 	const { mutate: endChatMutation } = useMutation({
@@ -180,9 +189,44 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 		deleteMessageMutation({ chatID, messageID });
 	}
 
-	function editMessage(chatID: string, messageID: string) {
-		// TODO - implement edit message functionality
-		console.log("Edit message with ID:", messageID);
+	const { mutate: editMessageMutation } = useMutation({
+		mutationFn: async ({
+			chatID,
+			messageID,
+			editedMessage
+		}: {
+			chatID: string;
+			messageID: string;
+			editedMessage: string;
+		}) => {
+			try {
+				await axios.patch(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/${messageID}/edit-message`,
+					{
+						editedMessage
+					},
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["chat-messages", chatID]
+			});
+		}
+	});
+
+	function editMessage(
+		chatID: string,
+		messageID: string,
+		editedMessage: string
+	) {
+		if (!editedMessage.trim()) return alert("Edited message cannot be empty");
+		editMessageMutation({ chatID, messageID, editedMessage });
 	}
 
 	function endRolePlayConversation(chatID: string) {
