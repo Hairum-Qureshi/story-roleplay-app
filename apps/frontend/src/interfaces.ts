@@ -104,6 +104,17 @@ interface AdProps {
 	rolePlayAd: RolePlayAd;
 }
 
+interface ChatBubbleProps {
+	messageData: {
+		message: string;
+		you: boolean;
+		timestamp: string;
+	};
+	onEdit?: () => void;
+	onDelete?: () => void;
+	chatEnded: boolean;
+}
+
 export type {
 	FeatureColumnProps,
 	UseGoogleAuthHook,
@@ -114,5 +125,6 @@ export type {
 	PovType,
 	User,
 	SocketStore,
-	AdProps
+	AdProps,
+	ChatBubbleProps
 };
