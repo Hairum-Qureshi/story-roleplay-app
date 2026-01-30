@@ -45,6 +45,8 @@ export default function Inbox() {
 
 	// TODO - when a user selects a character, make sure a message/notification is shown in the chat that says "You have selected [character name] for this chat which, for the role-play partner would link to that specific character bio for them to view."
 
+	// TODO - fix issue where if fullWidth is false, and the side panel is open, the 'hide side panel' button is not aligned all the way to the right
+
 	useEffect(() => {
 		setNoMessageOpened(chatID ? false : true);
 		setSelectedChat(
@@ -118,7 +120,7 @@ export default function Inbox() {
 							>
 								{fullWidth ? "Show" : "Hide"} Side Panel
 							</button>
-						</div>{" "}
+						</div>
 						<div className="min-h-[85vh] relative">
 							<div className="overflow-y-scroll h-[75vh]">
 								{selectedChat && (
@@ -143,6 +145,7 @@ export default function Inbox() {
 											}}
 											onEdit={() => editMessage(message._id)}
 											onDelete={() => deleteMessage(message._id)}
+											chatEnded={selectedChat?.chatEnded || !!endedConversationID}
 										/>
 									)
 								)}
