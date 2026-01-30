@@ -110,11 +110,11 @@ interface ChatBubbleProps {
 		you: boolean;
 		timestamp: string;
 	};
-	onEdit?: () => void;
 	onDelete?: () => void;
 	chatEnded: boolean;
 	isDeleted: boolean;
 	isEdited: boolean;
+	messageID: string;
 }
 
 export type {
