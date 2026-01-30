@@ -5,7 +5,11 @@ import { CharacterBio, CharacterBioDocument } from 'src/schemas/CharacterBio';
 import { RolePlayAd, RolePlayAdDocument } from 'src/schemas/RolePlayAd';
 import { User, UserDocument } from 'src/schemas/User';
 import * as admin from 'firebase-admin';
-import { Conversation } from 'src/schemas/inbox/Conversation';
+import {
+  Conversation,
+  ConversationDocument,
+} from 'src/schemas/inbox/Conversation';
+import type { Conversation as ConversationInterface } from 'src/types';
 
 @Injectable()
 export class UserService {
@@ -17,7 +21,7 @@ export class UserService {
     private rolePlayAdModel: Model<RolePlayAdDocument>,
     @Inject('FIREBASE_ADMIN') private firebase: admin.app.App,
     @InjectModel(Conversation.name)
-    private conversationModel: Model<Conversation>,
+    private conversationModel: Model<ConversationDocument>,
   ) {}
 
   async deleteUserById(userId: string) {
@@ -36,15 +40,16 @@ export class UserService {
     await this.firebase.auth().deleteUser(userId);
 
     // first need to check if any of the user's character bios are attached to ongoing conversations
-    const conversationsWithUserBios = await this.conversationModel.find({
-      characterBios: {
-        $in: await this.characterBioModel.find({ author: userId }),
-      },
-    });
+    const conversationsWithUserBios: ConversationDocument[] =
+      await this.conversationModel.find({
+        characterBios: {
+          $in: await this.characterBioModel.find({ author: userId }),
+        },
+      });
 
     if (conversationsWithUserBios.length > 0) {
       const biosInUse = conversationsWithUserBios.flatMap(
-        (conversation) => conversation.characterBios,
+        (conversation: Conversation) => conversation.characterBios,
       );
 
       await this.characterBioModel.updateMany(
@@ -58,15 +63,17 @@ export class UserService {
 
     // second need to check if any of the user's ads are attached to ongoing conversations
     // if so, set isDeleted to true for those ads
-    const conversationsWithUserAds = await this.conversationModel.find({
-      roleplayAd: {
-        $in: await this.rolePlayAdModel.find({ author: userId }),
-      },
-    });
+    const conversationsWithUserAds: ConversationDocument[] =
+      await this.conversationModel.find({
+        roleplayAd: {
+          $in: await this.rolePlayAdModel.find({ author: userId }),
+        },
+      });
 
     if (conversationsWithUserAds.length > 0) {
       const adsInUse = conversationsWithUserAds.map(
-        (conversation) => conversation.roleplayAd,
+        (conversation) =>
+          (conversation as unknown as ConversationInterface).roleplayAd,
       );
 
       await this.rolePlayAdModel.updateMany(
