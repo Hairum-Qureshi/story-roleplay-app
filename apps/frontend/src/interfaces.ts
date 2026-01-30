@@ -67,6 +67,8 @@ interface Message {
 	};
 	conversation: string;
 	content: string;
+	isEdited: boolean;
+	isDeleted: boolean;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -94,6 +96,7 @@ interface SocketStore {
 	disconnectSocket: () => void;
 	rolePlayAd: RolePlayAd | null;
 	message: Message | null;
+	endedConversationID: string | null;
 }
 
 interface AdProps {
