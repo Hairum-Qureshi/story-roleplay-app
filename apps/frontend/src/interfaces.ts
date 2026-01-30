@@ -113,6 +113,8 @@ interface ChatBubbleProps {
 	onEdit?: () => void;
 	onDelete?: () => void;
 	chatEnded: boolean;
+	isDeleted: boolean;
+	isEdited: boolean;
 }
 
 export type {
