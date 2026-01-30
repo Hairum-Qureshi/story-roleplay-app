@@ -10,12 +10,14 @@ interface ChatBubbleProps {
 	};
 	onEdit?: () => void;
 	onDelete?: () => void;
+	chatEnded: boolean;
 }
 
 export default function ChatBubble({
 	messageData,
 	onEdit,
-	onDelete
+	onDelete,
+	chatEnded
 }: ChatBubbleProps) {
 	const { message, you, timestamp } = messageData;
 
@@ -65,7 +67,7 @@ export default function ChatBubble({
 
 				{/* Footer row */}
 				<div className="mt-1 flex items-center justify-end gap-2 text-xs text-gray-400">
-					{you && (onEdit || onDelete) && (
+					{!chatEnded && you && (onEdit || onDelete) && (
 						<div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
 							{onEdit && (
 								<button
