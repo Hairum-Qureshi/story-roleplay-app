@@ -14,6 +14,7 @@ import type { Message as MessageInterface } from 'src/types';
 import { CreateMessage } from 'src/DTOs/CreateMessage.dto';
 import type { MessageDocument } from 'src/types';
 import { EventsGateway } from 'src/events/events.gateway';
+import { EditMessage } from 'src/DTOs/EditMessage.dto';
 
 @Injectable()
 export class ChatService {
@@ -217,5 +218,43 @@ export class ChatService {
 
     this.eventsGateway.endConversation(conversation._id);
     return { message: 'Conversation ended successfully' };
+  }
+
+  async editMessage(
+    chatID: string,
+    messageID: string,
+    messageDto: EditMessage,
+  ) {
+    const conversation: ConversationDocument | null =
+      await this.conversationModel.findById(chatID);
+
+    if (!conversation) {
+      throw new Error('Conversation not found');
+    }
+
+    // update the message content
+    await this.messageModel.findByIdAndUpdate(messageID, {
+      content: messageDto.editedMessage,
+      isEdited: true,
+    });
+
+    return { message: 'Message edited successfully' };
+  }
+
+  async deleteMessage(chatID: string, messageID: string) {
+    const conversation: ConversationDocument | null =
+      await this.conversationModel.findById(chatID);
+
+    if (!conversation) {
+      throw new Error('Conversation not found');
+    }
+
+    // find the exact message and update it so it says 'This message has been deleted'. also set 'isDeleted' to true
+    await this.messageModel.findByIdAndUpdate(messageID, {
+      content: 'This message has been deleted.',
+      isDeleted: true,
+    });
+
+    return { message: 'Message deleted successfully' };
   }
 }
