@@ -11,6 +11,7 @@ import {
   Conversation,
   ConversationDocument,
 } from 'src/schemas/inbox/Conversation';
+import type { Conversation as ConversationInterface } from 'src/types';
 
 @Injectable()
 export class IsChatMember implements CanActivate {
@@ -30,7 +31,7 @@ export class IsChatMember implements CanActivate {
       throw new NotFoundException('Conversation not found');
     }
 
-    const isMember = conversation.participants.some(
+    const isMember = (conversation as ConversationInterface).participants.some(
       (participantId) => participantId.toString() === user._id,
     );
 
