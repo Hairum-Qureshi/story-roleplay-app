@@ -4,14 +4,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/decorators/currentUser.decorator';
 import type { UserPayload } from 'src/types';
 import { PdfService } from './pdf.service';
+import { IsChatMember } from 'src/guards/IsChatMember.guard';
 
 @Controller('api/pdf')
 export class PdfController {
   constructor(private pdfService: PdfService) {}
 
-  // TODO - may need to create a guard checking if the user is in the chat
   @Post('generate/:chatID')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), IsChatMember)
   generatePdf(
     @Param('chatID') chatID: string,
     @CurrentUser() user: UserPayload,
@@ -20,12 +20,12 @@ export class PdfController {
   }
 
   @Get('/:chatID/role-play')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), IsChatMember)
   async getPDF(
     @Param('chatID') chatID: string,
     @Res() res: Response,
     @CurrentUser() user: UserPayload,
-  ): Promise<void> {
+  ) {
     const { buffer, rolePlayTitle } = await this.pdfService.generatePDF(
       chatID,
       user,
@@ -38,5 +38,7 @@ export class PdfController {
     });
 
     res.end(buffer);
+
+    return `${process.env.BACKEND_URL}/api/pdf/${chatID}/role-play`;
   }
 }
