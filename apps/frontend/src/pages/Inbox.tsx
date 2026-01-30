@@ -14,7 +14,8 @@ export default function Inbox() {
 	const { rolePlayChats, sendMessage, rolePlayChatMessages } = useRolePlayChat(
 		chatID || ""
 	);
-	const [noMessageOpened, setNoMessageOpened] = useState(true);
+	
+	const [noMessageOpened, setNoMessageOpened] = useState(chatID ? false : true);
 	const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
 	const { data: currUser } = useCurrentUser();
 	const [message, setMessage] = useState("");
@@ -168,7 +169,15 @@ export default function Inbox() {
 							the PDF is for personal use and cannot be redistributed
 							commercially due to copyright.
 						</p>
-						<button className="m-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium rounded-md px-4 py-2 transition-colors duration-200 hover:cursor-pointer">
+						<button
+							className="m-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium rounded-md px-4 py-2 transition-colors duration-200 hover:cursor-pointer"
+							onClick={() => {
+								window.open(
+									`${import.meta.env.VITE_BACKEND_BASE_URL}/api/pdf/${selectedChat?._id}/role-play`,
+									"_blank"
+								);
+							}}
+						>
 							Download Conversation History
 						</button>
 					</div>
