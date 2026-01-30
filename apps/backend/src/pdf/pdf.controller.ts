@@ -6,7 +6,7 @@ import type { UserPayload } from 'src/types';
 import { PdfService } from './pdf.service';
 import { IsChatMember } from 'src/guards/IsChatMember.guard';
 
-@Controller('api/pdf')
+@Controller('pdf')
 export class PdfController {
   constructor(private pdfService: PdfService) {}
 
