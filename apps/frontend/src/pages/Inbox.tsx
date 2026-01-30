@@ -47,7 +47,10 @@ export default function Inbox() {
 
 	useEffect(() => {
 		setNoMessageOpened(chatID ? false : true);
-	}, [chatID]);
+		setSelectedChat(
+			rolePlayChats?.find((chat: Conversation) => chat._id === chatID) || null
+		);
+	}, [chatID, rolePlayChats]);
 
 	return (
 		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
