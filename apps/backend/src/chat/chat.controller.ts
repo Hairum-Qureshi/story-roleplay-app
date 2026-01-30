@@ -55,7 +55,7 @@ export class ChatController {
   }
 
   @Patch(':chatID/end-conversation')
-  @UseGuards(AuthGuard(), IsChatMember, IsMessageOwner)
+  @UseGuards(AuthGuard(), IsChatMember)
   endConversation(@Param('chatID') chatID: string) {
     return this.chatService.endConversation(chatID);
   }
@@ -71,7 +71,7 @@ export class ChatController {
   }
 
   @Patch(':chatID/:messageID/delete-message')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), IsChatMember, IsMessageOwner)
   deleteMessage(
     @Param('chatID') chatID: string,
     @Param('messageID') messageID: string,
