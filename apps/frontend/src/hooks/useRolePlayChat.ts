@@ -11,6 +11,9 @@ interface UseRolePlayChatHook {
 	rolePlayChats: Conversation[];
 	sendMessage: (adID: string, message: string) => void;
 	rolePlayChatMessages: Message[];
+	deleteMessage: (chatID: string, messageID: string) => void;
+	editMessage: (chatID: string, messageID: string) => void;
+	endRolePlayConversation: (chatID: string) => void;
 }
 
 export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
@@ -18,7 +21,11 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 	const { message } = useSocketStore();
 	const navigate = useNavigate();
 
-	const { mutate } = useMutation<AxiosResponse<{ conversation: Conversation }>, unknown, { adID: string }>({
+	const { mutate } = useMutation<
+		AxiosResponse<{ conversation: Conversation }>,
+		unknown,
+		{ adID: string }
+	>({
 		mutationFn: async ({ adID }: { adID: string }) => {
 			try {
 				const response = await axios.post<{ conversation: Conversation }>(
@@ -34,7 +41,7 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 				throw error;
 			}
 		},
-		onSuccess: (data) => {
+		onSuccess: data => {
 			navigate(`/inbox/${data.data.conversation._id}`);
 		}
 	});
@@ -121,10 +128,79 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 		}
 	}, [message, chatID]);
 
+	const { mutate: endChatMutation } = useMutation({
+		mutationFn: async ({ chatID }: { chatID: string }) => {
+			try {
+				await axios.patch(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/end-conversation`,
+					{},
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	});
+
+	const { mutate: deleteMessageMutation } = useMutation({
+		mutationFn: async ({
+			chatID,
+			messageID
+		}: {
+			chatID: string;
+			messageID: string;
+		}) => {
+			try {
+				await axios.patch(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/${messageID}/delete-message`,
+					{},
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["chat-messages", chatID]
+			});
+		}
+	});
+
+	function deleteMessage(chatID: string, messageID: string) {
+		const confirmation = confirm(
+			"Are you sure you want to delete this message?"
+		);
+		if (!confirmation) return;
+
+		deleteMessageMutation({ chatID, messageID });
+	}
+
+	function editMessage(chatID: string, messageID: string) {
+		// TODO - implement edit message functionality
+		console.log("Edit message with ID:", messageID);
+	}
+
+	function endRolePlayConversation(chatID: string) {
+		const confirmation = confirm(
+			"WARNING! Are you sure you want to end this role-play chat? This action cannot be undone and will end the chat for both you and your partner!"
+		);
+
+		if (!confirmation) return;
+		endChatMutation({ chatID });
+	}
+
 	return {
 		createConversation,
 		rolePlayChats,
 		sendMessage,
-		rolePlayChatMessages
+		rolePlayChatMessages,
+		deleteMessage,
+		editMessage,
+		endRolePlayConversation
 	};
 }
