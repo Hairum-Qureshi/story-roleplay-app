@@ -151,23 +151,30 @@ export class PdfService {
       doc.moveDown();
 
       const allMessages = conversationDoc.messages;
-
-      for (const msg of allMessages) {
-        const speaker = msg.sender?.username ?? 'Unknown';
-
-        doc
-          .fontSize(11)
-          .font('Helvetica-Bold')
-          .fillColor('#1a73e8')
-          .text(speaker);
-
+      if (!allMessages) {
         doc
           .fontSize(11)
           .font('Helvetica')
           .fillColor('#000000')
-          .text(msg.content, { indent: 12, lineGap: 4 });
+          .text('No messages found in this conversation.', { lineGap: 4 });
+      } else {
+        for (const msg of allMessages) {
+          const speaker = msg.sender?.username ?? 'Unknown';
 
-        doc.moveDown(1);
+          doc
+            .fontSize(11)
+            .font('Helvetica-Bold')
+            .fillColor('#1a73e8')
+            .text(speaker);
+
+          doc
+            .fontSize(11)
+            .font('Helvetica')
+            .fillColor('#000000')
+            .text(msg.content, { indent: 12, lineGap: 4 });
+
+          doc.moveDown(1);
+        }
       }
 
       doc
