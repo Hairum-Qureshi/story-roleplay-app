@@ -50,6 +50,8 @@ type Message = {
   sender: Types.ObjectId | string;
   conversation: Types.ObjectId | string;
   content: string;
+  isEdited: boolean;
+  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
