@@ -12,6 +12,12 @@ export class Message {
   @Prop({ type: String, required: true })
   content: string;
 
+  @Prop({ type: Boolean, default: false })
+  isEdited: boolean;
+
+  @Prop({ type: Boolean, default: false })
+  isDeleted: boolean;
+
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
 
