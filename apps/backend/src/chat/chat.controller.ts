@@ -14,6 +14,7 @@ import { ChatService } from './chat.service';
 import { CreateMessage } from 'src/DTOs/CreateMessage.dto';
 import { IsChatMember } from 'src/guards/IsChatMember.guard';
 import { EditMessage } from 'src/DTOs/EditMessage.dto';
+import { IsMessageOwner } from 'src/guards/IsMessageOwner.guard';
 
 @Controller('api/chat')
 export class ChatController {
@@ -39,7 +40,7 @@ export class ChatController {
   }
 
   @Get(':chatID/all-messages')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), IsChatMember)
   getAllMessagesInConversation(
     @Param('chatID') chatID: string,
     @CurrentUser() user: UserPayload,
@@ -54,13 +55,13 @@ export class ChatController {
   }
 
   @Patch(':chatID/end-conversation')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), IsChatMember, IsMessageOwner)
   endConversation(@Param('chatID') chatID: string) {
     return this.chatService.endConversation(chatID);
   }
 
   @Patch(':chatID/:messageID/edit-message')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), IsChatMember, IsMessageOwner)
   editMessage(
     @Param('chatID') chatID: string,
     @Param('messageID') messageID: string,
