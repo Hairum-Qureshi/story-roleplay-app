@@ -11,10 +11,14 @@ export default function Inbox() {
 	const [fullWidth, setFullWith] = useState(true);
 	const { chatID } = useParams();
 
-	const { rolePlayChats, sendMessage, rolePlayChatMessages } = useRolePlayChat(
-		chatID || ""
-	);
-	
+	const {
+		rolePlayChats,
+		sendMessage,
+		rolePlayChatMessages,
+		deleteMessage,
+		editMessage
+	} = useRolePlayChat(chatID || "");
+
 	const [noMessageOpened, setNoMessageOpened] = useState(chatID ? false : true);
 	const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
 	const { data: currUser } = useCurrentUser();
@@ -114,18 +118,27 @@ export default function Inbox() {
 												you: message.sender._id === currUser?._id,
 												timestamp: message.createdAt
 											}}
+											onEdit={() => editMessage(message._id)}
+											onDelete={() => deleteMessage(message._id)}
 										/>
 									)
 								)}
 								<div ref={bottomOfContainer} />
 							</div>
 							<div className="flex items-center w-full bg-slate-800 shadow-md px-4 py-2">
-								<textarea
-									className="flex-1 bg-transparent resize-none outline-none text-white placeholder-slate-400 h-14 p-2 focus:ring-0"
-									placeholder="Type your message..."
-									value={message}
-									onChange={e => setMessage(e.target.value)}
-								></textarea>
+								{selectedChat?.chatEnded ? (
+									<p className="text-red-500 italic">
+										This role-play has ended. You can no longer send messages in
+										this chat. To learn more, check out the FAQ.
+									</p>
+								) : (
+									<textarea
+										className="flex-1 bg-transparent resize-none outline-none text-white placeholder-slate-400 h-14 p-2 focus:ring-0"
+										placeholder="Type your message..."
+										value={message}
+										onChange={e => setMessage(e.target.value)}
+									/>
+								)}
 								{selectedChat && (
 									<button
 										className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 transition-colors duration-200 rounded-md hover:cursor-pointer"
