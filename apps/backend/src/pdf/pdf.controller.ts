@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from 'src/decorators/currentUser.decorator';
@@ -9,15 +9,6 @@ import { IsChatMember } from 'src/guards/IsChatMember.guard';
 @Controller('api/pdf')
 export class PdfController {
   constructor(private pdfService: PdfService) {}
-
-  @Post('generate/:chatID')
-  @UseGuards(AuthGuard(), IsChatMember)
-  generatePdf(
-    @Param('chatID') chatID: string,
-    @CurrentUser() user: UserPayload,
-  ) {
-    return this.pdfService.generatePDF(chatID, user);
-  }
 
   @Get('/:chatID/role-play')
   @UseGuards(AuthGuard(), IsChatMember)
@@ -38,7 +29,5 @@ export class PdfController {
     });
 
     res.end(buffer);
-
-    return `${process.env.BACKEND_URL}/api/pdf/${chatID}/role-play`;
   }
 }
