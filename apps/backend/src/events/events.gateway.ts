@@ -2,6 +2,7 @@ import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { Message, RolePlayAd } from 'src/types';
 import { EventsService } from './events.service';
+import { Types } from 'mongoose';
 
 @WebSocketGateway({
   cors: {
@@ -49,7 +50,7 @@ export class EventsGateway {
     }
   }
 
-  endConversation(chatID: string) {
+  endConversation(chatID: Types.ObjectId) {
     this.server.emit('conversationEnded', { chatID });
   }
 
