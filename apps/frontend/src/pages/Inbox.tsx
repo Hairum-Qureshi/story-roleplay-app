@@ -9,9 +9,9 @@ import { useCurrentUser } from "../hooks/useCurrentUser";
 import useSocketStore from "../store/useSocketStore";
 
 export default function Inbox() {
-	const [fullWidth, setFullWith] = useState(true);
 	const { chatID } = useParams();
 	const { endedConversationID } = useSocketStore();
+	const [fullWidth, setFullWidth] = useState(!chatID ? true : false);
 
 	const {
 		rolePlayChats,
@@ -22,7 +22,7 @@ export default function Inbox() {
 		currUserConversations
 	} = useRolePlayChat(chatID || "");
 
-	const [noMessageOpened, setNoMessageOpened] = useState(chatID ? false : true);
+	const [noMessageOpened, setNoMessageOpened] = useState(false);
 	const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
 	const { data: currUser } = useCurrentUser();
 	const [message, setMessage] = useState("");
@@ -55,6 +55,13 @@ export default function Inbox() {
 			rolePlayChats?.find((chat: Conversation) => chat._id === chatID) || null
 		);
 	}, [chatID, rolePlayChats]);
+
+	useEffect(() => {
+		if (!chatID) {
+			setFullWidth(true);
+		}
+		
+	}, [chatID]);
 
 	return (
 		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
@@ -122,7 +129,7 @@ export default function Inbox() {
 								<option value="character3">Character 3</option>
 							</select>
 							<button
-								onClick={() => setFullWith(!fullWidth)}
+								onClick={() => setFullWidth(!fullWidth)}
 								className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer justify-end"
 							>
 								{fullWidth ? "Show" : "Hide"} Side Panel
