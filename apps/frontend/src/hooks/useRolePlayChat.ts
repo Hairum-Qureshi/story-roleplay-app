@@ -18,6 +18,8 @@ interface UseRolePlayChatHook {
 		editedMessage: string
 	) => void;
 	endRolePlayConversation: (chatID: string) => void;
+	removeChatFromList: (chatID: string) => void;
+	currUserConversations: { _id: string; conversations: Conversation[] };
 }
 
 export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
@@ -97,11 +99,28 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 	});
 
 	const { data: rolePlayChats } = useQuery({
-		queryKey: ["chats"],
+		queryKey: ["roleplay-chats-data"],
 		queryFn: async () => {
 			try {
 				const response = await axios.get(
-					`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/all`,
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/all-data`,
+					{
+						withCredentials: true
+					}
+				);
+				return response.data;
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	});
+
+	const { data: currUserConversations } = useQuery({
+		queryKey: ["your-chats"],
+		queryFn: async () => {
+			try {
+				const response = await axios.get(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/all/user-chats`,
 					{
 						withCredentials: true
 					}
@@ -238,6 +257,35 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 		endChatMutation({ chatID });
 	}
 
+	const { mutate: removeChatFromListMutation } = useMutation({
+		mutationFn: async ({ chatID }: { chatID: string }) => {
+			try {
+				await axios.patch(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/remove-from-list`,
+					{},
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["your-chats"] });
+		}
+	});
+
+	function removeChatFromList(chatID: string) {
+		const confirmation = confirm(
+			"Are you sure you want to remove this chat from your inbox? You can still access it if your partner sends a new message"
+		);
+		// TODO - see what happens when you hit the button on the roleplay ad you removed the chat for
+		if (!confirmation) return;
+
+		removeChatFromListMutation({ chatID });
+	}
+
 	return {
 		createConversation,
 		rolePlayChats,
@@ -245,6 +293,8 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 		rolePlayChatMessages,
 		deleteMessage,
 		editMessage,
-		endRolePlayConversation
+		endRolePlayConversation,
+		removeChatFromList,
+		currUserConversations
 	};
 }
