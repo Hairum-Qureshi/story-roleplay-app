@@ -35,12 +35,13 @@ type RolePlayAd = {
 };
 
 type Conversation = {
-  _id: string;
+  _id: Types.ObjectId;
   participants: string[];
   roleplayAd: Types.ObjectId;
   title: string;
   messages: Types.ObjectId[];
   chatEnded: boolean;
+  hiddenFor: string[];
   characterBios?: Types.ObjectId[];
   createdAt: Date;
 };
