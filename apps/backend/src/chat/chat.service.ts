@@ -288,6 +288,17 @@ export class ChatService {
       isEdited: true,
     });
 
+    // only update the latest message if the most recent message is being edited and not an old message
+    const latestMessage: MessageDocument | null = await this.messageModel
+      .findOne({ conversation: conversation._id })
+      .sort({ createdAt: -1 })
+      .exec();
+
+    if (latestMessage && latestMessage._id.toString() !== messageID) {
+      return { message: 'Message edited successfully' };
+    }
+
+    // update the conversation's latestMessage field
     conversation.latestMessage = messageDto.editedMessage;
     conversation.latestMessageAt = new Date();
     await conversation.save();
