@@ -1,7 +1,13 @@
+import { HashLink } from "react-router-hash-link";
+
 export default function FAQ() {
 	const faqSections = [
 		{
-			title: "General",
+			title: (
+				<HashLink smooth to="#general-questions">
+					General Questions
+				</HashLink>
+			),
 			items: [
 				{
 					question: "What is a story role-play?",
@@ -21,7 +27,11 @@ export default function FAQ() {
 			]
 		},
 		{
-			title: "Role-Play Management",
+			title: (
+				<HashLink smooth to="#role-play-management">
+					Role-Play Management
+				</HashLink>
+			),
 			items: [
 				{
 					question: "How do I create a role-play ad?",
@@ -51,7 +61,11 @@ export default function FAQ() {
 			]
 		},
 		{
-			title: "Character Bios",
+			title: (
+				<HashLink smooth to="#character-bios">
+					Character Bios
+				</HashLink>
+			),
 			items: [
 				{
 					question: "How do I create a character bio?",
@@ -66,7 +80,11 @@ export default function FAQ() {
 			]
 		},
 		{
-			title: "Ads & Partners",
+			title: (
+				<HashLink smooth to="#ads">
+					Ads
+				</HashLink>
+			),
 			items: [
 				{
 					question: "How long do my role-play ads last on the site?",
@@ -93,7 +111,11 @@ export default function FAQ() {
 			]
 		},
 		{
-			title: "Messaging",
+			title: (
+				<HashLink smooth to="#messaging">
+					Messaging
+				</HashLink>
+			),
 			items: [
 				{
 					question: "Do messages support markdown?",
@@ -153,7 +175,10 @@ export default function FAQ() {
 				<div className="space-y-12">
 					{faqSections.map(section => (
 						<div key={section.title}>
-							<h2 className="text-3xl font-bold mb-4 text-yellow-400">
+							<h2
+								className="text-3xl font-bold mb-4 text-yellow-400"
+								id={section.title.props.to.substring(1)}
+							>
 								{section.title}
 							</h2>
 							<div className="space-y-8">
