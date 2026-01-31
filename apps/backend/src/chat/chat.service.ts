@@ -16,7 +16,6 @@ import type { MessageDocument } from 'src/types';
 import { EventsGateway } from 'src/events/events.gateway';
 import { EditMessage } from 'src/DTOs/EditMessage.dto';
 import { Types } from 'mongoose';
-import mongoose from 'mongoose';
 
 @Injectable()
 export class ChatService {
