@@ -48,10 +48,16 @@ export class ChatController {
     return this.chatService.getAllMessagesInConversation(chatID, user);
   }
 
-  @Get('all')
+  @Get('all-data')
   @UseGuards(AuthGuard())
-  getAllConversations(@CurrentUser() user: UserPayload) {
-    return this.chatService.getAllConversations(user);
+  getAllConversationsData(@CurrentUser() user: UserPayload) {
+    return this.chatService.getAllConversationsData(user);
+  }
+
+  @Get('all/user-chats')
+  @UseGuards(AuthGuard())
+  getAllUserChats(@CurrentUser() user: UserPayload) {
+    return this.chatService.getAllUserChats(user);
   }
 
   @Patch(':chatID/end-conversation')
@@ -77,5 +83,14 @@ export class ChatController {
     @Param('messageID') messageID: string,
   ) {
     return this.chatService.deleteMessage(chatID, messageID);
+  }
+
+  @Patch(':chatID/remove-from-list')
+  @UseGuards(AuthGuard(), IsChatMember)
+  removeChatFromList(
+    @Param('chatID') chatID: string,
+    @CurrentUser() user: UserPayload,
+  ) {
+    return this.chatService.removeChatFromList(chatID, user);
   }
 }
