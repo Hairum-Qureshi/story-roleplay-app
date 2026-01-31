@@ -4,7 +4,6 @@ import { HashLink } from "react-router-hash-link";
 export default function FAQ() {
 	const sectionRef = useRef<HTMLDivElement>(null);
 
-	// automatically scroll the user down to the anchor FAQ section if it's in the URL
 	useEffect(() => {
 		const hash = window.location.hash;
 		if (hash) {
@@ -32,6 +31,20 @@ export default function FAQ() {
 					question: "Can I have group role-plays with more than 2 people?",
 					answer:
 						"At this time, the platform only supports one-on-one role-plays. Group role-plays with more than 2 participants are not currently available."
+				}
+			]
+		},
+		{
+			title: (
+				<HashLink smooth to="#account-related">
+					Account Related
+				</HashLink>
+			),
+			items: [
+				{
+					question: "Are profiles public?",
+					answer:
+						"At this time, profiles are not currently public. This may change in the future."
 				},
 				{
 					question: "Can I change my username or profile picture?",
