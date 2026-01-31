@@ -16,6 +16,7 @@ import type { MessageDocument } from 'src/types';
 import { EventsGateway } from 'src/events/events.gateway';
 import { EditMessage } from 'src/DTOs/EditMessage.dto';
 import { Types } from 'mongoose';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class ChatService {
@@ -37,6 +38,10 @@ export class ChatService {
   ) {
     await this.userModel.findByIdAndUpdate(userID, {
       $addToSet: { conversations: chatID },
+    });
+
+    await this.conversationModel.findByIdAndUpdate(chatID, {
+      $pull: { hiddenFor: userID },
     });
   }
 
@@ -81,11 +86,13 @@ export class ChatService {
       (participantID) => participantID !== user._id,
     ) as string;
 
-    if (
-      user.conversations.some((conversation) => conversation._id.equals(chatID))
-    ) {
-      // re-add the conversation to the user's list of conversations if it doesn't exist
-      await this.reAddConversationToUserList(conversation._id, user._id);
+    // re-add the conversation to the other participant's list of conversations if it doesn't exist but need to first check if they have it
+
+    if (conversation.hiddenFor.length > 0) {
+      // if the conversation is hidden for any users, we need to re-add it to their list
+      for (const hiddenUserID of conversation.hiddenFor) {
+        await this.reAddConversationToUserList(conversation._id, hiddenUserID);
+      }
     }
 
     this.eventsGateway.sendMessageToUser(otherParticipantID, message);
@@ -123,6 +130,15 @@ export class ChatService {
 
     if (existingConversation) {
       // if they do, return the existing conversation
+
+      if (existingConversation.hiddenFor.includes(user._id)) {
+        // if the existing conversation is hidden for the user, re-add it to their list
+        await this.reAddConversationToUserList(
+          existingConversation._id,
+          user._id,
+        );
+      }
+
       return { conversation: existingConversation, rolePlayAd: ad };
     }
 
@@ -227,14 +243,6 @@ export class ChatService {
       .populate({
         path: 'conversations',
         select: '-__v',
-        populate: {
-          path: 'messages',
-          select: '-__v',
-          populate: {
-            path: 'sender',
-            select: 'username profilePicture',
-          },
-        },
       })
       .lean();
 
@@ -296,70 +304,37 @@ export class ChatService {
     return { message: 'Message deleted successfully' };
   }
 
-  async deleteConversationHistory(chatID: string) {
-    const conversation: ConversationDocument | null =
-      await this.conversationModel.findById(chatID);
-
-    if (!conversation) {
-      throw new Error('Conversation not found');
-    }
-
+  async deleteConversationHistory(chatID: Types.ObjectId) {
     // delete all messages associated with this conversation
-    await this.messageModel.deleteMany({ conversation: conversation._id });
+    await this.messageModel.deleteMany({ conversation: chatID });
 
     // delete the conversation itself
-    await this.conversationModel.findByIdAndDelete(conversation._id);
+    await this.conversationModel.findByIdAndDelete(chatID);
 
     return { message: 'Conversation history deleted successfully' };
   }
 
   async removeChatFromList(chatID: string, user: UserPayload) {
-    // the idea is, if the user deletes the chat (but the chat hasn't ended), the chat ID will be removed from their array of conversations. When their partner sends them a message, the conversation will be re-added to their array of conversations and hence it'll appear in their list of conversations again.
-    const conversationDoc = await this.conversationModel
-      .findById(chatID)
-      .populate({
-        path: 'participants',
-        select: 'username profilePicture',
-      });
+    const conversation = await this.conversationModel.findByIdAndUpdate(
+      chatID,
+      { $addToSet: { hiddenFor: user._id } },
+      { new: true }, 
+    );
 
-    if (!conversationDoc) {
+    if (!conversation) {
       throw new Error('Conversation not found');
     }
 
-    const participants: {
-      _id: string;
-      username: string;
-      profilePicture: string;
-    }[] = conversationDoc.participants as unknown as {
-      _id: string;
-      username: string;
-      profilePicture: string;
-    }[];
+    // remove convo from user's list
+    await this.userModel.findByIdAndUpdate(user._id, {
+      $pull: { conversations: conversation._id },
+    });
 
-    // first, we need to check if both users no longer have this conversation ID in their list of conversations AND that the conversation object's participants array includes both users' UIDs. If so, we delete the conversation entirely (including its messages). If not, we just remove the chat ID from the user's list of conversations.
-    const user1 = await this.userModel.findById(participants[0]._id);
-    const user2 = await this.userModel.findById(participants[1]._id);
-
-    const user1HasChat = user1?.conversations.some((convID) =>
-      convID.equals(conversationDoc._id),
-    );
-    const user2HasChat = user2?.conversations.some((convID) =>
-      convID.equals(conversationDoc._id),
-    );
-
-    if (!user1HasChat && !user2HasChat) {
-      // both users have removed the conversation from their list, so delete the conversation entirely
-      await this.deleteConversationHistory(conversationDoc._id.toString());
-      return {
-        message:
-          'Conversation removed from list and deleted successfully as both users had removed it.',
-      };
-    } else {
-      // just remove the chat ID from the user's list of conversations
-      await this.userModel.findByIdAndUpdate(user._id, {
-        $pull: { conversations: conversationDoc._id },
-      });
-      return { message: 'Conversation removed from list successfully' };
+    if (conversation.hiddenFor.length === conversation.participants.length) {
+      await this.deleteConversationHistory(conversation._id);
+      return { message: 'Conversation deleted for both users' };
     }
+
+    return { message: 'Conversation hidden for user' };
   }
 }
