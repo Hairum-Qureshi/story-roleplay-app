@@ -74,6 +74,10 @@ export class ChatService {
       content: messageDto.message,
     });
 
+    conversation.latestMessage = messageDto.message;
+    conversation.latestMessageAt = new Date();
+    await conversation.save();
+
     await message.populate('sender', 'username profilePicture');
 
     // update the conversation's messages array with that message ID
@@ -243,6 +247,7 @@ export class ChatService {
         path: 'conversations',
         select: '-__v',
       })
+      .sort({ 'conversations.createdAt': -1 })
       .lean();
 
     return userConversations;
@@ -283,6 +288,10 @@ export class ChatService {
       isEdited: true,
     });
 
+    conversation.latestMessage = messageDto.editedMessage;
+    conversation.latestMessageAt = new Date();
+    await conversation.save();
+
     return { message: 'Message edited successfully' };
   }
 
@@ -317,7 +326,7 @@ export class ChatService {
     const conversation = await this.conversationModel.findByIdAndUpdate(
       chatID,
       { $addToSet: { hiddenFor: user._id } },
-      { new: true }, 
+      { new: true },
     );
 
     if (!conversation) {
