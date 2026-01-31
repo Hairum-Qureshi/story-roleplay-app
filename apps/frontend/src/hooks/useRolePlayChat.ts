@@ -236,6 +236,7 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 			queryClient.invalidateQueries({
 				queryKey: ["chat-messages", chatID]
 			});
+			queryClient.invalidateQueries({ queryKey: ["your-chats"] });
 		}
 	});
 
