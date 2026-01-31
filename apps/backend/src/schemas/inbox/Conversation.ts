@@ -24,6 +24,12 @@ export class Conversation {
   @Prop({ type: [String], default: [] })
   hiddenFor: string[];
 
+  @Prop({ type: String, default: null })
+  latestMessage: string | null;
+
+  @Prop({ type: Date, default: null })
+  latestMessageAt: Date | null;
+
   @Prop({ default: Date.now })
   createdAt: Date;
   private _id: string;
