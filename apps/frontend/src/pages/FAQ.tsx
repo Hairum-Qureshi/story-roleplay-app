@@ -1,6 +1,20 @@
+import { useEffect, useRef } from "react";
 import { HashLink } from "react-router-hash-link";
 
 export default function FAQ() {
+	const sectionRef = useRef<HTMLDivElement>(null);
+
+	// automatically scroll the user down to the anchor FAQ section if it's in the URL
+	useEffect(() => {
+		const hash = window.location.hash;
+		if (hash) {
+			const element = sectionRef.current?.querySelector(hash);
+			if (element) {
+				element.scrollIntoView({ behavior: "smooth" });
+			}
+		}
+	}, []);
+
 	const faqSections = [
 		{
 			title: (
@@ -172,7 +186,7 @@ export default function FAQ() {
 				<h1 className="text-4xl font-bold mb-6">
 					Frequently Asked Questions (FAQ)
 				</h1>
-				<div className="space-y-12">
+				<div className="space-y-12" ref={sectionRef}>
 					{faqSections.map(section => (
 						<div key={section.title}>
 							<h2
