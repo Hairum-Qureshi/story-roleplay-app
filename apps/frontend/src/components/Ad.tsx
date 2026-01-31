@@ -34,7 +34,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 				</h2>
 				<div className="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
 					<span>
-						Posted by <span className="text-sky-400">{author.username}</span>
+						Posted by <span className="text-sky-400">{author?.username}</span>
 					</span>
 					<span className="text-zinc-600">•</span>
 					<span>{moment(createdAt).fromNow()}</span>
@@ -58,7 +58,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 						{premise}
 					</p>
 				</div>
-				{writingExpectations.length > 0 && (
+				{writingExpectations?.length > 0 && (
 					<div className="space-y-2">
 						<h3 className="text-lg font-semibold text-zinc-200">
 							Writing Expectations
@@ -80,7 +80,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 						<h3 className="text-lg font-semibold text-zinc-200">
 							Content Notes
 						</h3>
-						<p className="text-zinc-300 leading-relaxed whitespace-pre-line">
+						<p className="text-zinc-300 leading-relaxed whitespace-pre-line break-words">
 							{contentNotes}
 						</p>
 					</div>
@@ -93,7 +93,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 				{!hideButton && (
 					<div className="flex flex-wrap gap-3">
 						{!currUserData ||
-							(currUserData?._id !== author._id && (
+							(currUserData?._id !== author?._id && (
 								<>
 									<button
 										className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
