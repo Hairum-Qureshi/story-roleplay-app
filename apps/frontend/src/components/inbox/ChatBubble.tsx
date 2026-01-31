@@ -111,7 +111,7 @@ export default function ChatBubble({
 				) : message === "This message has been deleted." ? (
 					<p className="italic text-gray-400">{message}</p>
 				) : (
-					<p className="whitespace-pre-wrap text-sm leading-relaxed">
+					<p className="whitespace-pre-wrap text-sm leading-relaxed break-words">
 						{formatMessage(message)}
 					</p>
 				)}
@@ -120,13 +120,13 @@ export default function ChatBubble({
 				<div className="mt-1 flex items-center justify-end gap-2 text-xs text-gray-400">
 					{!chatEnded && !isDeleted && you && onDelete && (
 						<div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
-								<button
-									onClick={() => setEditMode(true)}
-									className="hover:text-blue-400 hover:cursor-pointer"
-									aria-label="Edit message"
-								>
-									<FaEdit size={14} />
-								</button>
+							<button
+								onClick={() => setEditMode(true)}
+								className="hover:text-blue-400 hover:cursor-pointer"
+								aria-label="Edit message"
+							>
+								<FaEdit size={14} />
+							</button>
 							{onDelete && (
 								<button
 									onClick={onDelete}
