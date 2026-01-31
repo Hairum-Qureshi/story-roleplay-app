@@ -21,8 +21,12 @@ export class Conversation {
   @Prop({ type: [Types.ObjectId], ref: 'CharacterBio' })
   characterBios: Types.ObjectId[];
 
+  @Prop({ type: [String], default: [] })
+  hiddenFor: string[];
+
   @Prop({ default: Date.now })
   createdAt: Date;
+  private _id: string;
 }
 
 SchemaFactory.createForClass(Conversation);
