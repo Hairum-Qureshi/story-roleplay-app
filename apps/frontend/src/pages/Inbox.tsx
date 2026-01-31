@@ -18,7 +18,8 @@ export default function Inbox() {
 		sendMessage,
 		rolePlayChatMessages,
 		deleteMessage,
-		endRolePlayConversation
+		endRolePlayConversation,
+		currUserConversations
 	} = useRolePlayChat(chatID || "");
 
 	const [noMessageOpened, setNoMessageOpened] = useState(chatID ? false : true);
@@ -57,20 +58,25 @@ export default function Inbox() {
 
 	return (
 		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
-			<div className="w-1/4 h-[91vh] space-y-3 overflow-y-scroll border-r border-slate-700">
-				{rolePlayChats?.length > 0
-					? rolePlayChats.map((chat: Conversation) => (
-							<Link
-								to={`/inbox/${chat._id}`}
-								onClick={() => {
-									setNoMessageOpened(false);
-									setSelectedChat(chat);
-								}}
-							>
-								<ChatContainer key={chat._id} chat={chat} />
-							</Link>
-						))
-					: null}
+			<div className="w-1/4 h-[92vh] space-y-3 overflow-y-scroll border-r border-slate-700">
+				{currUserConversations?.conversations.length > 0 ? (
+					currUserConversations?.conversations.map((chat: Conversation) => (
+						<Link
+							to={`/inbox/${chat._id}`}
+							onClick={() => {
+								setNoMessageOpened(false);
+								setSelectedChat(chat);
+							}}
+						>
+							<ChatContainer key={chat._id} chat={chat} />
+						</Link>
+					))
+				) : (
+					<p className="text-center text-sky-600 mt-20 font-semibold mx-10">
+						No conversations found. Any ads of yours users have responded to or
+						you have responded to will show up here.
+					</p>
+				)}
 			</div>
 			<div
 				className={`w-1/2 min-h-[100vh - 4rem] ${fullWidth ? "w-3/4" : "w-1/2"}`}
@@ -130,7 +136,7 @@ export default function Inbox() {
 									</div>
 								)}
 								{rolePlayChatMessages?.map((message: Message) =>
-									message.sender.username === "SYSTEM" ? (
+									message.sender?.username === "SYSTEM" ? (
 										<div
 											dangerouslySetInnerHTML={{ __html: message.content }}
 											className="text-center text-gray-400 my-6 mx-2 italic"
@@ -141,7 +147,7 @@ export default function Inbox() {
 											key={message._id}
 											messageData={{
 												message: message.content,
-												you: message.sender._id === currUser?._id,
+												you: message.sender?._id === currUser?._id,
 												timestamp: message.createdAt
 											}}
 											onDelete={() =>
@@ -168,7 +174,10 @@ export default function Inbox() {
 										</p>
 										<p className="text-sm mt-1">
 											To learn more, check out the{" "}
-											<a href="/faq" className="underline hover:text-red-800">
+											<a
+												href="/faq#role-play-management"
+												className="underline hover:text-red-800"
+											>
 												FAQ
 											</a>
 											.
@@ -177,7 +186,7 @@ export default function Inbox() {
 								) : (
 									<div className="flex items-center space-x-2 w-full">
 										<textarea
-											className="flex-1 bg-transparent w-full resize-none outline-none text-white placeholder-slate-400 h-14 p-2 focus:ring-0 rounded-md"
+											className="flex-1 bg-transparent w-full resize-none outline-none text-white placeholder-slate-400 h-17 p-2 focus:ring-0 rounded-md"
 											placeholder="Type your message..."
 											value={message}
 											onChange={e => setMessage(e.target.value)}
