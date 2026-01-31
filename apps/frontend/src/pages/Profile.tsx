@@ -1,10 +1,12 @@
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import useUser from "../hooks/useUser";
 import type { CharacterBio, RolePlayAd } from "../interfaces";
 
 export default function Profile() {
 	// after a day, your ad is removed from the main feed, however, it's still displayed on your profile page and there will be a button on each of your ads to 'repost' it so it'll appear again in the main feed (that way, you won't have to re-create the ad from scratch)
 
 	const { data: currUserData } = useCurrentUser();
+	const { deleteProfile } = useUser();
 
 	return (
 		<div className="min-h-screen bg-slate-950 text-slate-100 px-6 py-10">
@@ -29,7 +31,7 @@ export default function Profile() {
 						<p className="text-sm text-slate-400">{currUserData?.email}</p>
 
 						<p className="text-xs italic text-slate-500">
-							Your Email and full name are only visible to you
+							Your email and full name are only visible to you
 						</p>
 					</div>
 				</section>
@@ -126,7 +128,10 @@ export default function Profile() {
 						irreversible. Please ensure you have downloaded any role-plays you
 						want to keep.
 					</p>
-					<button className="rounded-md border border-red-800 bg-red-700/20 px-4 py-2 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer">
+					<button
+						className="rounded-md border border-red-800 bg-red-700/20 px-4 py-2 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer"
+						onClick={deleteProfile}
+					>
 						Delete Account
 					</button>
 				</section>
