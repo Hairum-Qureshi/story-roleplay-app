@@ -273,6 +273,7 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["your-chats"] });
+			navigate("/inbox");
 		}
 	});
 
