@@ -40,6 +40,17 @@ export class RolePlayAdService {
     this.eventsGateway.emitNewAd(createdAd);
   }
 
+  async getPostedAdsByUser(user: UserPayload) {
+    return await this.rolePlayAdModel
+      .find({ author: user._id })
+      .populate({
+        path: 'author',
+        select: 'username profilePicture',
+      })
+      .select('-__v')
+      .sort({ createdAt: -1 });
+  }
+
   async getAllAds() {
     const ONE_HOUR = 60 * 60 * 1000;
 
