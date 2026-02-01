@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -13,6 +14,7 @@ import { CurrentUser } from 'src/decorators/currentUser.decorator';
 import { type UserPayload } from 'src/types';
 import { AuthGuard } from '@nestjs/passport';
 import { IsOwnerGuard } from 'src/guards/IsOwner.guard';
+import { EditAd } from 'src/DTOs/EditAd.dto';
 
 @Controller('role-play-ad')
 export class RolePlayAdController {
@@ -22,6 +24,18 @@ export class RolePlayAdController {
   @UseGuards(AuthGuard())
   createAd(@Body() createAdDto: CreateAd, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.createAd(createAdDto, user);
+  }
+
+  @Get(':adID')
+  @UseGuards(AuthGuard(), IsOwnerGuard)
+  getAdByID(@Param('adID') adID: string) {
+    return this.rolePlayAdService.getAdByID(adID);
+  }
+
+  @Patch(':adID/edit')
+  @UseGuards(AuthGuard(), IsOwnerGuard)
+  editAd(@Param('adID') adID: string, @Body() editAdDto: EditAd) {
+    return this.rolePlayAdService.editAd(adID, editAdDto);
   }
 
   @Get('all/yours')
