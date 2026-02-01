@@ -45,6 +45,7 @@ export class RolePlayAdController {
   }
 
   @Get('all')
+  @UseGuards(AuthGuard())
   getAllAds() {
     return this.rolePlayAdService.getAllAds();
   }
