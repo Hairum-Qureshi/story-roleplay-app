@@ -40,6 +40,20 @@ export class RolePlayAdService {
     this.eventsGateway.emitNewAd(createdAd);
   }
 
+  async editAd(adID: string, editAdDto: CreateAd) {
+    const { title, pov, isAdult, premise, writingExpectations, contentNotes } =
+      editAdDto;
+
+    return await this.rolePlayAdModel.findByIdAndUpdate(adID, {
+      title,
+      pov,
+      adultRoleplay: isAdult,
+      premise,
+      writingExpectations,
+      contentNotes,
+    });
+  }
+
   async getPostedAdsByUser(user: UserPayload) {
     return await this.rolePlayAdModel
       .find({ author: user._id })
@@ -84,5 +98,9 @@ export class RolePlayAdService {
       // if it doesn't exist in ANY conversations, we can delete it outright
       await this.rolePlayAdModel.findByIdAndDelete(adID);
     }
+  }
+
+  async getAdByID(adID: string) {
+    return await this.rolePlayAdModel.findById(adID);
   }
 }
