@@ -12,12 +12,13 @@ import TermsOfService from "../pages/TermsOfService";
 import CharacterBioForm from "../pages/CharacterBioForm";
 import CharacterBios from "../pages/CharacterBios";
 import FAQ from "../pages/FAQ";
-import ProtectedRoutesGuard from "./ProtectedRoutesGuard";
+import ProtectedRoutesGuard from "./middleware/ProtectedRoutesGuard";
 import "../css/index.css";
 import FavoritedAds from "../pages/FavoritedAds";
 import useSocketStore from "../store/useSocketStore";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useEffect } from "react";
+import OwnerRoutesGuard from "./middleware/OwnerRoutesGuard";
 
 export default function App() {
 	const connectSocket = useSocketStore(state => state.connectSocket);
@@ -94,6 +95,16 @@ export default function App() {
 					element={
 						<ProtectedRoutesGuard>
 							<FavoritedAds />
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/role-play-ad/:adID/edit"
+					element={
+						<ProtectedRoutesGuard>
+							<OwnerRoutesGuard>
+								<AdForm />
+							</OwnerRoutesGuard>
 						</ProtectedRoutesGuard>
 					}
 				/>
