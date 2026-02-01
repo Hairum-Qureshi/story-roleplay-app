@@ -26,18 +26,6 @@ export class RolePlayAdController {
     return this.rolePlayAdService.createAd(createAdDto, user);
   }
 
-  @Get(':adID')
-  @UseGuards(AuthGuard(), IsOwnerGuard)
-  getAdByID(@Param('adID') adID: string) {
-    return this.rolePlayAdService.getAdByID(adID);
-  }
-
-  @Patch(':adID/edit')
-  @UseGuards(AuthGuard(), IsOwnerGuard)
-  editAd(@Param('adID') adID: string, @Body() editAdDto: EditAd) {
-    return this.rolePlayAdService.editAd(adID, editAdDto);
-  }
-
   @Get('all/yours')
   @UseGuards(AuthGuard())
   getPostedAds(@CurrentUser() user: UserPayload) {
@@ -48,6 +36,18 @@ export class RolePlayAdController {
   @UseGuards(AuthGuard())
   getAllAds() {
     return this.rolePlayAdService.getAllAds();
+  }
+
+  @Get(':adID')
+  @UseGuards(AuthGuard(), IsOwnerGuard)
+  getAdByID(@Param('adID') adID: string) {
+    return this.rolePlayAdService.getAdByID(adID);
+  }
+
+  @Patch(':adID/edit')
+  @UseGuards(AuthGuard(), IsOwnerGuard)
+  editAd(@Param('adID') adID: string, @Body() editAdDto: EditAd) {
+    return this.rolePlayAdService.editAd(adID, editAdDto);
   }
 
   @Delete('delete/:adID')
