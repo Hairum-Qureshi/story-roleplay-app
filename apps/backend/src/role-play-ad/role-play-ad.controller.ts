@@ -24,6 +24,12 @@ export class RolePlayAdController {
     return this.rolePlayAdService.createAd(createAdDto, user);
   }
 
+  @Get('all/yours')
+  @UseGuards(AuthGuard())
+  getPostedAds(@CurrentUser() user: UserPayload) {
+    return this.rolePlayAdService.getPostedAdsByUser(user);
+  }
+
   @Get('all')
   getAllAds() {
     return this.rolePlayAdService.getAllAds();
