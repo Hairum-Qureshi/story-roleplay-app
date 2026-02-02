@@ -11,12 +11,21 @@ interface UseFormHook {
 		writingExpectations: string[],
 		contentNotes: string
 	) => void;
+	editRoleplayAd: (
+		title: string,
+		pov: string,
+		isAdult: boolean,
+		premise: string,
+		writingExpectations: string[],
+		contentNotes: string,
+		adID: string
+	) => void;
 }
 
 export default function useForm(): UseFormHook {
 	const navigate = useNavigate();
 
-	const { mutate, isError, isPending, error } = useMutation({
+	const { mutate: postRoleplayAdMutate } = useMutation({
 		mutationFn: async ({
 			title,
 			pov,
@@ -70,8 +79,83 @@ export default function useForm(): UseFormHook {
 			throw new Error("Please fill in all required fields.");
 		}
 
-		mutate({ title, pov, isAdult, premise, writingExpectations, contentNotes });
+		postRoleplayAdMutate({
+			title,
+			pov,
+			isAdult,
+			premise,
+			writingExpectations,
+			contentNotes
+		});
 	}
 
-	return { createRoleplayAd };
+	const { mutate: editRoleplayAdMutate } = useMutation({
+		mutationFn: async ({
+			title,
+			pov,
+			isAdult,
+			premise,
+			writingExpectations,
+			contentNotes,
+			adID
+		}: {
+			title: string;
+			pov: string;
+			isAdult: boolean;
+			premise: string;
+			writingExpectations: string[];
+			contentNotes: string;
+			adID: string;
+		}) => {
+			try {
+				const response = await axios.patch(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/${adID}/edit`,
+					{
+						title,
+						pov,
+						isAdult,
+						premise,
+						writingExpectations,
+						contentNotes
+					},
+					{
+						withCredentials: true
+					}
+				);
+
+				return response;
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			navigate("/role-play-ads");
+		}
+	});
+
+	function editRoleplayAd(
+		title: string,
+		pov: string,
+		isAdult: boolean,
+		premise: string,
+		writingExpectations: string[],
+		contentNotes: string,
+		adID: string
+	) {
+		if (!title || !pov || !premise || writingExpectations.length === 0) {
+			throw new Error("Please fill in all required fields.");
+		}
+
+		editRoleplayAdMutate({
+			title,
+			pov,
+			isAdult,
+			premise,
+			writingExpectations,
+			contentNotes,
+			adID
+		});
+	}
+
+	return { createRoleplayAd, editRoleplayAd };
 }
