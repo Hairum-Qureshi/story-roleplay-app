@@ -1,16 +1,24 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom';
-import { useCurrentUser } from '../../hooks/useCurrentUser';
+import React from "react";
+import { Navigate, useParams } from "react-router-dom";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
+import useRolePlayAds from "../../hooks/useRolePlayAds";
 
 export default function OwnerRoutesGuard({
 	children
 }: {
 	children: React.ReactNode;
 }) {
-	const { data: currUserData, isPending } = useCurrentUser();
-    // get the specific ad data from the custom hook and then check if the author ID matches the current user ID
+	const { data: currUserData } = useCurrentUser();
+	const { adID } = useParams();
+	const { adData, loading: adLoading } = useRolePlayAds(adID);
 
-   
-	
+	if (adLoading) {
+		return null;
+	}
+
+	if (!adData || adData.author !== currUserData?._id) {
+		return <Navigate to="/" />;
+	}
+
 	return <>{children}</>;
 }
