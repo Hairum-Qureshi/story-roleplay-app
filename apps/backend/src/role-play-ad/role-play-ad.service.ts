@@ -44,6 +44,12 @@ export class RolePlayAdService {
     const { title, pov, isAdult, premise, writingExpectations, contentNotes } =
       editAdDto;
 
+    // need to update the title property of the conversation Model
+    await this.conversationModel.updateMany(
+      { roleplayAd: adID },
+      { title: editAdDto.title },
+    );
+
     return await this.rolePlayAdModel.findByIdAndUpdate(adID, {
       title,
       pov,
@@ -77,6 +83,7 @@ export class RolePlayAdService {
   }
 
   async getAllAds() {
+    // ! there seems to be an issue where if you repost more than 1 ad, then the frontend UI appears to duplicate the ad more than once unless you refresh the page
     const ONE_HOUR = 60 * 60 * 1000;
 
     return await this.rolePlayAdModel
