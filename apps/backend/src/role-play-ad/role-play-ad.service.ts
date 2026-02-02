@@ -64,7 +64,7 @@ export class RolePlayAdService {
     user: UserPayload,
   ): Promise<(RolePlayAd & { canBeReposted: boolean })[]> {
     const ads = await this.rolePlayAdModel
-      .find({ author: user._id })
+      .find({ author: user._id, isDeleted: { $ne: true } })
       .populate({
         path: 'author',
         select: 'username profilePicture',
