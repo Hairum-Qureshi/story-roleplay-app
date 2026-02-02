@@ -54,15 +54,26 @@ export class RolePlayAdService {
     });
   }
 
-  async getPostedAdsByUser(user: UserPayload) {
-    return await this.rolePlayAdModel
+  async getPostedAdsByUser(
+    user: UserPayload,
+  ): Promise<(RolePlayAd & { canBeReposted: boolean })[]> {
+    const ads = await this.rolePlayAdModel
       .find({ author: user._id })
       .populate({
         path: 'author',
         select: 'username profilePicture',
       })
       .select('-__v')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const ONE_HOUR = 1000 * 60 * 60;
+    const now = Date.now();
+
+    return ads.map((ad) => ({
+      ...ad,
+      canBeReposted: now - new Date(ad.createdAt).getTime() >= ONE_HOUR,
+    })) as unknown as (RolePlayAd & { canBeReposted: boolean })[];
   }
 
   async getAllAds() {
@@ -102,5 +113,15 @@ export class RolePlayAdService {
 
   async getAdByID(adID: string) {
     return await this.rolePlayAdModel.findById(adID);
+  }
+
+  async repostAd(adID: string) {
+    const ad: RolePlayAdDocument =
+      (await this.rolePlayAdModel.findByIdAndUpdate(adID, {
+        createdAt: new Date(),
+        isDeleted: false,
+      })) as unknown as RolePlayAdDocument;
+
+    this.eventsGateway.emitNewAd(ad);
   }
 }
