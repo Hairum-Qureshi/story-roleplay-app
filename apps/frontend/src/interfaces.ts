@@ -54,7 +54,7 @@ interface RolePlayAd {
 		profilePicture: string;
 	};
 	isDeleted: boolean;
-	isReposted: boolean;
+	canBeReposted: boolean;
 	createdAt: string;
 	updatedAt: string;
 }
