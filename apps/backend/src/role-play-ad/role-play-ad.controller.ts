@@ -38,6 +38,12 @@ export class RolePlayAdController {
     return this.rolePlayAdService.getAllAds();
   }
 
+  @Post(':adID/repost')
+  @UseGuards(AuthGuard(), IsOwnerGuard)
+  repostAd(@Param('adID') adID: string) {
+    return this.rolePlayAdService.repostAd(adID);
+  }
+
   @Get(':adID')
   @UseGuards(AuthGuard(), IsOwnerGuard)
   getAdByID(@Param('adID') adID: string) {
