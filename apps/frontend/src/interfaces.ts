@@ -54,6 +54,7 @@ interface RolePlayAd {
 		profilePicture: string;
 	};
 	isDeleted: boolean;
+	isReposted: boolean;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -87,6 +88,8 @@ interface Conversation {
 	messages: Message[];
 	chatEnded: boolean;
 	characterBios?: string[];
+	latestMessage: string | null;
+	latestMessageAt: string | null;
 	createdAt: string;
 }
 
