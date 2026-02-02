@@ -1,10 +1,14 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { type PovType } from "../interfaces";
 import useForm from "../hooks/useForm";
+import { useLocation, useParams } from "react-router-dom";
+import useRolePlayAds from "../hooks/useRolePlayAds";
 
 export default function AdForm() {
+	const { adID } = useParams();
+	const { adData } = useRolePlayAds(adID);
 	const [inputs, setInputs] = useState([{ expectation: "" }]);
 	const [title, setTitle] = useState("");
 	const [pov, setPov] = useState<PovType | "">("");
@@ -12,8 +16,24 @@ export default function AdForm() {
 	const [premise, setPremise] = useState("");
 	const [writingExpectations, setWritingExpectations] = useState<string[]>([]);
 	const [contentNotes, setContentNotes] = useState("");
+	const location = useLocation();
+	const isEditForm = location.pathname.includes("edit");
 
-	const { createRoleplayAd } = useForm();
+	const { createRoleplayAd, editRoleplayAd } = useForm();
+
+	useEffect(() => {
+		if (adData) {
+			setTitle(adData.title);
+			setPov(adData.pov);
+			setIsAdult(adData.adultRoleplay);
+			setPremise(adData.premise);
+			setWritingExpectations(adData.writingExpectations);
+			setContentNotes(adData.contentNotes);
+			setInputs(
+				adData.writingExpectations.map(item => ({ expectation: item }))
+			);
+		}
+	}, [adData, adID]);
 
 	const handleAddInput = () => {
 		setInputs([...inputs, { expectation: "" }]);
@@ -40,21 +60,33 @@ export default function AdForm() {
 	function handleSubmit(event: React.FormEvent) {
 		event.preventDefault();
 
-		createRoleplayAd(
-			title,
-			pov,
-			isAdult,
-			premise,
-			writingExpectations,
-			contentNotes
-		);
+		if (isEditForm && adID) {
+			editRoleplayAd(
+				title,
+				pov,
+				isAdult,
+				premise,
+				writingExpectations,
+				contentNotes,
+				adID
+			);
+		} else {
+			createRoleplayAd(
+				title,
+				pov,
+				isAdult,
+				premise,
+				writingExpectations,
+				contentNotes
+			);
+		}
 	}
 
 	return (
 		<div className="min-h-screen bg-slate-950">
 			<div className="w-2/3 m-auto p-3 flex flex-col">
 				<h1 className="text-3xl font-bold text-zinc-100 mt-10 mb-5">
-					Create Your Role-Play Ad
+					{isEditForm ? "Edit" : "Create"} Your Role-Play Ad
 				</h1>
 				<div className="border border-slate-700 bg-slate-900 rounded-md p-4">
 					<div className="flex items-start gap-3">
@@ -271,12 +303,21 @@ export default function AdForm() {
 						that failure to adhere to these guidelines may result in the removal
 						of the ad and possible suspension of my account.
 					</p>
-					<button
-						type="submit"
-						className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer"
-					>
-						Post Ad
-					</button>
+					{isEditForm ? (
+						<button
+							type="submit"
+							className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer"
+						>
+							Save Ad
+						</button>
+					) : (
+						<button
+							type="submit"
+							className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 hover:cursor-pointer"
+						>
+							Post Ad
+						</button>
+					)}
 				</form>
 			</div>
 		</div>
