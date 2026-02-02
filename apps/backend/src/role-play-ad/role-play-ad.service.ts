@@ -119,7 +119,6 @@ export class RolePlayAdService {
     const ad: RolePlayAdDocument =
       (await this.rolePlayAdModel.findByIdAndUpdate(adID, {
         createdAt: new Date(),
-        isDeleted: false,
       })) as unknown as RolePlayAdDocument;
 
     this.eventsGateway.emitNewAd(ad);
