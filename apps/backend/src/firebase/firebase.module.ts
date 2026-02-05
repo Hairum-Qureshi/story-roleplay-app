@@ -10,7 +10,9 @@ import serviceAccount from './serviceAccount.json';
       useFactory: () => {
         return admin.initializeApp({
           credential: admin.credential.cert(
-            serviceAccount as admin.ServiceAccount,
+            (process.env.NODE_ENV === 'production'
+              ? process.env.FIREBASE_SERVICE_ACCOUNT
+              : serviceAccount) as admin.ServiceAccount,
           ),
         });
       },
