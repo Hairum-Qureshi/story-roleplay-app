@@ -7,6 +7,11 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 	socket: null,
 	rolePlayAd: null,
 	message: null,
+	endedConversationID: null,
+	typing: false,
+	partnerID: null,
+	partnerUsername: null,
+	setTyping: (typing: boolean) => set({ typing }),
 	connectSocket: (userId: string) => {
 		const socket = io(import.meta.env.VITE_BACKEND_BASE_URL, {
 			auth: { userId }
@@ -14,6 +19,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
 		socket.on("connect", () => {
 			console.log("Connected:", socket.id);
+			set({ socket });
 		});
 
 		socket.on("connect_error", err => {
@@ -35,6 +41,23 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 		socket.on("newMessage", (message: Message) => {
 			set({ message });
 		});
+
+		socket.on("conversationEnded", ({ chatID }: { chatID: string }) => {
+			set({ endedConversationID: chatID });
+		});
+
+		socket.on(
+			"typingIndicator",
+			({
+				typing,
+				partnerUsername
+			}: {
+				typing: boolean;
+				partnerUsername: string;
+			}) => {
+				set({ typing, partnerUsername });
+			}
+		);
 
 		socket.connect();
 		set({ socket });
