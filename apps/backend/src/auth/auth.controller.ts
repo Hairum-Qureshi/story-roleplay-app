@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport/dist/auth.guard';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
+import { CurrentUser } from '../decorators/currentUser.decorator';
 import * as types from 'src/types';
 import express from 'express';
 import { BearerToken } from 'src/decorators/bearerToken.decorator';
