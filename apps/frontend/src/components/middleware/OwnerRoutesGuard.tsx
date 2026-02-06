@@ -16,7 +16,7 @@ export default function OwnerRoutesGuard({
 		return null;
 	}
 
-	if (!adData || adData.author !== currUserData?._id) {
+	if (!adData || adData.author._id !== currUserData?._id) {
 		return <Navigate to="/" />;
 	}
 
