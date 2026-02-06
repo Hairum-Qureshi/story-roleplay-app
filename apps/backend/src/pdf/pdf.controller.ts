@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
+import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { UserPayload } from 'src/types';
 import { PdfService } from './pdf.service';
 import { IsChatMember } from 'src/guards/IsChatMember.guard';
