@@ -106,6 +106,19 @@ export class ChatService {
     };
   }
 
+  async createSystemMessage(
+    conversationID: Types.ObjectId,
+    content: string,
+  ): Promise<MessageInterface> {
+    const message = await this.messageModel.create({
+      sender: '000000000000000000000001', // SYSTEM user ID
+      conversation: conversationID,
+      content,
+    });
+
+    return message;
+  }
+
   async createConversation(
     adID: string,
     user: UserPayload,
@@ -127,7 +140,7 @@ export class ChatService {
         roleplayAd: ad._id,
         title: ad.title,
         participants: {
-          $all: [user._id, ad.author],
+          $all: [user._id, ad.author, '000000000000000000000001'],
         },
       });
 
@@ -157,17 +170,25 @@ export class ChatService {
       await this.conversationModel.create({
         title: ad.title,
         roleplayAd: ad._id,
-        participants: [user._id, ad.author],
+        participants: [user._id, ad.author, '000000000000000000000001'], // include SYSTEM user as a participant
         messages: [],
       });
 
+    // get the partner's username
+    const partner = await this.userModel
+      .findById(ad.author)
+      .select('username')
+      .lean();
+
+    if (!partner) {
+      throw new Error('Ad author not found');
+    }
+
     // create a welcome message from SYSTEM to both users
-    // TODO - need to rethink this logic
-    const message: MessageInterface = await this.messageModel.create({
-      sender: '000000000000000000000001', // SYSTEM user ID
-      conversation: newConversation._id,
-      content: `<p>A role-play chat has been started between you and @${user.username}. Optionally, before you start role-playing, you can select an existing character from above or <a href = "/new-character">create a new one</a> to share with your role-play partner.</p>`,
-    });
+    const message: MessageInterface = await this.createSystemMessage(
+      newConversation._id,
+      `A role-play chat has been started between you and @${partner.username}. Optionally, before you start role-playing, you can select an existing character from above or create a new one to share with your role-play partner.`,
+    );
 
     // update conversation model with the message ID
     await this.conversationModel.findByIdAndUpdate(newConversation._id, {
