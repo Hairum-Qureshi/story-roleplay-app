@@ -103,6 +103,7 @@ interface SocketStore {
 	typing: boolean;
 	setTyping: (typing: boolean) => void;
 	partnerID: string | null;
+	partnerUsername: string | null;
 }
 
 interface AdProps {
