@@ -1,7 +1,7 @@
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import useRolePlayAds from "../hooks/useRolePlayAds";
 import useUser from "../hooks/useUser";
-import type { CharacterBio, RolePlayAd } from "../interfaces";
+import type { RolePlayAd } from "../interfaces";
 import ProfileAdCard from "../components/ProfileAdCard";
 import { Link } from "react-router-dom";
 
