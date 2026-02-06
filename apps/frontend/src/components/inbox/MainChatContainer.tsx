@@ -105,7 +105,6 @@ export default function MainChatContainer({
 									isDeleted={message.isDeleted}
 									isEdited={message.isEdited || false}
 									messageID={message._id}
-									isSystemMessage={message.sender?.username === "SYSTEM"}
 								/>
 							)
 						)}
