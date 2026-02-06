@@ -1,12 +1,16 @@
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import useRolePlayAds from "../hooks/useRolePlayAds";
 import useUser from "../hooks/useUser";
 import type { CharacterBio, RolePlayAd } from "../interfaces";
+import ProfileAdCard from "../components/ProfileAdCard";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
 	// after a day, your ad is removed from the main feed, however, it's still displayed on your profile page and there will be a button on each of your ads to 'repost' it so it'll appear again in the main feed (that way, you won't have to re-create the ad from scratch)
 
 	const { data: currUserData } = useCurrentUser();
 	const { deleteProfile } = useUser();
+	const { currUserRoleplayAds } = useRolePlayAds();
 
 	return (
 		<div className="min-h-screen bg-slate-950 text-slate-100 px-6 py-10">
@@ -41,38 +45,15 @@ export default function Profile() {
 					</h2>
 
 					<div className="space-y-4">
-						{currUserData?.rolePlayAds?.length === 0 ? (
+						{currUserRoleplayAds?.length === 0 ? (
 							<p className="text-base text-sky-400 text-center">
 								You currently have no active role-play ads
 							</p>
 						) : (
-							currUserData?.rolePlayAds?.map((ad: RolePlayAd) => (
-								<div
-									key={ad._id}
-									className="rounded-lg border border-slate-800 bg-slate-900/60 p-4"
-								>
-									<h3 className="text-lg font-medium text-slate-100">
-										{ad.title}
-									</h3>
-
-									<p className="mt-1 text-sm text-slate-400">
-										{"No description provided."}
-									</p>
-
-									<div className="mt-4 flex gap-3">
-										<button className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-blue-300 hover:cursor-pointer">
-											Repost
-										</button>
-
-										<button className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-blue-300 hover:cursor-pointer">
-											Edit
-										</button>
-
-										<button className="rounded-md border border-red-800 px-3 py-1 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer">
-											Delete
-										</button>
-									</div>
-								</div>
+							currUserRoleplayAds?.map((ad: RolePlayAd) => (
+								<Link to={`/role-play-ad/${ad._id}`} key={ad._id}>
+									<ProfileAdCard ad={ad} />
+								</Link>
 							))
 						)}
 					</div>
@@ -89,32 +70,10 @@ export default function Profile() {
 								You currently have no character bios
 							</p>
 						) : (
-							currUserData?.characterBios?.map((char: CharacterBio) => (
-								<div
-									key={char._id}
-									className="rounded-lg border border-slate-800 bg-slate-900/60 p-4"
-								>
-									<h3 className="text-lg font-medium text-slate-100">
-										{char.name}
-									</h3>
-
-									<p className="mt-1 text-sm text-slate-400 line-clamp-4">
-										{char?.summary || "No summary provided."}
-									</p>
-
-									<div className="mt-3 text-xs text-blue-400">
-										{char?.genre || "No genre provided."}
-									</div>
-									<div className="flex w-full space-x-2 justify-end">
-										<button className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-blue-300 hover:cursor-pointer">
-											Edit
-										</button>
-										<button className="rounded-md border border-red-800 px-3 py-1 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer">
-											Delete
-										</button>
-									</div>
-								</div>
-							))
+							// currUserData?.characterBios?.map((char: CharacterBio) => (
+							// 	<ProfileAdCard key={char._id} ad={char} />
+							// ))
+							<></>
 						)}
 					</div>
 				</section>
