@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { RolePlayAdService } from './role-play-ad.service';
 import { CreateAd } from 'src/DTOs/CreateAd.dto';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
+import { CurrentUser } from '../decorators/currentUser.decorator';
 import { type UserPayload } from 'src/types';
 import { AuthGuard } from '@nestjs/passport';
 import { IsOwnerGuard } from 'src/guards/IsOwner.guard';
