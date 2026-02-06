@@ -76,10 +76,17 @@ export default function MainChatContainer({
 							{rolePlayChatMessages?.map((message: Message) =>
 								message.sender?.username === "SYSTEM" ? (
 									<div
-										dangerouslySetInnerHTML={{ __html: message.content }}
-										className="text-center text-gray-400 my-6 mx-2 italic"
+										className="text-center text-sky-400 my-6 mx-10 italic"
 										key={message._id}
-									/>
+									>
+										<p>
+											{message.content.includes(currUser?.username)
+												? message.content
+														.replace(`@${currUser?.username} has`, "You have")
+														.replace("their", "your")
+												: message.content}
+										</p>
+									</div>
 								) : (
 									<ChatBubble
 										key={message._id}
