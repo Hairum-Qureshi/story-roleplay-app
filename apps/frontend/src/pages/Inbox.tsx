@@ -73,7 +73,7 @@ export default function Inbox() {
 				fullWidth={fullWidth}
 				fullWidthToggle={fullWidthToggle}
 				partner={partner?._id || ""}
-				partnerUsername={partner?.username || ""}
+				partnerUsername={currUser?.username || ""}
 			/>
 			<ChatResourcePanel fullWidth={fullWidth} selectedChat={selectedChat} />
 		</div>
