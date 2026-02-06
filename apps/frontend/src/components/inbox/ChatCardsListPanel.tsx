@@ -15,16 +15,17 @@ export default function ChatCardsListPanel({
 }) {
 	return (
 		<div className="w-1/4 h-[93vh] space-y-3 overflow-y-scroll border-r border-slate-700">
-			{currUserConversations?.conversations.length > 0 ? (
+			{(currUserConversations?.conversations?.length ?? 0) > 0 ? (
 				currUserConversations?.conversations.map((chat: Conversation) => (
 					<Link
+						key={chat._id}
 						to={`/inbox/${chat._id}`}
 						onClick={() => {
 							messageOpenedToggle(false);
 							selectedChatToggle(chat);
 						}}
 					>
-						<ChatContainer key={chat._id} chat={chat} />
+						<ChatContainer chat={chat} />
 					</Link>
 				))
 			) : (
