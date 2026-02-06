@@ -4,12 +4,12 @@ import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../schemas/User';
 import { CharacterBio, CharacterBioSchema } from '../schemas/CharacterBio';
-import { RolePlayAd, RolePlayAdSchema } from '../schemas/RolePlayAd';
-import { AuthModule } from '../auth/auth.module';
+import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
+import { AuthModule } from 'src/auth/auth.module';
 import {
   Conversation,
   ConversationSchema,
-} from '../schemas/inbox/Conversation';
+} from 'src/schemas/inbox/Conversation';
 
 @Module({
   imports: [
