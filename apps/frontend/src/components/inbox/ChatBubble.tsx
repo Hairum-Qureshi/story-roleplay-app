@@ -13,7 +13,6 @@ export default function ChatBubble({
 	isDeleted,
 	isEdited,
 	messageID,
-	isSystemMessage
 }: ChatBubbleProps) {
 	const { message, you, timestamp } = messageData;
 	const [editMode, setEditMode] = useState(false);
