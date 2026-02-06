@@ -19,6 +19,7 @@ import useSocketStore from "../store/useSocketStore";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useEffect } from "react";
 import OwnerRoutesGuard from "./middleware/OwnerRoutesGuard";
+import AdDetails from "../pages/AdDetails";
 
 export default function App() {
 	const connectSocket = useSocketStore(state => state.connectSocket);
@@ -105,6 +106,14 @@ export default function App() {
 							<OwnerRoutesGuard>
 								<AdForm />
 							</OwnerRoutesGuard>
+						</ProtectedRoutesGuard>
+					}
+				/>
+				<Route
+					path="/role-play-ad/:adID"
+					element={
+						<ProtectedRoutesGuard>
+							<AdDetails />
 						</ProtectedRoutesGuard>
 					}
 				/>
