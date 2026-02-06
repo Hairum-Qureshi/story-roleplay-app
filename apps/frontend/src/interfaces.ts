@@ -104,6 +104,7 @@ interface SocketStore {
 	setTyping: (typing: boolean) => void;
 	partnerID: string | null;
 	partnerUsername: string | null;
+	currentTypingChatID: string | null;
 }
 
 interface AdProps {
