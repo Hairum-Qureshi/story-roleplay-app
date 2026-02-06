@@ -83,7 +83,7 @@ export default function FAQ() {
 				{
 					question: "Can I undo the 'End Role-Play' button?",
 					answer:
-						"No, once pressed, the action is permanent. A new role-play session must be initiated to continue."
+						"No. Once pressed, the action is permanent. A new role-play session must be initiated to continue."
 				}
 			]
 		},
