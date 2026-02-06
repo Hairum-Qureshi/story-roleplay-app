@@ -12,7 +12,8 @@ export default function ChatBubble({
 	chatEnded,
 	isDeleted,
 	isEdited,
-	messageID
+	messageID,
+	isSystemMessage
 }: ChatBubbleProps) {
 	const { message, you, timestamp } = messageData;
 	const [editMode, setEditMode] = useState(false);
@@ -60,7 +61,7 @@ export default function ChatBubble({
 					you ? "rounded-tr-sm bg-blue-950" : "rounded-tl-sm bg-gray-800"
 				} ${editMode ? "p-2" : "px-4 py-3"}`}
 			>
-				{editMode ? (
+				{editMode && !isDeleted ? (
 					<>
 						<textarea
 							className="
