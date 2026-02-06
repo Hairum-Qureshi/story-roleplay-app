@@ -105,6 +105,7 @@ export class PdfService {
         .font('Helvetica')
         .text(
           conversationDoc.participants
+            .filter((p) => p.username !== 'SYSTEM')
             .map((p) => `@${p.username}`)
             .join(' and '),
         );
