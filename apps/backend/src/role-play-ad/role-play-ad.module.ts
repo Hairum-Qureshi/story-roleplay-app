@@ -6,6 +6,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/User';
 import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
 import { EventsModule } from 'src/events/events.module';
+import {
+  Conversation,
+  ConversationSchema,
+} from 'src/schemas/inbox/Conversation';
+import { ChatModule } from 'src/chat/chat.module';
 
 @Module({
   imports: [
@@ -13,8 +18,10 @@ import { EventsModule } from 'src/events/events.module';
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
+      { name: Conversation.name, schema: ConversationSchema },
     ]),
     EventsModule,
+    ChatModule,
   ],
   providers: [RolePlayAdService],
   controllers: [RolePlayAdController],
