@@ -5,8 +5,15 @@ import { CreateAd } from 'src/DTOs/CreateAd.dto';
 import { EventsGateway } from 'src/events/events.gateway';
 import { RolePlayAd, RolePlayAdDocument } from 'src/schemas/RolePlayAd';
 import { User, UserDocument } from 'src/schemas/User';
-import { UserPayload } from 'src/types';
+import {
+  ConversationDocument,
+  Message,
+  MessageDocument,
+  UserPayload,
+} from 'src/types';
 import { Conversation } from 'src/schemas/inbox/Conversation';
+import { ChatService } from 'src/chat/chat.service';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class RolePlayAdService {
@@ -17,6 +24,7 @@ export class RolePlayAdService {
     private readonly eventsGateway: EventsGateway,
     @InjectModel(Conversation.name)
     private conversationModel: Model<Conversation>,
+    private readonly chatService: ChatService,
   ) {}
 
   async createAd(createAdDto: CreateAd, user: UserPayload) {
@@ -40,15 +48,40 @@ export class RolePlayAdService {
     this.eventsGateway.emitNewAd(createdAd);
   }
 
-  async editAd(adID: string, editAdDto: CreateAd) {
+  async editAd(adID: string, editAdDto: CreateAd, user: UserPayload) {
     const { title, pov, isAdult, premise, writingExpectations, contentNotes } =
       editAdDto;
 
     // need to update the title property of the conversation Model
-    await this.conversationModel.updateMany(
-      { roleplayAd: adID },
-      { title: editAdDto.title },
-    );
+    const updatedConversation: ConversationDocument =
+      (await this.conversationModel.findOneAndUpdate(
+        { roleplayAd: new mongoose.Types.ObjectId(adID) },
+        {
+          title,
+        },
+        { new: true },
+      )) as unknown as ConversationDocument;
+
+    if (updatedConversation) {
+      const SYSTEM_MESSAGE = `@${user.username} has made a change to their role-play ad. The role-play ad "${editAdDto.title}" has been updated.`;
+
+      const message: Message = await this.chatService.createSystemMessage(
+        updatedConversation._id,
+        SYSTEM_MESSAGE,
+      );
+
+      updatedConversation.messages.push(
+        new mongoose.Types.ObjectId(message._id),
+      );
+      await updatedConversation.save();
+
+      this.eventsGateway.emitSystemMessage(
+        updatedConversation.participants,
+        message,
+      );
+    }
+
+    // TODO - send this update to all connected clients in the conversation
 
     return await this.rolePlayAdModel.findByIdAndUpdate(adID, {
       title,
