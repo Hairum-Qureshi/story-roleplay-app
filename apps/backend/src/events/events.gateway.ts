@@ -55,6 +55,17 @@ export class EventsGateway {
     }
   }
 
+  emitSystemMessage(userIDs: string[], message: Message) {
+    userIDs.forEach((userID) => {
+      const socketID: string | undefined =
+        this.eventsService.getUserSocketId(userID);
+
+      if (socketID) {
+        this.server.to(socketID).emit('newMessage', message);
+      }
+    });
+  }
+
   endConversation(chatID: Types.ObjectId) {
     this.server.emit('conversationEnded', { chatID });
   }
