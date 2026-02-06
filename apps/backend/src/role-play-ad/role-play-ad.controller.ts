@@ -52,8 +52,12 @@ export class RolePlayAdController {
 
   @Patch(':adID/edit')
   @UseGuards(AuthGuard(), IsOwnerGuard)
-  editAd(@Param('adID') adID: string, @Body() editAdDto: EditAd) {
-    return this.rolePlayAdService.editAd(adID, editAdDto);
+  editAd(
+    @Param('adID') adID: string,
+    @Body() editAdDto: EditAd,
+    @CurrentUser() user: UserPayload,
+  ) {
+    return this.rolePlayAdService.editAd(adID, editAdDto, user);
   }
 
   @Delete('delete/:adID')
