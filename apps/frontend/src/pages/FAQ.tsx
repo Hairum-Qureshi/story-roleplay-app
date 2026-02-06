@@ -207,7 +207,7 @@ export default function FAQ() {
 				</h1>
 				<div className="space-y-12" ref={sectionRef}>
 					{faqSections.map(section => (
-						<div key={section.title}>
+						<div key={new Date().getTime() + Math.random() * 1000}>
 							<h2
 								className="text-3xl font-bold mb-4 text-yellow-400"
 								id={section.title.props.to.substring(1)}
