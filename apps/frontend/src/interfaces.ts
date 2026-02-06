@@ -102,6 +102,7 @@ interface SocketStore {
 	endedConversationID: string | null;
 	typing: boolean;
 	setTyping: (typing: boolean) => void;
+	partnerID: string | null;
 }
 
 interface AdProps {
