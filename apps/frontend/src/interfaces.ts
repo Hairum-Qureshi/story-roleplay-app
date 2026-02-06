@@ -100,6 +100,8 @@ interface SocketStore {
 	rolePlayAd: RolePlayAd | null;
 	message: Message | null;
 	endedConversationID: string | null;
+	typing: boolean;
+	setTyping: (typing: boolean) => void;
 }
 
 interface AdProps {
