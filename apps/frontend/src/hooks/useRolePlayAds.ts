@@ -11,6 +11,7 @@ interface UseRolePlayAdsHook {
 	currUserRoleplayAds: RolePlayAd[];
 	adData: RolePlayAd | null;
 	loading: boolean;
+	repostAd: (adID: string) => void;
 }
 
 export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
@@ -107,5 +108,36 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 		}
 	}, [rolePlayAd]);
 
-	return { roleplayAds, deleteProfile, currUserRoleplayAds, adData, loading };
+	const { mutate: repostAdMutate } = useMutation({
+		mutationFn: async ({ adID }: { adID: string }) => {
+			try {
+				await axios.post(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/${adID}/repost`,
+					{},
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["your-roleplayAds"] });
+			queryClient.invalidateQueries({ queryKey: ["roleplayAds"] });
+		}
+	});
+
+	function repostAd(adID: string) {
+		repostAdMutate({ adID });
+	}
+
+	return {
+		roleplayAds,
+		deleteProfile,
+		currUserRoleplayAds,
+		adData,
+		loading,
+		repostAd
+	};
 }

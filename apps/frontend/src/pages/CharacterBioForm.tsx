@@ -53,7 +53,6 @@ export default function CharacterBioForm() {
 								<li>Skills or special abilities</li>
 								<li>Goals or motivations</li>
 								<li>Likes, dislikes, and quirks</li>
-								<li>Gender</li>
 							</ul>
 						</div>
 					</div>
@@ -69,6 +68,18 @@ export default function CharacterBioForm() {
 							className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
 							placeholder="Enter your character's name"
 						/>
+					</div>
+					<div>
+						<label className="block text-zinc-200 font-medium mb-1">
+							Gender <span className="text-red-500">*</span>
+						</label>
+						<select className="w-full p-2 rounded-md bg-slate-800 text-zinc-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+							<option value="" disabled selected>
+								Select gender
+							</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
 					</div>
 					<div>
 						<label className="block text-zinc-200 font-medium mb-1">

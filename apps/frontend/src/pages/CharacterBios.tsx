@@ -18,7 +18,7 @@ export default function CharacterBios() {
 
 	return (
 		<div className="min-h-screen bg-slate-950 p-6">
-			<section className="space-y-4 mx-10">
+			<section className="space-y-4 mx-20 mt-10">
 				<h2 className="text-3xl font-bold mb-7 text-slate-200">
 					Your Characters
 				</h2>

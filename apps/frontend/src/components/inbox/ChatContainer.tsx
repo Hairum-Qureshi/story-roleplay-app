@@ -14,8 +14,10 @@ export default function ChatContainer({ chat }: { chat: Conversation }) {
 
 					<div>
 						<h3 className="text-white font-semibold text-lg">{chat.title}</h3>
-						<p className="text-gray-400 text-sm truncate w-48">
-							This is the last message sent in this chat....
+						<p className="text-gray-400 text-sm truncate w-55 italic ellipsis overflow-hidden">
+							{chat.latestMessage
+								? chat.latestMessage
+								: "No messages yet. Start the conversation!"}
 						</p>
 					</div>
 				</div>

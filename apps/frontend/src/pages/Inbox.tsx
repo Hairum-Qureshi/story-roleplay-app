@@ -39,8 +39,6 @@ export default function Inbox() {
 
 	// TODO - fix issue where if fullWidth is false, and the side panel is open, the 'hide side panel' button is not aligned all the way to the right
 
-	// TODO - break this component into sub components
-
 	// TODO - fix scrolling issue with this component
 
 	// ! formatter needs some tinkering. For example, if you try and put '> **__COOL__**' in a message, the markdown isn't rendered correctly.
@@ -61,7 +59,7 @@ export default function Inbox() {
 	}, [chatID]);
 
 	return (
-		<div className="min-h-[100vh - 4rem] bg-slate-950 text-white flex">
+		<div className="min-h-[calc(100vh-4rem)] bg-slate-950 text-white flex">
 			<ChatCardsListPanel
 				currUserConversations={currUserConversations}
 				messageOpenedToggle={messageOpenedToggle}

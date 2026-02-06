@@ -13,7 +13,7 @@ export default function ChatResourcePanel({
 	const isSearching = false;
 	return (
 		<div
-			className={`border border-slate-700 w-1/4 min-h-[100vh - 4rem] max-h-auto ${fullWidth ? "hidden" : "block"}`}
+			className={`border border-slate-700 w-1/4 h-[calc(100vh - 4rem)] ${fullWidth ? "hidden" : "block"}`}
 		>
 			<div className="m-2">
 				<input
