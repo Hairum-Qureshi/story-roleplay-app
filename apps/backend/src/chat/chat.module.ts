@@ -25,5 +25,6 @@ import { EventsModule } from 'src/events/events.module';
   ],
   providers: [ChatService],
   controllers: [ChatController],
+  exports: [ChatService],
 })
 export class ChatModule {}
