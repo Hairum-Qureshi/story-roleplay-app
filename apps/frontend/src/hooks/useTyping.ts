@@ -2,17 +2,30 @@ import { useRef } from "react";
 import useSocketStore from "../store/useSocketStore";
 
 interface UseTypingHook {
-	typingIndicator: (partnerID: string, partnerUsername: string) => void;
+	typingIndicator: (
+		partnerID: string,
+		partnerUsername: string,
+		currentChatID: string
+	) => void;
 }
 
 export default function useTyping(): UseTypingHook {
 	const keyUpTimer = useRef<number | null>(null);
 	const { socket } = useSocketStore();
 
-	function typingIndicator(partnerID: string, partnerUsername: string) {
-		if (!partnerID) return;
+	function typingIndicator(
+		partnerID: string,
+		partnerUsername: string,
+		currentChatID: string
+	) {
+		if (!partnerID || !socket) return;
 
-		socket?.emit("typingIndicator", { typing: true, partnerID });
+		socket?.emit("typingIndicator", {
+			typing: true,
+			partnerID,
+			partnerUsername,
+			currentTypingChatID: currentChatID
+		});
 
 		if (keyUpTimer.current) {
 			clearTimeout(keyUpTimer.current);
@@ -22,9 +35,10 @@ export default function useTyping(): UseTypingHook {
 			socket?.emit("typingIndicator", {
 				typing: false,
 				partnerID,
-				partnerUsername
+				partnerUsername,
+				currentTypingChatID: currentChatID
 			});
-		}, 500); // half a second
+		}, 500);
 	}
 
 	return { typingIndicator };
