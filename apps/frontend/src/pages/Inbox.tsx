@@ -5,17 +5,23 @@ import type { Conversation } from "../interfaces";
 import MainChatContainer from "../components/inbox/MainChatContainer";
 import ChatCardsListPanel from "../components/inbox/ChatCardsListPanel";
 import ChatResourcePanel from "../components/inbox/ChatResourcePanel";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function Inbox() {
 	const { chatID } = useParams();
 	const [fullWidth, setFullWidth] = useState(chatID ? true : false);
 	const [noMessageOpened, setNoMessageOpened] = useState(false);
+	const { data: currUser } = useCurrentUser();
 
 	const { rolePlayChats, currUserConversations } = useRolePlayChat(
 		chatID || ""
 	);
 
 	const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
+
+	const partner = selectedChat?.participants.find(
+		participant => participant._id !== currUser?._id
+	);
 
 	function fullWidthToggle(fullWidth: boolean) {
 		setFullWidth(fullWidth);
@@ -38,6 +44,8 @@ export default function Inbox() {
 	// TODO - fix scrolling issue with this component
 
 	// ! formatter needs some tinkering. For example, if you try and put '> **__COOL__**' in a message, the markdown isn't rendered correctly.
+
+	// ! when you 'end a role-play' and then switch chats, it considers the other chats as 'ended' as well until you refresh the page
 
 	useEffect(() => {
 		setNoMessageOpened(chatID ? false : true);
@@ -64,6 +72,8 @@ export default function Inbox() {
 				noMessageOpened={noMessageOpened}
 				fullWidth={fullWidth}
 				fullWidthToggle={fullWidthToggle}
+				partner={partner?._id || ""}
+				partnerUsername={partner?.username || ""}
 			/>
 			<ChatResourcePanel fullWidth={fullWidth} selectedChat={selectedChat} />
 		</div>
