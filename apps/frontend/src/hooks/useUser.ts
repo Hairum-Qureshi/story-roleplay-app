@@ -10,7 +10,7 @@ export default function useUser(): UseUserHook {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 
-	const { mutate, isError, isPending, error } = useMutation({
+	const { mutate } = useMutation({
 		mutationFn: async () => {
 			try {
 				await axios.delete(
