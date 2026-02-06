@@ -31,6 +31,12 @@ export default function FAQ() {
 					question: "Can I have group role-plays with more than 2 people?",
 					answer:
 						"At this time, the platform only supports one-on-one role-plays. Group role-plays with more than 2 participants are not currently available."
+				},
+				{
+					question:
+						"What does the 'Download Conversation History' button do exactly?",
+					answer:
+						"This button redirects you to a page displaying a PDF of your entire conversation history. You can then download or print this PDF for your records. This is helpful if you would like to read through your entire role-play story you've made with your role-play partner and save it in a readable format. When a role-play has ended, you can still view and access this PDF."
 				}
 			]
 		},
