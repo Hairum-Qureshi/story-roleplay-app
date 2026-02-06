@@ -5,12 +5,7 @@ import { CreateAd } from 'src/DTOs/CreateAd.dto';
 import { EventsGateway } from 'src/events/events.gateway';
 import { RolePlayAd, RolePlayAdDocument } from 'src/schemas/RolePlayAd';
 import { User, UserDocument } from 'src/schemas/User';
-import {
-  ConversationDocument,
-  Message,
-  MessageDocument,
-  UserPayload,
-} from 'src/types';
+import { ConversationDocument, Message, UserPayload } from 'src/types';
 import { Conversation } from 'src/schemas/inbox/Conversation';
 import { ChatService } from 'src/chat/chat.service';
 import mongoose from 'mongoose';
@@ -152,7 +147,10 @@ export class RolePlayAdService {
   }
 
   async getAdByID(adID: string) {
-    return await this.rolePlayAdModel.findById(adID);
+    return await this.rolePlayAdModel.findById(adID).populate({
+      path: 'author',
+      select: 'username profilePicture',
+    });
   }
 
   async repostAd(adID: string) {
