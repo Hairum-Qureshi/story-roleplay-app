@@ -1,4 +1,9 @@
-import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {
+  MessageBody,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { Message, RolePlayAd } from 'src/types';
 import { EventsService } from './events.service';
@@ -52,6 +57,30 @@ export class EventsGateway {
 
   endConversation(chatID: Types.ObjectId) {
     this.server.emit('conversationEnded', { chatID });
+  }
+
+  @SubscribeMessage('typingIndicator')
+  typingIndicator(
+    @MessageBody()
+    payload: {
+      typing: boolean;
+      partnerID: string;
+      partnerUsername: string;
+      currentTypingChatID: string;
+    },
+  ) {
+    const { typing, partnerID, partnerUsername, currentTypingChatID } = payload;
+
+    const socketID: string | undefined =
+      this.eventsService.getUserSocketId(partnerID);
+
+    if (socketID) {
+      this.server.to(socketID).emit('typingIndicator', {
+        typing,
+        partnerUsername,
+        currentTypingChatID,
+      });
+    }
   }
 
   // @SubscribeMessage('updateMessage')
