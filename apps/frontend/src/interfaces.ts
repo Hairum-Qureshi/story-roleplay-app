@@ -123,7 +123,6 @@ interface ChatBubbleProps {
 	isDeleted: boolean;
 	isEdited: boolean;
 	messageID: string;
-	isSystemMessage: boolean;
 }
 
 interface ChatHeaderProps {
