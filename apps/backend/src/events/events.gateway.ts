@@ -82,19 +82,4 @@ export class EventsGateway {
       });
     }
   }
-
-  // @SubscribeMessage('updateMessage')
-  // update(@MessageBody() updateMessageDto: UpdateMessageDto) {
-  //   return this.eventsService.update(updateMessageDto.id, updateMessageDto);
-  // }
-
-  // @SubscribeMessage('removeMessage')
-  // remove(@MessageBody() id: number) {
-  //   return this.eventsService.remove(id);
-  // }
-
-  // @SubscribeMessage('typing')
-  // typing() {
-  //   // Logic for handling typing events can be implemented here
-  // }
 }
