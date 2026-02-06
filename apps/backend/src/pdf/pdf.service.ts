@@ -29,6 +29,10 @@ export class PdfService {
       })
       .populate({
         path: 'roleplayAd',
+        populate: {
+          path: 'author',
+          select: 'username',
+        },
         select: '-__v',
       })
       .populate({
@@ -108,6 +112,12 @@ export class PdfService {
             .filter((p) => p.username !== 'SYSTEM')
             .map((p) => `@${p.username}`)
             .join(' and '),
+        )
+        .font('Helvetica-Bold')
+        .text('Ad created by: ', { continued: true })
+        .font('Helvetica')
+        .text(
+          `@${(conversationDoc.roleplayAd.author as unknown as { username: string }).username}`,
         );
 
       // Date
