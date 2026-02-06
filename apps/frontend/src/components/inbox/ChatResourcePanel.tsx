@@ -37,14 +37,15 @@ export default function ChatResourcePanel({
 								_id: string;
 								username: string;
 								profilePicture?: string;
-							}) => (
-								<UserCard
-									key={member._id}
-									username={member.username}
-									you={member.username === currUserData?.username}
-									profilePicture={member.profilePicture || ""}
-								/>
-							)
+							}) =>
+								member.username !== "SYSTEM" && (
+									<UserCard
+										key={member._id}
+										username={member.username}
+										you={member.username === currUserData?.username}
+										profilePicture={member.profilePicture || ""}
+									/>
+								)
 						)}
 					</div>
 				</div>
