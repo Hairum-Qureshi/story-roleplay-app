@@ -11,6 +11,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 	typing: false,
 	partnerID: null,
 	partnerUsername: null,
+	currentTypingChatID: null,
 	setTyping: (typing: boolean) => set({ typing }),
 	connectSocket: (userId: string) => {
 		const socket = io(import.meta.env.VITE_BACKEND_BASE_URL, {
@@ -50,12 +51,14 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 			"typingIndicator",
 			({
 				typing,
-				partnerUsername
+				partnerUsername,
+				currentTypingChatID
 			}: {
 				typing: boolean;
 				partnerUsername: string;
+				currentTypingChatID: string;
 			}) => {
-				set({ typing, partnerUsername });
+				set({ typing, partnerUsername, currentTypingChatID });
 			}
 		);
 
