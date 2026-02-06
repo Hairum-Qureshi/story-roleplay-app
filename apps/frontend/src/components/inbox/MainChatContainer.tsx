@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import Ad from "../Ad";
 import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
-import type { MainChatContainer } from "../../interfaces";
+import type { MainChatContainerProps } from "../../interfaces";
 
 export default function MainChatContainer({
 	selectedChat,
@@ -17,7 +17,7 @@ export default function MainChatContainer({
 	fullWidthToggle,
 	partner,
 	partnerUsername
-}: MainChatContainer) {
+}: MainChatContainerProps) {
 	const { chatID } = useParams();
 	const {
 		endedConversationID,
