@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from 'src/schemas/User';
-import { CharacterBio, CharacterBioSchema } from 'src/schemas/CharacterBio';
-import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
-import { AuthModule } from 'src/auth/auth.module';
+import { User, UserSchema } from '../schemas/User';
+import { CharacterBio, CharacterBioSchema } from '../schemas/CharacterBio';
+import { RolePlayAd, RolePlayAdSchema } from '../schemas/RolePlayAd';
+import { AuthModule } from '../auth/auth.module';
 import {
   Conversation,
   ConversationSchema,
-} from 'src/schemas/inbox/Conversation';
+} from '../schemas/inbox/Conversation';
 
 @Module({
   imports: [

@@ -5,7 +5,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
-import { Message, RolePlayAd } from 'src/types';
+import { Message, RolePlayAd } from '../types';
 import { EventsService } from './events.service';
 import { Types } from 'mongoose';
 

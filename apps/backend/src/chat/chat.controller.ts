@@ -9,12 +9,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
-import type { UserPayload } from 'src/types';
+import type { UserPayload } from '../types';
 import { ChatService } from './chat.service';
-import { CreateMessage } from 'src/DTOs/CreateMessage.dto';
-import { IsChatMember } from 'src/guards/IsChatMember.guard';
-import { EditMessage } from 'src/DTOs/EditMessage.dto';
-import { IsMessageOwner } from 'src/guards/IsMessageOwner.guard';
+import { CreateMessage } from '../DTOs/CreateMessage.dto';
+import { IsChatMember } from '../guards/IsChatMember.guard';
+import { EditMessage } from '../DTOs/EditMessage.dto';
+import { IsMessageOwner } from '../guards/IsMessageOwner.guard';
 
 @Controller('api/chat')
 export class ChatController {

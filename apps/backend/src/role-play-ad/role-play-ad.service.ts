@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateAd } from 'src/DTOs/CreateAd.dto';
-import { EventsGateway } from 'src/events/events.gateway';
-import { RolePlayAd, RolePlayAdDocument } from 'src/schemas/RolePlayAd';
-import { User, UserDocument } from 'src/schemas/User';
-import { ConversationDocument, Message, UserPayload } from 'src/types';
-import { Conversation } from 'src/schemas/inbox/Conversation';
-import { ChatService } from 'src/chat/chat.service';
+import { CreateAd } from '../DTOs/CreateAd.dto';
+import { EventsGateway } from '../events/events.gateway';
+import { RolePlayAd, RolePlayAdDocument } from '../schemas/RolePlayAd';
+import { User, UserDocument } from '../schemas/User';
+import { ConversationDocument, Message, UserPayload } from '../types';
+import { Conversation } from '../schemas/inbox/Conversation';
+import { ChatService } from '../chat/chat.service';
 import mongoose from 'mongoose';
 
 @Injectable()

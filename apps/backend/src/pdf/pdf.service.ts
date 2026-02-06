@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import type { UserPayload } from 'src/types';
+import type { UserPayload } from '../types';
 import {
   Conversation,
   ConversationDocument,
-} from 'src/schemas/inbox/Conversation';
-import type { HydratedConversation } from 'src/types';
+} from '../schemas/inbox/Conversation';
+import type { HydratedConversation } from '../types';
 import PDFDocument from 'pdfkit';
 
 @Injectable()

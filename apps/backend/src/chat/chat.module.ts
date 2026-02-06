@@ -5,12 +5,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   Conversation,
   ConversationSchema,
-} from 'src/schemas/inbox/Conversation';
-import { RolePlayAd, RolePlayAdSchema } from 'src/schemas/RolePlayAd';
-import { User, UserSchema } from 'src/schemas/User';
-import { AuthModule } from 'src/auth/auth.module';
-import { Message, MessageSchema } from 'src/schemas/inbox/Message';
-import { EventsModule } from 'src/events/events.module';
+} from '../schemas/inbox/Conversation';
+import { RolePlayAd, RolePlayAdSchema } from '../schemas/RolePlayAd';
+import { User, UserSchema } from '../schemas/User';
+import { AuthModule } from '../auth/auth.module';
+import { Message, MessageSchema } from '../schemas/inbox/Message';
+import { EventsModule } from '../events/events.module';
 
 @Module({
   imports: [

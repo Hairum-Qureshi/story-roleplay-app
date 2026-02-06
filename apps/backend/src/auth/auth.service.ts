@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/User';
 import * as admin from 'firebase-admin';
 import { JwtService } from '@nestjs/jwt';
-import { UserPayload } from 'src/types';
+import { UserPayload } from '../types';
 import { generateUsername } from 'unique-username-generator';
 
 @Injectable()

@@ -10,8 +10,8 @@ import { Model } from 'mongoose';
 import {
   Conversation,
   ConversationDocument,
-} from 'src/schemas/inbox/Conversation';
-import type { Conversation as ConversationInterface } from 'src/types';
+} from '../schemas/inbox/Conversation';
+import type { Conversation as ConversationInterface } from '../types';
 
 @Injectable()
 export class IsChatMember implements CanActivate {

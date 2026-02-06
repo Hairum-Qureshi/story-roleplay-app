@@ -2,9 +2,9 @@ import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
-import type { UserPayload } from 'src/types';
+import type { UserPayload } from '../types';
 import { PdfService } from './pdf.service';
-import { IsChatMember } from 'src/guards/IsChatMember.guard';
+import { IsChatMember } from '../guards/IsChatMember.guard';
 
 @Controller('pdf')
 export class PdfController {

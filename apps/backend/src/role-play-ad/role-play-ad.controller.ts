@@ -9,12 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { RolePlayAdService } from './role-play-ad.service';
-import { CreateAd } from 'src/DTOs/CreateAd.dto';
+import { CreateAd } from '../DTOs/CreateAd.dto';
 import { CurrentUser } from '../decorators/currentUser.decorator';
-import { type UserPayload } from 'src/types';
+import { type UserPayload } from '../types';
 import { AuthGuard } from '@nestjs/passport';
-import { IsOwnerGuard } from 'src/guards/IsOwner.guard';
-import { EditAd } from 'src/DTOs/EditAd.dto';
+import { IsOwnerGuard } from '../guards/IsOwner.guard';
+import { EditAd } from '../DTOs/EditAd.dto';
 
 @Controller('role-play-ad')
 export class RolePlayAdController {

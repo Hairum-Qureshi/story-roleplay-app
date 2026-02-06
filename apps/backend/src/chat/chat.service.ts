@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Conversation } from 'src/schemas/inbox/Conversation';
-import { RolePlayAd } from 'src/schemas/RolePlayAd';
+import { Conversation } from '../schemas/inbox/Conversation';
+import { RolePlayAd } from '../schemas/RolePlayAd';
 import type {
   UserPayload,
   ConversationDocument,
   RolePlayAd as RolePlayAdInterface,
-} from 'src/types';
-import { User, UserDocument } from 'src/schemas/User';
-import { Message } from 'src/schemas/inbox/Message';
-import type { Message as MessageInterface } from 'src/types';
-import { CreateMessage } from 'src/DTOs/CreateMessage.dto';
-import type { MessageDocument } from 'src/types';
-import { EventsGateway } from 'src/events/events.gateway';
-import { EditMessage } from 'src/DTOs/EditMessage.dto';
+} from '../types';
+import { User, UserDocument } from '../schemas/User';
+import { Message } from '../schemas/inbox/Message';
+import type { Message as MessageInterface } from '../types';
+import { CreateMessage } from '../DTOs/CreateMessage.dto';
+import type { MessageDocument } from '../types';
+import { EventsGateway } from '../events/events.gateway';
+import { EditMessage } from '../DTOs/EditMessage.dto';
 import { Types } from 'mongoose';
 
 @Injectable()

@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MessageDocument } from 'src/types';
-import { Message } from 'src/schemas/inbox/Message';
+import { MessageDocument } from '../types';
+import { Message } from '../schemas/inbox/Message';
 
 @Injectable()
 export class IsMessageOwner implements CanActivate {

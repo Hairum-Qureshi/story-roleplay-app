@@ -10,9 +10,9 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport/dist/auth.guard';
 import { CurrentUser } from '../decorators/currentUser.decorator';
-import * as types from 'src/types';
+import * as types from '../types';
 import express from 'express';
-import { BearerToken } from 'src/decorators/bearerToken.decorator';
+import { BearerToken } from '../decorators/bearerToken.decorator';
 import type { Response, CookieOptions } from 'express';
 
 @Controller('api/auth')

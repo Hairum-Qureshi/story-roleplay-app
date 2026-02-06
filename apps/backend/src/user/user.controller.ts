@@ -1,10 +1,10 @@
 import { Controller, Delete, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
-import type { UserPayload } from 'src/types';
+import { CurrentUser } from '../decorators/currentUser.decorator';
+import type { UserPayload } from '../types';
 import type { Response } from 'express';
 import { UserService } from './user.service';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('api/user')
 export class UserController {

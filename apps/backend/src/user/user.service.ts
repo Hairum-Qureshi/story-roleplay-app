@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CharacterBio, CharacterBioDocument } from 'src/schemas/CharacterBio';
-import { RolePlayAd, RolePlayAdDocument } from 'src/schemas/RolePlayAd';
-import { User, UserDocument } from 'src/schemas/User';
+import { CharacterBio, CharacterBioDocument } from '../schemas/CharacterBio';
+import { RolePlayAd, RolePlayAdDocument } from '../schemas/RolePlayAd';
+import { User, UserDocument } from '../schemas/User';
 import * as admin from 'firebase-admin';
 import {
   Conversation,
   ConversationDocument,
-} from 'src/schemas/inbox/Conversation';
-import type { Conversation as ConversationInterface } from 'src/types';
+} from '../schemas/inbox/Conversation';
+import type { Conversation as ConversationInterface } from '../types';
 
 @Injectable()
 export class UserService {
