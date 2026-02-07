@@ -43,7 +43,6 @@ export default function Inbox() {
 
 	// ! formatter needs some tinkering. For example, if you try and put '> **__COOL__**' in a message, the markdown isn't rendered correctly.
 
-	// ! when you 'end a role-play' and then switch chats, it considers the other chats as 'ended' as well until you refresh the page
 
 	useEffect(() => {
 		setNoMessageOpened(chatID ? false : true);
