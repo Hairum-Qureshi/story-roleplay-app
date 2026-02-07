@@ -161,6 +161,11 @@ interface PlannedFeature {
 	description: string;
 }
 
+interface Bug {
+	id: number;
+	bug: string;
+}
+
 export type {
 	FeatureColumnProps,
 	UseGoogleAuthHook,
@@ -177,5 +182,6 @@ export type {
 	MainChatContainerProps,
 	ChatFooterProps,
 	Update,
-	PlannedFeature
+	PlannedFeature,
+	Bug
 };
