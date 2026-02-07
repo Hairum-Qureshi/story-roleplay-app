@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 
 export default function FAQ() {
@@ -42,6 +43,18 @@ export default function FAQ() {
 					question: "Do you have plans to make a mobile app?",
 					answer:
 						"At this time, there are no immediate plans for a mobile app. The platform is currently optimized for desktop use. However, we are working towards making this site fully responsive and accessible on mobile devices."
+				},
+				{
+					question:
+						"What kind of content is allowed and not allowed in role-plays?",
+					answer: (
+						<p>
+							Please check out{" "}
+							<Link to="/guidelines" className="underline text-yellow-500">
+								our guidelines
+							</Link>
+						</p>
+					)
 				}
 			]
 		},
