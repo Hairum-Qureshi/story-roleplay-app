@@ -43,5 +43,10 @@
 		"id": 9,
 		"subheading": "Implementing 'create character' functionality",
 		"description": "Users will be able to create and customize their own characters for role-playing scenarios, enhancing the immersive experience of the platform."
+	},
+	{
+		"id": 10,
+		"subheading": "Ad search and filtering options",
+		"description": "Users will have the ability to search for role-play ads based on specific criteria such as title, user, character preferences, making it easier to find suitable role-playing opportunities."
 	}
 ]
