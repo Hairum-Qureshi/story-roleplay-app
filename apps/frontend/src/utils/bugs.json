@@ -9,7 +9,7 @@
 	},
 	{
 		"id": 3,
-		"bug": "When you repost more than 1 ad, then the frontend UI appears to duplicate the ad more than once unless you refresh the page."
+		"bug": "When you repost more than 1 ad, the frontend UI appears to duplicate the ad more than once unless you refresh the page."
 	},
 	{
 		"id": 4,
