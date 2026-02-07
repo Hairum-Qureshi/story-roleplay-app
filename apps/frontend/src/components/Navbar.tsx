@@ -11,6 +11,7 @@ import { IoIosInformationCircle } from "react-icons/io";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { FaHeart } from "react-icons/fa";
+import { MdTipsAndUpdates } from "react-icons/md";
 import useGoogleAuth from "../hooks/useGoogleAuth";
 
 export default function Navbar() {
@@ -20,7 +21,7 @@ export default function Navbar() {
 
 	return (
 		<div
-			className={`w-full h-16 bg-slate-900 border-b border-slate-700 flex items-center justify-center px-6 space-x-4 ${(location.pathname !== "/inbox" && location.pathname !== "/faq") && "sticky top-0 z-50"}`}
+			className={`w-full h-16 bg-slate-900 border-b border-slate-700 flex items-center justify-center px-6 space-x-4 ${location.pathname !== "/inbox" && location.pathname !== "/faq" && "sticky top-0 z-50"}`}
 		>
 			<Link to="/">
 				<h1
@@ -96,6 +97,14 @@ export default function Navbar() {
 					title="FAQ"
 				>
 					<IoIosInformationCircle className="text-sky-400" />
+				</h1>
+			</Link>
+			<Link to="/updates-changelog">
+				<h1
+					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+					title="Updates and Changelog"
+				>
+					<MdTipsAndUpdates className="text-sky-400" />
 				</h1>
 			</Link>
 			<Link to="/about">
