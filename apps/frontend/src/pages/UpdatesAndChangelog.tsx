@@ -70,7 +70,7 @@ export default function UpdatesAndChangelog() {
 							reasons. Below are user-facing problems we're actively working on.
 						</p>
 
-						<ul className="list-disc list-inside space-y-2 text-sm text-slate-400">
+						<ul className="list-disc list-inside space-y-6 text-sm text-slate-400">
 							{currentBugs.map(bug => (
 								<li key={bug.id}>
 									<span className="font-medium text-slate-200">{bug.bug}</span>
