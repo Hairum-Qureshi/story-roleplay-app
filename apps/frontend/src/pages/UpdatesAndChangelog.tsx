@@ -1,7 +1,13 @@
 import PlannedFeaturesCard from "../components/PlannedFeaturesCard";
 import UpdateCard from "../components/UpdateCard";
+import planned from ".././utils/planned.json";
+import updates from ".././utils/updates.json";
+import type { PlannedFeature, Update } from "../interfaces";
 
 export default function UpdatesAndChangelog() {
+	const plannedFeatures: PlannedFeature[] = planned;
+	const updatesToShow: Update[] = updates;
+
 	return (
 		<div className="min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-200 px-6 py-10">
 			<div className="mx-auto max-w-4xl space-y-10">
@@ -19,16 +25,20 @@ export default function UpdatesAndChangelog() {
 				<section className="space-y-4">
 					<h2 className="text-xl font-medium text-slate-100">Latest Updates</h2>
 
-					<UpdateCard
-						heading="New character creation interface"
-						timestamp="Oct 5, 2026"
-						description="A redesigned character creation flow with more customization options and a streamlined user experience."
-					/>
-					<UpdateCard
-						heading="Improved message generation stability"
-						timestamp="Sep 18, 2026"
-						description="Reduced generation interruptions during longer role-play sessions and improved recovery when responses fail."
-					/>
+					{updatesToShow.length > 0 ? (
+						<ul className="space-y-3">
+							{updatesToShow.map(update => (
+								<UpdateCard
+									key={update.id}
+									heading={update.heading}
+									timestamp={update.timestamp}
+									description={update.description}
+								/>
+							))}
+						</ul>
+					) : (
+						<p className="text-slate-400">No updates available.</p>
+					)}
 				</section>
 
 				{/* Planned Features */}
@@ -38,15 +48,13 @@ export default function UpdatesAndChangelog() {
 					</h2>
 
 					<ul className="space-y-3">
-						<PlannedFeaturesCard
-							subheading="Mobile app release"
-							description="A native mobile app for iOS and Android, optimized for on-the-go role-playing."
-						/>
-
-						<PlannedFeaturesCard
-							subheading="Conversation organization tools"
-							description="Folders, pinning, and easier navigation for larger role-play libraries."
-						/>
+						{plannedFeatures.map(feature => (
+							<PlannedFeaturesCard
+								key={feature.id}
+								subheading={feature.subheading}
+								description={feature.description}
+							/>
+						))}
 					</ul>
 				</section>
 
