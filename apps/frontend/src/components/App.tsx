@@ -45,8 +45,15 @@ export default function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
-				<Route path="/contact" element={<Contact />} />
 				<Route path="/role-play-ads" element={<Advertisements />} />
+				<Route
+					path="/contact"
+					element={
+						<ProtectedRoutesGuard>
+							<Contact />
+						</ProtectedRoutesGuard>
+					}
+				/>
 				<Route
 					path="/new-ad"
 					element={
