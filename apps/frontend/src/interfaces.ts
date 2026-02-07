@@ -148,6 +148,19 @@ interface ChatFooterProps {
 	selectedChat: Conversation | null;
 }
 
+interface Update {
+	id: number;
+	heading: string;
+	timestamp: string;
+	description: string;
+}
+
+interface PlannedFeature {
+	id: number;
+	subheading: string;
+	description: string;
+}
+
 export type {
 	FeatureColumnProps,
 	UseGoogleAuthHook,
@@ -162,5 +175,7 @@ export type {
 	ChatBubbleProps,
 	ChatHeaderProps,
 	MainChatContainerProps,
-	ChatFooterProps
+	ChatFooterProps,
+	Update,
+	PlannedFeature
 };
