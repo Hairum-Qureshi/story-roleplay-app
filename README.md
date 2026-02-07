@@ -90,3 +90,17 @@ TaleWeaver is currently under active development. The architecture is being desi
 This repository is intended for experimentation, iteration, and growth as features evolve.
 
 If you’re interested in collaborative storytelling, real‑time writing, or building modern full‑stack applications, TaleWeaver aims to be a thoughtful and flexible foundation.
+
+Check out the [Tale Weaver](https://story-roleplay-app-frontend.vercel.app/updates-changelog) website for bug reports, upcoming features, and a changelog.
+
+--
+
+## Deployment
+
+TaleWeaver is deployed using modern hosting platforms for simplicity and scalability:
+
+- **Frontend** – The React frontend is hosted on **Vercel**, providing fast, globally distributed delivery with automatic builds and updates on every push to the repository. Users always get the latest version of the UI without manual deployment steps.
+
+- **Backend** – The NestJS backend runs on **Render**, which provides easy deployment of Node.js applications with built-in HTTPS and automatic scaling. Since Render may put inactive instances to sleep to save resources, the backend server might need to **wake up** if it hasn’t been accessed recently. This can cause a slight delay (usually a few seconds) for the first request after a period of inactivity.
+
+This setup ensures that TaleWeaver remains accessible and performant while keeping deployment and maintenance straightforward.
