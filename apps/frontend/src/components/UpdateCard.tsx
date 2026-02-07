@@ -13,10 +13,7 @@ export default function UpdateCard({
 				<span className="font-medium text-slate-200">{heading}</span>
 				<span className="text-sm text-slate-500">{timestamp}</span>
 			</div>
-			<p className="text-slate-400 text-sm">
-				{description}
-				on dark themes.
-			</p>
+			<p className="text-slate-400 text-sm">{description}</p>
 		</div>
 	);
 }
