@@ -22,6 +22,7 @@ import OwnerRoutesGuard from "./middleware/OwnerRoutesGuard";
 import AdDetails from "../pages/AdDetails";
 import IsMemberRoutesGuard from "./middleware/IsMemberRoutesGuard";
 import UpdatesAndChangelog from "../pages/UpdatesAndChangelog";
+import Contact from "../pages/Contact";
 
 export default function App() {
 	const connectSocket = useSocketStore(state => state.connectSocket);
@@ -44,6 +45,7 @@ export default function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
+				<Route path="/contact" element={<Contact />} />
 				<Route path="/role-play-ads" element={<Advertisements />} />
 				<Route
 					path="/new-ad"
