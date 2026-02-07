@@ -13,6 +13,6 @@
 	},
 	{
 		"id": 4,
-		"bug": "Logging in through Google on mobile can sometimes cause the page to refresh and log you out immediately after logging in. This seems to be an issue with the Google login flow on mobile devices and is being investigated"
+		"bug": "Logging in through Google on mobile causes the page to refresh and log you out immediately after logging in. This seems to be an issue with the Google login flow on mobile devices and is being investigated"
 	}
 ]
