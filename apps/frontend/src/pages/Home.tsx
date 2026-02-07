@@ -40,7 +40,11 @@ export default function Home() {
 				</h2>
 				<p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
 					Jump into collaborative role-play worlds and co-create immersive
-					narratives with friends.
+					narratives with friends. Check out our{" "}
+					<Link to="/guidelines" className="underline text-yellow-500">
+						guidelines
+					</Link>{" "}
+					for more information.
 				</p>
 
 				{/* CTA Buttons */}
