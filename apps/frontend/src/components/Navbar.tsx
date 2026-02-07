@@ -90,6 +90,14 @@ export default function Navbar() {
 							<FaHeart className="text-sky-400" />
 						</h1>
 					</Link>
+					<Link to="/contact">
+						<h1
+							className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
+							title="Contact"
+						>
+							<IoMail className="text-sky-400" />
+						</h1>
+					</Link>
 				</>
 			)}
 			<Link to="/faq">
@@ -114,14 +122,6 @@ export default function Navbar() {
 					title="About"
 				>
 					<HiQuestionMarkCircle className="text-sky-400" />
-				</h1>
-			</Link>
-			<Link to="/contact">
-				<h1
-					className="border border-slate-700 px-2 py-1 rounded-full h-10 w-10 font-bold text-zinc-100 flex items-center text-2xl"
-					title="Contact"
-				>
-					<IoMail className="text-sky-400" />
 				</h1>
 			</Link>
 			{currUserData && (
