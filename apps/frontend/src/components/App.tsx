@@ -20,6 +20,7 @@ import { useCurrentUser } from "../hooks/useCurrentUser";
 import { useEffect } from "react";
 import OwnerRoutesGuard from "./middleware/OwnerRoutesGuard";
 import AdDetails from "../pages/AdDetails";
+import IsMemberRoutesGuard from "./middleware/IsMemberRoutesGuard";
 
 export default function App() {
 	const connectSocket = useSocketStore(state => state.connectSocket);
@@ -79,7 +80,9 @@ export default function App() {
 					path="/inbox/:chatID"
 					element={
 						<ProtectedRoutesGuard>
-							<Inbox />
+							<IsMemberRoutesGuard>
+								<Inbox />
+							</IsMemberRoutesGuard>
 						</ProtectedRoutesGuard>
 					}
 				/>
