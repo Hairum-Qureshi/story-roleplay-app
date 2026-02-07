@@ -106,7 +106,7 @@ export default function MainChatContainer({
 									onDelete={() =>
 										selectedChat && deleteMessage(selectedChat._id, message._id)
 									}
-									chatEnded={chatEnded}
+									chatEnded={chatEnded || false}
 									isDeleted={message.isDeleted}
 									isEdited={message.isEdited || false}
 									messageID={message._id}
