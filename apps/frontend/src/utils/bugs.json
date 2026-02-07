@@ -9,11 +9,11 @@
 	},
 	{
 		"id": 3,
-		"bug": "When you repost more than 1 ad, then the frontend UI appears to duplicate the ad more than once unless you refresh the page"
+		"bug": "When you repost more than 1 ad, then the frontend UI appears to duplicate the ad more than once unless you refresh the page."
 	},
 	{
 		"id": 4,
-		"bug": "Logging in through Google on mobile causes the page to refresh and log you out immediately after logging in. This seems to be an issue with the Google login flow on mobile devices and is being investigated"
+		"bug": "Logging in through Google on mobile causes the page to refresh and log you out immediately after logging in. This seems to be an issue with the Google login flow on mobile devices and is being investigated."
 	},
 	{
 		"id": 5,
