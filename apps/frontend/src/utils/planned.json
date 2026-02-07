@@ -10,6 +10,11 @@
 		"description": "Users will be able to search for specific messages within their chats, making it easier to find important information or revisit past conversations."
 	},
 	{
+		"id": 3,
+		"subheading": "Search chat functionality",
+		"description": "Users will have the ability to search for specific chats by title from their list of conversations, allowing for quicker access to relevant chats without having to scroll through the entire inbox."
+	},
+	{
 		"id": 4,
 		"subheading": "Newer chats appearing at the top of the inbox",
 		"description": "The inbox will be updated to display newer chats at the top, allowing users to easily access their most recent conversations without having to scroll through older chats."
