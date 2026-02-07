@@ -2,11 +2,13 @@ import PlannedFeaturesCard from "../components/PlannedFeaturesCard";
 import UpdateCard from "../components/UpdateCard";
 import planned from ".././utils/planned.json";
 import updates from ".././utils/updates.json";
-import type { PlannedFeature, Update } from "../interfaces";
+import bug from ".././utils/bugs.json";
+import type { Bug, PlannedFeature, Update } from "../interfaces";
 
 export default function UpdatesAndChangelog() {
 	const plannedFeatures: PlannedFeature[] = planned;
 	const updatesToShow: Update[] = updates;
+	const currentBugs: Bug[] = bug;
 
 	return (
 		<div className="min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-200 px-6 py-10">
@@ -65,15 +67,15 @@ export default function UpdatesAndChangelog() {
 					<div className="rounded-lg border border-slate-800 bg-slate-900/50 p-5 space-y-3">
 						<p className="text-sm text-slate-400">
 							Some issues are tracked privately for security and stability
-							reasons. Below are user-facing problems we’re actively working on.
+							reasons. Below are user-facing problems we're actively working on.
 						</p>
 
 						<ul className="list-disc list-inside space-y-2 text-sm text-slate-400">
-							<li>
-								Occasional delays when generating responses during peak usage
-							</li>
-							<li>Rare cases where chat history may take longer to load</li>
-							<li>Minor visual glitches on very small screen sizes</li>
+							{currentBugs.map(bug => (
+								<li key={bug.id}>
+									<span className="font-medium text-slate-200">{bug.bug}</span>
+								</li>
+							))}
 						</ul>
 					</div>
 				</section>
