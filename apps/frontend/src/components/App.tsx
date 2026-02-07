@@ -21,6 +21,7 @@ import { useEffect } from "react";
 import OwnerRoutesGuard from "./middleware/OwnerRoutesGuard";
 import AdDetails from "../pages/AdDetails";
 import IsMemberRoutesGuard from "./middleware/IsMemberRoutesGuard";
+import UpdatesAndChangelog from "../pages/UpdatesAndChangelog";
 
 export default function App() {
 	const connectSocket = useSocketStore(state => state.connectSocket);
@@ -120,6 +121,7 @@ export default function App() {
 						</ProtectedRoutesGuard>
 					}
 				/>
+				<Route path="/updates-changelog" element={<UpdatesAndChangelog />} />
 				<Route path="/faq" element={<FAQ />} />
 				<Route path="/privacy-policy" element={<PrivacyPolicy />} />
 				<Route path="/terms-of-service" element={<TermsOfService />} />
