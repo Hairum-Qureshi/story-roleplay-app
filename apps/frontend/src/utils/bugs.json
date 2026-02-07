@@ -1,0 +1,14 @@
+[
+	{
+		"id": 1,
+		"bug": "When you have a chat with a user and delete your account, and error occurs when the other user tries opening a chat with the deleted account."
+	},
+	{
+		"id": 2,
+		"bug": "When you have a chat open and click on the chat card from the chat list, the role-play ad data goes undefined."
+	},
+	{
+		"id": 3,
+		"bug": "When you repost more than 1 ad, then the frontend UI appears to duplicate the ad more than once unless you refresh the page"
+	}
+]
