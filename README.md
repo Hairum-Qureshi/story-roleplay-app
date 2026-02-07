@@ -93,7 +93,7 @@ If you’re interested in collaborative storytelling, real‑time writing, or bu
 
 Check out the [Tale Weaver](https://story-roleplay-app-frontend.vercel.app/updates-changelog) website for bug reports, upcoming features, and a changelog.
 
---
+---
 
 ## Deployment
 
