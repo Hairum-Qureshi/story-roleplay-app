@@ -37,6 +37,11 @@ export default function FAQ() {
 						"What does the 'Download Conversation History' button do exactly?",
 					answer:
 						"This button redirects you to a page displaying a PDF of your entire conversation history. You can then download or print this PDF for your records. This is helpful if you would like to read through your entire role-play story you've made with your role-play partner and save it in a readable format. When a role-play has ended, you can still view and access this PDF."
+				},
+				{
+					question: "Do you have plans to make a mobile app?",
+					answer:
+						"At this time, there are no immediate plans for a mobile app. The platform is currently optimized for desktop use. However, we are working towards making this site fully responsive and accessible on mobile devices."
 				}
 			]
 		},
