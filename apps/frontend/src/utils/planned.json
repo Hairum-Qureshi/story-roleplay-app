@@ -33,5 +33,15 @@
 		"id": 7,
 		"subheading": "In browser notifications",
 		"description": "Users will receive in-browser notifications for new messages/ad-replies, ensuring they stay informed about incoming communications even when they are not actively viewing the inbox."
+	},
+	{
+		"id": 8,
+		"subheading": "Adding a character limit to messages",
+		"description": "To prevent excessively long messages that may cause performance issues or hinder readability, a character limit will be implemented for messages sent within the platform."
+	},
+	{
+		"id": 9,
+		"subheading": "Implementing 'create character' functionality",
+		"description": "Users will be able to create and customize their own characters for role-playing scenarios, enhancing the immersive experience of the platform."
 	}
 ]
