@@ -23,6 +23,7 @@ import AdDetails from "../pages/AdDetails";
 import IsMemberRoutesGuard from "./middleware/IsMemberRoutesGuard";
 import UpdatesAndChangelog from "../pages/UpdatesAndChangelog";
 import Contact from "../pages/Contact";
+import Guidelines from "../pages/Guidelines";
 
 export default function App() {
 	const connectSocket = useSocketStore(state => state.connectSocket);
