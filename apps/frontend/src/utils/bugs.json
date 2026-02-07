@@ -1,7 +1,7 @@
 [
 	{
 		"id": 1,
-		"bug": "When you have a chat with a user and delete your account, and error occurs when the other user tries opening a chat with the deleted account."
+		"bug": "When you have a chat with a user and delete your account, an error occurs when the other user tries opening a chat with the deleted account."
 	},
 	{
 		"id": 2,
