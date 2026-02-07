@@ -18,5 +18,9 @@
 	{
 		"id": 5,
 		"bug": "Markdown formatting in messages can sometimes render incorrectly, especially when using certain combinations of markdown syntax. We're working on improving the markdown parser to handle these cases more gracefully."
+	},
+	{
+		"id": 6,
+		"bug": "When you 'end a role-play' and then switch chats, it considers the other chats as 'ended' as well until you refresh the page. This is due to a state management issue where the 'ended' status is being applied globally instead of per chat. We're working on fixing this by ensuring that the 'ended' status is stored and managed on a per-chat basis."
 	}
 ]
