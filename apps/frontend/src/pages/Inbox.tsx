@@ -59,7 +59,7 @@ export default function Inbox() {
 	}, [chatID]);
 
 	return (
-		<div className="min-h-[calc(100vh-4rem)] bg-slate-950 text-white flex">
+		<div className="h-[calc(100vh-4rem)] bg-slate-950 text-white flex overflow-y-hidden">
 			<ChatCardsListPanel
 				currUserConversations={currUserConversations}
 				messageOpenedToggle={messageOpenedToggle}
