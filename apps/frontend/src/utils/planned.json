@@ -1,0 +1,37 @@
+[
+	{
+		"id": 1,
+		"subheading": "Favoriting ads",
+		"description": "Users will be able to favorite role-play ads to easily find and revisit them later."
+	},
+	{
+		"id": 2,
+		"subheading": "Functional search within chats",
+		"description": "Users will be able to search for specific messages within their chats, making it easier to find important information or revisit past conversations."
+	},
+	{
+		"id": 3,
+		"subheading": "Adding a 404 page",
+		"description": "A custom 404 page will be implemented to enhance user experience when they navigate to a non-existent page on the site."
+	},
+	{
+		"id": 4,
+		"subheading": "Newer chats appearing at the top of the inbox",
+		"description": "The inbox will be updated to display newer chats at the top, allowing users to easily access their most recent conversations without having to scroll through older chats."
+	},
+	{
+		"id": 5,
+		"subheading": "Message count for unread messages",
+		"description": "A message count will be added to indicate the number of unread messages in each chat, helping users quickly identify which conversations require their attention."
+	},
+	{
+		"id": 6,
+		"subheading": "Read/unread indicators for messages",
+		"description": "Unopened messages will be visually distinguishable from opened ones, allowing users to easily identify which messages they have already read and which ones are new."
+	},
+	{
+		"id": 7,
+		"subheading": "In browser notifications",
+		"description": "Users will receive in-browser notifications for new messages/ad-replies, ensuring they stay informed about incoming communications even when they are not actively viewing the inbox."
+	}
+]
