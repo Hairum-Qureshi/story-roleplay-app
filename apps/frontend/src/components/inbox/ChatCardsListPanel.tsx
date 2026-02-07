@@ -14,20 +14,23 @@ export default function ChatCardsListPanel({
 	selectedChatToggle: (chat: Conversation | null) => void;
 }) {
 	return (
-		<div className="w-1/4 h-[93vh] space-y-3 overflow-y-scroll border-r border-slate-700">
+		<div className="w-1/4 h-[94vh] space-y-3 overflow-y-scroll border-r border-slate-700">
 			{(currUserConversations?.conversations?.length ?? 0) > 0 ? (
-				currUserConversations?.conversations.map((chat: Conversation) => (
-					<Link
-						key={chat._id}
-						to={`/inbox/${chat._id}`}
-						onClick={() => {
-							messageOpenedToggle(false);
-							selectedChatToggle(chat);
-						}}
-					>
-						<ChatContainer chat={chat} />
-					</Link>
-				))
+				currUserConversations?.conversations.map(
+					(chat: Conversation, index: number) => (
+						<div className={index === 0 ? "mt-9" : ""} key={chat._id}>
+							<Link
+								to={`/inbox/${chat._id}`}
+								onClick={() => {
+									messageOpenedToggle(false);
+									selectedChatToggle(chat);
+								}}
+							>
+								<ChatContainer chat={chat} />
+							</Link>
+						</div>
+					)
+				)
 			) : (
 				<p className="text-center text-sky-600 mt-20 font-semibold mx-10">
 					No conversations found. Any ads of yours users have responded to or

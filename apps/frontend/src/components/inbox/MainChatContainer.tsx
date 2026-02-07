@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import ChatBubble from "./ChatBubble";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
 import type { Message } from "../../interfaces";
@@ -32,8 +32,7 @@ export default function MainChatContainer({
 	const { data: currUser } = useCurrentUser();
 	const bottomOfContainer = useRef<HTMLDivElement>(null);
 	const isFirstLoad = useRef(true);
-
-	// ! Issue - 'h-[calc(100vh-4rem)]' is what's causing that tiny gap under the textarea to appear when you scroll all the way down. I think it has to do with the fact that the header is 4rem, but when you scroll to the bottom, the header is no longer taking up that space, so it creates a gap. Need to find a way to make it so that when you scroll to the bottom, it accounts for the fact that the header is no longer taking up space. If you reduce 4rem down to 3, the gap vanishes but the scrollbar still exists.
+	const [chatEnded, setChatEnded] = useState(selectedChat?.chatEnded);
 
 	useEffect(() => {
 		if (!bottomOfContainer.current) return;
@@ -46,6 +45,12 @@ export default function MainChatContainer({
 		}
 	}, [rolePlayChatMessages]);
 
+	useEffect(() => {
+		setChatEnded(selectedChat?.chatEnded);
+	}, [chatID]);
+
+	console.log(chatEnded);
+
 	return (
 		<div
 			className={`${
@@ -53,7 +58,7 @@ export default function MainChatContainer({
 			} h-[calc(100vh-2.5rem)] flex flex-col overflow-hidden`}
 		>
 			{noMessageOpened ? (
-				<p className="text-sky-600 text-center text-3xl font-semibold flex-1 flex items-center justify-center">
+				<p className="text-sky-600 text-center text-3xl mt-50 font-semibold flex items-center justify-center">
 					Select a chat to view messages
 				</p>
 			) : (
@@ -101,7 +106,7 @@ export default function MainChatContainer({
 									onDelete={() =>
 										selectedChat && deleteMessage(selectedChat._id, message._id)
 									}
-									chatEnded={selectedChat?.chatEnded || !!endedConversationID}
+									chatEnded={chatEnded}
 									isDeleted={message.isDeleted}
 									isEdited={message.isEdited || false}
 									messageID={message._id}
@@ -120,7 +125,7 @@ export default function MainChatContainer({
 
 					{/* Footer */}
 					<div className="flex items-center w-full bg-slate-800 px-4 py-2">
-						{selectedChat?.chatEnded || endedConversationID ? (
+						{chatEnded || endedConversationID ? (
 							<div className="text-center w-full py-1.5 border border-red-600 text-red-500 rounded-md">
 								<p>
 									This role-play has ended. You can no longer send messages in

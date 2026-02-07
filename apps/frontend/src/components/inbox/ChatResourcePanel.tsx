@@ -15,7 +15,7 @@ export default function ChatResourcePanel({
 		<div
 			className={`border border-slate-700 w-1/4 h-[calc(100vh - 4rem)] ${fullWidth ? "hidden" : "block"}`}
 		>
-			<div className="m-2">
+			<div className="mx-2 mt-10">
 				<input
 					type="text"
 					placeholder="Search a phrase in this chat..."

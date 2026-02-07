@@ -8,7 +8,7 @@ export default function ChatHeader({
 	endRolePlayConversation
 }: ChatHeaderProps) {
 	return (
-		<div className="w-full border-b border-slate-700 flex items-center">
+		<div className="w-full mt-5 border-b border-slate-700 flex items-center">
 			<h3
 				className={
 					fullWidth
@@ -19,7 +19,7 @@ export default function ChatHeader({
 				{selectedChat?.title}
 			</h3>
 			<div
-				className={`m-2 bg-red-500 border border-red-600 rounded-md px-2 py-1 ${
+				className={`m-2 bg-red-500 border border-red-600 flex rounded-md px-2 py-1 ${
 					selectedChat?.chatEnded || endedConversationID
 						? "cursor-not-allowed opacity-50"
 						: "hover:bg-red-600 active:bg-red-700 hover:cursor-pointer"
