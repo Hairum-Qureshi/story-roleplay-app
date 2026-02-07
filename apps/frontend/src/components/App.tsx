@@ -46,6 +46,7 @@ export default function App() {
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/role-play-ads" element={<Advertisements />} />
+				<Route path="/guidelines" element={<Guidelines />} />
 				<Route
 					path="/contact"
 					element={
