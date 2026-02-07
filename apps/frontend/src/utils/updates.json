@@ -1,1 +1,8 @@
-[]
+[
+	{
+		"id": 1,
+		"heading": "Styled 404 page",
+		"timestamp": "01-06-2026",
+		"description": "A custom 404 page has been implemented to enhance user experience when they navigate to a non-existent page on the site."
+	}
+]
