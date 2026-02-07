@@ -14,5 +14,9 @@
 	{
 		"id": 4,
 		"bug": "Logging in through Google on mobile causes the page to refresh and log you out immediately after logging in. This seems to be an issue with the Google login flow on mobile devices and is being investigated"
+	},
+	{
+		"id": 5,
+		"bug": "Markdown formatting in messages can sometimes render incorrectly, especially when using certain combinations of markdown syntax. We're working on improving the markdown parser to handle these cases more gracefully."
 	}
 ]
