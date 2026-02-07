@@ -97,10 +97,10 @@ Check out the [Tale Weaver](https://story-roleplay-app-frontend.vercel.app/updat
 
 ## Deployment
 
-TaleWeaver is deployed using modern hosting platforms for simplicity and scalability:
+TaleWeaver is deployed using a split hosting strategy that aligns with the architectural needs of each part of the application.
 
-- **Frontend** – The React frontend is hosted on **Vercel**, providing fast, globally distributed delivery with automatic builds and updates on every push to the repository. Users always get the latest version of the UI without manual deployment steps.
+- **Frontend** – The React frontend is hosted on **Vercel**, which provides fast, globally distributed static delivery, automatic builds on every push, and seamless CI/CD. This makes it ideal for serving the UI layer with minimal operational overhead while ensuring users always receive the latest version of the app.
 
-- **Backend** – The NestJS backend runs on **Render**, which provides easy deployment of Node.js applications with built-in HTTPS and automatic scaling. Since Render may put inactive instances to sleep to save resources, the backend server might need to **wake up** if it hasn’t been accessed recently. This can cause a slight delay (usually a few seconds) for the first request after a period of inactivity.
+- **Backend** – The NestJS backend is deployed on **Render**. Render was chosen specifically because TaleWeaver relies on **Socket.IO** for real-time, persistent WebSocket connections. Platforms like Vercel are designed around **serverless, stateless functions**, which do not support long-lived WebSocket connections required by Socket.IO. Because of this limitation, running the backend on Vercel would break real-time chat functionality. Render, by contrast, provides a traditional Node.js runtime with persistent processes, making it well-suited for WebSocket-based applications.
 
-This setup ensures that TaleWeaver remains accessible and performant while keeping deployment and maintenance straightforward.
+To mitigate Render’s free-tier behavior of suspending inactive services, a **cron job is configured to ping the backend every 10 minutes**. This periodic request keeps the server instance warm and prevents cold starts that would otherwise introduce noticeable delays when users send their first message after inactivity. This ensures a smoother real-time chat experience while keeping hosting costs low.
