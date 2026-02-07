@@ -68,5 +68,10 @@
 		"id": 14,
 		"subheading": "Contact form functionality",
 		"description": "At the moment, sending a message through the contact form doesn't actually send an email to the support team. For the time being, please contact us directly at support@taleweaver.com"
+	},
+	{
+		"id": 15,
+		"subheading": "User account deletion",
+		"description": "Users will have the ability to delete their account, which will remove all of their personal information, and ads, without causing any issues."
 	}
 ]
