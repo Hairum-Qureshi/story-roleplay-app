@@ -48,5 +48,15 @@
 		"id": 10,
 		"subheading": "Ad search and filtering options",
 		"description": "Users will have the ability to search for role-play ads based on specific criteria such as title, user, character preferences, making it easier to find suitable role-playing opportunities."
+	},
+	{
+		"id": 11,
+		"subheading": "Ad deletion",
+		"description": "Users will be able to delete their own role-play ads without it causing issues with existing chats. This will allow users to manage their ads more effectively and remove any outdated or unwanted listings."
+	},
+	{
+		"id": 12,
+		"subheading": "Block feature",
+		"description": "Users will have the option to block other users, preventing them from sending messages or viewing their ads. This will enhance user safety and allow individuals to curate their interactions on the platform."
 	}
 ]
