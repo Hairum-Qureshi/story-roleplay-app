@@ -25,5 +25,6 @@
 	},
 	{
 		"id": 7,
-		"bug": "When you sign out, then visit a URL that doesn't exist (i.e. you're on the Error 404 page), for some reason you're considered logged-in when you shouldn't be.
+		"bug": "When you sign out, then visit a URL that doesn't exist (i.e. you're on the Error 404 page), for some reason you're considered logged-in when you shouldn't be."
+	}
 ]
