@@ -19,7 +19,7 @@ export default function UpdatesAndChangelog() {
 						Updates & Changelog
 					</h1>
 					<p className="text-slate-400">
-						New features, improvements, and what we’re working on next.
+						New features, improvements, and what we're working on next.
 					</p>
 				</header>
 
