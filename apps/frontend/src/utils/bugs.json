@@ -38,5 +38,9 @@
 	{
 		"id": 10,
 		"bug": "When a user edits/deletes their message, it's not reflected automatically to the other user for some reason."
+	},
+	{
+		"id": 11,
+		"bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
 	}
 ]
