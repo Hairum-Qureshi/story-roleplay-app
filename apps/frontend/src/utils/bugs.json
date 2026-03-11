@@ -26,5 +26,9 @@
 	{
 		"id": 7,
 		"bug": "When you sign out, then visit a URL that doesn't exist (i.e. you're on the Error 404 page), for some reason you're considered logged-in when you shouldn't be."
+	},
+	{
+		"id": 8,
+		"bug": "For some reason, if both users close a conversation with each other, the conversation doesn't get deleted"
 	}
 ]
