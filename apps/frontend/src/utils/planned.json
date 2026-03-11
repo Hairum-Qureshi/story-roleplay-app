@@ -71,7 +71,7 @@
 	},
 	{
 		"id": 15,
-		"subheading": "User account deletion",
-		"description": "Users will have the ability to delete their account, which will remove all of their personal information, and ads, without causing any issues."
+		"subheading": "Confirmation before deletion",
+		"description": "Before a user deletes their account, they will receive a confirmation prompt to ensure that they do not accidentally delete important information. This will help prevent unintended deletions and provide users with an opportunity to reconsider their actions before permanently removing their account permanently."
 	}
 ]
