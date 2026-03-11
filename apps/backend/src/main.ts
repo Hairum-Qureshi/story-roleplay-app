@@ -24,8 +24,9 @@ async function bootstrap() {
     prefix: '/assets/',
   });
 
-  await app.listen(process.env.PORT ?? 3000);
+  const PORT = process.env.PORT || 3000;
+  await app.listen(PORT);
 
-  console.log('Nest.js Server successfully started');
+  console.log(`Nest.js Server successfully started on port ${PORT}`);
 }
 bootstrap();
