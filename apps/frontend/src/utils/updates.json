@@ -22,5 +22,11 @@
 		"heading": "Fixed conversation deletion issue",
 		"timestamp": "03-24-2026",
 		"description": "Resolved issue where if both users close a conversation with each other, the conversation doesn't get deleted. Now, if all participants of a conversation have hidden it, the conversation history will be deleted from the database."
+	},
+	{
+		"id": 5,
+		"heading": "Added contact form functionality",
+		"timestamp": "03-24-2026",
+		"description": "The contact form on the website is now functional, allowing users to send messages directly to the support team. This will enable users to easily reach out for assistance, report issues, or provide feedback, improving overall communication and support for the platform."
 	}
 ]
