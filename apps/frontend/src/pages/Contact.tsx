@@ -58,7 +58,7 @@ export default function Contact() {
 							{/* Subject */}
 							<div>
 								<label className="block text-xs uppercase tracking-wide text-slate-500 mb-1">
-									Subject (optional)
+									Subject <span className="text-red-600">*</span>
 								</label>
 								<input
 									type="text"
@@ -70,7 +70,7 @@ export default function Contact() {
 							{/* Message */}
 							<div>
 								<label className="block text-sm text-slate-300 mb-2">
-									Message
+									Message <span className="text-red-600">*</span>
 								</label>
 								<textarea
 									rows={6}
