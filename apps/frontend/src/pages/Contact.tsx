@@ -1,7 +1,16 @@
+import { useState } from "react";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import useEmail from "../hooks/useEmail";
 
 export default function Contact() {
 	const { data: currUser } = useCurrentUser();
+	const { sendFeedbackEmail, successMessage } = useEmail();
+
+	const [from, _] = useState(
+		`${currUser?.firstName} ${currUser?.lastName} (${currUser?.email})`
+	);
+	const [subject, setSubject] = useState("");
+	const [message, setMessage] = useState("");
 
 	return (
 		<div className="relative h-[calc(100vh-4rem)] bg-slate-950 overflow-hidden">
@@ -38,10 +47,15 @@ export default function Contact() {
 
 					{/* Right side: message composer */}
 					<div className="relative">
-						<div className="absolute inset-0 rounded-xl bg-gradient-to-b from-slate-900/60 to-slate-950/60" />
-
-						<form className="relative p-8 space-y-6">
+						<div className="absolute z-0 inset-0 rounded-xl bg-gradient-to-b from-slate-900/60 to-slate-950/60" />
+						{successMessage && (
+							<p className="relative text-green-500 z-10 text-center mt-5">
+								{successMessage}
+							</p>
+						)}
+						<form className="relative p-8 z-10 space-y-6">
 							{/* Sender context */}
+
 							<div className="rounded-md border border-slate-800 bg-slate-900/60 px-4 py-3">
 								<p className="text-xs uppercase tracking-wide text-slate-500">
 									From
@@ -64,6 +78,8 @@ export default function Contact() {
 									type="text"
 									placeholder="Bug report, feedback, idea…"
 									className="w-full bg-slate-900/50 border border-slate-800 rounded-md px-3 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-900"
+									value={subject}
+									onChange={e => setSubject(e.target.value)}
 								/>
 							</div>
 
@@ -76,6 +92,8 @@ export default function Contact() {
 									rows={6}
 									placeholder="Write your message here..."
 									className="w-full bg-slate-900/70 border border-slate-800 rounded-md px-4 py-3 text-slate-100 placeholder-slate-500 resize-none focus:outline-none focus:ring-2 focus:ring-blue-900"
+									value={message}
+									onChange={e => setMessage(e.target.value)}
 								/>
 							</div>
 
@@ -88,6 +106,19 @@ export default function Contact() {
 								<button
 									type="submit"
 									className="rounded-md bg-blue-900/80 hover:bg-blue-900 px-6 py-2 text-slate-100 font-medium transition hover:cursor-pointer"
+									onClick={e => {
+										e.preventDefault();
+
+										if (!from.trim() || !subject.trim() || !message.trim()) {
+											alert("Please fill in all required fields.");
+											return;
+										}
+
+										sendFeedbackEmail({ from, subject, message });
+
+										setSubject("");
+										setMessage("");
+									}}
 								>
 									Send message
 								</button>
