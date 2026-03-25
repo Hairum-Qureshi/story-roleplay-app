@@ -28,10 +28,6 @@
 		"bug": "After you delete your account, sometimes for some reason, you're able to view your 'deleted profile'. Not always, but sometimes. This is likely due to a caching issue where the deleted profile data is still being stored in the cache and can be accessed until the cache is cleared or expires."
 	},
 	{
-		"id": 10,
-		"bug": "When a user edits/deletes their message, it's not reflected automatically to the other user for some reason."
-	},
-	{
 		"id": 11,
 		"bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
 	},
