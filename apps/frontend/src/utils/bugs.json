@@ -42,9 +42,5 @@
 	{
 		"id": 11,
 		"bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
-	},
-	{
-		"id": 12,
-		"bug": "When you end a chat and switch to another chat, the other chat appears as 'ended' until you refresh the page"
 	}
 ]
