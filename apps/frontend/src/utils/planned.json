@@ -65,11 +65,6 @@
 		"description": "Users will be able to report inappropriate content or behavior within the platform, allowing for a safer and more enjoyable user experience. Reported content will be reviewed by the moderation team to ensure compliance with community guidelines and take appropriate action when necessary."
 	},
 	{
-		"id": 14,
-		"subheading": "Contact form functionality",
-		"description": "At the moment, sending a message through the contact form doesn't actually send an email to the support team. For the time being, please contact us directly at support@taleweaver.com"
-	},
-	{
 		"id": 15,
 		"subheading": "Confirmation before deletion",
 		"description": "Before a user deletes their account, they will receive a confirmation prompt to ensure that they do not accidentally delete important information. This will help prevent unintended deletions and provide users with an opportunity to reconsider their actions before permanently removing their account permanently."
