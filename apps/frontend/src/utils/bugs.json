@@ -42,5 +42,9 @@
 	{
 		"id": 11,
 		"bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
+	},
+	{
+		"id": 12,
+		"bug": "When you click on the chat card of the chat list you have open, the ad data goes undefined for some reason."
 	}
 ]
