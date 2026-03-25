@@ -66,7 +66,7 @@ export class EventsGateway {
     });
   }
 
-  endConversation(chatID: Types.ObjectId) {
+  endConversation(chatID: Types.ObjectId | string) {
     this.server.emit('conversationEnded', { chatID });
   }
 
