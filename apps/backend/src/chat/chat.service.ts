@@ -376,11 +376,11 @@ export class ChatService {
     ) {
       // It needs to be +1 because the SYSTEM_USER is also a participant
       await this.deleteConversationHistory(conversation._id);
-      this.eventsGateway.endConversation('');
+      this.eventsGateway.endConversation(''); // resets the deletedConversationID in the frontend so that if the user goes back to the same chat, it won't consider this brand new conversation as an ended conversation like before
 
       return { message: 'Conversation deleted for both users' };
     }
-    
+
     return { message: 'Conversation hidden for user' };
   }
 }
