@@ -154,6 +154,25 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 				return [...oldMessages, message];
 			}
 		);
+
+		// Browser API for creating a notification
+		if (document.visibilityState === "hidden") {
+			if (Notification.permission === "granted") {
+				new Notification(`New message from @${message.sender.username}`, {
+					body: message.content,
+					icon: message.sender.profilePicture
+				});
+			} else if (Notification.permission !== "denied") {
+				Notification.requestPermission().then(permission => {
+					if (permission === "granted") {
+						new Notification(`New message from @${message.sender.username}`, {
+							body: message.content,
+							icon: message.sender.profilePicture
+						});
+					}
+				});
+			}
+		}
 	}, [message, chatID]);
 
 	const { mutate: endChatMutation } = useMutation({
