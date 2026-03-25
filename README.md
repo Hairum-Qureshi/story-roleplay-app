@@ -104,3 +104,76 @@ TaleWeaver is deployed using a split hosting strategy that aligns with the archi
 - **Backend** – The NestJS backend is deployed on **Render**. Render was chosen specifically because TaleWeaver relies on **Socket.IO** for real-time, persistent WebSocket connections. Platforms like Vercel are designed around **serverless, stateless functions**, which do not support long-lived WebSocket connections required by Socket.IO. Because of this limitation, running the backend on Vercel would break real-time chat functionality. Render, by contrast, provides a traditional Node.js runtime with persistent processes, making it well-suited for WebSocket-based applications.
 
 To mitigate Render’s free-tier behavior of suspending inactive services, a **cron job is configured to ping the backend every 10 minutes**. This periodic request keeps the server instance warm and prevents cold starts that would otherwise introduce noticeable delays when users send their first message after inactivity. This ensures a smoother real-time chat experience while keeping hosting costs low.
+
+---
+
+Here’s a clean, production-ready **README “Environment Variables” section** with all sensitive values replaced by safe placeholders and clear explanations.
+
+---
+
+## Environment Variables
+
+This project requires environment variables for both the frontend and backend. Create separate `.env` files in each respective directory.
+
+---
+
+# Frontend (`apps/frontend/.env`)
+
+```env
+VITE_BACKEND_BASE_URL=http://localhost:3000
+
+# Firebase (Client SDK)
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_firebase_app_id
+```
+
+### Notes
+
+- These variables are used by the frontend (Vite).
+- Firebase values come from your Firebase project settings.
+- `VITE_` prefix is required for variables to be exposed in Vite.
+
+---
+
+# Backend (`apps/backend/.env`)
+
+```env
+# App URLs
+FRONTEND_URL=http://localhost:5173
+BACKEND_URL=http://localhost:3000
+
+# Server
+PORT=3000
+NODE_ENV=development
+
+# Authentication
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES=604800000 # (in ms, e.g. 7 days)
+
+# Database
+MONGO_URI=your_mongodb_connection_string
+
+# Email (Resend)
+RESEND_API_KEY=your_resend_api_key
+RESEND_SENDER_EMAIL=your_sender_email
+RECEIVER_EMAIL=your_receiver_email
+
+# Firebase Admin SDK
+FIREBASE_SERVICE_ACCOUNT='{
+  "type": "service_account",
+  "project_id": "your_project_id",
+  "private_key_id": "your_private_key_id",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY\n-----END PRIVATE KEY-----\n",
+  "client_email": "your_client_email",
+  "client_id": "your_client_id",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "your_cert_url",
+  "universe_domain": "googleapis.com"
+}'
+```
