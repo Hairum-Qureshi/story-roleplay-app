@@ -42,5 +42,9 @@
 	{
 		"id": 11,
 		"bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
+	},
+	{
+		"id": 12,
+		"bug": "If both users remove a chat from their chat list, the chat doesn't get deleted and is still recoverable if one of the users responds to the same ad."
 	}
 ]
