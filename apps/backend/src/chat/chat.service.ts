@@ -376,9 +376,11 @@ export class ChatService {
     ) {
       // It needs to be +1 because the SYSTEM_USER is also a participant
       await this.deleteConversationHistory(conversation._id);
+      this.eventsGateway.endConversation('');
+
       return { message: 'Conversation deleted for both users' };
     }
-
+    
     return { message: 'Conversation hidden for user' };
   }
 }
