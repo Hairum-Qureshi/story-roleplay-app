@@ -16,7 +16,9 @@ import { EmailModule } from './email/email.module';
     EventsModule,
     AuthModule,
     FirebaseModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRoot(process.env.MONGO_URI!),
     RolePlayAdModule,
     UserModule,
