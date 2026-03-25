@@ -2,10 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { SendEmail } from 'src/DTOs/SendEmail.dto';
 import { UserPayload } from 'src/types';
 import { ProfanityEngine } from '@coffeeandfun/google-profanity-words';
+import { ConfigService } from '@nestjs/config';
+import { Resend } from 'resend';
 
 @Injectable()
 export class EmailService {
-  constructor() {}
+  private resend: Resend;
+
+  constructor(private configService: ConfigService) {
+    this.resend = new Resend(this.configService.get<string>('RESEND_API_KEY')!);
+  }
 
   async sendEmail(sendEmailDto: SendEmail, currUser: UserPayload) {
     const { from, subject, message } = sendEmailDto;
@@ -27,7 +33,12 @@ export class EmailService {
     if (subjectIsProfane || messageIsProfane) {
       throw new Error('Email contains inappropriate language');
     }
-    
-    console.log(`Email sent to ${from} with subject "${subject}" and message: ${message}`);
+
+    this.resend.emails.send({
+      from: `TaleWeaver <${this.configService.get<string>('RESEND_SENDER_EMAIL')}>`,
+      to: this.configService.get<string>('RECEIVER_EMAIL')!,
+      subject: `[TaleWeaver Feedback] ${subject}`,
+      text: `${message}\n\nFrom: ${from}`,
+    });
   }
 }
