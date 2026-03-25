@@ -86,8 +86,8 @@ export default function Guidelines() {
 					</h2>
 					<p className="text-slate-400">
 						The following content is allowed only when{" "}
-						<strong>all participants explicitly agree</strong>
-						to it within the role-play context.
+						<strong>all participants explicitly agree</strong> to it within the
+						role-play context.
 					</p>
 					<ul className="list-disc list-inside space-y-2 text-slate-300">
 						<li>Dark themes (violence, trauma, psychological distress).</li>
