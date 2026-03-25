@@ -117,7 +117,7 @@ This project requires environment variables for both the frontend and backend. C
 
 ---
 
-# Frontend (`apps/frontend/.env`)
+### Frontend (`apps/frontend/.env`)
 
 ```env
 VITE_BACKEND_BASE_URL=http://localhost:3000
@@ -137,9 +137,7 @@ VITE_FIREBASE_APP_ID=your_firebase_app_id
 - Firebase values come from your Firebase project settings.
 - `VITE_` prefix is required for variables to be exposed in Vite.
 
----
-
-# Backend (`apps/backend/.env`)
+### Backend (`apps/backend/.env`)
 
 ```env
 # App URLs
