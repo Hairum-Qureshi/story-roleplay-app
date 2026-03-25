@@ -47,9 +47,7 @@ export default function MainChatContainer({
 
 	useEffect(() => {
 		setChatEnded(selectedChat?.chatEnded);
-	}, [chatID]);
-
-	console.log(chatEnded);
+	}, [chatID, selectedChat]);
 
 	return (
 		<div
