@@ -9,6 +9,7 @@ import { RolePlayAdModule } from './role-play-ad/role-play-ad.module';
 import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
 import { PdfModule } from './pdf/pdf.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PdfModule } from './pdf/pdf.module';
     UserModule,
     ChatModule,
     PdfModule,
+    EmailModule,
   ],
   controllers: [AppController],
 })
