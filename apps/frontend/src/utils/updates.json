@@ -16,5 +16,11 @@
 		"heading": "Fixed chat ended status issue",
 		"timestamp": "03-24-2026",
 		"description": "Resolved issue where if a chat has ended, it will disable the textarea and not only the 'end chat' button."
+	},
+	{
+		"id": 4,
+		"heading": "Fixed conversation deletion issue",
+		"timestamp": "03-24-2026",
+		"description": "Resolved issue where if both users close a conversation with each other, the conversation doesn't get deleted. Now, if all participants of a conversation have hidden it, the conversation history will be deleted from the database."
 	}
 ]
