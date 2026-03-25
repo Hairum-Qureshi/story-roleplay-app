@@ -370,7 +370,11 @@ export class ChatService {
       $pull: { conversations: conversation._id },
     });
 
-    if (conversation.hiddenFor.length === conversation.participants.length) {
+    if (
+      conversation.hiddenFor.length + 1 ===
+      conversation.participants.length
+    ) {
+      // It needs to be +1 because the SYSTEM_USER is also a participant
       await this.deleteConversationHistory(conversation._id);
       return { message: 'Conversation deleted for both users' };
     }
