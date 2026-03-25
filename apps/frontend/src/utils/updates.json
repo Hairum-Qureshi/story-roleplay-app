@@ -28,5 +28,11 @@
 		"heading": "Added contact form functionality",
 		"timestamp": "03-24-2026",
 		"description": "The contact form on the website is now functional, allowing users to send messages directly to the support team. This will enable users to easily reach out for assistance, report issues, or provide feedback, improving overall communication and support for the platform."
+	},
+	{
+		"id": 6,
+		"heading": "Added in-browser notifications for new messages and ad replies",
+		"timestamp": "03-25-2026",
+		"description": "Users will now receive in-browser notifications for new messages and ad replies, ensuring they stay informed about incoming communications even when they are not actively viewing the inbox. This feature enhances user engagement and responsiveness by providing timely alerts for important interactions on the platform."
 	}
 ]
