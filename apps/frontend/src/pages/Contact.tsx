@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import useEmail from "../hooks/useEmail";
 
 export default function Contact() {
 	const { data: currUser } = useCurrentUser();
-	const { sendFeedbackEmail, successMessage } = useEmail();
+	const { sendFeedbackEmail, successMessage, errorMessage } = useEmail();
 
-	const [from, _] = useState(
-		`${currUser?.firstName} ${currUser?.lastName} (${currUser?.email})`
-	);
+	const [from, setFrom] = useState("");
 	const [subject, setSubject] = useState("");
 	const [message, setMessage] = useState("");
+
+	useEffect(() => {
+		if (!currUser) return;
+
+		setFrom(`${currUser.firstName} ${currUser.lastName} (${currUser.email})`);
+	}, [currUser]);
 
 	return (
 		<div className="relative h-[calc(100vh-4rem)] bg-slate-950 overflow-hidden">
@@ -51,6 +55,11 @@ export default function Contact() {
 						{successMessage && (
 							<p className="relative text-green-500 z-10 text-center mt-5">
 								{successMessage}
+							</p>
+						)}
+						{errorMessage && (
+							<p className="relative text-red-500 z-10 text-center mt-5">
+								{errorMessage}
 							</p>
 						)}
 						<form className="relative p-8 z-10 space-y-6">
