@@ -40,10 +40,6 @@
 		"bug": "When you click on the chat card of the chat list you have open, the ad data goes undefined for some reason."
 	},
 	{
-		"id": 13,
-		"bug": "If you end a role-play and delete it and try to start a new role-play for the same ad, for some reason it's still shown as 'ended' until you refresh the page."
-	},
-	{
 		"id": 14,
 		"bug": "If you refresh the page while having a chat open, you get redirected back to the home page ('/' route) instead of staying on the same chat you had open."
 	},
