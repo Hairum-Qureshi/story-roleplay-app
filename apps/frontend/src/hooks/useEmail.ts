@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function useEmail() {
 	const [successMessage, setSuccessMessage] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const { mutate: sendFeedbackEmail } = useMutation({
 		mutationFn: async ({
@@ -15,36 +16,41 @@ export default function useEmail() {
 			subject: string;
 			message: string;
 		}) => {
-			try {
-				await axios.post(
-					`${import.meta.env.VITE_BACKEND_BASE_URL}/email/send`,
-					{
-						from,
-						subject,
-						message
-					},
-					{
-						withCredentials: true
-					}
-				);
-			} catch (error) {
-				console.error(error);
-			}
+			await axios.post(
+				`${import.meta.env.VITE_BACKEND_BASE_URL}/email/send`,
+				{
+					from,
+					subject,
+					message
+				},
+				{
+					withCredentials: true
+				}
+			);
 		},
 		onSuccess: () => {
 			setSuccessMessage("Your message has been sent successfully!");
+		},
+		onError: (error: any) => {
+			console.log(error);
+			setErrorMessage(
+				error.response?.data?.message ||
+					"An error occurred while sending your message. Please try again."
+			);
 		}
 	});
 
 	useEffect(() => {
 		if (!successMessage) return;
+		if (!errorMessage) return;
 
 		const timer = setTimeout(() => {
 			setSuccessMessage("");
+			setErrorMessage("");
 		}, 1000);
 
 		return () => clearTimeout(timer);
-	}, [successMessage]);
+	}, [successMessage, errorMessage]);
 
-	return { sendFeedbackEmail, successMessage };
+	return { sendFeedbackEmail, successMessage, errorMessage };
 }
