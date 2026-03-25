@@ -41,15 +41,23 @@ export default function useEmail() {
 	});
 
 	useEffect(() => {
-		if (!successMessage) return;
-		if (!errorMessage) return;
+		if (!successMessage && !errorMessage) return;
 
-		const timer = setTimeout(() => {
-			setSuccessMessage("");
-			setErrorMessage("");
-		}, 1000);
+		if (!successMessage && errorMessage) {
+			const timer = setTimeout(() => {
+				setErrorMessage("");
+			}, 1000);
 
-		return () => clearTimeout(timer);
+			return () => clearTimeout(timer);
+		}
+
+		if (successMessage && !errorMessage) {
+			const timer = setTimeout(() => {
+				setSuccessMessage("");
+			}, 1000);
+
+			return () => clearTimeout(timer);
+		}
 	}, [successMessage, errorMessage]);
 
 	return { sendFeedbackEmail, successMessage, errorMessage };
