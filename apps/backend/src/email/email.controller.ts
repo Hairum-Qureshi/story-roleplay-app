@@ -15,7 +15,11 @@ export class EmailController {
     @CurrentUser() currUser: UserPayload,
     @Body() sendEmailDto: SendEmail,
   ) {
-    await this.emailService.sendEmail(sendEmailDto, currUser);
-    return { message: 'Email sent successfully' };
+    try {
+      await this.emailService.sendEmail(sendEmailDto, currUser);
+      return { message: 'Email sent successfully' };
+    } catch (error) {
+      return { message: error.message };
+    }
   }
 }
