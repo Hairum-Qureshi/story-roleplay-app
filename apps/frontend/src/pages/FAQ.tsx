@@ -55,6 +55,12 @@ export default function FAQ() {
 							</Link>
 						</p>
 					)
+				},
+				{
+					question:
+						"How do I stop receiving browser notifications when I receive a new message?",
+					answer:
+						"To stop receiving browser notifications, you can adjust your browser settings to block notifications from this site. The exact steps may vary depending on your browser, but generally, you can go to your browser's settings or preferences, find the section for notifications or site permissions, and remove or block this site from sending notifications."
 				}
 			]
 		},
