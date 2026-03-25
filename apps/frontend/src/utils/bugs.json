@@ -54,5 +54,9 @@
 	{
 		"id": 14,
 		"bug": "If you refresh the page while having a chat open, you get redirected back to the home page ('/' route) instead of staying on the same chat you had open."
+	},
+	{
+		"id": 15,
+		"bug": "The Notification API seems to only send out a notification when you have the chat open, but not when you're on a different page. This is likely due to the fact that the notification logic is currently tied to the chat component, so if you're not on the chat page, the notifications won't be triggered."
 	}
 ]
