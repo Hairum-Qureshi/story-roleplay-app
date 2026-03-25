@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { SendEmail } from 'src/DTOs/SendEmail.dto';
 import { UserPayload } from 'src/types';
 import { ProfanityEngine } from '@coffeeandfun/google-profanity-words';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class EmailService {
@@ -17,13 +18,13 @@ export class EmailService {
     const { from, subject, message } = sendEmailDto;
 
     if (!from.trim() || !subject.trim() || !message.trim()) {
-      throw new Error('Missing required fields');
+      throw new HttpException('All fields are required', 400);
     }
 
     if (
       from !== `${currUser.firstName} ${currUser.lastName} (${currUser.email})`
     ) {
-      throw new Error('Invalid sender information');
+      throw new HttpException('Invalid sender information', 400);
     }
 
     const profanity = new ProfanityEngine({ lang: 'en' });
@@ -31,7 +32,10 @@ export class EmailService {
     const messageIsProfane = await profanity.hasCurseWords(message);
 
     if (subjectIsProfane || messageIsProfane) {
-      throw new Error('Email contains inappropriate language');
+      throw new HttpException(
+        'Inappropriate language detected in subject or message',
+        400,
+      );
     }
 
     this.resend.emails.send({
