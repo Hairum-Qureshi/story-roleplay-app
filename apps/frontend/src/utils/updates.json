@@ -10,5 +10,11 @@
 		"heading": "Confirmed delete account functionality",
 		"timestamp": "03-10-2026",
 		"description": "Users are able to delete their accounts."
+	},
+	{
+		"id": 3,
+		"heading": "Fixed chat ended status issue",
+		"timestamp": "03-24-2026",
+		"description": "Resolved issue where if a chat has ended, it will disable the textarea and not only the 'end chat' button."
 	}
 ]
