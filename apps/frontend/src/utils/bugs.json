@@ -36,10 +36,6 @@
 		"bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
 	},
 	{
-		"id": 12,
-		"bug": "When you click on the chat card of the chat list you have open, the ad data goes undefined for some reason."
-	},
-	{
 		"id": 14,
 		"bug": "If you refresh the page while having a chat open, you get redirected back to the home page ('/' route) instead of staying on the same chat you had open."
 	},
