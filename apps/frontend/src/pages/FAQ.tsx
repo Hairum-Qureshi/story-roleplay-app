@@ -157,7 +157,7 @@ export default function FAQ() {
 					question:
 						"What happens if I have an ongoing role-play with an ad that gets deleted?",
 					answer:
-						"The conversation remains accessible in your inbox, but the role-play ends as if the 'End Role-Play' button was pressed."
+						"The conversation remains accessible in your inbox, and you can continue the role-play as normal."
 				},
 				{
 					question:
