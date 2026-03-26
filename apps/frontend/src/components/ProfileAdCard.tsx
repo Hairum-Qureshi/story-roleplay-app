@@ -3,7 +3,7 @@ import type { RolePlayAd } from "../interfaces";
 import useRolePlayAds from "../hooks/useRolePlayAds";
 
 export default function ProfileAdCard({ ad }: { ad: RolePlayAd }) {
-	const { repostAd } = useRolePlayAds();
+	const { repostAd, deleteAdMutate } = useRolePlayAds();
 
 	return (
 		<div
@@ -38,13 +38,23 @@ export default function ProfileAdCard({ ad }: { ad: RolePlayAd }) {
 			<div className="mt-4 flex gap-3">
 				{ad.canBeReposted ? (
 					<button
-						onClick={() => repostAd(ad._id)}
+						onClick={e => {
+							e.stopPropagation();
+							e.preventDefault();
+							repostAd(ad._id);
+						}}
 						className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-sky-300 hover:cursor-pointer"
 					>
 						Repost
 					</button>
 				) : (
-					<button className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-500 bg-slate-800 cursor-not-allowed">
+					<button
+						className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-500 bg-slate-800 cursor-not-allowed"
+						onClick={e => {
+							e.stopPropagation();
+							e.preventDefault();
+						}}
+					>
 						Reposted
 					</button>
 				)}
@@ -55,7 +65,16 @@ export default function ProfileAdCard({ ad }: { ad: RolePlayAd }) {
 					</button>
 				</Link>
 
-				<button className="rounded-md border border-red-800 px-3 py-1 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer">
+				<button
+					className="rounded-md border border-red-800 px-3 py-1 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer"
+					onClick={e => {
+						e.stopPropagation();
+						e.preventDefault();
+						confirm(
+							"Are you sure you want to delete this ad? This action cannot be undone."
+						) && deleteAdMutate({ adID: ad._id });
+					}}
+				>
 					Delete
 				</button>
 			</div>
