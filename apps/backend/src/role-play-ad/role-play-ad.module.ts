@@ -11,6 +11,7 @@ import {
   ConversationSchema,
 } from '../schemas/inbox/Conversation';
 import { ChatModule } from '../chat/chat.module';
+import { Like, LikeSchema } from 'src/schemas/Like';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ChatModule } from '../chat/chat.module';
       { name: User.name, schema: UserSchema },
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
       { name: Conversation.name, schema: ConversationSchema },
+      { name: Like.name, schema: LikeSchema },
     ]),
     EventsModule,
     ChatModule,
