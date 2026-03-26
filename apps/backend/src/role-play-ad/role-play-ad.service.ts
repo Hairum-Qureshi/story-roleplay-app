@@ -208,15 +208,26 @@ export class RolePlayAdService {
       throw new NotFoundException('Role-play ad not found');
     }
 
-    await this.likeModel.create({
+    // check if the user has already liked the ad
+    const existingLike = await this.likeModel.findOne({
       userID,
       adID,
     });
+
+    if (!existingLike) {
+      await this.likeModel.create({
+        userID,
+        adID,
+      });
+    }
   }
 
   async unlikeAd(adID: string, userID: string) {
     // add check where if the ad is not flagged as like, nothing happens
-    const roleplayAd = await this.rolePlayAdModel.findById(adID);
+    const roleplayAd = await this.rolePlayAdModel.findById({
+      adID,
+      userID,
+    });
 
     if (!roleplayAd || roleplayAd.isDeleted) {
       throw new NotFoundException('Role-play ad not found');
