@@ -62,7 +62,7 @@ export class RolePlayAdController {
 
   @Delete('delete/:adID')
   @UseGuards(AuthGuard(), IsOwnerGuard)
-  deleteAd(@Param('adID') adID: string) {
-    return this.rolePlayAdService.deleteAd(adID);
+  deleteAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
+    return this.rolePlayAdService.deleteAd(adID, user);
   }
 }
