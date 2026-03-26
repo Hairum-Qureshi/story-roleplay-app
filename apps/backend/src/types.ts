@@ -30,6 +30,7 @@ type RolePlayAd = {
   contentNotes: string;
   author: string;
   isDeleted: boolean;
+  isLiked?: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
