@@ -69,12 +69,12 @@ export class RolePlayAdController {
   @Patch(':adID/like')
   @UseGuards(AuthGuard())
   likeAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
-    return this.rolePlayAdService.likeAd(adID, user);
+    return this.rolePlayAdService.likeAd(adID, user._id);
   }
 
   @Patch(':adID/unlike')
   @UseGuards(AuthGuard())
   unlikeAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
-    return this.rolePlayAdService.unlikeAd(adID, user);
+    return this.rolePlayAdService.unlikeAd(adID, user._id);
   }
 }
