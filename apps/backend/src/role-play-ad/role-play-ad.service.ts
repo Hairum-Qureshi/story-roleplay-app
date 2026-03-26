@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateAd } from '../DTOs/CreateAd.dto';
 import { EventsGateway } from '../events/events.gateway';
 import { RolePlayAd, RolePlayAdDocument } from '../schemas/RolePlayAd';
@@ -50,7 +50,7 @@ export class RolePlayAdService {
     // need to update the title property of the conversation Model
     const updatedConversation: ConversationDocument =
       (await this.conversationModel.findOneAndUpdate(
-        { roleplayAd: new mongoose.Types.ObjectId(adID) },
+        { roleplayAd: new Types.ObjectId(adID) },
         {
           title,
         },
@@ -129,10 +129,10 @@ export class RolePlayAdService {
       .sort({ createdAt: -1 });
   }
 
-  async deleteAd(adID: string) {
+  async deleteAd(adID: string, user: UserPayload) {
     // first we need to check if this ad belongs in any conversations
     const conversationsWithAd = await this.conversationModel.find({
-      roleplayAd: adID,
+      roleplayAd: new Types.ObjectId(adID), // needs to be converted to ObjectId type to properly query the conversation collection
     });
 
     if (conversationsWithAd.length > 0) {
@@ -140,6 +140,27 @@ export class RolePlayAdService {
       await this.rolePlayAdModel.findByIdAndUpdate(adID, {
         isDeleted: true,
       });
+
+      const conversationPromises = conversationsWithAd.map(
+        async (conversation: ConversationDocument) => {
+          const SYSTEM_MESSAGE = `This message is to notify everyone that the author of this ad, @${user.username}, has deleted this ad. However, you can still continue the role-play as normal.`;
+
+          const message: Message = await this.chatService.createSystemMessage(
+            conversation._id,
+            SYSTEM_MESSAGE,
+          );
+
+          conversation.messages.push(new Types.ObjectId(message._id));
+          await conversation.save();
+
+          this.eventsGateway.emitSystemMessage(
+            conversation.participants,
+            message,
+          );
+        },
+      );
+
+      await Promise.all(conversationPromises);
     } else {
       // if it doesn't exist in ANY conversations, we can delete it outright
       await this.rolePlayAdModel.findByIdAndDelete(adID);
