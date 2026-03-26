@@ -39,8 +39,12 @@
 		"id": 15,
 		"bug": "The Notification API seems to only send out a notification when you have the chat open, but not when you're on a different page. This is likely due to the fact that the notification logic is currently tied to the chat component, so if you're not on the chat page, the notifications won't be triggered."
 	},
-    {
-        "id": 16,
-        "bug": "For some reason, when signing out on deployed site, you sign out, but upon page refresh, the cookie is re-added and you're logged back in. This is likely due to an issue with the authentication flow where the sign-out process is not properly clearing the authentication cookie, allowing it to be re-added upon page refresh."
-    }
+	{
+		"id": 16,
+		"bug": "For some reason, when signing out on deployed site, you sign out, but upon page refresh, the cookie is re-added and you're logged back in. This is likely due to an issue with the authentication flow where the sign-out process is not properly clearing the authentication cookie, allowing it to be re-added upon page refresh."
+	},
+	{
+		"id": 17,
+		"bug": "There still seems to be a bug where if you are the one who ends the chat and switch to another chat, the 'this chat has ended' message still appears in the new chat you switched to. This is likely due to a state management issue where the ended chat state is not being properly reset when switching to a different chat, causing the 'chat has ended' message to persist across chats."
+	}
 ]
