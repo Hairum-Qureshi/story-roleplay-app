@@ -71,7 +71,7 @@ export default function Navbar() {
 
 			{/* RIGHT */}
 			<div className="ml-auto flex items-center gap-4">
-				{currUserData ? (
+				{currUserData && (
 					<div className="relative group">
 						<button
 							className="px-3 py-1.5 text-2xl hover:cursor-pointer text-zinc-200 rounded-md hover:bg-slate-700"
@@ -137,13 +137,6 @@ export default function Navbar() {
 							</div>
 						)}
 					</div>
-				) : (
-					<Link
-						to="/login"
-						className="text-sm font-medium text-zinc-300 hover:text-white"
-					>
-						Login
-					</Link>
 				)}
 			</div>
 		</div>
