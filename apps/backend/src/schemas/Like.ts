@@ -3,9 +3,6 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class Like {
-  @Prop({ type: String })
-  _id: string;
-
   @Prop()
   userID: string;
 
