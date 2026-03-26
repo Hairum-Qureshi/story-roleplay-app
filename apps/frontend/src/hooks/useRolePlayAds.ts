@@ -12,6 +12,7 @@ interface UseRolePlayAdsHook {
 	adData: RolePlayAd | null;
 	loading: boolean;
 	repostAd: (adID: string) => void;
+	deleteAdMutate: ({ adID }: { adID: string }) => void;
 }
 
 export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
@@ -132,12 +133,31 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 		repostAdMutate({ adID });
 	}
 
+	const { mutate: deleteAdMutate } = useMutation({
+		mutationFn: async ({ adID }: { adID: string }) => {
+			try {
+				await axios.delete(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/delete/${adID}`,
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["your-roleplayAds"] });
+		}
+	});
+
 	return {
 		roleplayAds,
 		deleteProfile,
 		currUserRoleplayAds,
 		adData,
 		loading,
-		repostAd
+		repostAd,
+		deleteAdMutate
 	};
 }
