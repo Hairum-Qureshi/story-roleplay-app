@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { IoHomeSharp } from "react-icons/io5";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import useGoogleAuth from "../hooks/useGoogleAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 
@@ -11,6 +11,10 @@ export default function Navbar() {
 	const { data: currUserData } = useCurrentUser();
 	const { signOut } = useGoogleAuth();
 	const [showMenu, setMenuVisibility] = useState(false);
+
+	useEffect(() => {
+		setMenuVisibility(false);
+	}, [location.pathname]);
 
 	return (
 		<div
