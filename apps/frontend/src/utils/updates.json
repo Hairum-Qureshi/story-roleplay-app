@@ -34,5 +34,11 @@
 		"heading": "Added in-browser notifications for new messages and ad replies",
 		"timestamp": "03-25-2026",
 		"description": "Users will now receive in-browser notifications for new messages and ad replies, ensuring they stay informed about incoming communications even when they are not actively viewing the inbox. This feature enhances user engagement and responsiveness by providing timely alerts for important interactions on the platform."
+	},
+	{
+		"id": 7,
+		"heading": "Added confirmation prompt before account deletion and ad deletion",
+		"timestamp": "03-26-2026",
+		"description": "Before a user deletes their account or a role-play ad, they will receive a confirmation prompt to ensure that they do not accidentally delete important information. This will help prevent unintended deletions and provide users with an opportunity to reconsider their actions before permanently removing their account or ad."
 	}
 ]
