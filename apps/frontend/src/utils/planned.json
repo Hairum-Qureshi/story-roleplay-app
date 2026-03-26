@@ -45,11 +45,6 @@
 		"description": "Users will have the ability to search for role-play ads based on specific criteria such as title, user, character preferences, making it easier to find suitable role-playing opportunities."
 	},
 	{
-		"id": 11,
-		"subheading": "Ad deletion",
-		"description": "Users will be able to delete their own role-play ads without it causing issues with existing chats. This will allow users to manage their ads more effectively and remove any outdated or unwanted listings."
-	},
-	{
 		"id": 12,
 		"subheading": "Block feature",
 		"description": "Users will have the option to block other users, preventing them from sending messages or viewing their ads. This will enhance user safety and allow individuals to curate their interactions on the platform."
@@ -58,11 +53,6 @@
 		"id": 13,
 		"subheading": "Report feature",
 		"description": "Users will be able to report inappropriate content or behavior within the platform, allowing for a safer and more enjoyable user experience. Reported content will be reviewed by the moderation team to ensure compliance with community guidelines and take appropriate action when necessary."
-	},
-	{
-		"id": 15,
-		"subheading": "Confirmation before deletion",
-		"description": "Before a user deletes their account, they will receive a confirmation prompt to ensure that they do not accidentally delete important information. This will help prevent unintended deletions and provide users with an opportunity to reconsider their actions before permanently removing their account permanently."
 	},
 	{
 		"id": 16,
