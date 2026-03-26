@@ -26,8 +26,8 @@ export default function FavoritedAds() {
 	const favorites = placeholderFavorites; // replace with user favorites from state/api
 
 	return (
-		<div className="min-h-screen bg-slate-950 text-slate-100">
-			<div className="max-w-5xl mx-auto px-6 py-12">
+		<div className="min-h-screen bg-slate-950 text-slate-100 p-6">
+			<div className="max-w-5xl space-y-4 mx-20 mt-10">
 				{/* Header */}
 				<div className="mb-8">
 					<h1 className="text-3xl font-bold tracking-tight">
