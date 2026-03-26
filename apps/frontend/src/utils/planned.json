@@ -55,11 +55,6 @@
 		"description": "Users will be able to report inappropriate content or behavior within the platform, allowing for a safer and more enjoyable user experience. Reported content will be reviewed by the moderation team to ensure compliance with community guidelines and take appropriate action when necessary."
 	},
 	{
-		"id": 16,
-		"subheading": "Ad search functionality",
-		"description": "Users will have the ability to search for role-play ads based on specific criteria such as title, user, character preferences, making it easier to find suitable role-playing opportunities."
-	},
-	{
 		"id": 17,
 		"subheading": "Public user profiles",
 		"description": "Users will be able to view each other's profiles"
