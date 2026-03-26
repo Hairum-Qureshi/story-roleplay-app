@@ -46,8 +46,8 @@ export class RolePlayAdController {
 
   @Get(':adID')
   @UseGuards(AuthGuard(), IsOwnerGuard)
-  getAdByID(@Param('adID') adID: string) {
-    return this.rolePlayAdService.getAdByID(adID);
+  getAdByID(@Param('adID') adID: string, @CurrentUser() currUser: UserPayload) {
+    return this.rolePlayAdService.getAdByID(adID, currUser._id);
   }
 
   @Patch(':adID/edit')
