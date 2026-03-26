@@ -44,16 +44,18 @@ export default function Profile() {
 						Your Role-play Ads
 					</h2>
 
-					<div className="space-y-4">
+					<div>
 						{currUserRoleplayAds?.length === 0 ? (
 							<p className="text-base text-sky-400 text-center">
 								You currently have no active role-play ads
 							</p>
 						) : (
 							currUserRoleplayAds?.map((ad: RolePlayAd) => (
-								<Link to={`/role-play-ad/${ad._id}`} key={ad._id}>
-									<ProfileAdCard ad={ad} />
-								</Link>
+								<div className="my-5" key={ad._id}>
+									<Link to={`/role-play-ad/${ad._id}`}>
+										<ProfileAdCard ad={ad} />
+									</Link>
+								</div>
 							))
 						)}
 					</div>
