@@ -10,6 +10,7 @@ import { Conversation } from '../schemas/inbox/Conversation';
 import { ChatService } from '../chat/chat.service';
 import mongoose from 'mongoose';
 import { Like } from 'src/schemas/Like';
+import { RolePlayAd as RolePlayAdType } from '../types';
 
 @Injectable()
 export class RolePlayAdService {
@@ -172,11 +173,22 @@ export class RolePlayAdService {
     }
   }
 
-  async getAdByID(adID: string) {
-    return await this.rolePlayAdModel.findById(adID).populate({
-      path: 'author',
-      select: 'username profilePicture',
+  async getAdByID(adID: string, userID: string) {
+    const ad: RolePlayAdType = (await this.rolePlayAdModel
+      .findById(adID)
+      .populate({
+        path: 'author',
+        select: 'username profilePicture',
+      })) as RolePlayAdType;
+
+    const isLiked = await this.likeModel.find({
+      adID,
+      userID,
     });
+
+    ad.isLiked = isLiked.length > 0;
+
+    return ad;
   }
 
   async repostAd(adID: string) {
@@ -188,7 +200,7 @@ export class RolePlayAdService {
     this.eventsGateway.emitNewAd(ad);
   }
 
-  async likeAd(adID: string, user: UserPayload) {
+  async likeAd(adID: string, userID: string) {
     // add check where if the ad is flagged as like, nothing happens
     const roleplayAd = await this.rolePlayAdModel.findById(adID);
 
@@ -197,12 +209,12 @@ export class RolePlayAdService {
     }
 
     await this.likeModel.create({
-      userID: user._id,
+      userID,
       adID,
     });
   }
 
-  async unlikeAd(adID: string, user: UserPayload) {
+  async unlikeAd(adID: string, userID: string) {
     // add check where if the ad is not flagged as like, nothing happens
     const roleplayAd = await this.rolePlayAdModel.findById(adID);
 
@@ -211,7 +223,7 @@ export class RolePlayAdService {
     }
 
     await this.likeModel.findOneAndDelete({
-      userID: user._id,
+      userID,
       adID,
     });
   }
