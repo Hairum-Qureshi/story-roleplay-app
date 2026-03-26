@@ -55,6 +55,7 @@ interface RolePlayAd {
 	};
 	isDeleted: boolean;
 	canBeReposted: boolean;
+	isLiked?: boolean;
 	createdAt: string;
 	updatedAt: string;
 }
