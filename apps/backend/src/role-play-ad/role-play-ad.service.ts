@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreateAd } from '../DTOs/CreateAd.dto';
@@ -9,6 +9,7 @@ import { ConversationDocument, Message, UserPayload } from '../types';
 import { Conversation } from '../schemas/inbox/Conversation';
 import { ChatService } from '../chat/chat.service';
 import mongoose from 'mongoose';
+import { Like } from 'src/schemas/Like';
 
 @Injectable()
 export class RolePlayAdService {
@@ -20,6 +21,7 @@ export class RolePlayAdService {
     @InjectModel(Conversation.name)
     private conversationModel: Model<Conversation>,
     private readonly chatService: ChatService,
+    @InjectModel(Like.name) private likeModel: Model<Like>,
   ) {}
 
   async createAd(createAdDto: CreateAd, user: UserPayload) {
@@ -164,6 +166,9 @@ export class RolePlayAdService {
     } else {
       // if it doesn't exist in ANY conversations, we can delete it outright
       await this.rolePlayAdModel.findByIdAndDelete(adID);
+
+      // delete all likes associated with this ad as well
+      await this.likeModel.deleteMany({ rolePlayAd: new Types.ObjectId(adID) });
     }
   }
 
@@ -181,5 +186,33 @@ export class RolePlayAdService {
       })) as unknown as RolePlayAdDocument;
 
     this.eventsGateway.emitNewAd(ad);
+  }
+
+  async likeAd(adID: string, user: UserPayload) {
+    // add check where if the ad is flagged as like, nothing happens
+    const roleplayAd = await this.rolePlayAdModel.findById(adID);
+
+    if (!roleplayAd || roleplayAd.isDeleted) {
+      throw new NotFoundException('Role-play ad not found');
+    }
+
+    await this.likeModel.create({
+      userID: user._id,
+      adID,
+    });
+  }
+
+  async unlikeAd(adID: string, user: UserPayload) {
+    // add check where if the ad is not flagged as like, nothing happens
+    const roleplayAd = await this.rolePlayAdModel.findById(adID);
+
+    if (!roleplayAd || roleplayAd.isDeleted) {
+      throw new NotFoundException('Role-play ad not found');
+    }
+
+    await this.likeModel.findOneAndDelete({
+      userID: user._id,
+      adID,
+    });
   }
 }
