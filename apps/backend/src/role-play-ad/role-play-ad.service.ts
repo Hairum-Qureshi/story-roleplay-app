@@ -256,4 +256,20 @@ export class RolePlayAdService {
       adID,
     });
   }
+
+  async getLikedAds(userID: string) {
+    const likedAds = await this.likeModel
+      .find({ userID })
+      .populate({
+        path: 'adID',
+        match: { isDeleted: { $ne: true } }, // only include ads not deleted
+        populate: {
+          path: 'author',
+          select: 'username profilePicture',
+        },
+      })
+      .select('-_id -userID -__v');
+
+    return likedAds;
+  }
 }
