@@ -98,27 +98,25 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 					<div className="flex flex-wrap gap-3">
 						{!currUserData ||
 							(currUserData?._id !== author?._id && (
-								<>
-									<button
-										className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
-										onClick={() => {
-											createConversation(rolePlayAd._id);
-										}}
-									>
-										Respond to Ad
-									</button>
-									<button
-										className="inline-flex items-center justify-center rounded-lg bg-red-600 px-3 py-2.5 text-lg font-semibold text-white hover:bg-red-500 transition hover:cursor-pointer"
-										onClick={() =>
-											isLiked
-												? unlikeMutate({ adID: rolePlayAd._id })
-												: likeMutate({ adID: rolePlayAd._id })
-										}
-									>
-										{isLiked ? <FaHeart /> : <FaRegHeart />}
-									</button>
-								</>
+								<button
+									className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
+									onClick={() => {
+										createConversation(rolePlayAd._id);
+									}}
+								>
+									Respond to Ad
+								</button>
 							))}
+						<button
+							className="inline-flex items-center justify-center rounded-lg bg-red-600 px-3 py-2.5 text-lg font-semibold text-white hover:bg-red-500 transition hover:cursor-pointer"
+							onClick={() =>
+								isLiked
+									? unlikeMutate({ adID: rolePlayAd._id })
+									: likeMutate({ adID: rolePlayAd._id })
+							}
+						>
+							{isLiked ? <FaHeart /> : <FaRegHeart />}
+						</button>
 					</div>
 				)}
 			</footer>
