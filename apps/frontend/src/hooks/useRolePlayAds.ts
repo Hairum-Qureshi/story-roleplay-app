@@ -15,6 +15,7 @@ interface UseRolePlayAdsHook {
 	deleteAdMutate: ({ adID }: { adID: string }) => void;
 	likeMutate: ({ adID }: { adID: string }) => void;
 	unlikeMutate: ({ adID }: { adID: string }) => void;
+	likedRolePlayAds: RolePlayAd[];
 }
 
 export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
@@ -48,6 +49,23 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 			try {
 				const response = await axios.get(
 					`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/all/yours`,
+					{
+						withCredentials: true
+					}
+				);
+				return response.data;
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	});
+
+	const { data: likedRolePlayAds } = useQuery({
+		queryKey: ["liked-roleplayAds"],
+		queryFn: async () => {
+			try {
+				const response = await axios.get(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/liked`,
 					{
 						withCredentials: true
 					}
