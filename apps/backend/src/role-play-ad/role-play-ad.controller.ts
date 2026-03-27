@@ -77,4 +77,10 @@ export class RolePlayAdController {
   unlikeAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.unlikeAd(adID, user._id);
   }
+
+  @Get('/liked')
+  @UseGuards(AuthGuard())
+  getLikedAds(@CurrentUser() user: UserPayload) {
+    return this.rolePlayAdService.getLikedAds(user._id);
+  }
 }
