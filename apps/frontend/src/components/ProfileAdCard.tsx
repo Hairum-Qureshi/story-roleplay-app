@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
 import type { RolePlayAd } from "../interfaces";
 import useRolePlayAds from "../hooks/useRolePlayAds";
+import { useCurrentUser } from "../hooks/useCurrentUser";
+import useRolePlayChat from "../hooks/useRolePlayChat";
 
-export default function ProfileAdCard({ ad }: { ad: RolePlayAd }) {
+export default function ProfileAdCard({
+	ad,
+	showButton = false
+}: {
+	ad: RolePlayAd;
+	showButton?: boolean;
+}) {
 	const { repostAd, deleteAdMutate } = useRolePlayAds();
+	const { data: currUser } = useCurrentUser();
+	const { createConversation } = useRolePlayChat();
 
 	return (
 		<div
@@ -35,49 +45,62 @@ export default function ProfileAdCard({ ad }: { ad: RolePlayAd }) {
 				</p>
 			)}
 
-			<div className="mt-4 flex gap-3">
-				{ad.canBeReposted ? (
+			{ad.author._id === currUser?._id ? (
+				<div className="mt-4 flex gap-3">
+					{ad.canBeReposted ? (
+						<button
+							onClick={e => {
+								e.stopPropagation();
+								e.preventDefault();
+								repostAd(ad._id);
+							}}
+							className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-sky-300 hover:cursor-pointer"
+						>
+							Repost
+						</button>
+					) : (
+						<button
+							className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-500 bg-slate-800 cursor-not-allowed"
+							onClick={e => {
+								e.stopPropagation();
+								e.preventDefault();
+							}}
+						>
+							Reposted
+						</button>
+					)}
+
+					<Link to={`/role-play-ad/${ad._id}/edit`}>
+						<button className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-blue-300 hover:cursor-pointer">
+							Edit
+						</button>
+					</Link>
+
 					<button
+						className="rounded-md border border-red-800 px-3 py-1 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer"
 						onClick={e => {
 							e.stopPropagation();
 							e.preventDefault();
-							repostAd(ad._id);
+							confirm(
+								"Are you sure you want to delete this ad? This action cannot be undone."
+							) && deleteAdMutate({ adID: ad._id });
 						}}
-						className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-sky-300 hover:cursor-pointer"
 					>
-						Repost
+						Delete
 					</button>
-				) : (
+				</div>
+			) : (
+				showButton && (
 					<button
-						className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-500 bg-slate-800 cursor-not-allowed"
-						onClick={e => {
-							e.stopPropagation();
-							e.preventDefault();
+						className="inline-flex items-center justify-center mt-4 rounded-lg bg-indigo-600 px-5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
+						onClick={() => {
+							createConversation(ad._id);
 						}}
 					>
-						Reposted
+						Respond to Ad
 					</button>
-				)}
-
-				<Link to={`/role-play-ad/${ad._id}/edit`}>
-					<button className="rounded-md border border-slate-700 px-3 py-1 text-sm text-slate-200 hover:bg-slate-800 hover:text-blue-300 hover:cursor-pointer">
-						Edit
-					</button>
-				</Link>
-
-				<button
-					className="rounded-md border border-red-800 px-3 py-1 text-sm text-red-400 hover:bg-red-950 hover:cursor-pointer"
-					onClick={e => {
-						e.stopPropagation();
-						e.preventDefault();
-						confirm(
-							"Are you sure you want to delete this ad? This action cannot be undone."
-						) && deleteAdMutate({ adID: ad._id });
-					}}
-				>
-					Delete
-				</button>
-			</div>
+				)
+			)}
 		</div>
 	);
 }
