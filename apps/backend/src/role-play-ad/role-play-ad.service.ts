@@ -113,11 +113,11 @@ export class RolePlayAdService {
     })) as unknown as (RolePlayAd & { canBeReposted: boolean })[];
   }
 
-  async getAllAds() {
+  async getAllAds(userID: string) {
     // ! there seems to be an issue where if you repost more than 1 ad, then the frontend UI appears to duplicate the ad more than once unless you refresh the page
     const ONE_HOUR = 60 * 60 * 1000;
 
-    return await this.rolePlayAdModel
+    const allAds: RolePlayAdDocument[] = (await this.rolePlayAdModel
       .find({
         createdAt: {
           $gte: new Date(Date.now() - ONE_HOUR),
@@ -129,7 +129,21 @@ export class RolePlayAdService {
         select: 'username profilePicture',
       })
       .select('-__v')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })) as unknown as RolePlayAdDocument[];
+
+    const allAdsJSON: RolePlayAdType[] = await Promise.all(
+      allAds.map(async (ad) => {
+        const adObj = ad.toObject();
+        return {
+          ...adObj,
+          isLiked: await this.getAdByID(ad._id.toString(), userID).then(
+            (ad) => ad.isLiked,
+          ),
+        };
+      }),
+    );
+
+    return allAdsJSON;
   }
 
   async deleteAd(adID: string, user: UserPayload) {
@@ -173,18 +187,21 @@ export class RolePlayAdService {
     }
   }
 
-  async getAdByID(adID: string, userID: string) {
-    const ad: RolePlayAdType = (await this.rolePlayAdModel
+  async getAdByID(adID: string, userID: string): Promise<RolePlayAdType> {
+    const adDoc: RolePlayAdDocument = (await this.rolePlayAdModel
       .findById(adID)
       .populate({
         path: 'author',
         select: 'username profilePicture',
-      })) as RolePlayAdType;
+      })) as unknown as RolePlayAdDocument;
 
-    const isLiked = await this.likeModel.find({
-      adID,
-      userID,
-    });
+    if (!adDoc || adDoc.isDeleted) {
+      throw new NotFoundException('Role-play ad not found');
+    }
+
+    const ad: RolePlayAdType = adDoc.toObject();
+
+    const isLiked = await this.likeModel.find({ adID, userID });
 
     ad.isLiked = isLiked.length > 0;
 
@@ -224,10 +241,11 @@ export class RolePlayAdService {
 
   async unlikeAd(adID: string, userID: string) {
     // add check where if the ad is not flagged as like, nothing happens
-    const roleplayAd = await this.rolePlayAdModel.findById({
-      adID,
-      userID,
-    });
+    const roleplayAd: RolePlayAdDocument | undefined =
+      (await this.likeModel.findOne({
+        adID,
+        userID,
+      })) as unknown as RolePlayAdDocument | undefined;
 
     if (!roleplayAd || roleplayAd.isDeleted) {
       throw new NotFoundException('Role-play ad not found');
