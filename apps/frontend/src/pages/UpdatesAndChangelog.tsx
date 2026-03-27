@@ -7,9 +7,7 @@ import type { Bug, PlannedFeature, Update } from "../interfaces";
 
 export default function UpdatesAndChangelog() {
 	const plannedFeatures: PlannedFeature[] = planned;
-	const updatesToShow: Update[] = updates.sort(
-		(a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-	);
+	const updatesToShow: Update[] = updates.sort((a, b) => b.id - a.id);
 	const currentBugs: Bug[] = bug;
 
 	return (
