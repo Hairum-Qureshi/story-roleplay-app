@@ -1,8 +1,10 @@
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import useRolePlayAds from "../hooks/useRolePlayAds";
 import useRolePlayChat from "../hooks/useRolePlayChat";
 import type { AdProps } from "../interfaces";
 import moment from "moment";
 import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 
 export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 	const {
@@ -13,6 +15,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 		writingExpectations,
 		contentNotes,
 		author,
+		isLiked,
 		createdAt
 	} = rolePlayAd;
 
@@ -25,6 +28,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 	const { data: currUserData } = useCurrentUser();
 
 	const { createConversation } = useRolePlayChat();
+	const { likeMutate, unlikeMutate } = useRolePlayAds(rolePlayAd._id);
 
 	return (
 		<article className="w-full max-w-4xl mx-auto rounded-xl border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 shadow-lg mb-8">
@@ -105,9 +109,13 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
 									</button>
 									<button
 										className="inline-flex items-center justify-center rounded-lg bg-red-600 px-3 py-2.5 text-lg font-semibold text-white hover:bg-red-500 transition hover:cursor-pointer"
-										onClick={() => alert("Feature coming soon!")}
+										onClick={() =>
+											isLiked
+												? unlikeMutate({ adID: rolePlayAd._id })
+												: likeMutate({ adID: rolePlayAd._id })
+										}
 									>
-										<FaHeart />
+										{isLiked ? <FaHeart /> : <FaRegHeart />}
 									</button>
 								</>
 							))}
