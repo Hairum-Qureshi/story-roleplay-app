@@ -46,5 +46,9 @@
 	{
 		"id": 17,
 		"bug": "There still seems to be a bug where if you are the one who ends the chat and switch to another chat, the 'this chat has ended' message still appears in the new chat you switched to. This is likely due to a state management issue where the ended chat state is not being properly reset when switching to a different chat, causing the 'chat has ended' message to persist across chats."
+	},
+	{
+		"id": 18,
+		"bug": "Not sure if it started after implementing the like ad functionality, but if another user reposts an ad while another ad is on the feed page, the user needs to exit out of the tab and re-enter it because the page just freezes for some reason."
 	}
 ]
