@@ -34,8 +34,8 @@ export class RolePlayAdController {
 
   @Get('all')
   @UseGuards(AuthGuard())
-  getAllAds() {
-    return this.rolePlayAdService.getAllAds();
+  getAllAds(@CurrentUser() user: UserPayload) {
+    return this.rolePlayAdService.getAllAds(user._id);
   }
 
   @Post(':adID/repost')
