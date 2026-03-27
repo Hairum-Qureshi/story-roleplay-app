@@ -6,7 +6,7 @@ export class Like {
   @Prop()
   userID: string;
 
-  @Prop()
+  @Prop({ ref: 'RolePlayAd' })
   adID: string;
 }
 
