@@ -38,6 +38,12 @@ export class RolePlayAdController {
     return this.rolePlayAdService.getAllAds(user._id);
   }
 
+  @Get('/liked')
+  @UseGuards(AuthGuard())
+  getLikedAds(@CurrentUser() user: UserPayload) {
+    return this.rolePlayAdService.getLikedAds(user._id);
+  }
+
   @Post(':adID/repost')
   @UseGuards(AuthGuard(), IsOwnerGuard)
   repostAd(@Param('adID') adID: string) {
@@ -76,11 +82,5 @@ export class RolePlayAdController {
   @UseGuards(AuthGuard())
   unlikeAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.unlikeAd(adID, user._id);
-  }
-
-  @Get('/liked')
-  @UseGuards(AuthGuard())
-  getLikedAds(@CurrentUser() user: UserPayload) {
-    return this.rolePlayAdService.getLikedAds(user._id);
   }
 }
