@@ -218,6 +218,7 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 		repostAd,
 		deleteAdMutate,
 		likeMutate,
-		unlikeMutate
+		unlikeMutate,
+		likedRolePlayAds
 	};
 }
