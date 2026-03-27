@@ -13,6 +13,8 @@ interface UseRolePlayAdsHook {
 	loading: boolean;
 	repostAd: (adID: string) => void;
 	deleteAdMutate: ({ adID }: { adID: string }) => void;
+	likeMutate: ({ adID }: { adID: string }) => void;
+	unlikeMutate: ({ adID }: { adID: string }) => void;
 }
 
 export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
@@ -151,6 +153,44 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 		}
 	});
 
+	const { mutate: likeMutate } = useMutation({
+		mutationFn: async ({ adID }: { adID: string }) => {
+			try {
+				await axios.patch(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/${adID}/like`,
+					{},
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["roleplayAds"] });
+		}
+	});
+
+	const { mutate: unlikeMutate } = useMutation({
+		mutationFn: async ({ adID }: { adID: string }) => {
+			try {
+				await axios.patch(
+					`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/${adID}/unlike`,
+					{},
+					{
+						withCredentials: true
+					}
+				);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["roleplayAds"] });
+		}
+	});
+
 	return {
 		roleplayAds,
 		deleteProfile,
@@ -158,6 +198,8 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 		adData,
 		loading,
 		repostAd,
-		deleteAdMutate
+		deleteAdMutate,
+		likeMutate,
+		unlikeMutate
 	};
 }
