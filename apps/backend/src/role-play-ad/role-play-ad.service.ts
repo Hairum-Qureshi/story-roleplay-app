@@ -268,8 +268,11 @@ export class RolePlayAdService {
           select: 'username profilePicture',
         },
       })
-      .select('-_id -userID -__v');
+      .select('-_id -userID -__v')
+      .lean();
 
-    return likedAds;
+    const ads = likedAds.map((like) => like.adID).filter((ad) => ad); // remove nulls in case match didn't find anything
+
+    return ads;
   }
 }
