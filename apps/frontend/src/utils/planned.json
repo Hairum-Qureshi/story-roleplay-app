@@ -1,10 +1,5 @@
 [
 	{
-		"id": 1,
-		"subheading": "Favoriting ads",
-		"description": "Users will be able to favorite role-play ads to easily find and revisit them later."
-	},
-	{
 		"id": 2,
 		"subheading": "Functional search within chats",
 		"description": "Users will be able to search for specific messages within their chats, making it easier to find important information or revisit past conversations."
