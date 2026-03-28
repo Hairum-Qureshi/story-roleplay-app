@@ -53,10 +53,5 @@
 		"id": 17,
 		"subheading": "Public user profiles",
 		"description": "Users will be able to view each other's profiles"
-	},
-	{
-		"id": 18,
-		"subheading": "Unfavoriting ads from the favoriting ads list page",
-		"description": "Users will have the ability to unfavorite ads directly from their list of favorited ads, allowing them to easily manage and curate their collection of preferred role-play ads without having to navigate back to the ad's individual page."
 	}
 ]
