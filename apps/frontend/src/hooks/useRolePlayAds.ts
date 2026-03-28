@@ -61,7 +61,7 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 	});
 
 	const { data: likedRolePlayAds } = useQuery({
-		queryKey: ["liked-roleplayAds"],
+		queryKey: ["liked-roleplay-ads"],
 		queryFn: async () => {
 			try {
 				const response = await axios.get(
@@ -205,7 +205,7 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 			}
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["roleplayAds"] });
+			queryClient.invalidateQueries({ queryKey: ["liked-roleplay-ads"] });
 		}
 	});
 
