@@ -3,17 +3,21 @@ import type { RolePlayAd } from "../interfaces";
 import useRolePlayAds from "../hooks/useRolePlayAds";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import useRolePlayChat from "../hooks/useRolePlayChat";
+import { FaHeart } from "react-icons/fa";
 
 export default function ProfileAdCard({
 	ad,
-	showButton = false
+	showButton = false,
+	showLikeButton = false
 }: {
 	ad: RolePlayAd;
 	showButton?: boolean;
+	showLikeButton?: boolean;
 }) {
 	const { repostAd, deleteAdMutate } = useRolePlayAds();
 	const { data: currUser } = useCurrentUser();
 	const { createConversation } = useRolePlayChat();
+	const { unlikeMutate } = useRolePlayAds(ad?._id);
 
 	return (
 		<div
@@ -91,14 +95,26 @@ export default function ProfileAdCard({
 				</div>
 			) : (
 				showButton && (
-					<button
-						className="inline-flex items-center justify-center mt-4 rounded-lg bg-indigo-600 px-5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
-						onClick={() => {
-							createConversation(ad._id);
-						}}
-					>
-						Respond to Ad
-					</button>
+					<div className="mt-4 flex gap-3">
+						<button
+							className="inline-flex items-center justify-center mt-4 rounded-lg bg-indigo-600 px-5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
+							onClick={() => {
+								createConversation(ad._id);
+							}}
+						>
+							Respond to Ad
+						</button>
+						{showLikeButton && (
+							<button
+								className="inline-flex items-center justify-center mt-4 rounded-lg bg-red-600 px-5 py-2 text-lg font-semibold text-white hover:bg-reds-500 transition hover:cursor-pointer"
+								onClick={() => {
+									unlikeMutate({ adID: ad._id });
+								}}
+							>
+								<FaHeart />
+							</button>
+						)}
+					</div>
 				)
 			)}
 		</div>
