@@ -4,14 +4,14 @@ import { HashLink } from "react-router-hash-link";
 
 export default function FAQ() {
 	const sectionRef = useRef<HTMLDivElement>(null);
-	const [faqHeaders, setFAQHeaders] = useState<string[]>([
+	const faqHeaders = [
 		"General Questions",
 		"Account Related",
 		"Role-Play Management",
 		"Character Bios",
 		"Ads",
 		"Messaging"
-	]);
+	];
 
 	useEffect(() => {
 		const hash = window.location.hash;
