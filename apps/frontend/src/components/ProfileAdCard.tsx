@@ -92,6 +92,16 @@ export default function ProfileAdCard({
 					>
 						Delete
 					</button>
+					{showLikeButton && (
+						<button
+							className="rounded-md border bg-red-600 border-red-800 px-3 py-1 text-sm text-white hover:bg-red-950 hover:cursor-pointer"
+							onClick={() => {
+								unlikeMutate({ adID: ad._id });
+							}}
+						>
+							<FaHeart />
+						</button>
+					)}
 				</div>
 			) : (
 				showButton && (
