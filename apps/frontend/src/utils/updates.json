@@ -58,5 +58,11 @@
 		"heading": "Added character limit to text message",
 		"timestamp": "03-28-2026",
 		"description": "To prevent excessively long messages that may cause performance issues or hinder readability, a character limit of 2000 characters has been implemented for messages sent within the platform. This ensures that messages remain concise and easy to read, while also improving overall performance and user experience by reducing the likelihood of encountering issues related to long messages."
+	},
+	{
+		"id": 11,
+		"heading": "Added header list to FAQ page",
+		"timestamp": "03-28-2026",
+		"description": "A header list has been added to the FAQ page, allowing users to easily navigate to different sections of the FAQ by clicking on the corresponding headers. This enhancement improves user experience by providing a clear and organized structure to the FAQ content, making it easier for users to find the information they are looking for without having to scroll through the entire page."
 	}
 ]
