@@ -135,6 +135,10 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 	function sendMessage(chatID: string, message: string) {
 		if (!message.trim()) return alert("Message cannot be empty");
 
+		if (message.length > 2000) {
+			return alert("Message cannot exceed 2000 characters");
+		}
+
 		messageMutation({ chatID, message });
 	}
 
@@ -265,6 +269,11 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 		editedMessage: string
 	) {
 		if (!editedMessage.trim()) return alert("Edited message cannot be empty");
+
+		if(editedMessage.length > 2000) {
+			return alert("Edited message cannot exceed 2000 characters");
+		}
+
 		editMessageMutation({ chatID, messageID, editedMessage });
 	}
 
