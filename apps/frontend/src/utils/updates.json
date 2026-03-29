@@ -52,5 +52,11 @@
 		"heading": "Added 'unlike' functionality for ads on favorited ads page",
 		"timestamp": "03-28-2026",
 		"description": "Users can now unlike ads directly from the favorited ads page, allowing them to manage their list of favorited ads more efficiently. This feature provides users with greater control over their favorites and helps them keep their list of preferred ads up to date without having to navigate back to the ad itself."
+	},
+	{
+		"id": 10,
+		"heading": "Added character limit to text message",
+		"timestamp": "03-28-2026",
+		"description": "To prevent excessively long messages that may cause performance issues or hinder readability, a character limit of 2000 characters has been implemented for messages sent within the platform. This ensures that messages remain concise and easy to read, while also improving overall performance and user experience by reducing the likelihood of encountering issues related to long messages."
 	}
 ]
