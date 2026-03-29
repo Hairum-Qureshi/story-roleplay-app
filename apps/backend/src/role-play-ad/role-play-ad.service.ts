@@ -258,7 +258,7 @@ export class RolePlayAdService {
   }
 
   async getLikedAds(userID: string) {
-    const likedAds = await this.likeModel
+    const likedAds = (await this.likeModel
       .find({ userID })
       .populate({
         path: 'adID',
@@ -270,9 +270,21 @@ export class RolePlayAdService {
       })
       .select('-_id -userID -__v')
       .sort({ createdAt: -1 })
-      .lean();
+      .lean()) as unknown as {
+      _id: string;
+      userID: string;
+      adID: RolePlayAdType | null;
+      createdAt: string;
+      updatedAt: string;
+    }[];
 
-    const ads = likedAds.map((like) => like.adID).filter((ad) => ad); // remove nulls in case match didn't find anything
+    const ads = likedAds
+      .map((like) => like.adID)
+      .filter((ad): ad is RolePlayAdType => Boolean(ad))
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
 
     return ads;
   }
