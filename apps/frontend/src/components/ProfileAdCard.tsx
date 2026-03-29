@@ -22,14 +22,14 @@ export default function ProfileAdCard({
 	return (
 		<div
 			key={ad._id}
-			className="rounded-lg border border-slate-800 bg-slate-900/60 p-4"
+			className="flex flex-col h-full rounded-lg border border-slate-800 bg-slate-900/60 p-4"
 		>
-			<h3 className="text-lg font-medium text-slate-100">{ad.title}</h3>
+			<h3 className="text-xl mb-2 font-medium text-slate-100">{ad.title}</h3>
 
-			<h4 className="text-base mt-2 font-semibold text-slate-200">Premise</h4>
+			<h4 className="text-base mt-4 font-semibold text-slate-200">Premise</h4>
 			<p className="mt-1 text-sm text-slate-400">{ad.premise}</p>
 
-			<h4 className="text-base mt-2 font-semibold text-slate-200">
+			<h4 className="text-base mt-4 font-semibold text-slate-200">
 				Writing Expectations
 			</h4>
 			{ad.writingExpectations && ad.writingExpectations.length > 0 ? (
@@ -49,8 +49,10 @@ export default function ProfileAdCard({
 				</p>
 			)}
 
+			{/* BUTTON SECTIONS */}
 			{ad.author._id === currUser?._id ? (
-				<div className="mt-4 flex gap-3">
+				/* ADDED: mt-auto to push this div down */
+				<div className="mt-auto pt-4 flex gap-3">
 					{ad.canBeReposted ? (
 						<button
 							onClick={e => {
@@ -85,9 +87,8 @@ export default function ProfileAdCard({
 						onClick={e => {
 							e.stopPropagation();
 							e.preventDefault();
-							confirm(
-								"Are you sure you want to delete this ad? This action cannot be undone."
-							) && deleteAdMutate({ adID: ad._id });
+							confirm("Are you sure you want to delete this ad?") &&
+								deleteAdMutate({ adID: ad._id });
 						}}
 					>
 						Delete
@@ -95,9 +96,7 @@ export default function ProfileAdCard({
 					{showLikeButton && (
 						<button
 							className="rounded-md border bg-red-600 border-red-800 px-3 py-1 text-sm text-white hover:bg-red-950 hover:cursor-pointer"
-							onClick={() => {
-								unlikeMutate({ adID: ad._id });
-							}}
+							onClick={() => unlikeMutate({ adID: ad._id })}
 						>
 							<FaHeart />
 						</button>
@@ -105,21 +104,18 @@ export default function ProfileAdCard({
 				</div>
 			) : (
 				showButton && (
-					<div className="mt-4 flex gap-3">
+					/* ADDED: mt-auto to push this div down */
+					<div className="mt-auto pt-4 flex gap-3 items-center">
 						<button
-							className="inline-flex items-center justify-center mt-4 rounded-lg bg-indigo-600 px-5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
-							onClick={() => {
-								createConversation(ad._id);
-							}}
+							className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
+							onClick={() => createConversation(ad._id)}
 						>
 							Respond to Ad
 						</button>
 						{showLikeButton && (
 							<button
-								className="inline-flex items-center justify-center mt-4 rounded-lg bg-red-600 px-5 py-2 text-lg font-semibold text-white hover:bg-reds-500 transition hover:cursor-pointer"
-								onClick={() => {
-									unlikeMutate({ adID: ad._id });
-								}}
+								className="inline-flex items-center justify-center rounded-lg bg-red-600 px-5 py-2 text-lg font-semibold text-white hover:bg-red-500 transition hover:cursor-pointer"
+								onClick={() => unlikeMutate({ adID: ad._id })}
 							>
 								<FaHeart />
 							</button>
