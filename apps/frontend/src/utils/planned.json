@@ -63,5 +63,15 @@
 		"id": 21,
 		"subheading": "Listing which user ended the chat",
 		"description": "When a chat conversation has ended, the platform will display a message indicating which user ended the chat. This will provide clarity for both participants and help them understand the status of their conversation. For example, if User A ends the chat, a message will appear in the chat history stating 'User A has ended the chat,' allowing both users to easily identify who initiated the end of the conversation and providing a clear conclusion to their interaction."
+	},
+	{
+		"id": 22,
+		"subheading": "Timestamps for system messages",
+		"description": "messages from the system user include timestamps to indicate when certain actions or events occurred within the chat."
+	},
+	{
+		"id": 23,
+		"subheading": "Timestamps for story PDF generation",
+		"description": "The generated story PDF will include a timestamp for the role-play start date and end date (if applicable)"
 	}
 ]
