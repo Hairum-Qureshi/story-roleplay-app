@@ -1,9 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 
 export default function FAQ() {
 	const sectionRef = useRef<HTMLDivElement>(null);
+	const [faqHeaders, setFAQHeaders] = useState<string[]>([
+		"General Questions",
+		"Account Related",
+		"Role-Play Management",
+		"Character Bios",
+		"Ads",
+		"Messaging"
+	]);
 
 	useEffect(() => {
 		const hash = window.location.hash;
@@ -50,7 +58,7 @@ export default function FAQ() {
 					answer: (
 						<p>
 							Please check out{" "}
-							<Link to="/guidelines" className="underline text-yellow-500">
+							<Link to="/guidelines" className="underline text-blue-500">
 								our guidelines
 							</Link>
 						</p>
@@ -229,27 +237,42 @@ export default function FAQ() {
 				<h1 className="text-4xl font-bold mb-6">
 					Frequently Asked Questions (FAQ)
 				</h1>
-				<div className="space-y-12" ref={sectionRef}>
-					{faqSections.map(section => (
-						<div key={new Date().getTime() + Math.random() * 1000}>
-							<h2
-								className="text-3xl font-bold mb-4 text-yellow-400"
-								id={section.title.props.to.substring(1)}
-							>
-								{section.title}
-							</h2>
-							<div className="space-y-8">
-								{section.items.map(item => (
-									<div key={item.question} className="ml-5">
-										<h3 className="text-2xl font-semibold mb-2 text-sky-500">
-											{item.question}
-										</h3>
-										<div className="text-base">{item.answer}</div>
-									</div>
-								))}
+				<div className="space-y-12 flex" ref={sectionRef}>
+					<div className="w-3/4 mr-8">
+						{faqSections.map(section => (
+							<div key={new Date().getTime() + Math.random() * 1000}>
+								<h2
+									className="text-3xl font-bold my-6 text-slate-300"
+									id={section.title.props.to.substring(1)}
+								>
+									{section.title}
+								</h2>
+								<div className="space-y-8">
+									{section.items.map(item => (
+										<div key={item.question} className="ml-5">
+											<h3 className="text-2xl font-semibold mb-2 text-sky-500">
+												{item.question}
+											</h3>
+											<div className="text-base">{item.answer}</div>
+										</div>
+									))}
+								</div>
 							</div>
-						</div>
-					))}
+						))}
+					</div>
+					<div className="w-1/4 pl-8 border-l border-slate-700 sticky top-10 h-fit">
+						{faqHeaders.map(header => (
+							<div key={header} className="mb-4">
+								<HashLink
+									smooth
+									to={`#${header.toLowerCase().replace(/\s+/g, "-")}`}
+									className="text-lg text-sky-500 hover:underline"
+								>
+									{header}
+								</HashLink>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>
