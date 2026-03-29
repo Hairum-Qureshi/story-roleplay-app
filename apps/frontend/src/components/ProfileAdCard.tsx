@@ -27,7 +27,9 @@ export default function ProfileAdCard({
 			<h3 className="text-xl mb-2 font-medium text-slate-100">{ad.title}</h3>
 
 			<h4 className="text-base mt-4 font-semibold text-slate-200">Premise</h4>
-			<p className="mt-1 text-sm text-slate-400">{ad.premise}</p>
+			<p className="mt-1 text-sm text-slate-400 whitespace-pre-line">
+				{ad.premise}
+			</p>
 
 			<h4 className="text-base mt-4 font-semibold text-slate-200">
 				Writing Expectations
