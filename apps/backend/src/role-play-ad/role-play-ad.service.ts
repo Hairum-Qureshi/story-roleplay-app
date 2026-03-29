@@ -269,6 +269,7 @@ export class RolePlayAdService {
         },
       })
       .select('-_id -userID -__v')
+      .sort({ createdAt: -1 })
       .lean();
 
     const ads = likedAds.map((like) => like.adID).filter((ad) => ad); // remove nulls in case match didn't find anything
