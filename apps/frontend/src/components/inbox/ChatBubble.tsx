@@ -12,7 +12,7 @@ export default function ChatBubble({
 	chatEnded,
 	isDeleted,
 	isEdited,
-	messageID,
+	messageID
 }: ChatBubbleProps) {
 	const { message, you, timestamp } = messageData;
 	const [editMode, setEditMode] = useState(false);
@@ -77,6 +77,7 @@ export default function ChatBubble({
 								focus:ring-1 focus:ring-blue-500
 								transition
 							"
+							maxLength={2000}
 							autoFocus
 							value={editedMessage}
 							onChange={e => {
@@ -87,6 +88,9 @@ export default function ChatBubble({
 						/>
 
 						<div className="mt-1 flex justify-end gap-3 text-xs">
+							<p className="flex mr-auto">
+								{editedMessage.length}/2000 characters
+							</p>
 							<button
 								onClick={() => {
 									setEditedMessage(message);
