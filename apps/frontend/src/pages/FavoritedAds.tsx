@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import ProfileAdCard from "../components/ProfileAdCard";
 import useRolePlayAds from "../hooks/useRolePlayAds";
 import type { RolePlayAd } from "../interfaces";
 
 export default function FavoritedAds() {
 	const { likedRolePlayAds } = useRolePlayAds();
+
+	useEffect(() => window.scrollTo(0, 0), []);
 
 	return (
 		<div className="min-h-screen bg-slate-950 text-slate-100 p-6">
@@ -34,7 +37,7 @@ export default function FavoritedAds() {
 				) : (
 					<div className="grid gap-6 md:grid-cols-2">
 						{likedRolePlayAds?.map((ad: RolePlayAd) => (
-							<ProfileAdCard key={ad._id} ad={ad} showButton />
+							<ProfileAdCard key={ad._id} ad={ad} showButton showLikeButton />
 						))}
 					</div>
 				)}
