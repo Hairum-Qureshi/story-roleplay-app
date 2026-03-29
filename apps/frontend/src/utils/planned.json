@@ -25,11 +25,6 @@
 		"description": "Unopened messages will be visually distinguishable from opened ones, allowing users to easily identify which messages they have already read and which ones are new."
 	},
 	{
-		"id": 8,
-		"subheading": "Adding a character limit to messages",
-		"description": "To prevent excessively long messages that may cause performance issues or hinder readability, a character limit will be implemented for messages sent within the platform."
-	},
-	{
 		"id": 9,
 		"subheading": "Implementing 'create character' functionality",
 		"description": "Users will be able to create and customize their own characters for role-playing scenarios, enhancing the immersive experience of the platform."
