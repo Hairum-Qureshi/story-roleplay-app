@@ -58,5 +58,10 @@
 		"id": 20,
 		"subheading": "Infinite scrolling for chat messages",
 		"description": "To enhance the user experience when navigating through long chat conversations, infinite scrolling will be implemented for chat messages. This means that as users scroll up through their chat history, older messages will automatically load without the need for manual pagination or clicking a 'load more' button. This feature will provide a seamless and efficient way for users to access their entire chat history, making it easier to revisit past conversations and find important information without interruption."
+	},
+	{
+		"id": 21,
+		"subheading": "Listing which user ended the chat",
+		"description": "When a chat conversation has ended, the platform will display a message indicating which user ended the chat. This will provide clarity for both participants and help them understand the status of their conversation. For example, if User A ends the chat, a message will appear in the chat history stating 'User A has ended the chat,' allowing both users to easily identify who initiated the end of the conversation and providing a clear conclusion to their interaction."
 	}
 ]
