@@ -17,6 +17,7 @@ export default function ChatFooter({
 			<textarea
 				className="flex-1 bg-transparent w-full resize-none outline-none text-white placeholder-slate-400 h-17 p-2 focus:ring-0 rounded-md"
 				placeholder="Type your message..."
+				maxLength={2000}
 				value={message}
 				onChange={e => {
 					setMessage(e.target.value);
@@ -24,15 +25,27 @@ export default function ChatFooter({
 				}}
 			/>
 			{selectedChat && (
-				<button
-					className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 transition-colors duration-200 rounded-md"
-					onClick={() => {
-						sendMessage(selectedChat._id, message);
-						setMessage("");
-					}}
-				>
-					Send
-				</button>
+				<div className="flex flex-col">
+					{message.length >= 1800 && (
+						<p className="mb-1 text-center text-sm">
+							<span
+								className={`${message.length > 1900 ? "text-red-500" : "text-orange-500"}`}
+							>
+								{message.length}
+							</span>
+							/2000
+						</p>
+					)}
+					<button
+						className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 transition-colors duration-200 rounded-md"
+						onClick={() => {
+							sendMessage(selectedChat._id, message);
+							setMessage("");
+						}}
+					>
+						Send
+					</button>
+				</div>
 			)}
 		</div>
 	);
