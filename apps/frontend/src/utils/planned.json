@@ -73,5 +73,10 @@
 		"id": 23,
 		"subheading": "Timestamps for story PDF generation",
 		"description": "The generated story PDF will include a timestamp for the role-play start date and end date (if applicable)"
+	},
+	{
+		"id": 24,
+		"subheading": "Reducing Annoyance with chat window message notifications",
+		"description": "If you're already in the chat window, you shouldn't get message notifications for new messages in that chat since you're already there. This will prevent redundant notifications and improve the user experience by only sending notifications for new messages in chats that the user is not currently viewing."
 	}
 ]
