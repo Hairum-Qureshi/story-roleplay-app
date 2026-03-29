@@ -48,5 +48,10 @@
 		"id": 17,
 		"subheading": "Public user profiles",
 		"description": "Users will be able to view each other's profiles"
+	},
+	{
+		"id": 18,
+		"subheading": "Ad minimum and maximum character limits",
+		"description": "To ensure that role-play ads are concise and easy to read, a minimum character limit of 50 characters and a maximum character limit of 2000 characters will be implemented for ad descriptions. This will help maintain a high standard of content quality and improve the overall user experience by preventing excessively short or long ads that may be difficult to understand or navigate."
 	}
 ]
