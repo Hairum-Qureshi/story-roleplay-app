@@ -168,6 +168,7 @@ export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["your-roleplayAds"] });
+			queryClient.invalidateQueries({ queryKey: ["liked-roleplay-ads"] });
 		}
 	});
 
