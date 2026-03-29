@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Conversation } from '../schemas/inbox/Conversation';
@@ -58,6 +58,20 @@ export class ChatService {
 
     if (!conversation) {
       throw new Error('Conversation not found');
+    }
+
+    if (!messageDto.message || !messageDto.message.trim()) {
+      throw new HttpException(
+        'Message cannot be empty',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (messageDto.message.length > 2000) {
+      throw new HttpException(
+        'Message cannot exceed 2000 characters',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const participants: string[] = conversation.participants;
