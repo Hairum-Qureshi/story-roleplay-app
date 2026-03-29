@@ -317,6 +317,20 @@ export class ChatService {
       throw new Error('Conversation not found');
     }
 
+    if (!messageDto.editedMessage || !messageDto.editedMessage.trim()) {
+      throw new HttpException(
+        'Message cannot be empty',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (messageDto.editedMessage.length > 2000) {
+      throw new HttpException(
+        'Message cannot exceed 2000 characters',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     // update the message content
     await this.messageModel.findByIdAndUpdate(messageID, {
       content: messageDto.editedMessage,
