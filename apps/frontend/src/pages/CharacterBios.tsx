@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export default function CharacterBios() {
 	const characterBios = [
 		{
@@ -15,6 +17,8 @@ export default function CharacterBios() {
 			genre: "Sci-Fi"
 		}
 	];
+
+	useEffect(() => window.scrollTo(0, 0), []);
 
 	return (
 		<div className="min-h-screen bg-slate-950 p-6">
