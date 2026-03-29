@@ -50,5 +50,9 @@
 	{
 		"id": 18,
 		"bug": "Not sure if it started after implementing the like ad functionality, but if another user reposts an ad while another ad is on the feed page, the user needs to exit out of the tab and re-enter it because the page just freezes for some reason."
+	},
+	{
+		"id": 19,
+		"bug": "For some reason, the app freezes when you make a new ad post and you're on the feed page. This is likely due to a performance issue where the app is not efficiently handling the state updates and re-rendering that occur when a new ad is posted, leading to a freeze in the user interface."
 	}
 ]
