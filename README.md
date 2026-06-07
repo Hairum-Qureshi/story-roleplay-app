@@ -2,7 +2,7 @@
 
 TaleWeaver is a collaborative, chat-based role‑playing platform built to make finding and writing stories with others fast, focused, and enjoyable. Instead of overwhelming users with bloated profiles and complex systems, TaleWeaver emphasizes simplicity: post an ad, connect with another writer, and start writing.
 
-This repository is a **monorepo** containing both the backend and frontend applications. It uses Nest.js, React, Tailwind CSS, and Socket.IO to support real-time, chat-based collaborative storytelling, while maintaining a clean separation of concerns and long-term sca
+This repository is a **monorepo** containing both the backend and frontend applications. It uses Nest.js, React, Tailwind CSS, and Socket.IO to support real-time, chat-based collaborative storytelling, while maintaining a clean separation of concerns and long-term scalability.
 
 ---
 
@@ -104,10 +104,6 @@ TaleWeaver is deployed using a split hosting strategy that aligns with the archi
 - **Backend** – The NestJS backend is deployed on **Render**. Render was chosen specifically because TaleWeaver relies on **Socket.IO** for real-time, persistent WebSocket connections. Platforms like Vercel are designed around **serverless, stateless functions**, which do not support long-lived WebSocket connections required by Socket.IO. Because of this limitation, running the backend on Vercel would break real-time chat functionality. Render, by contrast, provides a traditional Node.js runtime with persistent processes, making it well-suited for WebSocket-based applications.
 
 To mitigate Render’s free-tier behavior of suspending inactive services, a **cron job is configured to ping the backend every 10 minutes**. This periodic request keeps the server instance warm and prevents cold starts that would otherwise introduce noticeable delays when users send their first message after inactivity. This ensures a smoother real-time chat experience while keeping hosting costs low.
-
----
-
-Here’s a clean, production-ready **README “Environment Variables” section** with all sensitive values replaced by safe placeholders and clear explanations.
 
 ---
 
