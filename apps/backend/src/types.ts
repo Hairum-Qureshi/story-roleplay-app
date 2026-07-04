@@ -117,7 +117,6 @@ export type {
   CharacterBio,
   Conversation,
   Message,
-  PovType,
   RolePlayAdDocument,
   ConversationDocument,
   MessageDocument,
@@ -125,3 +124,4 @@ export type {
   HydratedConversationDocument,
   HydratedMessage,
 };
+export { PovType };
