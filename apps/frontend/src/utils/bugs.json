@@ -1,58 +1,66 @@
 [
-	{
-		"id": 1,
-		"bug": "When you have a chat with a user and delete your account, an error occurs when the other user tries opening a chat with the deleted account."
-	},
-	{
-		"id": 2,
-		"bug": "When you have a chat open and click on the chat card from the chat list, the role-play ad data goes undefined."
-	},
-	{
-		"id": 3,
-		"bug": "When you repost more than 1 ad, the frontend UI appears to duplicate the ad more than once unless you refresh the page."
-	},
-	{
-		"id": 4,
-		"bug": "Logging in through Google on mobile causes the page to refresh and log you out immediately after logging in. This seems to be an issue with the Google login flow on mobile devices and is being investigated."
-	},
-	{
-		"id": 5,
-		"bug": "Markdown formatting in messages can sometimes render incorrectly, especially when using certain combinations of markdown syntax. We're working on improving the markdown parser to handle these cases more gracefully."
-	},
-	{
-		"id": 7,
-		"bug": "When you sign out, then visit a URL that doesn't exist (i.e. you're on the Error 404 page), for some reason you're considered logged-in when you shouldn't be."
-	},
-	{
-		"id": 9,
-		"bug": "After you delete your account, sometimes for some reason, you're able to view your 'deleted profile'. Not always, but sometimes. This is likely due to a caching issue where the deleted profile data is still being stored in the cache and can be accessed until the cache is cleared or expires."
-	},
-	{
-		"id": 11,
-		"bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
-	},
-	{
-		"id": 14,
-		"bug": "If you refresh the page while having a chat open, you get redirected back to the home page ('/' route) instead of staying on the same chat you had open."
-	},
-	{
-		"id": 15,
-		"bug": "The Notification API seems to only send out a notification when you have the chat open, but not when you're on a different page. This is likely due to the fact that the notification logic is currently tied to the chat component, so if you're not on the chat page, the notifications won't be triggered."
-	},
-	{
-		"id": 16,
-		"bug": "For some reason, when signing out on deployed site, you sign out, but upon page refresh, the cookie is re-added and you're logged back in. This is likely due to an issue with the authentication flow where the sign-out process is not properly clearing the authentication cookie, allowing it to be re-added upon page refresh."
-	},
-	{
-		"id": 17,
-		"bug": "There still seems to be a bug where if you are the one who ends the chat and switch to another chat, the 'this chat has ended' message still appears in the new chat you switched to. This is likely due to a state management issue where the ended chat state is not being properly reset when switching to a different chat, causing the 'chat has ended' message to persist across chats."
-	},
-	{
-		"id": 18,
-		"bug": "Not sure if it started after implementing the like ad functionality, but if another user reposts an ad while another ad is on the feed page, the user needs to exit out of the tab and re-enter it because the page just freezes for some reason."
-	},
-	{
-		"id": 19,
-		"bug": "For some reason, the app freezes when you make a new ad post and you're on the feed page. This is likely due to a performance issue where the app is not efficiently handling the state updates and re-rendering that occur when a new ad is posted, leading to a freeze in the user interface."
-	}
+  {
+    "id": 1,
+    "bug": "When you have a chat with a user and delete your account, an error occurs when the other user tries opening a chat with the deleted account."
+  },
+  {
+    "id": 2,
+    "bug": "When you have a chat open and click on the chat card from the chat list, the role-play ad data goes undefined."
+  },
+  {
+    "id": 3,
+    "bug": "When you repost more than 1 ad, the frontend UI appears to duplicate the ad more than once unless you refresh the page."
+  },
+  {
+    "id": 4,
+    "bug": "Logging in through Google on mobile causes the page to refresh and log you out immediately after logging in. This seems to be an issue with the Google login flow on mobile devices and is being investigated."
+  },
+  {
+    "id": 5,
+    "bug": "Markdown formatting in messages can sometimes render incorrectly, especially when using certain combinations of markdown syntax. We're working on improving the markdown parser to handle these cases more gracefully."
+  },
+  {
+    "id": 7,
+    "bug": "When you sign out, then visit a URL that doesn't exist (i.e. you're on the Error 404 page), for some reason you're considered logged-in when you shouldn't be."
+  },
+  {
+    "id": 9,
+    "bug": "After you delete your account, sometimes for some reason, you're able to view your 'deleted profile'. Not always, but sometimes. This is likely due to a caching issue where the deleted profile data is still being stored in the cache and can be accessed until the cache is cleared or expires."
+  },
+  {
+    "id": 11,
+    "bug": "The user's delete message is still shown as the latest message instead of 'deleted message"
+  },
+  {
+    "id": 14,
+    "bug": "If you refresh the page while having a chat open, you get redirected back to the home page ('/' route) instead of staying on the same chat you had open."
+  },
+  {
+    "id": 15,
+    "bug": "The Notification API seems to only send out a notification when you have the chat open, but not when you're on a different page. This is likely due to the fact that the notification logic is currently tied to the chat component, so if you're not on the chat page, the notifications won't be triggered."
+  },
+  {
+    "id": 16,
+    "bug": "For some reason, when signing out on deployed site, you sign out, but upon page refresh, the cookie is re-added and you're logged back in. This is likely due to an issue with the authentication flow where the sign-out process is not properly clearing the authentication cookie, allowing it to be re-added upon page refresh."
+  },
+  {
+    "id": 17,
+    "bug": "There still seems to be a bug where if you are the one who ends the chat and switch to another chat, the 'this chat has ended' message still appears in the new chat you switched to. This is likely due to a state management issue where the ended chat state is not being properly reset when switching to a different chat, causing the 'chat has ended' message to persist across chats."
+  },
+  {
+    "id": 18,
+    "bug": "Not sure if it started after implementing the like ad functionality, but if another user reposts an ad while another ad is on the feed page, the user needs to exit out of the tab and re-enter it because the page just freezes for some reason."
+  },
+  {
+    "id": 19,
+    "bug": "For some reason, the app freezes when you make a new ad post and you're on the feed page. This is likely due to a performance issue where the app is not efficiently handling the state updates and re-rendering that occur when a new ad is posted, leading to a freeze in the user interface."
+  },
+  {
+    "id": 20,
+    "bug": "When you view your chat in a PDF format, the date created is incorrect."
+  },
+  {
+    "id": 21,
+    "bug": "If you're viewing the feed page without being logged in, no posted ads are shown unless you sign in."
+  }
 ]
