@@ -4,14 +4,13 @@ import { UserPayload } from 'src/types';
 import { ProfanityEngine } from '@coffeeandfun/google-profanity-words';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
-import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class EmailService {
   private resend: Resend;
 
   constructor(private configService: ConfigService) {
-    this.resend = new Resend(this.configService.get<string>('RESEND_API_KEY')!);
+    this.resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
   }
 
   async sendEmail(sendEmailDto: SendEmail, currUser: UserPayload) {
@@ -27,7 +26,7 @@ export class EmailService {
       throw new HttpException('Invalid sender information', 400);
     }
 
-    const profanity = new ProfanityEngine({ lang: 'en' });
+    const profanity = new ProfanityEngine();
     const subjectIsProfane = await profanity.hasCurseWords(subject);
     const messageIsProfane = await profanity.hasCurseWords(message);
 
@@ -38,7 +37,7 @@ export class EmailService {
       );
     }
 
-    this.resend.emails.send({
+    await this.resend.emails.send({
       from: `TaleWeaver <${this.configService.get<string>('RESEND_SENDER_EMAIL')}>`,
       to: this.configService.get<string>('RECEIVER_EMAIL')!,
       subject: `[TaleWeaver Feedback] ${subject}`,
