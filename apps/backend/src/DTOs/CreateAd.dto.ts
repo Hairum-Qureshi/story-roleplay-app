@@ -1,4 +1,11 @@
-import { IsArray, IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNotEmpty,
+  IsString,
+  IsEnum,
+} from 'class-validator';
+import { PovType } from 'src/types';
 
 export class CreateAd {
   @IsNotEmpty()
@@ -6,8 +13,8 @@ export class CreateAd {
   title: string;
 
   @IsNotEmpty()
-  @IsString()
-  pov: string;
+  @IsEnum(PovType)
+  pov: PovType;
 
   @IsNotEmpty()
   @IsBoolean()
