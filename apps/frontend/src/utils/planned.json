@@ -1,82 +1,87 @@
 [
-	{
-		"id": 2,
-		"subheading": "Functional search within chats",
-		"description": "Users will be able to search for specific messages within their chats, making it easier to find important information or revisit past conversations."
-	},
-	{
-		"id": 3,
-		"subheading": "Search chat functionality",
-		"description": "Users will have the ability to search for specific chats by title from their list of conversations, allowing for quicker access to relevant chats without having to scroll through the entire inbox."
-	},
-	{
-		"id": 4,
-		"subheading": "Newer chats appearing at the top of the inbox",
-		"description": "The inbox will be updated to display newer chats at the top, allowing users to easily access their most recent conversations without having to scroll through older chats."
-	},
-	{
-		"id": 5,
-		"subheading": "Message count for unread messages",
-		"description": "A message count will be added to indicate the number of unread messages in each chat, helping users quickly identify which conversations require their attention."
-	},
-	{
-		"id": 6,
-		"subheading": "Read/unread indicators for messages",
-		"description": "Unopened messages will be visually distinguishable from opened ones, allowing users to easily identify which messages they have already read and which ones are new."
-	},
-	{
-		"id": 9,
-		"subheading": "Implementing 'create character' functionality",
-		"description": "Users will be able to create and customize their own characters for role-playing scenarios, enhancing the immersive experience of the platform."
-	},
-	{
-		"id": 10,
-		"subheading": "Ad search and filtering options",
-		"description": "Users will have the ability to search for role-play ads based on specific criteria such as title, user, character preferences, making it easier to find suitable role-playing opportunities."
-	},
-	{
-		"id": 12,
-		"subheading": "Block feature",
-		"description": "Users will have the option to block other users, preventing them from sending messages or viewing their ads. This will enhance user safety and allow individuals to curate their interactions on the platform."
-	},
-	{
-		"id": 13,
-		"subheading": "Report feature",
-		"description": "Users will be able to report inappropriate content or behavior within the platform, allowing for a safer and more enjoyable user experience. Reported content will be reviewed by the moderation team to ensure compliance with community guidelines and take appropriate action when necessary."
-	},
-	{
-		"id": 17,
-		"subheading": "Public user profiles",
-		"description": "Users will be able to view each other's profiles"
-	},
-	{
-		"id": 18,
-		"subheading": "Ad minimum and maximum character limits",
-		"description": "To ensure that role-play ads are concise and easy to read, a minimum character limit of 50 characters and a maximum character limit of 2000 characters will be implemented for ad descriptions. This will help maintain a high standard of content quality and improve the overall user experience by preventing excessively short or long ads that may be difficult to understand or navigate."
-	},
-	{
-		"id": 20,
-		"subheading": "Infinite scrolling for chat messages",
-		"description": "To enhance the user experience when navigating through long chat conversations, infinite scrolling will be implemented for chat messages. This means that as users scroll up through their chat history, older messages will automatically load without the need for manual pagination or clicking a 'load more' button. This feature will provide a seamless and efficient way for users to access their entire chat history, making it easier to revisit past conversations and find important information without interruption."
-	},
-	{
-		"id": 21,
-		"subheading": "Listing which user ended the chat",
-		"description": "When a chat conversation has ended, the platform will display a message indicating which user ended the chat. This will provide clarity for both participants and help them understand the status of their conversation. For example, if User A ends the chat, a message will appear in the chat history stating 'User A has ended the chat,' allowing both users to easily identify who initiated the end of the conversation and providing a clear conclusion to their interaction."
-	},
-	{
-		"id": 22,
-		"subheading": "Timestamps for system messages",
-		"description": "messages from the system user include timestamps to indicate when certain actions or events occurred within the chat."
-	},
-	{
-		"id": 23,
-		"subheading": "Timestamps for story PDF generation",
-		"description": "The generated story PDF will include a timestamp for the role-play start date and end date (if applicable)"
-	},
-	{
-		"id": 24,
-		"subheading": "Reducing Annoyance with chat window message notifications",
-		"description": "If you're already in the chat window, you shouldn't get message notifications for new messages in that chat since you're already there. This will prevent redundant notifications and improve the user experience by only sending notifications for new messages in chats that the user is not currently viewing."
-	}
+  {
+    "id": 2,
+    "subheading": "Functional search within chats",
+    "description": "Users will be able to search for specific messages within their chats, making it easier to find important information or revisit past conversations."
+  },
+  {
+    "id": 3,
+    "subheading": "Search chat functionality",
+    "description": "Users will have the ability to search for specific chats by title from their list of conversations, allowing for quicker access to relevant chats without having to scroll through the entire inbox."
+  },
+  {
+    "id": 4,
+    "subheading": "Newer chats appearing at the top of the inbox",
+    "description": "The inbox will be updated to display newer chats at the top, allowing users to easily access their most recent conversations without having to scroll through older chats."
+  },
+  {
+    "id": 5,
+    "subheading": "Message count for unread messages",
+    "description": "A message count will be added to indicate the number of unread messages in each chat, helping users quickly identify which conversations require their attention."
+  },
+  {
+    "id": 6,
+    "subheading": "Read/unread indicators for messages",
+    "description": "Unopened messages will be visually distinguishable from opened ones, allowing users to easily identify which messages they have already read and which ones are new."
+  },
+  {
+    "id": 9,
+    "subheading": "Implementing 'create character' functionality",
+    "description": "Users will be able to create and customize their own characters for role-playing scenarios, enhancing the immersive experience of the platform."
+  },
+  {
+    "id": 10,
+    "subheading": "Ad search and filtering options",
+    "description": "Users will have the ability to search for role-play ads based on specific criteria such as title, user, character preferences, making it easier to find suitable role-playing opportunities."
+  },
+  {
+    "id": 12,
+    "subheading": "Block feature",
+    "description": "Users will have the option to block other users, preventing them from sending messages or viewing their ads. This will enhance user safety and allow individuals to curate their interactions on the platform."
+  },
+  {
+    "id": 13,
+    "subheading": "Report feature",
+    "description": "Users will be able to report inappropriate content or behavior within the platform, allowing for a safer and more enjoyable user experience. Reported content will be reviewed by the moderation team to ensure compliance with community guidelines and take appropriate action when necessary."
+  },
+  {
+    "id": 17,
+    "subheading": "Public user profiles",
+    "description": "Users will be able to view each other's profiles"
+  },
+  {
+    "id": 18,
+    "subheading": "Ad minimum and maximum character limits",
+    "description": "To ensure that role-play ads are concise and easy to read, a minimum character limit of 50 characters and a maximum character limit of 2000 characters will be implemented for ad descriptions. This will help maintain a high standard of content quality and improve the overall user experience by preventing excessively short or long ads that may be difficult to understand or navigate."
+  },
+  {
+    "id": 20,
+    "subheading": "Infinite scrolling for chat messages",
+    "description": "To enhance the user experience when navigating through long chat conversations, infinite scrolling will be implemented for chat messages. This means that as users scroll up through their chat history, older messages will automatically load without the need for manual pagination or clicking a 'load more' button. This feature will provide a seamless and efficient way for users to access their entire chat history, making it easier to revisit past conversations and find important information without interruption."
+  },
+  {
+    "id": 21,
+    "subheading": "Listing which user ended the chat",
+    "description": "When a chat conversation has ended, the platform will display a message indicating which user ended the chat. This will provide clarity for both participants and help them understand the status of their conversation. For example, if User A ends the chat, a message will appear in the chat history stating 'User A has ended the chat,' allowing both users to easily identify who initiated the end of the conversation and providing a clear conclusion to their interaction."
+  },
+  {
+    "id": 22,
+    "subheading": "Timestamps for system messages",
+    "description": "messages from the system user include timestamps to indicate when certain actions or events occurred within the chat."
+  },
+  {
+    "id": 23,
+    "subheading": "Timestamps for story PDF generation",
+    "description": "The generated story PDF will include a timestamp for the role-play start date and end date (if applicable)"
+  },
+  {
+    "id": 24,
+    "subheading": "Reducing Annoyance with chat window message notifications",
+    "description": "If you're already in the chat window, you shouldn't get message notifications for new messages in that chat since you're already there. This will prevent redundant notifications and improve the user experience by only sending notifications for new messages in chats that the user is not currently viewing."
+  },
+  {
+    "id": 25,
+    "subheading": "Pinning messages in chat",
+    "description": "Users will have the ability to pin important messages within a chat conversation, allowing them to easily reference and access key information without having to scroll through the entire chat history. Pinned messages will be displayed prominently at the top of the chat window, ensuring that they remain visible and accessible to all participants in the conversation."
+  }
 ]
