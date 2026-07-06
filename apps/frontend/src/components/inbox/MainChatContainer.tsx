@@ -9,7 +9,6 @@ import Ad from "../Ad";
 import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
 import type { MainChatContainerProps } from "../../interfaces";
-import useRolePlayAds from "../../hooks/useRolePlayAds";
 
 export default function MainChatContainer({
   selectedChat,
@@ -29,8 +28,6 @@ export default function MainChatContainer({
 
   const { rolePlayChatMessages, deleteMessage, endRolePlayConversation } =
     useRolePlayChat(chatID || "");
-
-  const { adData } = useRolePlayAds(selectedChat?.roleplayAd._id);
 
   const { data: currUser } = useCurrentUser();
   const bottomOfContainer = useRef<HTMLDivElement>(null);
