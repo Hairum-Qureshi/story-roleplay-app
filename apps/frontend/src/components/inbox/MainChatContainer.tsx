@@ -49,6 +49,18 @@ export default function MainChatContainer({
     setChatEnded(selectedChat?.chatEnded);
   }, [chatID, selectedChat?.chatEnded]);
 
+  function isSystemMessage(message: Message) {
+    const senderData = message.sender as Message["sender"] | string | undefined;
+    const senderUsername =
+      typeof senderData === "string" ? undefined : senderData?.username;
+    const senderId =
+      typeof senderData === "string" ? senderData : senderData?._id;
+
+    return (
+      senderUsername === "SYSTEM" || senderId === "000000000000000000000001"
+    );
+  }
+
   return (
     <div
       className={`${
@@ -80,7 +92,7 @@ export default function MainChatContainer({
               </div>
             )}
             {rolePlayChatMessages?.map((message: Message) =>
-              message.sender?.username === "SYSTEM" ? (
+              isSystemMessage(message) ? (
                 <div
                   key={message._id}
                   className="text-center text-sky-400 my-6 mx-10 italic"
@@ -94,10 +106,8 @@ export default function MainChatContainer({
                   </p>
                 </div>
               ) : (
-                <div id={`message-${message._id}`}>
+                <div id={`message-${message._id}`} key={message._id}>
                   <ChatBubble
-                    key={message._id}
-
                     messageData={{
                       message: message.content,
                       you: message.sender?._id === currUser?._id,
