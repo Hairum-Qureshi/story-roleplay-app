@@ -1,10 +1,12 @@
 import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useState } from "react";
 import type { Conversation } from "../../interfaces";
 import UserCard from "./UserCard";
 import { MdPushPin } from "react-icons/md";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { RiStickyNote2Fill } from "react-icons/ri";
 import { FiSearch, FiDownload } from "react-icons/fi";
+import { FaUsers } from "react-icons/fa";
 
 export default function ChatResourcePanel({
   fullWidth,
@@ -15,6 +17,7 @@ export default function ChatResourcePanel({
 }) {
   const { data: currUserData } = useCurrentUser();
   const isSearching = false;
+  const [showPinnedMessages, setShowPinnedMessages] = useState(false);
 
   return (
     <aside
@@ -63,6 +66,8 @@ export default function ChatResourcePanel({
       <div className="flex-1 overflow-y-auto px-4 py-5">
         {isSearching ? (
           <p className="text-sm text-slate-400">Searching...</p>
+        ) : showPinnedMessages ? (
+          <div>Pinned Messages Here</div>
         ) : (
           <>
             <div className="mb-4 flex items-center justify-between">
@@ -95,15 +100,14 @@ export default function ChatResourcePanel({
           </>
         )}
       </div>
-
       <div className="border-t border-slate-800 p-4">
         <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
           Actions
         </div>
-
         <div className="space-y-1">
-          <button
-            className="
+          {!showPinnedMessages ? (
+            <button
+              className="
                             group
                             flex
                             w-full
@@ -117,13 +121,37 @@ export default function ChatResourcePanel({
                             hover:bg-slate-800
                             hover:cursor-pointer
                         "
-          >
-            <div className="flex items-center gap-3">
-              <MdPushPin className="text-sky-400 text-lg" />
-              <span className="font-medium">Pinned Messages</span>
-            </div>
-          </button>
-
+              onClick={() => setShowPinnedMessages(!showPinnedMessages)}
+            >
+              <div className="flex items-center gap-3">
+                <MdPushPin className="text-sky-400 text-lg" />
+                <span className="font-medium">Pinned Messages</span>
+              </div>
+            </button>
+          ) : (
+            <button
+              className="
+                            group
+                            flex
+                            w-full
+                            items-center
+                            justify-between
+                            rounded-xl
+                            px-3
+                            py-3
+                            text-slate-200
+                            transition
+                            hover:bg-slate-800
+                            hover:cursor-pointer
+                        "
+              onClick={() => setShowPinnedMessages(false)}
+            >
+              <div className="flex items-center gap-3">
+                <FaUsers className="text-sky-400 text-lg" />
+                <span className="font-medium">Show Members</span>
+              </div>
+            </button>
+          )}
           <button
             className="
                             group
