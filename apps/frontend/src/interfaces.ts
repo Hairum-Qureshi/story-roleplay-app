@@ -123,6 +123,7 @@ interface ChatBubbleProps {
   onDelete?: () => void;
   chatEnded: boolean;
   isDeleted: boolean;
+  isPinned: boolean;
   isEdited: boolean;
   messageID: string;
 }
