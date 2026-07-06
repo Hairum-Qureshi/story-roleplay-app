@@ -4,6 +4,7 @@ import UserCard from "./UserCard";
 import { MdPushPin } from "react-icons/md";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { RiStickyNote2Fill } from "react-icons/ri";
+import { FiSearch, FiDownload } from "react-icons/fi";
 
 export default function ChatResourcePanel({
   fullWidth,
@@ -16,26 +17,69 @@ export default function ChatResourcePanel({
   const isSearching = false;
 
   return (
-    <div
-      className={`border border-slate-700 w-1/4 h-[calc(100vh-2rem)] flex flex-col justify-between ${
-        fullWidth ? "hidden" : "block"
-      }`}
+    <aside
+      className={`
+                ${fullWidth ? "hidden" : "flex"}
+                w-90
+                h-[calc(100vh-2rem)]
+                flex-col
+                bg-slate-950
+                border-l
+                border-slate-800
+            `}
     >
-      <div className="flex-1 overflow-y-auto min-h-0">
-        <div className="mx-2 mt-10">
+      <div className="px-5 pt-6 pb-4 border-b border-slate-800">
+        <h2 className="text-lg font-semibold text-white mt-5">
+          Chat Resources
+        </h2>
+
+        <div className="relative mt-5">
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+
           <input
-            type="text"
-            placeholder="Search a phrase in this chat..."
-            className="w-full p-2 border border-sky-700 focus:outline-none focus:ring-2 focus:ring-slate-800 rounded bg-slate-900"
+            placeholder="Search this conversation..."
+            className="
+                            w-full
+                            rounded-xl
+                            border
+                            border-slate-700
+                            bg-slate-900
+                            py-2.5
+                            pl-10
+                            pr-3
+                            text-sm
+                            text-slate-200
+                            placeholder:text-slate-500
+                            outline-none
+                            transition
+                            focus:border-sky-500
+                            focus:ring-2
+                            focus:ring-sky-500/20
+                        "
           />
         </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-4 py-5">
         {isSearching ? (
-          <div className="m-2">
-            <p className="text-sm text-gray-400">Searching...</p>
-          </div>
+          <p className="text-sm text-slate-400">Searching...</p>
         ) : (
-          <div className="my-5">
-            <div className="space-y-3 mx-4">
+          <>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                People
+              </span>
+
+              <span className="text-xs text-slate-500">
+                {
+                  selectedChat?.participants.filter(
+                    (p) => p.username !== "SYSTEM",
+                  ).length
+                }
+              </span>
+            </div>
+
+            <div className="space-y-1">
               {selectedChat?.participants.map(
                 (member) =>
                   member.username !== "SYSTEM" && (
@@ -48,38 +92,92 @@ export default function ChatResourcePanel({
                   ),
               )}
             </div>
-          </div>
+          </>
         )}
       </div>
-      <div className="w-full border border-slate-950 p-2 mb-3">
-        <div className="w-full rounded-xl border border-gray-700 bg-gray-900 p-3 shadow-lg">
-          <h2 className="mb-3 text-sm font-semibold text-gray-300 uppercase tracking-wide">
-            Chat Options
-          </h2>
-          <div className="space-y-2">
-            <button className="flex w-full items-center gap-3 rounded-lg bg-gray-800 px-4 py-3 text-left text-gray-100 transition hover:bg-blue-700 hover:translate-x-1 active:bg-blue-800 cursor-pointer">
-              <MdPushPin className="text-lg text-blue-400" />
-              <span>View Pinned Messages</span>
-            </button>
-            <button className="flex w-full items-center gap-3 rounded-lg bg-gray-800 px-4 py-3 text-left text-gray-100 transition hover:bg-blue-700 hover:translate-x-1 active:bg-blue-800 cursor-pointer">
-              <RiStickyNote2Fill className="text-lg text-blue-400" />
-              <span>Create a Note from this Role-play</span>
-            </button>
-            <button
-              className="flex w-full items-center gap-3 rounded-lg bg-gray-800 px-4 py-3 text-left text-gray-100 transition hover:bg-blue-700 hover:translate-x-1 active:bg-blue-800 cursor-pointer"
-              onClick={() => {
-                window.open(
-                  `${import.meta.env.VITE_BACKEND_BASE_URL}/pdf/${selectedChat?._id}/role-play`,
-                  "_blank",
-                );
-              }}
-            >
-              <FaExternalLinkAlt className="text-sm text-blue-400" />
-              <span>View & Download Story Transcript</span>
-            </button>
-          </div>
+
+      <div className="border-t border-slate-800 p-4">
+        <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+          Actions
+        </div>
+
+        <div className="space-y-1">
+          <button
+            className="
+                            group
+                            flex
+                            w-full
+                            items-center
+                            justify-between
+                            rounded-xl
+                            px-3
+                            py-3
+                            text-slate-200
+                            transition
+                            hover:bg-slate-800
+                        "
+          >
+            <div className="flex items-center gap-3">
+              <MdPushPin className="text-sky-400 text-lg" />
+              <span className="font-medium">Pinned Messages</span>
+            </div>
+
+            <FaExternalLinkAlt className="text-xs opacity-0 transition group-hover:opacity-100 text-slate-500" />
+          </button>
+
+          <button
+            className="
+                            group
+                            flex
+                            w-full
+                            items-center
+                            justify-between
+                            rounded-xl
+                            px-3
+                            py-3
+                            text-slate-200
+                            transition
+                            hover:bg-slate-800
+                        "
+          >
+            <div className="flex items-center gap-3">
+              <RiStickyNote2Fill className="text-lg text-amber-400" />
+              <span className="font-medium">Create Note</span>
+            </div>
+
+            <FaExternalLinkAlt className="text-xs opacity-0 transition group-hover:opacity-100 text-slate-500" />
+          </button>
+
+          <button
+            className="
+                            group
+                            flex
+                            w-full
+                            items-center
+                            justify-between
+                            rounded-xl
+                            px-3
+                            py-3
+                            text-slate-200
+                            transition
+                            hover:bg-slate-800
+                        "
+            onClick={() => {
+              window.open(
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/pdf/${selectedChat?._id}/role-play`,
+                "_blank",
+              );
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <FiDownload className="text-sky-400" />
+              <span className="font-medium">Download Transcript</span>
+            </div>
+
+            <FaExternalLinkAlt className="text-xs opacity-0 transition group-hover:opacity-100 text-slate-500" />
+          </button>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }
