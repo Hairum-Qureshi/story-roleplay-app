@@ -78,10 +78,5 @@
     "id": 24,
     "subheading": "Reducing Annoyance with chat window message notifications",
     "description": "If you're already in the chat window, you shouldn't get message notifications for new messages in that chat since you're already there. This will prevent redundant notifications and improve the user experience by only sending notifications for new messages in chats that the user is not currently viewing."
-  },
-  {
-    "id": 25,
-    "subheading": "Pinning messages in chat",
-    "description": "Users will have the ability to pin important messages within a chat conversation, allowing them to easily reference and access key information without having to scroll through the entire chat history. Pinned messages will be displayed prominently at the top of the chat window, ensuring that they remain visible and accessible to all participants in the conversation."
   }
 ]
