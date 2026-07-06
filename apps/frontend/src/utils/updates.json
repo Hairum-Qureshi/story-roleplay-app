@@ -1,68 +1,80 @@
 [
-	{
-		"id": 1,
-		"heading": "Styled 404 page",
-		"timestamp": "01-06-2026",
-		"description": "A custom 404 page has been implemented to enhance user experience when they navigate to a non-existent page on the site."
-	},
-	{
-		"id": 2,
-		"heading": "Confirmed delete account functionality",
-		"timestamp": "03-10-2026",
-		"description": "Users are able to delete their accounts."
-	},
-	{
-		"id": 3,
-		"heading": "Fixed chat ended status issue",
-		"timestamp": "03-24-2026",
-		"description": "Resolved issue where if a chat has ended, it will disable the textarea and not only the 'end chat' button."
-	},
-	{
-		"id": 4,
-		"heading": "Fixed conversation deletion issue",
-		"timestamp": "03-24-2026",
-		"description": "Resolved issue where if both users close a conversation with each other, the conversation doesn't get deleted. Now, if all participants of a conversation have hidden it, the conversation history will be deleted from the database."
-	},
-	{
-		"id": 5,
-		"heading": "Added contact form functionality",
-		"timestamp": "03-24-2026",
-		"description": "The contact form on the website is now functional, allowing users to send messages directly to the support team. This will enable users to easily reach out for assistance, report issues, or provide feedback, improving overall communication and support for the platform."
-	},
-	{
-		"id": 6,
-		"heading": "Added in-browser notifications for new messages and ad replies",
-		"timestamp": "03-25-2026",
-		"description": "Users will now receive in-browser notifications for new messages and ad replies, ensuring they stay informed about incoming communications even when they are not actively viewing the inbox. This feature enhances user engagement and responsiveness by providing timely alerts for important interactions on the platform."
-	},
-	{
-		"id": 7,
-		"heading": "Added confirmation prompt before account deletion and ad deletion",
-		"timestamp": "03-26-2026",
-		"description": "Before a user deletes their account or a role-play ad, they will receive a confirmation prompt to ensure that they do not accidentally delete important information. This will help prevent unintended deletions and provide users with an opportunity to reconsider their actions before permanently removing their account or ad."
-	},
-	{
-		"id": 8,
-		"heading": "Favoriting ads functionality",
-		"timestamp": "03-26-2026",
-		"description": "Users are now able to favorite role-play ads, allowing them to easily find and revisit their preferred ads later. This feature enhances user experience by providing a convenient way to keep track of ads they are interested in and access them quickly from their profile or a dedicated favorites section."
-	},
-	{
-		"id": 9,
-		"heading": "Added 'unlike' functionality for ads on favorited ads page",
-		"timestamp": "03-28-2026",
-		"description": "Users can now unlike ads directly from the favorited ads page, allowing them to manage their list of favorited ads more efficiently. This feature provides users with greater control over their favorites and helps them keep their list of preferred ads up to date without having to navigate back to the ad itself."
-	},
-	{
-		"id": 10,
-		"heading": "Added character limit to text message",
-		"timestamp": "03-28-2026",
-		"description": "To prevent excessively long messages that may cause performance issues or hinder readability, a character limit of 2000 characters has been implemented for messages sent within the platform. This ensures that messages remain concise and easy to read, while also improving overall performance and user experience by reducing the likelihood of encountering issues related to long messages."
-	},
-	{
-		"id": 11,
-		"heading": "Added header list to FAQ page",
-		"timestamp": "03-28-2026",
-		"description": "A header list has been added to the FAQ page, allowing users to easily navigate to different sections of the FAQ by clicking on the corresponding headers. This enhancement improves user experience by providing a clear and organized structure to the FAQ content, making it easier for users to find the information they are looking for without having to scroll through the entire page."
-	}
+  {
+    "id": 1,
+    "heading": "Styled 404 page",
+    "timestamp": "01-06-2026",
+    "description": "A custom 404 page has been implemented to enhance user experience when they navigate to a non-existent page on the site."
+  },
+  {
+    "id": 2,
+    "heading": "Confirmed delete account functionality",
+    "timestamp": "03-10-2026",
+    "description": "Users are able to delete their accounts."
+  },
+  {
+    "id": 3,
+    "heading": "Fixed chat ended status issue",
+    "timestamp": "03-24-2026",
+    "description": "Resolved issue where if a chat has ended, it will disable the textarea and not only the 'end chat' button."
+  },
+  {
+    "id": 4,
+    "heading": "Fixed conversation deletion issue",
+    "timestamp": "03-24-2026",
+    "description": "Resolved issue where if both users close a conversation with each other, the conversation doesn't get deleted. Now, if all participants of a conversation have hidden it, the conversation history will be deleted from the database."
+  },
+  {
+    "id": 5,
+    "heading": "Added contact form functionality",
+    "timestamp": "03-24-2026",
+    "description": "The contact form on the website is now functional, allowing users to send messages directly to the support team. This will enable users to easily reach out for assistance, report issues, or provide feedback, improving overall communication and support for the platform."
+  },
+  {
+    "id": 6,
+    "heading": "Added in-browser notifications for new messages and ad replies",
+    "timestamp": "03-25-2026",
+    "description": "Users will now receive in-browser notifications for new messages and ad replies, ensuring they stay informed about incoming communications even when they are not actively viewing the inbox. This feature enhances user engagement and responsiveness by providing timely alerts for important interactions on the platform."
+  },
+  {
+    "id": 7,
+    "heading": "Added confirmation prompt before account deletion and ad deletion",
+    "timestamp": "03-26-2026",
+    "description": "Before a user deletes their account or a role-play ad, they will receive a confirmation prompt to ensure that they do not accidentally delete important information. This will help prevent unintended deletions and provide users with an opportunity to reconsider their actions before permanently removing their account or ad."
+  },
+  {
+    "id": 8,
+    "heading": "Favoriting ads functionality",
+    "timestamp": "03-26-2026",
+    "description": "Users are now able to favorite role-play ads, allowing them to easily find and revisit their preferred ads later. This feature enhances user experience by providing a convenient way to keep track of ads they are interested in and access them quickly from their profile or a dedicated favorites section."
+  },
+  {
+    "id": 9,
+    "heading": "Added 'unlike' functionality for ads on favorited ads page",
+    "timestamp": "03-28-2026",
+    "description": "Users can now unlike ads directly from the favorited ads page, allowing them to manage their list of favorited ads more efficiently. This feature provides users with greater control over their favorites and helps them keep their list of preferred ads up to date without having to navigate back to the ad itself."
+  },
+  {
+    "id": 10,
+    "heading": "Added character limit to text message",
+    "timestamp": "03-28-2026",
+    "description": "To prevent excessively long messages that may cause performance issues or hinder readability, a character limit of 2000 characters has been implemented for messages sent within the platform. This ensures that messages remain concise and easy to read, while also improving overall performance and user experience by reducing the likelihood of encountering issues related to long messages."
+  },
+  {
+    "id": 11,
+    "heading": "Added header list to FAQ page",
+    "timestamp": "03-28-2026",
+    "description": "A header list has been added to the FAQ page, allowing users to easily navigate to different sections of the FAQ by clicking on the corresponding headers. This enhancement improves user experience by providing a clear and organized structure to the FAQ content, making it easier for users to find the information they are looking for without having to scroll through the entire page."
+  },
+  {
+    "id": 12,
+    "heading": "Updated UI for chat message side panel",
+    "timestamp": "07-05-2026",
+    "description": "Improved UI for the chat message side panel, enhancing the overall user experience and making it more visually appealing. Added more buttons as well including 'view pins' and 'create a note'."
+  },
+  {
+    "id": 13,
+    "heading": "Added pin/unpin functionality for messages",
+    "timestamp": "07-06-2026",
+    "description": "Users can now pin and unpin messages within a chat, allowing them to reference important messages more easily. Pinned messages will be displayed in a dedicated section, making it convenient for users to access key information without having to search through the entire chat history."
+  }
 ]
