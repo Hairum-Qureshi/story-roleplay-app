@@ -122,8 +122,6 @@ export default function ChatResourcePanel({
               <MdPushPin className="text-sky-400 text-lg" />
               <span className="font-medium">Pinned Messages</span>
             </div>
-
-            <FaExternalLinkAlt className="text-xs opacity-0 transition group-hover:opacity-100 text-slate-500" />
           </button>
 
           <button
@@ -146,10 +144,7 @@ export default function ChatResourcePanel({
               <RiStickyNote2Fill className="text-lg text-amber-400" />
               <span className="font-medium">Create Note</span>
             </div>
-
-            <FaExternalLinkAlt className="text-xs opacity-0 transition group-hover:opacity-100 text-slate-500" />
           </button>
-
           <button
             className="
                             group
