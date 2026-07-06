@@ -96,8 +96,11 @@ export class ChatController {
 
   @Patch(':chatID/:messageID/pin')
   @UseGuards(AuthGuard(), IsChatMember)
-  pinMessage(@Param('messageID') messageID: string) {
-    return this.chatService.pinMessage(messageID);
+  pinMessage(
+    @Param('messageID') messageID: string,
+    @CurrentUser() user: UserPayload,
+  ) {
+    return this.chatService.pinMessage(messageID, user.username as string);
   }
 
   @Get(':chatID/pins')
