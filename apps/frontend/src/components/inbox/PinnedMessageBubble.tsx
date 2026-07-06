@@ -19,7 +19,6 @@ export default function PinnedMessageBubble({
   const { pinMessageMutation } = useRolePlayChat(chatID || "");
 
   function scrollToMessage(id: string) {
-
     const el = document.getElementById(`message-${id}`);
     if (el) {
       el.scrollIntoView({
@@ -28,8 +27,6 @@ export default function PinnedMessageBubble({
       });
     }
   }
-
-  // TODO - add ellipse for long messages
 
   return (
     <div
@@ -60,7 +57,9 @@ export default function PinnedMessageBubble({
               {new Date(timestamp).toLocaleString()}
             </span>
           </div>
-          <p className="mt-1 text-sm text-slate-300 line-clamp-2">{message}</p>
+          <p className="mt-1 text-sm text-slate-300 line-clamp-2 truncate">
+            {message}
+          </p>
         </div>
       </div>
     </div>
