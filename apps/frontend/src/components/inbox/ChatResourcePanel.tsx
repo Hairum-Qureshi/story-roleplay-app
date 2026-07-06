@@ -24,8 +24,6 @@ export default function ChatResourcePanel({
   const { chatID } = useParams();
   const { pinnedRoleplayMessages } = useRolePlayChat(chatID || "");
 
-  console.log("Pinned Messages:", pinnedRoleplayMessages);
-
   return (
     <aside
       className={`
