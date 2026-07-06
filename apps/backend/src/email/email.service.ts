@@ -1,9 +1,9 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { SendEmail } from 'src/DTOs/SendEmail.dto';
 import { UserPayload } from 'src/types';
 import { ProfanityEngine } from '@coffeeandfun/google-profanity-words';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
+import { SendEmail } from 'src/DTOs/SendEmail.dto';
 
 @Injectable()
 export class EmailService {

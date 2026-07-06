@@ -1,9 +1,9 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { AuthGuard } from '@nestjs/passport';
-import { SendEmail } from 'src/DTOs/SendEmail.dto';
 import type { UserPayload } from 'src/types';
 import { CurrentUser } from 'src/decorators/currentUser.decorator';
+import { SendEmail } from 'src/DTOs/SendEmail.dto';
 
 @Controller('email')
 export class EmailController {
