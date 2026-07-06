@@ -5,7 +5,7 @@ import {
   IsNotEmpty,
   IsString,
 } from 'class-validator';
-import { PovType } from 'src/types';
+import { PovType } from '../types';
 
 export class EditAd {
   @IsNotEmpty()
