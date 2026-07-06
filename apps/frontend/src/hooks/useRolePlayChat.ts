@@ -1,6 +1,6 @@
 import axios, { type AxiosResponse } from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import type { Conversation, Message } from "../interfaces";
+import type { Conversation, Message, PinnedMessage } from "../interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocketStore from "../store/useSocketStore";
 import { useEffect } from "react";
@@ -27,6 +27,7 @@ interface UseRolePlayChatHook {
     chatID: string;
     messageID: string;
   }) => void;
+  pinnedRoleplayMessages: PinnedMessage[];
 }
 
 export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
@@ -94,6 +95,25 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/all-messages`,
+          {
+            withCredentials: true,
+          },
+        );
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+
+  const { data: pinnedRoleplayMessages } = useQuery({
+    queryKey: ["pinned-messages", chatID],
+    queryFn: async () => {
+      try {
+        if (!chatID) return [];
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/pins`,
           {
             withCredentials: true,
           },
@@ -362,5 +382,6 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
     removeChatFromList,
     currUserConversations,
     pinMessageMutation,
+    pinnedRoleplayMessages,
   };
 }
