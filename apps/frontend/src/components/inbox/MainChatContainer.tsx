@@ -9,147 +9,151 @@ import Ad from "../Ad";
 import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
 import type { MainChatContainerProps } from "../../interfaces";
+import useRolePlayAds from "../../hooks/useRolePlayAds";
 
 export default function MainChatContainer({
-	selectedChat,
-	noMessageOpened,
-	fullWidth,
-	fullWidthToggle,
-	partner,
-	partnerUsername
+  selectedChat,
+  noMessageOpened,
+  fullWidth,
+  fullWidthToggle,
+  partner,
+  partnerUsername,
 }: MainChatContainerProps) {
-	const { chatID } = useParams();
-	const {
-		endedConversationID,
-		typing,
-		partnerUsername: typingPartnerUsername,
-		currentTypingChatID
-	} = useSocketStore();
+  const { chatID } = useParams();
+  const {
+    endedConversationID,
+    typing,
+    partnerUsername: typingPartnerUsername,
+    currentTypingChatID,
+  } = useSocketStore();
 
-	const { rolePlayChatMessages, deleteMessage, endRolePlayConversation } =
-		useRolePlayChat(chatID || "");
+  const { rolePlayChatMessages, deleteMessage, endRolePlayConversation } =
+    useRolePlayChat(chatID || "");
 
-	const { data: currUser } = useCurrentUser();
-	const bottomOfContainer = useRef<HTMLDivElement>(null);
-	const isFirstLoad = useRef(true);
-	const [chatEnded, setChatEnded] = useState(selectedChat?.chatEnded);
+  const { adData } = useRolePlayAds(selectedChat?.roleplayAd._id);
 
-	useEffect(() => {
-		if (!bottomOfContainer.current) return;
+  const { data: currUser } = useCurrentUser();
+  const bottomOfContainer = useRef<HTMLDivElement>(null);
+  const isFirstLoad = useRef(true);
+  const [chatEnded, setChatEnded] = useState(selectedChat?.chatEnded);
 
-		if (isFirstLoad.current) {
-			bottomOfContainer.current.scrollIntoView({ behavior: "auto" });
-			isFirstLoad.current = false;
-		} else {
-			bottomOfContainer.current.scrollIntoView({ behavior: "smooth" });
-		}
-	}, [rolePlayChatMessages]);
+  useEffect(() => {
+    if (!bottomOfContainer.current) return;
 
-	useEffect(() => {
-		setChatEnded(selectedChat?.chatEnded);
-	}, [chatID, selectedChat]);
+    if (isFirstLoad.current) {
+      bottomOfContainer.current.scrollIntoView({ behavior: "auto" });
+      isFirstLoad.current = false;
+    } else {
+      bottomOfContainer.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [rolePlayChatMessages]);
 
-	return (
-		<div
-			className={`${
-				fullWidth ? "w-3/4" : "w-1/2"
-			} h-[calc(100vh-2.5rem)] flex flex-col overflow-hidden`}
-		>
-			{noMessageOpened ? (
-				<p className="text-sky-600 text-center text-3xl mt-50 font-semibold flex items-center justify-center">
-					Select a chat to view messages
-				</p>
-			) : (
-				<>
-					{/* Header */}
-					<div>
-						<ChatHeader
-							fullWidth={fullWidth}
-							fullWidthToggle={fullWidthToggle}
-							selectedChat={selectedChat}
-							endedConversationID={endedConversationID}
-							endRolePlayConversation={endRolePlayConversation}
-						/>
-					</div>
+  useEffect(() => {
+    setChatEnded(selectedChat?.chatEnded);
+  }, [chatID, selectedChat?.chatEnded]);
 
-					{/* Messages */}
-					<div className="overflow-y-auto">
-						{selectedChat && (
-							<div className="m-4">
-								<Ad rolePlayAd={selectedChat.roleplayAd} hideButton />
-							</div>
-						)}
-						{rolePlayChatMessages?.map((message: Message) =>
-							message.sender?.username === "SYSTEM" ? (
-								<div
-									key={message._id}
-									className="text-center text-sky-400 my-6 mx-10 italic"
-								>
-									<p>
-										{message.content.includes(currUser?.username)
-											? message.content
-													.replace(`@${currUser?.username} has`, "You have")
-													.replace("their", "your")
-											: message.content}
-									</p>
-								</div>
-							) : (
-								<ChatBubble
-									key={message._id}
-									messageData={{
-										message: message.content,
-										you: message.sender?._id === currUser?._id,
-										timestamp: message.createdAt
-									}}
-									onDelete={() =>
-										selectedChat && deleteMessage(selectedChat._id, message._id)
-									}
-									chatEnded={chatEnded || false}
-									isDeleted={message.isDeleted}
-									isEdited={message.isEdited || false}
-									messageID={message._id}
-								/>
-							)
-						)}
+  return (
+    <div
+      className={`${
+        fullWidth ? "w-3/4" : "w-1/2"
+      } h-[calc(100vh-2.5rem)] flex flex-col overflow-hidden`}
+    >
+      {noMessageOpened ? (
+        <p className="text-sky-600 text-center text-3xl mt-50 font-semibold flex items-center justify-center">
+          Select a chat to view messages
+        </p>
+      ) : (
+        <>
+          {/* Header */}
+          <div>
+            <ChatHeader
+              fullWidth={fullWidth}
+              fullWidthToggle={fullWidthToggle}
+              selectedChat={selectedChat}
+              endedConversationID={endedConversationID}
+              endRolePlayConversation={endRolePlayConversation}
+            />
+          </div>
 
-						<div ref={bottomOfContainer} />
+          {/* Messages */}
+          <div className="overflow-y-auto">
+            {selectedChat && (
+              <div className="m-4">
+                <Ad rolePlayAd={selectedChat.roleplayAd} hideButton />
+              </div>
+            )}
+            {rolePlayChatMessages?.map((message: Message) =>
+              message.sender?.username === "SYSTEM" ? (
+                <div
+                  key={message._id}
+                  className="text-center text-sky-400 my-6 mx-10 italic"
+                >
+                  <p>
+                    {message.content.includes(currUser?.username)
+                      ? message.content
+                          .replace(`@${currUser?.username} has`, "You have")
+                          .replace("their", "your")
+                      : message.content}
+                  </p>
+                </div>
+              ) : (
+                <ChatBubble
+                  key={message._id}
+                  messageData={{
+                    message: message.content,
+                    you: message.sender?._id === currUser?._id,
+                    timestamp: message.createdAt,
+                  }}
+                  onDelete={() =>
+                    selectedChat && deleteMessage(selectedChat._id, message._id)
+                  }
+                  isPinned={message.isPinned || false}
+                  chatEnded={chatEnded || false}
+                  isDeleted={message.isDeleted}
+                  isEdited={message.isEdited || false}
+                  messageID={message._id}
+                />
+              ),
+            )}
 
-						{typing && currentTypingChatID === selectedChat?._id && (
-							<p className="text-slate-400 italic ml-4 mb-2">
-								@{typingPartnerUsername} is typing...
-							</p>
-						)}
-					</div>
+            <div ref={bottomOfContainer} />
 
-					{/* Footer */}
-					<div className="flex items-center w-full bg-slate-800 px-4 py-2">
-						{chatEnded || endedConversationID ? (
-							<div className="text-center w-full py-1.5 border border-red-600 text-red-500 rounded-md">
-								<p>
-									This role-play has ended. You can no longer send messages in
-									this chat.
-								</p>
-								<p className="text-sm mt-1">
-									To learn more, check out the{" "}
-									<a
-										href="/faq#role-play-management"
-										className="underline hover:text-red-800"
-									>
-										FAQ
-									</a>
-									.
-								</p>
-							</div>
-						) : (
-							<ChatFooter
-								partner={partner}
-								partnerUsername={partnerUsername}
-								selectedChat={selectedChat}
-							/>
-						)}
-					</div>
-				</>
-			)}
-		</div>
-	);
+            {typing && currentTypingChatID === selectedChat?._id && (
+              <p className="text-slate-400 italic ml-4 mb-2">
+                @{typingPartnerUsername} is typing...
+              </p>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center w-full bg-slate-800 px-4 py-2">
+            {chatEnded || endedConversationID ? (
+              <div className="text-center w-full py-1.5 border border-red-600 text-red-500 rounded-md">
+                <p>
+                  This role-play has ended. You can no longer send messages in
+                  this chat.
+                </p>
+                <p className="text-sm mt-1">
+                  To learn more, check out the{" "}
+                  <a
+                    href="/faq#role-play-management"
+                    className="underline hover:text-red-800"
+                  >
+                    FAQ
+                  </a>
+                  .
+                </p>
+              </div>
+            ) : (
+              <ChatFooter
+                partner={partner}
+                partnerUsername={partnerUsername}
+                selectedChat={selectedChat}
+              />
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
