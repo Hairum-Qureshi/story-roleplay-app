@@ -123,35 +123,40 @@ export default function ChatBubble({
 
         {/* Footer row */}
         <div className="mt-1 flex items-center justify-end gap-2 text-xs text-gray-400">
-          {!chatEnded && !isDeleted && you && onDelete && (
-            <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
-              <button
-                onClick={() => setEditMode(true)}
-                className="hover:text-blue-400 hover:cursor-pointer"
-                aria-label="Edit message"
-              >
-                <FaEdit size={14} />
-              </button>
-              {onDelete && (
-                <button
-                  onClick={onDelete}
-                  className="hover:text-red-400 hover:cursor-pointer"
-                  aria-label="Delete message"
-                >
-                  <FaTrash size={12} />
-                </button>
+          {!chatEnded && !isDeleted && (
+            <>
+              {you && onDelete && (
+                <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                  <button
+                    onClick={() => setEditMode(true)}
+                    className="hover:text-blue-400 hover:cursor-pointer"
+                    aria-label="Edit message"
+                  >
+                    <FaEdit size={14} />
+                  </button>
+
+                  <button
+                    onClick={onDelete}
+                    className="hover:text-red-400 hover:cursor-pointer"
+                    aria-label="Delete message"
+                  >
+                    <FaTrash size={12} />
+                  </button>
+                </div>
               )}
               <button
-                className="hover:text-blue-400 hover:cursor-pointer"
+                className="opacity-0 transition-opacity group-hover:opacity-100 hover:text-blue-400 hover:cursor-pointer"
                 aria-label="Pin message"
               >
                 <MdPushPin size={14} />
               </button>
-            </div>
+            </>
           )}
+
           {isEdited && !isDeleted && (
             <span className="italic text-sky-500">(edited)</span>
           )}
+
           <span>{moment(timestamp).format("hh:mm A MMM D")}</span>
         </div>
       </div>
