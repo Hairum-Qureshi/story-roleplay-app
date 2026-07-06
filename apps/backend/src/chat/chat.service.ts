@@ -440,7 +440,7 @@ export class ChatService {
       .populate('sender', 'username profilePicture')
       .select('content sender createdAt');
 
-    console.log(pinnedMessages);
+    // TODO - send a system message that a message has been pinned and to view it in the side panel
 
     return pinnedMessages;
   }
