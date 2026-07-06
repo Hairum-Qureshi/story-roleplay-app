@@ -94,22 +94,26 @@ export default function MainChatContainer({
                   </p>
                 </div>
               ) : (
-                <ChatBubble
-                  key={message._id}
-                  messageData={{
-                    message: message.content,
-                    you: message.sender?._id === currUser?._id,
-                    timestamp: message.createdAt,
-                  }}
-                  onDelete={() =>
-                    selectedChat && deleteMessage(selectedChat._id, message._id)
-                  }
-                  isPinned={message.isPinned || false}
-                  chatEnded={chatEnded || false}
-                  isDeleted={message.isDeleted}
-                  isEdited={message.isEdited || false}
-                  messageID={message._id}
-                />
+                <div id={`message-${message._id}`}>
+                  <ChatBubble
+                    key={message._id}
+
+                    messageData={{
+                      message: message.content,
+                      you: message.sender?._id === currUser?._id,
+                      timestamp: message.createdAt,
+                    }}
+                    onDelete={() =>
+                      selectedChat &&
+                      deleteMessage(selectedChat._id, message._id)
+                    }
+                    isPinned={message.isPinned || false}
+                    chatEnded={chatEnded || false}
+                    isDeleted={message.isDeleted}
+                    isEdited={message.isEdited || false}
+                    messageID={message._id}
+                  />
+                </div>
               ),
             )}
 
