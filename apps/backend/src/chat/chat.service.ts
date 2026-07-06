@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Conversation } from '../schemas/inbox/Conversation';
@@ -31,6 +36,19 @@ export class ChatService {
     private readonly eventsGateway: EventsGateway,
   ) {}
 
+  private async checkIfConversationExists(
+    convoID: string,
+  ): Promise<ConversationDocument> {
+    const conversation: ConversationDocument | null =
+      await this.conversationModel.findById(convoID);
+
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    return conversation;
+  }
+
   private async reAddConversationToUserList(
     chatID: Types.ObjectId,
     userID: string,
@@ -53,12 +71,8 @@ export class ChatService {
     chatID: Types.ObjectId;
   }> {
     // first get the chat data by ID
-    const conversation: ConversationDocument | null =
-      await this.conversationModel.findById(chatID);
-
-    if (!conversation) {
-      throw new Error('Conversation not found');
-    }
+    const conversation: ConversationDocument =
+      await this.checkIfConversationExists(chatID);
 
     if (!messageDto.message || !messageDto.message.trim()) {
       throw new HttpException(
@@ -222,12 +236,8 @@ export class ChatService {
   }
 
   async getAllMessagesInConversation(chatID: string, user: UserPayload) {
-    const conversation: ConversationDocument | null =
-      await this.conversationModel.findById(chatID);
-
-    if (!conversation) {
-      throw new Error('Conversation not found');
-    }
+    const conversation: ConversationDocument =
+      await this.checkIfConversationExists(chatID);
 
     await conversation.populate({
       path: 'messages',
@@ -289,12 +299,8 @@ export class ChatService {
   }
 
   async endConversation(chatID: string) {
-    const conversation: ConversationDocument | null =
-      await this.conversationModel.findById(chatID);
-
-    if (!conversation) {
-      throw new Error('Conversation not found');
-    }
+    const conversation: ConversationDocument =
+      await this.checkIfConversationExists(chatID);
 
     // update the conversation's chatEnded field to true
     await this.conversationModel.findByIdAndUpdate(conversation._id, {
@@ -310,12 +316,8 @@ export class ChatService {
     messageID: string,
     messageDto: EditMessage,
   ) {
-    const conversation: ConversationDocument | null =
-      await this.conversationModel.findById(chatID);
-
-    if (!conversation) {
-      throw new Error('Conversation not found');
-    }
+    const conversation: ConversationDocument =
+      await this.checkIfConversationExists(chatID);
 
     if (!messageDto.editedMessage || !messageDto.editedMessage.trim()) {
       throw new HttpException(
@@ -356,12 +358,7 @@ export class ChatService {
   }
 
   async deleteMessage(chatID: string, messageID: string) {
-    const conversation: ConversationDocument | null =
-      await this.conversationModel.findById(chatID);
-
-    if (!conversation) {
-      throw new Error('Conversation not found');
-    }
+    await this.checkIfConversationExists(chatID);
 
     // find the exact message and update it so it says 'This message has been deleted'. also set 'isDeleted' to true
     await this.messageModel.findByIdAndUpdate(messageID, {
@@ -410,5 +407,35 @@ export class ChatService {
     }
 
     return { message: 'Conversation hidden for user' };
+  }
+
+  async pinMessage(messageID: string) {
+    const message: MessageDocument | null =
+      await this.messageModel.findById(messageID);
+
+    if (!message)
+      throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+
+    if (message.isDeleted) {
+      throw new HttpException(
+        'Cannot pin a deleted message',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    message.isPinned = !message.isPinned;
+    await message.save();
+  }
+
+  async getPinnedMessages(chatID: string) {
+    const conversation: ConversationDocument =
+      await this.checkIfConversationExists(chatID);
+
+    const pinnedMessages: MessageDocument[] = await this.messageModel.find({
+      conversation: conversation._id,
+      isPinned: true,
+    });
+
+    return pinnedMessages;
   }
 }
