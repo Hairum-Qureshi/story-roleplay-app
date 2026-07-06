@@ -115,6 +115,7 @@ export default function ChatResourcePanel({
                             text-slate-200
                             transition
                             hover:bg-slate-800
+                            hover:cursor-pointer
                         "
           >
             <div className="flex items-center gap-3">
@@ -138,6 +139,7 @@ export default function ChatResourcePanel({
                             text-slate-200
                             transition
                             hover:bg-slate-800
+                            hover:cursor-pointer
                         "
           >
             <div className="flex items-center gap-3">
@@ -161,6 +163,7 @@ export default function ChatResourcePanel({
                             text-slate-200
                             transition
                             hover:bg-slate-800
+                            hover:cursor-pointer
                         "
             onClick={() => {
               window.open(
