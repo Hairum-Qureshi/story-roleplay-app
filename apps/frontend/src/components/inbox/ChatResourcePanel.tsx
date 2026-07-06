@@ -88,7 +88,7 @@ export default function ChatResourcePanel({
                 <p className="text-sm text-slate-400">No pinned messages.</p>
               ) : (
                 pinnedRoleplayMessages?.map((message: PinnedMessage) => (
-                  <div id={message._id} key={message._id}>
+                  <div key={message._id}>
                     <PinnedMessageBubble
                       profilePicture={message.sender.profilePicture!}
                       timestamp={message.createdAt}
