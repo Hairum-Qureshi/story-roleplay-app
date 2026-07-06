@@ -1,12 +1,15 @@
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useState } from "react";
-import type { Conversation } from "../../interfaces";
+import type { Conversation, PinnedMessage } from "../../interfaces";
 import UserCard from "./UserCard";
 import { MdPushPin } from "react-icons/md";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { RiStickyNote2Fill } from "react-icons/ri";
 import { FiSearch, FiDownload } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
+import PinnedMessageBubble from "./PinnedMessageBubble";
+import { useParams } from "react-router-dom";
+import useRolePlayChat from "../../hooks/useRolePlayChat";
 
 export default function ChatResourcePanel({
   fullWidth,
@@ -18,6 +21,10 @@ export default function ChatResourcePanel({
   const { data: currUserData } = useCurrentUser();
   const isSearching = false;
   const [showPinnedMessages, setShowPinnedMessages] = useState(false);
+  const { chatID } = useParams();
+  const { pinnedRoleplayMessages } = useRolePlayChat(chatID || "");
+
+  console.log("Pinned Messages:", pinnedRoleplayMessages);
 
   return (
     <aside
@@ -67,7 +74,32 @@ export default function ChatResourcePanel({
         {isSearching ? (
           <p className="text-sm text-slate-400">Searching...</p>
         ) : showPinnedMessages ? (
-          <div>Pinned Messages Here</div>
+          <>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                Pinned Messages
+              </span>
+
+              <span className="text-xs text-slate-500">
+                {pinnedRoleplayMessages?.length ?? 0}
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              {!pinnedRoleplayMessages?.length ? (
+                <p className="text-sm text-slate-400">No pinned messages.</p>
+              ) : (
+                pinnedRoleplayMessages?.map((message: PinnedMessage) => (
+                  <PinnedMessageBubble
+                    key={message._id}
+                    profilePicture={message.sender.profilePicture!}
+                    timestamp={message.createdAt}
+                    message={message.content}
+                  />
+                ))
+              )}
+            </div>
+          </>
         ) : (
           <>
             <div className="mb-4 flex items-center justify-between">
