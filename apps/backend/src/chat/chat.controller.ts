@@ -94,9 +94,15 @@ export class ChatController {
     return this.chatService.removeChatFromList(chatID, user);
   }
 
-  @Patch(':messageID/pin')
+  @Patch(':chatID/:messageID/pin')
   @UseGuards(AuthGuard(), IsChatMember)
   pinMessage(@Param('messageID') messageID: string) {
     return this.chatService.pinMessage(messageID);
+  }
+
+  @Get(':chatID/pins')
+  @UseGuards(AuthGuard(), IsChatMember)
+  getPinnedMessages(@Param('chatID') chatID: string) {
+    return this.chatService.getPinnedMessages(chatID);
   }
 }
