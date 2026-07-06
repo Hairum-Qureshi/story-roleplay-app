@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
 import { MdPushPin } from "react-icons/md";
+import { RiUnpinFill } from "react-icons/ri";
 
 export default function ChatBubble({
   messageData,
@@ -14,12 +15,14 @@ export default function ChatBubble({
   isDeleted,
   isEdited,
   messageID,
+  isPinned,
 }: ChatBubbleProps) {
   const { message, you, timestamp } = messageData;
   const [editMode, setEditMode] = useState(false);
   const [editedMessage, setEditedMessage] = useState(message);
   const { chatID } = useParams();
-  const { editMessage } = useRolePlayChat(chatID);
+  const { editMessage, pinMessageMutation, deleteMessage } =
+    useRolePlayChat(chatID);
 
   function formatMessage(text: string): React.ReactNode {
     text = text.replace(/^> (.+)$/gm, (_, match) => `\u0000BQ${match}\u0000`);
@@ -56,28 +59,62 @@ export default function ChatBubble({
 
   return (
     <div className={`m-2 max-w-lg ${you ? "ml-auto" : "mr-auto"}`}>
+      {/* Added 'relative' here to anchor the top-right pin button */}
       <div
-        className={`group rounded-2xl border border-gray-700 shadow-md ${
+        className={`group relative rounded-2xl border border-gray-700 shadow-md ${
           you ? "rounded-tr-sm bg-blue-950" : "rounded-tl-sm bg-gray-800"
         } ${editMode ? "p-2" : "px-4 py-3"}`}
       >
+        {/* Top Right Pin Button */}
+        {!chatEnded && !isDeleted && (
+          <div className="absolute top-2 right-2 z-10">
+            {isPinned ? (
+              <button
+                onClick={() => {
+                  pinMessageMutation({
+                    chatID: chatID!,
+                    messageID,
+                  });
+                }}
+                className="text-blue-400 hover:text-blue-300 transition hover:cursor-pointer"
+                aria-label="Unpin message"
+              >
+                <RiUnpinFill size={14} />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  pinMessageMutation({
+                    chatID: chatID!,
+                    messageID,
+                  });
+                }}
+                className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-400 transition hover:cursor-pointer"
+                aria-label="Pin message"
+              >
+                <MdPushPin size={14} />
+              </button>
+            )}
+          </div>
+        )}
+
         {editMode && !isDeleted ? (
           <>
             <textarea
               className="
-								w-full
-								min-h-[48px]
-								resize-none
-								rounded-md
-								border border-gray-700
-								bg-gray-900
-								px-2 py-1.5
-								text-sm text-gray-100
-								leading-relaxed
-								focus:outline-none
-								focus:ring-1 focus:ring-blue-500
-								transition
-							"
+                w-full
+                min-h-[48px]
+                resize-none
+                rounded-md
+                border border-gray-700
+                bg-gray-900
+                px-2 py-1.5
+                text-sm text-gray-100
+                leading-relaxed
+                focus:outline-none
+                focus:ring-1 focus:ring-blue-500
+                transition
+              "
               maxLength={2000}
               autoFocus
               value={editedMessage}
@@ -116,41 +153,32 @@ export default function ChatBubble({
         ) : message === "This message has been deleted." ? (
           <p className="italic text-gray-400">{message}</p>
         ) : (
-          <p className="whitespace-pre-wrap text-sm leading-relaxed break-words">
+          /* Added a little right padding if not editing so long text doesn't overlap the pin icon */
+          <p className="whitespace-pre-wrap text-sm leading-relaxed break-words pr-4">
             {formatMessage(message)}
           </p>
         )}
 
         {/* Footer row */}
         <div className="mt-1 flex items-center justify-end gap-2 text-xs text-gray-400">
-          {!chatEnded && !isDeleted && (
-            <>
-              {you && onDelete && (
-                <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
-                  <button
-                    onClick={() => setEditMode(true)}
-                    className="hover:text-blue-400 hover:cursor-pointer"
-                    aria-label="Edit message"
-                  >
-                    <FaEdit size={14} />
-                  </button>
-
-                  <button
-                    onClick={onDelete}
-                    className="hover:text-red-400 hover:cursor-pointer"
-                    aria-label="Delete message"
-                  >
-                    <FaTrash size={12} />
-                  </button>
-                </div>
-              )}
+          {!chatEnded && !isDeleted && you && onDelete && (
+            <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
               <button
-                className="opacity-0 transition-opacity group-hover:opacity-100 hover:text-blue-400 hover:cursor-pointer"
-                aria-label="Pin message"
+                onClick={() => setEditMode(true)}
+                className="hover:text-blue-400 hover:cursor-pointer"
+                aria-label="Edit message"
               >
-                <MdPushPin size={14} />
+                <FaEdit size={14} />
               </button>
-            </>
+
+              <button
+                className="hover:text-red-400 hover:cursor-pointer"
+                aria-label="Delete message"
+                onClick={() => deleteMessage(chatID!, messageID)}
+              >
+                <FaTrash size={12} />
+              </button>
+            </div>
           )}
 
           {isEdited && !isDeleted && (
