@@ -169,6 +169,17 @@ interface Bug {
   bug: string;
 }
 
+interface PinnedMessage {
+  _id: string;
+  sender: {
+    _id: string;
+    username: string;
+    profilePicture?: string;
+  };
+  content: string;
+  createdAt: string;
+}
+
 export type {
   FeatureColumnProps,
   UseGoogleAuthHook,
@@ -187,4 +198,5 @@ export type {
   Update,
   PlannedFeature,
   Bug,
+  PinnedMessage,
 };
