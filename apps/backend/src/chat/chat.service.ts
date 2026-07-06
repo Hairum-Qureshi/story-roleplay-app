@@ -431,10 +431,16 @@ export class ChatService {
     const conversation: ConversationDocument =
       await this.checkIfConversationExists(chatID);
 
-    const pinnedMessages: MessageDocument[] = await this.messageModel.find({
-      conversation: conversation._id,
-      isPinned: true,
-    });
+    const pinnedMessages: MessageDocument[] = await this.messageModel
+      .find({
+        conversation: conversation._id,
+        isPinned: true,
+        isDeleted: false,
+      })
+      .populate('sender', 'username profilePicture')
+      .select('content sender createdAt');
+
+    console.log(pinnedMessages);
 
     return pinnedMessages;
   }
