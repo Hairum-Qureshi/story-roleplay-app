@@ -409,7 +409,7 @@ export class ChatService {
     return { message: 'Conversation hidden for user' };
   }
 
-  async pinMessage(messageID: string) {
+  async pinMessage(messageID: string, username: string) {
     const message: MessageDocument | null =
       await this.messageModel.findById(messageID);
 
@@ -425,6 +425,20 @@ export class ChatService {
 
     message.isPinned = !message.isPinned;
     await message.save();
+
+    const systemMessage = await this.createSystemMessage(
+      new Types.ObjectId(message.conversation.toString()),
+      `@${username} has ${message.isPinned ? 'pinned' : 'unpinned'} a message. Check out all the pinned messages in the side panel.`,
+    );
+
+    await this.conversationModel.findByIdAndUpdate(message.conversation, {
+      $push: { messages: systemMessage._id },
+    });
+
+    this.eventsGateway.sendMessageToUser(
+      message.sender.toString(),
+      systemMessage,
+    );
   }
 
   async getPinnedMessages(chatID: string) {
@@ -439,8 +453,6 @@ export class ChatService {
       })
       .populate('sender', 'username profilePicture')
       .select('content sender createdAt');
-
-    // TODO - send a system message that a message has been pinned and to view it in the side panel
 
     return pinnedMessages;
   }
