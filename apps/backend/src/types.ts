@@ -56,6 +56,7 @@ type Message = {
   content: string;
   isEdited: boolean;
   isDeleted: boolean;
+  isPinned: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
