@@ -62,5 +62,9 @@
   {
     "id": 21,
     "bug": "If you're viewing the feed page without being logged in, no posted ads are shown unless you sign in."
+  },
+  {
+    "id": 22,
+    "bug": "If both users remove the chat from their inbox, the chat isn't deleted."
   }
 ]
