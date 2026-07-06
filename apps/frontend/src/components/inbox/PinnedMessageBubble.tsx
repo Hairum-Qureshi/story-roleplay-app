@@ -18,8 +18,24 @@ export default function PinnedMessageBubble({
 }: PinnedMessageBubbleProps) {
   const { pinMessageMutation } = useRolePlayChat(chatID || "");
 
+  function scrollToMessage(id: string) {
+    const el = document.getElementById(`message-${id}`);
+
+    console.log(el);
+
+    if (el) {
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }
+
   return (
-    <div className="relative rounded-lg border border-slate-700 bg-slate-900 p-3 hover:bg-slate-800/50 transition-colors hover:cursor-pointer">
+    <div
+      className="relative rounded-lg border border-slate-700 bg-slate-900 p-3 hover:bg-slate-800/50 transition-colors hover:cursor-pointer"
+      onClick={() => scrollToMessage(messageID)}
+    >
       <div className="absolute right-3 top-3 text-slate-500">
         <MdPushPin
           className="h-4 w-4"
