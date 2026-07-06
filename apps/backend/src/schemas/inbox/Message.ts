@@ -18,6 +18,9 @@ export class Message {
   @Prop({ type: Boolean, default: false })
   isDeleted: boolean;
 
+  @Prop({ type: Boolean, default: false })
+  isPinned: boolean;
+
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
 
