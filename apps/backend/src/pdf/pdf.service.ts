@@ -9,6 +9,8 @@ import {
 import type { HydratedConversation } from '../types';
 import PDFDocument from 'pdfkit';
 
+const SYSTEM_USER_ID = '000000000000000000000001';
+
 @Injectable()
 export class PdfService {
   constructor(
@@ -26,12 +28,14 @@ export class PdfService {
       .populate({
         path: 'participants',
         select: 'username profilePicture',
+        match: { username: { $ne: 'SYSTEM' } },
       })
       .populate({
         path: 'roleplayAd',
         populate: {
           path: 'author',
           select: 'username',
+          match: { username: { $ne: 'SYSTEM' } },
         },
         select: '-__v',
       })
@@ -40,6 +44,7 @@ export class PdfService {
         populate: {
           path: 'sender',
           select: 'username profilePicture',
+          match: { username: { $ne: 'SYSTEM' } },
         },
       })
       .lean<HydratedConversation>()
@@ -62,7 +67,7 @@ export class PdfService {
       });
 
       const buffers: Buffer[] = [];
-      doc.on('data', buffers.push.bind(buffers));
+      doc.on('data', (chunk: Buffer) => buffers.push(chunk));
       doc.on('end', () => resolve(Buffer.concat(buffers)));
       /* -----------------------------
        ! HEADER
@@ -170,7 +175,21 @@ export class PdfService {
           .text('No messages found in this conversation.', { lineGap: 4 });
       } else {
         for (const msg of allMessages) {
-          const speaker = msg.sender?.username ?? 'Unknown';
+          if (!msg) {
+            continue;
+          }
+
+          const sender = msg.sender as
+            | { _id?: string | { toString(): string }; username?: string }
+            | undefined;
+
+          const speaker = sender?.username;
+          const senderID = sender?._id?.toString();
+
+          // Exclude system messages from the transcript.
+          if (speaker === 'SYSTEM' || senderID === SYSTEM_USER_ID || !speaker) {
+            continue;
+          }
 
           doc
             .fontSize(11)
