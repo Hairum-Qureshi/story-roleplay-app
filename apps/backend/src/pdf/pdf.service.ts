@@ -186,10 +186,10 @@ export class PdfService {
           const speaker = sender?.username;
           const senderID = sender?._id?.toString();
 
-          // Exclude system messages from the transcript.
-          if (speaker === 'SYSTEM' || senderID === SYSTEM_USER_ID || !speaker) {
+          if (speaker === 'SYSTEM' || senderID === SYSTEM_USER_ID || !speaker)
             continue;
-          }
+
+          if (msg.content === 'This message has been deleted.') continue;
 
           doc
             .fontSize(11)
