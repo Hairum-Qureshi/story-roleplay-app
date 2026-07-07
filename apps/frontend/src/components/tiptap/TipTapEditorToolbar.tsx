@@ -5,6 +5,7 @@ import {
   FaStrikethrough,
   FaUnderline,
   FaListUl,
+  FaListOl,
 } from "react-icons/fa";
 
 interface TipTapEditorToolbarProps {
@@ -15,7 +16,7 @@ export default function TipTapEditorToolbar({
   editor,
 }: TipTapEditorToolbarProps) {
   const getButtonClassName = (isActive: boolean) =>
-    `ml-3 rounded-md p-1 transition hover:cursor-pointer ${
+    `space-x-4 rounded-md p-1 transition hover:cursor-pointer ${
       isActive
         ? "bg-sky-500/20 ring-1 ring-sky-400/70"
         : "text-slate-600 hover:bg-slate-200/20"
@@ -71,6 +72,16 @@ export default function TipTapEditorToolbar({
         disabled={!editor.can().chain().focus().toggleBulletList().run()}
       >
         <FaListUl className={getIconClassName(editor.isActive("bulletList"))} />
+      </button>
+      <button
+        className={getButtonClassName(editor.isActive("orderedList"))}
+        title="Ordered list"
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        disabled={!editor.can().chain().focus().toggleOrderedList().run()}
+      >
+        <FaListOl
+          className={getIconClassName(editor.isActive("orderedList"))}
+        />
       </button>
     </div>
   );
