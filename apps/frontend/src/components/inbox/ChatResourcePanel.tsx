@@ -10,6 +10,8 @@ import { FaUsers } from "react-icons/fa";
 import PinnedMessageBubble from "./PinnedMessageBubble";
 import { useParams } from "react-router-dom";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoCloseCircle } from "react-icons/io5";
 
 export default function ChatResourcePanel({
   fullWidth,
@@ -23,6 +25,8 @@ export default function ChatResourcePanel({
   const [showPinnedMessages, setShowPinnedMessages] = useState(false);
   const { chatID } = useParams();
   const { pinnedRoleplayMessages } = useRolePlayChat(chatID || "");
+  const [noteMode, setNoteMode] = useState(false);
+  const [closeNotice, setCloseNotice] = useState(false);
 
   return (
     <aside
@@ -37,16 +41,39 @@ export default function ChatResourcePanel({
             `}
     >
       <div className="px-5 pt-6 pb-4 border-b border-slate-800">
-        <h2 className="text-lg font-semibold text-white mt-5">
-          Chat Resources
-        </h2>
+        {!noteMode ? (
+          <h2 className="text-lg font-semibold text-white mt-5">
+            Chat Resources
+          </h2>
+        ) : (
+          <div>
+            <h2 className="text-lg font-semibold text-white mt-5">
+              Role-Play Notes
+            </h2>
+            <div className="flex items-start gap-2">
+              {!closeNotice && (
+                <>
+                  <IoCloseCircle
+                    className="text-red-500 hover:text-red-800 w-9 h-9 text-lg cursor-pointer"
+                    onClick={() => setCloseNotice(true)}
+                  />
+                  <p className="text-sm text-slate-400 mt-1">
+                    These notes will be editable by both you and your partner.
+                    Please do not share any personal info.
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+        )}
 
-        <div className="relative mt-5">
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+        {!noteMode && (
+          <div className="relative mt-5">
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
 
-          <input
-            placeholder="Search this conversation..."
-            className="
+            <input
+              placeholder="Search this conversation..."
+              className="
                             w-full
                             rounded-xl
                             border
@@ -64,75 +91,82 @@ export default function ChatResourcePanel({
                             focus:ring-2
                             focus:ring-sky-500/20
                         "
-          />
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-y-auto px-4 py-5">
-        {isSearching ? (
-          <p className="text-sm text-slate-400">Searching...</p>
-        ) : showPinnedMessages ? (
-          <>
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-                Pinned Messages
-              </span>
-
-              <span className="text-xs text-slate-500">
-                {pinnedRoleplayMessages?.length ?? 0}
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              {!pinnedRoleplayMessages?.length ? (
-                <p className="text-sm text-slate-400">No pinned messages.</p>
-              ) : (
-                pinnedRoleplayMessages?.map((message: PinnedMessage) => (
-                  <div key={message._id}>
-                    <PinnedMessageBubble
-                      profilePicture={message.sender.profilePicture!}
-                      timestamp={message.createdAt}
-                      message={message.content}
-                      chatID={chatID || ""}
-                      messageID={message._id}
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-                People
-              </span>
-
-              <span className="text-xs text-slate-500">
-                {
-                  selectedChat?.participants.filter(
-                    (p) => p.username !== "SYSTEM",
-                  ).length
-                }
-              </span>
-            </div>
-
-            <div className="space-y-1">
-              {selectedChat?.participants.map(
-                (member) =>
-                  member.username !== "SYSTEM" && (
-                    <UserCard
-                      key={member._id}
-                      username={member.username}
-                      you={member.username === currUserData?.username}
-                      profilePicture={member.profilePicture || ""}
-                    />
-                  ),
-              )}
-            </div>
-          </>
+            />
+          </div>
         )}
       </div>
+
+      {noteMode ? (
+        <div className="flex-1 overflow-y-auto px-4 py-5">
+          <p className="text-sm text-slate-400">Note Mode</p>
+        </div>
+      ) : (
+        <div className="flex-1 overflow-y-auto px-4 py-5">
+          {isSearching ? (
+            <p className="text-sm text-slate-400">Searching...</p>
+          ) : showPinnedMessages ? (
+            <>
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  Pinned Messages
+                </span>
+
+                <span className="text-xs text-slate-500">
+                  {pinnedRoleplayMessages?.length ?? 0}
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                {!pinnedRoleplayMessages?.length ? (
+                  <p className="text-sm text-slate-400">No pinned messages.</p>
+                ) : (
+                  pinnedRoleplayMessages?.map((message: PinnedMessage) => (
+                    <div key={message._id}>
+                      <PinnedMessageBubble
+                        profilePicture={message.sender.profilePicture!}
+                        timestamp={message.createdAt}
+                        message={message.content}
+                        chatID={chatID || ""}
+                        messageID={message._id}
+                      />
+                    </div>
+                  ))
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+                  People
+                </span>
+
+                <span className="text-xs text-slate-500">
+                  {
+                    selectedChat?.participants.filter(
+                      (p) => p.username !== "SYSTEM",
+                    ).length
+                  }
+                </span>
+              </div>
+
+              <div className="space-y-1">
+                {selectedChat?.participants.map(
+                  (member) =>
+                    member.username !== "SYSTEM" && (
+                      <UserCard
+                        key={member._id}
+                        username={member.username}
+                        you={member.username === currUserData?.username}
+                        profilePicture={member.profilePicture || ""}
+                      />
+                    ),
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      )}
       <div className="border-t border-slate-800 p-4">
         <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
           Actions
@@ -200,10 +234,17 @@ export default function ChatResourcePanel({
                             hover:bg-slate-800
                             hover:cursor-pointer
                         "
+            onClick={() => setNoteMode((prev) => !prev)}
           >
             <div className="flex items-center gap-3">
-              <RiStickyNote2Fill className="text-lg text-amber-400" />
-              <span className="font-medium">Create Note</span>
+              {noteMode ? (
+                <IoMdArrowRoundBack className="text-sky-400 text-lg" />
+              ) : (
+                <RiStickyNote2Fill className="text-yellow-400 text-lg" />
+              )}
+              <span className="font-medium">
+                {noteMode ? "Back To Resources" : "Create Note"}
+              </span>
             </div>
           </button>
           <button
