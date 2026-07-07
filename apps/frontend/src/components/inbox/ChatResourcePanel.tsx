@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoCloseCircle } from "react-icons/io5";
+import TipTapEditor from "../tiptap/TipTapEditor";
 
 export default function ChatResourcePanel({
   fullWidth,
@@ -97,8 +98,8 @@ export default function ChatResourcePanel({
       </div>
 
       {noteMode ? (
-        <div className="flex-1 overflow-y-auto px-4 py-5">
-          <p className="text-sm text-slate-400">Note Mode</p>
+        <div className="flex-1 overflow-y-auto px-4 py-2">
+          <TipTapEditor />
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto px-4 py-5">
