@@ -11,7 +11,6 @@ export default function ChatContainer({ chat }: { chat: Conversation }) {
 				{/* Left side */}
 				<div className="flex items-center space-x-3">
 					<div className="w-12 h-12 bg-gray-700 rounded-full flex-shrink-0" />
-
 					<div>
 						<h3 className="text-white font-semibold text-lg">{chat.title}</h3>
 						<p className="text-gray-400 text-sm truncate w-55 italic ellipsis overflow-hidden">
