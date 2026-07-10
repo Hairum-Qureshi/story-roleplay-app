@@ -42,6 +42,7 @@ type Conversation = {
   title: string;
   messages: Types.ObjectId[];
   chatEnded: boolean;
+  notes: string;
   hiddenFor: string[];
   characterBios?: Types.ObjectId[];
   latestMessage: string | null;
