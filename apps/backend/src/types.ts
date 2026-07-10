@@ -106,6 +106,11 @@ type HydratedMessage = {
   updatedAt: Date;
 };
 
+type Editor = {
+  username: string;
+  userID: string;
+};
+
 type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
 type ConversationDocument = HydratedDocument<Conversation>;
 type MessageDocument = HydratedDocument<Message>;
@@ -124,5 +129,6 @@ export type {
   HydratedConversation,
   HydratedConversationDocument,
   HydratedMessage,
+  Editor,
 };
 export { PovType };
