@@ -1,5 +1,6 @@
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useSocketStore from "../../../store/useSocketStore";
 import type { Conversation, PinnedMessage } from "../../../interfaces";
 import UserCard from "../UserCard";
 import { MdPushPin } from "react-icons/md";
@@ -7,7 +8,6 @@ import { FiSearch } from "react-icons/fi";
 import PinnedMessageBubble from "../PinnedMessageBubble";
 import { useParams } from "react-router-dom";
 import useRolePlayChat from "../../../hooks/useRolePlayChat";
-import useSocketStore from "../../../store/useSocketStore";
 import SidePanelTipTapEditor from "./SidePanelTipTapEditor";
 import ChatResourcePanelFooter from "./ChatResourcePanelFooter";
 
@@ -25,6 +25,14 @@ export default function ChatResourcePanel({
   const { pinnedRoleplayMessages } = useRolePlayChat(chatID || "");
   const [noteMode, setNoteMode] = useState(false);
   const { socket } = useSocketStore();
+
+  useEffect(() => {
+    socket?.emit("noteEditorUpdate", {
+      chatID: chatID,
+      uid: currUserData._id,
+      username: currUserData.username,
+    });
+  }, [socket, chatID, currUserData._id, currUserData.username]);
 
   return (
     <aside
@@ -176,15 +184,6 @@ export default function ChatResourcePanel({
             onShowMembers={() => setShowPinnedMessages(false)}
             onToggleNoteMode={() => {
               setNoteMode((prev) => !prev);
-              if (!noteMode)
-                socket?.emit("setEditingStatus", {
-                  uid: currUserData?._id,
-                  partnerUID: selectedChat?.participants.find(
-                    (p) => p.username !== currUserData?.username,
-                  )?._id,
-                  chatID: selectedChat?._id,
-                  isEditing: true,
-                });
             }}
           />
         </div>
