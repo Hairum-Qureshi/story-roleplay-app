@@ -36,6 +36,17 @@ export class ChatService {
     private readonly eventsGateway: EventsGateway,
   ) {}
 
+  async isUserMemberOfChat(userID: string, chatID: string): Promise<boolean> {
+    const conversation: ConversationDocument | null =
+      await this.conversationModel.findById(chatID);
+
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    return conversation.participants.includes(userID);
+  }
+
   private async checkIfConversationExists(
     convoID: string,
   ): Promise<ConversationDocument> {
@@ -126,7 +137,7 @@ export class ChatService {
       }
     }
 
-    this.eventsGateway.sendMessageToUser(otherParticipantID, message);
+    this.eventsGateway.sendMessageToUser(conversation._id.toString(), message);
 
     return {
       message,
