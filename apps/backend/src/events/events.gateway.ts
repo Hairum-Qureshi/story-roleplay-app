@@ -1,13 +1,16 @@
 import {
+  ConnectedSocket,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
-import { Message, RolePlayAd } from '../types';
+import { RolePlayAd } from '../types';
 import { EventsService } from './events.service';
 import { Types } from 'mongoose';
+import { UseGuards } from '@nestjs/common';
+import { IsChatMemberGuard } from 'src/guards/websockets/isChatMember.guard';
 
 @WebSocketGateway({
   cors: {
@@ -22,7 +25,7 @@ export class EventsGateway {
   constructor(private eventsService: EventsService) {}
 
   handleConnection(client: Socket) {
-    const { userId } = client.handshake.auth;
+    const userId = client.handshake.auth?.userId as string | undefined;
 
     console.log(`Client connected: ${client.id} with uid: ${userId}`);
 
@@ -31,8 +34,10 @@ export class EventsGateway {
       socketId: client.id,
     });
 
-    this.eventsService.identifyUser(client.id, userId);
-    console.log(this.eventsService.viewSocketToUserMap());
+    if (userId) {
+      this.eventsService.identifyUser(client.id, userId);
+      console.log(this.eventsService.viewSocketToUserMap());
+    }
   }
 
   handleDisconnect(client: Socket) {
@@ -46,28 +51,80 @@ export class EventsGateway {
     this.server.emit('newRolePlayAd', ad);
   }
 
-  sendMessageToUser(userID: string, message: Message) {
-    const socketID: string | undefined =
-      this.eventsService.getUserSocketId(userID);
-
-    if (socketID) {
-      this.server.to(socketID).emit('newMessage', message);
-    }
+  @SubscribeMessage('sendMessageToUser')
+  @UseGuards(IsChatMemberGuard)
+  sendMessageToUser(chatID: string, message: string) {
+    this.server.to(chatID).emit('newMessage', message);
   }
 
-  emitSystemMessage(userIDs: string[], message: Message) {
-    userIDs.forEach((userID) => {
-      const socketID: string | undefined =
-        this.eventsService.getUserSocketId(userID);
-
-      if (socketID) {
-        this.server.to(socketID).emit('newMessage', message);
-      }
-    });
+  @UseGuards(IsChatMemberGuard)
+  emitSystemMessage(chatID: string, message: string) {
+    this.server.to(chatID).emit('newMessage', message);
   }
 
   endConversation(chatID: Types.ObjectId | string) {
     this.server.emit('conversationEnded', { chatID });
+  }
+
+  @SubscribeMessage('currentChatID')
+  async currentChatID(
+    @MessageBody()
+    payload: {
+      chatID: string;
+    },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const { chatID } = payload;
+
+    if (chatID && client) {
+      await client.join(chatID);
+      console.log(`Client ${client.id} joined chat room: ${chatID}`);
+    }
+  }
+
+  @SubscribeMessage('noteEditorUpdate')
+  createNote(
+    @MessageBody()
+    payload: {
+      chatID: string;
+      uid: string;
+      username: string;
+    },
+  ) {
+    const { chatID, uid, username } = payload;
+
+    if (this.eventsService.viewNotesEditorMap().has(chatID)) {
+      const existingEditor = this.eventsService.getNotesEditor(chatID);
+
+      console.log(
+        `Chat ${chatID} already has a user editing the note. Cannot add user ${uid}`,
+      );
+
+      this.server.to(chatID).emit('noteEditorResponse', {
+        chatID,
+        username: existingEditor?.username ?? username,
+      });
+
+      console.log({
+        chatID,
+        username: existingEditor?.username ?? username,
+      });
+
+      return;
+    }
+    const editor = this.eventsService.addUserToNotesEditorMap(
+      uid,
+      chatID,
+      username,
+    );
+
+    this.server.to(chatID).emit('noteEditorResponse', {
+      chatID,
+      username: editor.username,
+    });
+
+    console.log('Notes editor Map:', this.eventsService.viewNotesEditorMap());
+    return;
   }
 
   @SubscribeMessage('typingIndicator')
