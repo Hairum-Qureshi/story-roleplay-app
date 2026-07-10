@@ -4,8 +4,8 @@ import useRolePlayChat from "../hooks/useRolePlayChat";
 import type { Conversation } from "../interfaces";
 import MainChatContainer from "../components/inbox/MainChatContainer";
 import ChatCardsListPanel from "../components/inbox/ChatCardsListPanel";
-import ChatResourcePanel from "../components/inbox/ChatResourcePanel";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import ChatResourcePanel from "../components/inbox/side-panel/ChatResourcePanel";
 
 export default function Inbox() {
 	const { chatID } = useParams();
