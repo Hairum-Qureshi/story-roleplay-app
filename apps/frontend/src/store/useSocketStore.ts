@@ -2,78 +2,90 @@ import { create } from "zustand";
 import { io } from "socket.io-client";
 import type { SocketStore } from "../interfaces";
 import type { Message } from "../interfaces";
+import { useParams } from "react-router-dom";
 
 const useSocketStore = create<SocketStore>((set, get) => ({
-	socket: null,
-	rolePlayAd: null,
-	message: null,
-	endedConversationID: null,
-	typing: false,
-	partnerID: null,
-	partnerUsername: null,
-	currentTypingChatID: null,
-	setTyping: (typing: boolean) => set({ typing }),
-	connectSocket: (userId: string) => {
-		const socket = io(import.meta.env.VITE_BACKEND_BASE_URL, {
-			auth: { userId }
-		});
+  socket: null,
+  rolePlayAd: null,
+  message: null,
+  endedConversationID: null,
+  typing: false,
+  partnerID: null,
+  partnerUsername: null,
+  currentTypingChatID: null,
+  chatID: null,
+  currUID: null,
+  editorUsername: null,
+  setTyping: (typing: boolean) => set({ typing }),
+  connectSocket: (userId: string) => {
+    const socket = io(import.meta.env.VITE_BACKEND_BASE_URL, {
+      auth: { userId },
+    });
 
-		socket.on("connect", () => {
-			console.log("Connected:", socket.id);
-			set({ socket });
-		});
+    socket.on("connect", () => {
+      console.log("Connected:", socket.id);
 
-		socket.on("connect_error", err => {
-			console.error("❌", err.message);
-		});
+      set({ socket });
+    });
 
-		socket.on("disconnect", () => {
-			console.log("Disconnected");
-		});
+    socket.on("connect_error", (err) => {
+      console.error("❌", err.message);
+    });
 
-		socket.on("connected", data => {
-			console.log("Backend confirmed:", data);
-		});
+    socket.on("disconnect", () => {
+      console.log("Disconnected");
+    });
 
-		socket.on("newRolePlayAd", ad => {
-			set({ rolePlayAd: ad });
-		});
+    socket.on("connected", (data) => {
+      console.log("Backend confirmed:", data);
+    });
 
-		socket.on("newMessage", (message: Message) => {
-			set({ message });
-		});
+    socket.on("newRolePlayAd", (ad) => {
+      set({ rolePlayAd: ad });
+    });
 
-		socket.on("conversationEnded", ({ chatID }: { chatID: string }) => {
-			set({ endedConversationID: chatID });
-		});
+    socket.on("newMessage", (message: Message) => {
+      set({ message });
+    });
 
-		socket.on(
-			"typingIndicator",
-			({
-				typing,
-				partnerUsername,
-				currentTypingChatID
-			}: {
-				typing: boolean;
-				partnerUsername: string;
-				currentTypingChatID: string;
-			}) => {
-				set({ typing, partnerUsername, currentTypingChatID });
-			}
-		);
+    socket.on("conversationEnded", ({ chatID }: { chatID: string }) => {
+      set({ endedConversationID: chatID });
+    });
 
-		socket.connect();
-		set({ socket });
-	},
+    socket.on(
+      "typingIndicator",
+      ({
+        typing,
+        partnerUsername,
+        currentTypingChatID,
+      }: {
+        typing: boolean;
+        partnerUsername: string;
+        currentTypingChatID: string;
+      }) => {
+        set({ typing, partnerUsername, currentTypingChatID });
+      },
+    );
 
-	disconnectSocket: () => {
-		const socket = get().socket;
-		if (!socket) return;
+    socket.on(
+      "noteEditorResponse",
+      ({ chatID, username }: { chatID: string; username: string }) => {
+        set({ chatID, editorUsername: username });
+      },
+    );
 
-		socket.disconnect();
-		socket.removeAllListeners();
-		set({ socket: null });
-	}
+    socket.connect();
+    set({ socket });
+  },
+
+  disconnectSocket: () => {
+    const socket = get().socket;
+    if (!socket) return;
+
+    socket.disconnect();
+    socket.removeAllListeners();
+    set({ socket: null });
+  },
 }));
 
 export default useSocketStore;
