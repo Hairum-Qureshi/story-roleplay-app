@@ -10,6 +10,10 @@ export class EventsService {
     this.socketToUserMap.set(socketID, userID);
   }
 
+  getUserIdBySocketId(socketID: string): string | undefined {
+    return this.socketToUserMap.get(socketID);
+  }
+
   viewSocketToUserMap(): Map<string, string> {
     return this.socketToUserMap;
   }
@@ -42,6 +46,30 @@ export class EventsService {
 
   removeUserBySocketId(socketID: string) {
     this.socketToUserMap.delete(socketID);
+  }
+
+  removeUserFromAllNotesEditors(userID: string): string[] {
+    const releasedChatIDs: string[] = [];
+
+    for (const [chatID, editor] of this.notesEditorMap.entries()) {
+      if (editor.userID === userID) {
+        this.notesEditorMap.delete(chatID);
+        releasedChatIDs.push(chatID);
+      }
+    }
+
+    return releasedChatIDs;
+  }
+
+  removeUserFromNotesEditorMap(chatID: string, userID: string) {
+    const existingEditor = this.notesEditorMap.get(chatID);
+
+    if (existingEditor && existingEditor.userID === userID) {
+      this.notesEditorMap.delete(chatID);
+      console.log(
+        `User ${userID} has stopped editing the note for chat ${chatID}`,
+      );
+    }
   }
 
   getUserSocketId(userID: string): string | undefined {

@@ -43,8 +43,21 @@ export class EventsGateway {
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
 
+    const userID = this.eventsService.getUserIdBySocketId(client.id);
+
     this.eventsService.removeUserBySocketId(client.id);
-    console.log(this.eventsService.viewSocketToUserMap());
+
+    if (userID) {
+      const releasedChatIDs =
+        this.eventsService.removeUserFromAllNotesEditors(userID);
+
+      for (const chatID of releasedChatIDs) {
+        this.server.to(chatID).emit('noteEditorResponse', {
+          chatID,
+          username: '',
+        });
+      }
+    }
   }
 
   emitNewAd(ad: RolePlayAd) {
@@ -89,41 +102,69 @@ export class EventsGateway {
       chatID: string;
       uid: string;
       username: string;
+      action: 'start' | 'stop';
     },
   ) {
-    const { chatID, uid, username } = payload;
+    const { chatID, uid, username, action } = payload;
 
-    if (this.eventsService.viewNotesEditorMap().has(chatID)) {
+    if (action === 'start') {
+      // first check if a uid is already inside the notesEditorMap for this chatID
+      //  -> if it is, return and don't do anything
+      // -> if it isn't, add the uid to the notesEditorMap for this chatID
       const existingEditor = this.eventsService.getNotesEditor(chatID);
 
-      console.log(
-        `Chat ${chatID} already has a user editing the note. Cannot add user ${uid}`,
-      );
+      if (existingEditor) {
+        // console.log(
+        //   `User ${existingEditor.userID} is already editing a note for chat ${chatID}`,
+        // );
+        this.server.to(chatID).emit('noteEditorResponse', {
+          chatID,
+          username: existingEditor.username,
+        });
+        return;
+      }
 
+      const editor = this.eventsService.addUserToNotesEditorMap(
+        uid,
+        chatID,
+        username,
+      );
       this.server.to(chatID).emit('noteEditorResponse', {
         chatID,
-        username: existingEditor?.username ?? username,
+        username: editor.username,
       });
+    } else {
+      // first check if a uid is already inside the notesEditorMap for this chatID
+      //  -> if it is, check if the uid matches the one in the payload
+      //    -> if it does, remove the uid from the notesEditorMap for this chatID
+      //    -> if it doesn't, return and don't do anything
+      //  -> if it isn't, return and don't do anything
+      const existingEditor = this.eventsService.getNotesEditor(chatID);
 
-      console.log({
-        chatID,
-        username: existingEditor?.username ?? username,
-      });
-
-      return;
+      if (existingEditor) {
+        if (existingEditor.userID === uid) {
+          this.eventsService.removeUserFromNotesEditorMap(chatID, uid);
+          this.server.to(chatID).emit('noteEditorResponse', {
+            chatID,
+            username: '',
+          });
+        } else {
+          // console.log(
+          //   `User ${existingEditor.userID} is already editing a note for chat ${chatID}`,
+          // );
+          this.server.to(chatID).emit('noteEditorResponse', {
+            chatID,
+            username: existingEditor.username,
+          });
+        }
+      } else {
+        this.server.to(chatID).emit('noteEditorResponse', {
+          chatID,
+          username: '',
+        });
+      }
     }
-    const editor = this.eventsService.addUserToNotesEditorMap(
-      uid,
-      chatID,
-      username,
-    );
 
-    this.server.to(chatID).emit('noteEditorResponse', {
-      chatID,
-      username: editor.username,
-    });
-
-    console.log('Notes editor Map:', this.eventsService.viewNotesEditorMap());
     return;
   }
 
