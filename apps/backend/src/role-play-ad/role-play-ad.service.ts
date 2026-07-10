@@ -74,7 +74,7 @@ export class RolePlayAdService {
       await updatedConversation.save();
 
       this.eventsGateway.emitSystemMessage(
-        updatedConversation.participants,
+        updatedConversation._id.toString(),
         message,
       );
     }
@@ -171,7 +171,7 @@ export class RolePlayAdService {
           await conversation.save();
 
           this.eventsGateway.emitSystemMessage(
-            conversation.participants,
+            conversation._id.toString(),
             message,
           );
         },
