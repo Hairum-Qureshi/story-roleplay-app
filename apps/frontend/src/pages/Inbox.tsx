@@ -6,73 +6,80 @@ import MainChatContainer from "../components/inbox/MainChatContainer";
 import ChatCardsListPanel from "../components/inbox/ChatCardsListPanel";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import ChatResourcePanel from "../components/inbox/side-panel/ChatResourcePanel";
+import useSocketStore from "../store/useSocketStore";
 
 export default function Inbox() {
-	const { chatID } = useParams();
-	const [fullWidth, setFullWidth] = useState(chatID ? true : false);
-	const [noMessageOpened, setNoMessageOpened] = useState(false);
-	const { data: currUser } = useCurrentUser();
+  const { chatID } = useParams();
+  const [fullWidth, setFullWidth] = useState(chatID ? true : false);
+  const [noMessageOpened, setNoMessageOpened] = useState(false);
+  const { data: currUser } = useCurrentUser();
+  const { socket } = useSocketStore();
 
-	const { rolePlayChats, currUserConversations } = useRolePlayChat(
-		chatID || ""
-	);
+  const { rolePlayChats, currUserConversations } = useRolePlayChat(
+    chatID || "",
+  );
 
-	const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
+  const [selectedChat, setSelectedChat] = useState<Conversation | null>(null);
 
-	const partner = selectedChat?.participants.find(
-		participant => participant._id !== currUser?._id
-	);
+  const partner = selectedChat?.participants.find(
+    (participant) => participant._id !== currUser?._id,
+  );
 
-	function fullWidthToggle(fullWidth: boolean) {
-		setFullWidth(fullWidth);
-	}
+  function fullWidthToggle(fullWidth: boolean) {
+    setFullWidth(fullWidth);
+  }
 
-	function messageOpenedToggle(noMessageOpened: boolean) {
-		setNoMessageOpened(noMessageOpened);
-	}
+  function messageOpenedToggle(noMessageOpened: boolean) {
+    setNoMessageOpened(noMessageOpened);
+  }
 
-	function selectedChatToggle(chat: Conversation | null) {
-		setSelectedChat(chat);
-	}
+  function selectedChatToggle(chat: Conversation | null) {
+    setSelectedChat(chat);
 
-	// TODO - when a user selects a character, make sure a message/notification is shown in the chat that says "You have selected [character name] for this chat which, for the role-play partner would link to that specific character bio for them to view."
+    if (chat) {
+      socket?.emit("currentChatID", {
+        chatID: chat._id || null,
+      });
+    }
+  }
 
-	// TODO - fix issue where if fullWidth is false, and the side panel is open, the 'hide side panel' button is not aligned all the way to the right
+  // TODO - when a user selects a character, make sure a message/notification is shown in the chat that says "You have selected [character name] for this chat which, for the role-play partner would link to that specific character bio for them to view."
 
-	// TODO - fix scrolling issue with this component
+  // TODO - fix issue where if fullWidth is false, and the side panel is open, the 'hide side panel' button is not aligned all the way to the right
 
-	// ! formatter needs some tinkering. For example, if you try and put '> **__COOL__**' in a message, the markdown isn't rendered correctly.
+  // TODO - fix scrolling issue with this component
 
+  // ! formatter needs some tinkering. For example, if you try and put '> **__COOL__**' in a message, the markdown isn't rendered correctly.
 
-	useEffect(() => {
-		setNoMessageOpened(chatID ? false : true);
-		setSelectedChat(
-			rolePlayChats?.find((chat: Conversation) => chat._id === chatID) || null
-		);
-	}, [chatID, rolePlayChats]);
+  useEffect(() => {
+    setNoMessageOpened(chatID ? false : true);
+    setSelectedChat(
+      rolePlayChats?.find((chat: Conversation) => chat._id === chatID) || null,
+    );
+  }, [chatID, rolePlayChats]);
 
-	useEffect(() => {
-		if (!chatID) {
-			setFullWidth(true);
-		}
-	}, [chatID]);
+  useEffect(() => {
+    if (!chatID) {
+      setFullWidth(true);
+    }
+  }, [chatID]);
 
-	return (
-		<div className="h-[calc(100vh-4rem)] bg-slate-950 text-white flex overflow-y-hidden">
-			<ChatCardsListPanel
-				currUserConversations={currUserConversations}
-				messageOpenedToggle={messageOpenedToggle}
-				selectedChatToggle={selectedChatToggle}
-			/>
-			<MainChatContainer
-				selectedChat={selectedChat}
-				noMessageOpened={noMessageOpened}
-				fullWidth={fullWidth}
-				fullWidthToggle={fullWidthToggle}
-				partner={partner?._id || ""}
-				partnerUsername={currUser?.username || ""}
-			/>
-			<ChatResourcePanel fullWidth={fullWidth} selectedChat={selectedChat} />
-		</div>
-	);
+  return (
+    <div className="h-[calc(100vh-4rem)] bg-slate-950 text-white flex overflow-y-hidden">
+      <ChatCardsListPanel
+        currUserConversations={currUserConversations}
+        messageOpenedToggle={messageOpenedToggle}
+        selectedChatToggle={selectedChatToggle}
+      />
+      <MainChatContainer
+        selectedChat={selectedChat}
+        noMessageOpened={noMessageOpened}
+        fullWidth={fullWidth}
+        fullWidthToggle={fullWidthToggle}
+        partner={partner?._id || ""}
+        partnerUsername={currUser?.username || ""}
+      />
+      <ChatResourcePanel fullWidth={fullWidth} selectedChat={selectedChat} />
+    </div>
+  );
 }
