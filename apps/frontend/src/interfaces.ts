@@ -109,6 +109,7 @@ interface SocketStore {
   currentTypingChatID: string | null;
   chatID: string | null;
   currUID: string | null;
+  editorUsername: string | null;
 }
 
 interface AdProps {
