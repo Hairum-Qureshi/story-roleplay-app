@@ -1,6 +1,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import { useEffect } from "react";
 import TipTapEditorToolbar from "./TipTapEditorToolbar";
 import useSocketStore from "../../store/useSocketStore";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
@@ -18,17 +19,19 @@ export default function TipTapEditor() {
     },
   });
 
-  if (!editor) return null;
+  const isEditorDisabled =
+    !!editorUsername && editorUsername !== currentUser?.username;
 
-  if (editorUsername && editorUsername !== currentUser?.username) {
-    editor.setEditable(false);
-  } else {
-    editor.setEditable(true);
-  }
+  useEffect(() => {
+    if (!editor) return;
+    editor.setEditable(!isEditorDisabled);
+  }, [editor, isEditorDisabled]);
+
+  if (!editor) return null;
 
   return (
     <div className="w-full">
-      <TipTapEditorToolbar editor={editor} />
+      <TipTapEditorToolbar editor={editor} isDisabled={isEditorDisabled} />
       <div
         className="text-white mt-3 leading-5 h-full overflow-y-auto
                 [&_p]:mb-2 text-sm
@@ -42,18 +45,3 @@ export default function TipTapEditor() {
     </div>
   );
 }
-
-/* The classNames:
-
-"text-white mx-4 mt-3 leading-5 h-72 overflow-y-auto
-                [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4
-                [&_h3]:text-xl [&_h3]:font-bold [&_h3]:mb-4
-                [&_p]:mb-2
-                [&_blockquote]:pl-4 [&_blockquote]:border-l-4 [&_blockquote]:border-sky-500 [&_blockquote]:italic [&_blockquote]:text-slate-400
-                [&_ul]:list-disc [&_ul]:pl-6
-                [&_ol]:list-decimal [&_ol]:pl-6
-                [&_li]:mb-1
-                [&_a]:text-sky-400 [&_a]:underline [&_a]:hover:text-sky-300"
-                
-Are all apart of Tailwind Typography 
-*/
