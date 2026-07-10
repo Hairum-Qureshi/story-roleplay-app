@@ -16,7 +16,6 @@ export default function TipTapEditor() {
         class: "focus:outline-none flex-1 h-full",
       },
     },
-    content: "Hello, World",
   });
 
   if (!editor) return null;
