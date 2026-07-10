@@ -107,6 +107,8 @@ interface SocketStore {
   partnerID: string | null;
   partnerUsername: string | null;
   currentTypingChatID: string | null;
+  chatID: string | null;
+  currUID: string | null;
 }
 
 interface AdProps {
