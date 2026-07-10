@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import type { ChatHeaderProps } from "../../interfaces";
+import { useLocation } from "react-router-dom";
 
 export default function ChatHeader({
   fullWidth,
@@ -7,6 +9,12 @@ export default function ChatHeader({
   endedConversationID,
   endRolePlayConversation,
 }: ChatHeaderProps) {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    fullWidthToggle(true);
+  }, [pathname, fullWidthToggle]);
+
   return (
     <div className="w-full mt-5 border-b border-slate-700 flex items-center">
       <h3

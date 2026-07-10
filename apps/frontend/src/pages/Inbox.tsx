@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useRolePlayChat from "../hooks/useRolePlayChat";
 import type { Conversation } from "../interfaces";
@@ -10,7 +10,7 @@ import useSocketStore from "../store/useSocketStore";
 
 export default function Inbox() {
   const { chatID } = useParams();
-  const [fullWidth, setFullWidth] = useState(chatID ? true : false);
+  const [fullWidth, setFullWidth] = useState(false);
   const [noMessageOpened, setNoMessageOpened] = useState(false);
   const { data: currUser } = useCurrentUser();
   const { socket } = useSocketStore();
@@ -25,9 +25,9 @@ export default function Inbox() {
     (participant) => participant._id !== currUser?._id,
   );
 
-  function fullWidthToggle(fullWidth: boolean) {
+  const fullWidthToggle = useCallback((fullWidth: boolean) => {
     setFullWidth(fullWidth);
-  }
+  }, []);
 
   function messageOpenedToggle(noMessageOpened: boolean) {
     setNoMessageOpened(noMessageOpened);
@@ -57,12 +57,6 @@ export default function Inbox() {
       rolePlayChats?.find((chat: Conversation) => chat._id === chatID) || null,
     );
   }, [chatID, rolePlayChats]);
-
-  useEffect(() => {
-    if (!chatID) {
-      setFullWidth(true);
-    }
-  }, [chatID]);
 
   return (
     <div className="h-[calc(100vh-4rem)] bg-slate-950 text-white flex overflow-y-hidden">
