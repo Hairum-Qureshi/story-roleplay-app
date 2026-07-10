@@ -32,14 +32,14 @@ export class EventsGateway {
     });
 
     this.eventsService.identifyUser(client.id, userId);
-    console.log(this.eventsService.viewMap());
+    console.log(this.eventsService.viewSocketToUserMap());
   }
 
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
 
     this.eventsService.removeUserBySocketId(client.id);
-    console.log(this.eventsService.viewMap());
+    console.log(this.eventsService.viewSocketToUserMap());
   }
 
   emitNewAd(ad: RolePlayAd) {
