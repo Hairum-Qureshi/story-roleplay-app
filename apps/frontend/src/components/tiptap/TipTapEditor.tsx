@@ -2,8 +2,13 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TipTapEditorToolbar from "./TipTapEditorToolbar";
+import useSocketStore from "../../store/useSocketStore";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 export default function TipTapEditor() {
+  const { editorUsername } = useSocketStore();
+  const { data: currentUser } = useCurrentUser();
+
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     editorProps: {
@@ -15,6 +20,12 @@ export default function TipTapEditor() {
   });
 
   if (!editor) return null;
+
+  if (editorUsername && editorUsername !== currentUser?.username) {
+    editor.setEditable(false);
+  } else {
+    editor.setEditable(true);
+  }
 
   return (
     <div className="w-full">
