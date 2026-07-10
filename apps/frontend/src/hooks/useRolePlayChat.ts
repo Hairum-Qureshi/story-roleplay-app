@@ -196,7 +196,7 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
       } else if (Notification.permission !== "denied") {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
-            new Notification(`New message from @${message.sender.username}`, {
+            new Notification(`New message from @${message.sender?.username}`, {
               body: message.content,
               icon: message.sender.profilePicture,
             });
