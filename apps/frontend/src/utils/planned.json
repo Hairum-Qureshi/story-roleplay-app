@@ -88,5 +88,10 @@
     "id": 26,
     "subheading": "Editor toolbar button focus highlighting",
     "description": "When a user clicks on a button in the editor toolbar, the button will be highlighted to indicate that it is currently active or selected. This visual feedback will help users understand which formatting options are currently applied to their text and improve the overall usability of the editor."
+  },
+  {
+    "id": 27,
+    "subheading": "Chat pinning",
+    "description": "Users will have the ability to pin important role-play chats to the top of their inbox for easy access. Pinned chats will remain at the top of the chat list, allowing users to quickly find and engage with their most relevant conversations without having to scroll through their entire inbox."
   }
 ]
