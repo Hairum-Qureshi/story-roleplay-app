@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 interface UseRolePlayChatHook {
   createConversation: (adID: string) => void;
   rolePlayChats: Conversation[];
+  rolePlayNotes: { notes: string } | undefined;
   sendMessage: (adID: string, message: string) => void;
   rolePlayChatMessages: Message[];
   deleteMessage: (chatID: string, messageID: string) => void;
@@ -114,6 +115,24 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
 
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/pins`,
+          {
+            withCredentials: true,
+          },
+        );
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+
+  const { data: rolePlayNotes } = useQuery({
+    queryKey: ["role-play-notes", chatID],
+    enabled: !!chatID,
+    queryFn: async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/notes`,
           {
             withCredentials: true,
           },
@@ -376,6 +395,7 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
   return {
     createConversation,
     rolePlayChats,
+    rolePlayNotes,
     sendMessage,
     rolePlayChatMessages,
     deleteMessage,
