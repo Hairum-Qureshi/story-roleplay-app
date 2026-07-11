@@ -18,6 +18,9 @@ export class Conversation {
   @Prop({ type: Boolean, default: false })
   chatEnded: boolean;
 
+  @Prop({ type: String, default: '' })
+  notes: string;
+
   @Prop({ type: [Types.ObjectId], ref: 'CharacterBio' })
   characterBios: Types.ObjectId[];
 
