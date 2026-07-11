@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import type { ChatHeaderProps } from "../../interfaces";
 import { useLocation } from "react-router-dom";
+import useChatStore from "../../store/useChatStore";
 
 export default function ChatHeader({
   fullWidth,
@@ -10,6 +11,7 @@ export default function ChatHeader({
   endRolePlayConversation,
 }: ChatHeaderProps) {
   const { pathname } = useLocation();
+  const { setHideSystemMessages, hideSystemMessages } = useChatStore();
 
   useEffect(() => {
     fullWidthToggle(true);
@@ -42,14 +44,20 @@ export default function ChatHeader({
           ? "Ended"
           : "End Role-Play"}
       </div>
-      <select className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer">
+      <button
+        className="border border-white rounded-md px-1 py-1 hover:cursor-pointer"
+        onClick={() => setHideSystemMessages(!hideSystemMessages)}
+      >
+        {hideSystemMessages ? "Show" : "Hide"} System Messages
+      </button>
+      {/* <select className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer">
         <option value="" disabled selected>
           Choose Character
         </option>
         <option value="character1">Character 1</option>
         <option value="character2">Character 2</option>
         <option value="character3">Character 3</option>
-      </select>
+      </select> */}
       <button
         onClick={() => fullWidthToggle(!fullWidth)}
         className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer justify-end"
