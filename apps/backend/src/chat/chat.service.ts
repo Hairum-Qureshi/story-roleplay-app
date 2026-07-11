@@ -124,10 +124,6 @@ export class ChatService {
       $push: { messages: message._id },
     });
 
-    const otherParticipantID: string = participants.find(
-      (participantID) => participantID !== user._id,
-    ) as string;
-
     // re-add the conversation to the other participant's list of conversations if it doesn't exist but need to first check if they have it
 
     if (conversation.hiddenFor.length > 0) {
@@ -137,7 +133,10 @@ export class ChatService {
       }
     }
 
-    this.eventsGateway.sendMessageToUser(conversation._id.toString(), message);
+    this.eventsGateway.sendMessageToUser(
+      conversation._id.toString(),
+      message.content,
+    );
 
     return {
       message,
@@ -446,9 +445,9 @@ export class ChatService {
       $push: { messages: systemMessage._id },
     });
 
-    this.eventsGateway.sendMessageToUser(
-      message.sender.toString(),
-      systemMessage,
+    this.eventsGateway.emitSystemMessage(
+      message.conversation.toString(),
+      systemMessage.content,
     );
   }
 
@@ -466,5 +465,50 @@ export class ChatService {
       .select('content sender createdAt');
 
     return pinnedMessages;
+  }
+
+  async createRolePlayNotes(chatID: string, content: string, username: string) {
+    // first check if a conversation exists by ID by invoking the checkIfConversationExists method
+    const conversation: ConversationDocument =
+      await this.checkIfConversationExists(chatID);
+
+    if (!conversation) throw new NotFoundException('Conversation not found');
+
+    if (!content || !content.trim())
+      throw new HttpException(
+        'Note content cannot be empty',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    // then check if a note exists for the conversation
+    const existingNote: ConversationDocument | null =
+      await this.conversationModel.findById(chatID).select('notes');
+    if (existingNote && existingNote.notes) {
+      // if a note exists, update it
+      existingNote.notes = content;
+      await existingNote.save();
+    } else {
+      // if a note doesn't exist, create it
+      await this.conversationModel.findByIdAndUpdate(chatID, {
+        notes: content,
+      });
+
+      // emit a system message letting the users know notes for this role-play have been created
+      const systemMessage = await this.createSystemMessage(
+        new Types.ObjectId(chatID),
+        `Role-play notes have been created for this conversation. Check out the side panel to view them.`,
+      );
+
+      await this.conversationModel.findByIdAndUpdate(chatID, {
+        $push: { messages: systemMessage._id },
+      });
+
+      this.eventsGateway.sendMessageToUser(
+        conversation._id.toString(),
+        systemMessage.content,
+      );
+    }
+
+    // first check if a note exists for the conversation
   }
 }
