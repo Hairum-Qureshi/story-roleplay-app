@@ -9,8 +9,11 @@ import { Socket, Server } from 'socket.io';
 import { RolePlayAd } from '../types';
 import { EventsService } from './events.service';
 import { Types } from 'mongoose';
-import { UseGuards } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
 import { IsChatMemberGuard } from 'src/guards/websockets/isChatMember.guard';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Message } from 'src/schemas/inbox/Message';
 
 @WebSocketGateway({
   cors: {
@@ -22,7 +25,12 @@ export class EventsGateway {
   @WebSocketServer()
   server: Server;
 
-  constructor(private eventsService: EventsService) {}
+  constructor(
+    private eventsService: EventsService,
+    @InjectModel(Message.name)
+    private messageModel: Model<Message>,
+    @InjectModel('Conversation') private conversationModel: Model<any>,
+  ) {}
 
   handleConnection(client: Socket) {
     const userId = client.handshake.auth?.userId as string | undefined;
@@ -96,7 +104,7 @@ export class EventsGateway {
   }
 
   @SubscribeMessage('noteEditorUpdate')
-  createNote(
+  async createNote(
     @MessageBody()
     payload: {
       chatID: string;
@@ -121,6 +129,7 @@ export class EventsGateway {
           chatID,
           username: existingEditor.username,
         });
+
         return;
       }
 
@@ -163,6 +172,23 @@ export class EventsGateway {
           username: '',
         });
       }
+
+      const content = `@${username} has stopped editing notes for this role-play. To view changes, open the notes tab in the side panel.`;
+
+      const systemMessage = await this.messageModel.create({
+        sender: '000000000000000000000001',
+        conversation: new Types.ObjectId(chatID),
+        content,
+      });
+
+      await this.conversationModel.findByIdAndUpdate(
+        new Types.ObjectId(chatID),
+        {
+          $push: { messages: systemMessage._id },
+        },
+      );
+
+      this.emitSystemMessage(chatID, content);
     }
 
     return;
