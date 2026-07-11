@@ -189,7 +189,7 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
     // Browser API for creating a notification
     if (document.visibilityState === "hidden") {
       if (Notification.permission === "granted") {
-        new Notification(`New message from @${message.sender.username}`, {
+        new Notification(`New message from @${message.sender?.username}`, {
           body: message.content,
           icon: message.sender.profilePicture,
         });
