@@ -11,7 +11,11 @@ import SidePanelTipTapEditor from "./SidePanelTipTapEditor";
 import ChatResourcePanelFooter from "./ChatResourcePanelFooter";
 import useChatStore from "../../../store/useChatStore";
 
-export default function ChatResourcePanel({ fullWidth }: { fullWidth: boolean }) {
+export default function ChatResourcePanel({
+  fullWidth,
+}: {
+  fullWidth: boolean;
+}) {
   const { data: currUserData } = useCurrentUser();
   const { selectedChat } = useChatStore();
   const isSearching = false;
@@ -25,7 +29,8 @@ export default function ChatResourcePanel({ fullWidth }: { fullWidth: boolean })
       className={`
         ${fullWidth ? "hidden" : "flex"}
         w-90
-        h-[calc(100vh-2rem)]
+        h-full
+        min-h-0
         flex-col
         bg-slate-950
         border-l
@@ -37,12 +42,11 @@ export default function ChatResourcePanel({ fullWidth }: { fullWidth: boolean })
       ) : (
         <>
           <div className="px-5 pt-6 pb-4 border-b border-slate-800">
-            <h2 className="text-lg font-semibold text-white mt-5">
+            <h2 className="text-lg font-semibold text-white">
               Chat Resources
             </h2>
             <div className="relative mt-5">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-
               <input
                 placeholder="Search this conversation..."
                 className="
