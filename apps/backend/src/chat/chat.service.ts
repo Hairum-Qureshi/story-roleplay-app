@@ -467,12 +467,19 @@ export class ChatService {
     return pinnedMessages;
   }
 
-  async createRolePlayNotes(chatID: string, content: string, username: string) {
-    // first check if a conversation exists by ID by invoking the checkIfConversationExists method
+  async getRolePlayNotes(chatID: string) {
     const conversation: ConversationDocument =
       await this.checkIfConversationExists(chatID);
 
-    if (!conversation) throw new NotFoundException('Conversation not found');
+    return {
+      notes: conversation.notes || '',
+    };
+  }
+
+  async createRolePlayNotes(chatID: string, content: string) {
+    // first check if a conversation exists by ID by invoking the checkIfConversationExists method
+    const conversation: ConversationDocument =
+      await this.checkIfConversationExists(chatID);
 
     if (conversation.chatEnded) {
       throw new HttpException(
