@@ -128,6 +128,11 @@ export default function FAQ() {
           answer:
             "The note feature allows you to write and save role-play notes that can be shared with your role-play partner. This is useful for keeping track of character details, plot points, or any other information relevant to your ongoing role-play.",
         },
+        {
+          question: "What's pinning messages for?",
+          answer:
+            "Pinning messages allows you to revisit important messages in your role-play conversation. This can be useful for keeping track of key plot points, character details, or any other information that you want to easily reference later. You can view all pinned messages in the side panel of the chat interface.",
+        },
       ],
     },
     {
