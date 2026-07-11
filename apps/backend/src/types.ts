@@ -88,6 +88,7 @@ type HydratedConversation = {
   }>;
   roleplayAd: RolePlayAd;
   title: string;
+  notes: string;
   messages: HydratedMessage[];
   chatEnded: boolean;
   characterBios?: Types.ObjectId[];
