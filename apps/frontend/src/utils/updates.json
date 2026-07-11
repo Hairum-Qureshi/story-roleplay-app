@@ -76,5 +76,11 @@
     "heading": "Added pin/unpin functionality for messages",
     "timestamp": "07-06-2026",
     "description": "Users can now pin and unpin messages within a chat, allowing them to reference important messages more easily. Pinned messages will be displayed in a dedicated section, making it convenient for users to access key information without having to search through the entire chat history."
+  },
+  {
+    "id": 14,
+    "heading": "Users can now show/hide system messages in chat",
+    "timestamp": "07-10-2026",
+    "description": "Users are now able to favorite role-play ads, allowing them to easily focus on messages between their partner and themselves as well as reducing clutter in their chat."
   }
 ]
