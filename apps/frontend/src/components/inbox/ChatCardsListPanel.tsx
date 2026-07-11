@@ -14,25 +14,23 @@ export default function ChatCardsListPanel({
   const { socket } = useSocketStore();
 
   return (
-    <div className="w-1/4 h-[94vh] space-y-3 overflow-y-scroll border-r border-slate-700">
+    <div className="w-1/4 h-full min-h-0 pt-3 overflow-y-auto border-r border-slate-700 flex flex-col gap-1">
       {(currUserConversations?.conversations?.length ?? 0) > 0 ? (
-        currUserConversations?.conversations.map(
-          (chat: Conversation, index: number) => (
-            <div className={index === 0 ? "mt-9" : ""} key={chat._id}>
-              <Link
-                to={`/inbox/${chat._id}`}
-                onClick={() => {
-                  if (selectedChat?._id !== chat._id) setSelectedChat(chat);
-                  socket?.emit("currentChatID", {
-                    chatID: chat._id || null,
-                  });
-                }}
-              >
-                <ChatContainer chat={chat} />
-              </Link>
-            </div>
-          ),
-        )
+        currUserConversations?.conversations.map((chat: Conversation) => (
+          <div key={chat._id}>
+            <Link
+              to={`/inbox/${chat._id}`}
+              onClick={() => {
+                if (selectedChat?._id !== chat._id) setSelectedChat(chat);
+                socket?.emit("currentChatID", {
+                  chatID: chat._id || null,
+                });
+              }}
+            >
+              <ChatContainer chat={chat} />
+            </Link>
+          </div>
+        ))
       ) : (
         <p className="text-center text-sky-600 mt-20 font-semibold mx-10">
           No conversations found. Any ads of yours users have responded to or
