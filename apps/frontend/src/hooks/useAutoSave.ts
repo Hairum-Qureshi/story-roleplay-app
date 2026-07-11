@@ -1,12 +1,13 @@
 import { useRef } from "react";
 import { autoSaveStore } from "../store/useAutoSaveStore";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 export default function useAutoSave() {
   const setSaving = autoSaveStore((s) => s.setSaving);
   const { saving } = autoSaveStore();
+  const queryClient = useQueryClient();
   const keyUpTimer = useRef<number | null>(null);
   const { chatID } = useParams();
 
@@ -26,10 +27,15 @@ export default function useAutoSave() {
         return response;
       } catch (error) {
         console.error(error);
+        throw error;
       }
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["role-play-notes", chatID] });
       console.log("Note saved successfully");
+    },
+    onSettled: () => {
+      setSaving(false);
     },
   });
 
@@ -40,11 +46,9 @@ export default function useAutoSave() {
     }
 
     keyUpTimer.current = window.setTimeout(() => {
-      // code responsible for sending data to backend
+      if (!noteData || noteData.trim() === "") return;
 
       postRoleplayAdMutate({ content: noteData });
-
-      setSaving(false);
     }, 500);
   }
 
