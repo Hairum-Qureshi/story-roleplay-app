@@ -87,6 +87,7 @@ interface Conversation {
   ];
   roleplayAd: RolePlayAd;
   title: string;
+  notes: string;
   messages: Message[];
   chatEnded: boolean;
   characterBios?: string[];
