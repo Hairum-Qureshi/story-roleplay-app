@@ -78,5 +78,9 @@
   {
     "id": 25,
     "bug": "When you double click a contact with the members list visible in the side panel, the data goes undefined for some reason."
+  },
+  {
+    "id": 26,
+    "bug": "Annoyingly, when going from 'Back to Resources' to 'Edit Notes', autosave triggers a refresh of the data which closes the side panel because it starts loading immeidately when you reopen the editor instead of when you start typing"
   }
 ]
