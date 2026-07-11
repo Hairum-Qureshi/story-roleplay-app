@@ -135,24 +135,19 @@ interface ChatBubbleProps {
 interface ChatHeaderProps {
   fullWidth: boolean;
   fullWidthToggle: (fullWidth: boolean) => void;
-  selectedChat: Conversation | null;
   endedConversationID: string | null;
   endRolePlayConversation: (conversationID: string) => void;
 }
 
 interface MainChatContainerProps {
-  partner: string;
-  partnerUsername: string;
   noMessageOpened: boolean;
   fullWidth: boolean;
   fullWidthToggle: (fullWidth: boolean) => void;
-  selectedChat: Conversation | null;
 }
 
 interface ChatFooterProps {
   partner: string;
   partnerUsername: string;
-  selectedChat: Conversation | null;
 }
 
 interface Update {
