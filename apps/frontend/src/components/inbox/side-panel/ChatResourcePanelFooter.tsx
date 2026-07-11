@@ -4,6 +4,8 @@ import { FiDownload } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import type { Conversation } from "../../../interfaces";
+import useSocketStore from "../../../store/useSocketStore";
+import { useCurrentUser } from "../../../hooks/useCurrentUser";
 
 interface ChatResourcePanelFooterProps {
   noteMode: boolean;
@@ -20,6 +22,9 @@ export default function ChatResourcePanelFooter({
   onToggleNoteMode,
   onShowMembers,
 }: ChatResourcePanelFooterProps) {
+  const { data: currUserData } = useCurrentUser();
+  const { socket } = useSocketStore();
+
   return (
     <>
       {showPinnedMessages ? (
@@ -48,8 +53,7 @@ export default function ChatResourcePanelFooter({
       ) : null}
 
       <button
-        className="
-          group
+        className={`group
           flex
           w-full
           items-center
@@ -60,9 +64,26 @@ export default function ChatResourcePanelFooter({
           text-slate-200
           transition
           hover:bg-slate-800
-          hover:cursor-pointer
-        "
-        onClick={onToggleNoteMode}
+          hover:cursor-pointer ${selectedChat?.chatEnded ? "opacity-50" : ""}`}
+        disabled={selectedChat?.chatEnded}
+        onClick={() => {
+          onToggleNoteMode();
+          if (!noteMode) {
+            socket?.emit("noteEditorUpdate", {
+              chatID: selectedChat?._id,
+              uid: currUserData?._id,
+              username: currUserData?.username,
+              action: "start",
+            });
+          } else {
+            socket?.emit("noteEditorUpdate", {
+              chatID: selectedChat?._id,
+              uid: currUserData?._id,
+              username: currUserData?.username,
+              action: "stop",
+            });
+          }
+        }}
       >
         <div className="flex items-center gap-3">
           {noteMode ? (
