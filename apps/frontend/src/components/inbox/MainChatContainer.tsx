@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import useChatStore from "../../store/useChatStore";
 import ChatBubble from "./ChatBubble";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
 import type { Message } from "../../interfaces";
@@ -20,6 +21,7 @@ export default function MainChatContainer({
 }: MainChatContainerProps) {
   const { chatID } = useParams();
   const {
+    socket,
     endedConversationID,
     typing,
     partnerUsername: typingPartnerUsername,
@@ -33,6 +35,13 @@ export default function MainChatContainer({
   const bottomOfContainer = useRef<HTMLDivElement>(null);
   const isFirstLoad = useRef(true);
   const [chatEnded, setChatEnded] = useState(selectedChat?.chatEnded);
+  const { hideSystemMessages } = useChatStore();
+
+  useEffect(() => {
+    socket?.emit("currentChatID", {
+      chatID,
+    });
+  }, [chatID, socket]);
 
   useEffect(() => {
     if (!bottomOfContainer.current) return;
@@ -92,7 +101,8 @@ export default function MainChatContainer({
               </div>
             )}
             {rolePlayChatMessages?.map((message: Message) =>
-              isSystemMessage(message) ? (
+              hideSystemMessages &&
+              isSystemMessage(message) ? null : isSystemMessage(message) ? (
                 <div
                   key={message._id}
                   className="text-center text-sky-400 my-6 mx-10 italic"
