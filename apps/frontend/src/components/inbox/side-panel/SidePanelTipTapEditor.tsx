@@ -21,19 +21,24 @@ export default function SidePanelTipTapEditor() {
             Role-Play Notes
           </h2>
           <div className="flex items-center gap-2 mt-3">
-            {saving && (
-              <div className="text-sm text-slate-400 flex items-center gap-2">
-                <l-ring-2
-                  size="20"
-                  stroke="2"
-                  stroke-length="0.25"
-                  bg-opacity="0.1"
-                  speed="0.8"
-                  color="white"
-                ></l-ring-2>
-                Saving...
-              </div>
-            )}
+            <div className="text-sm text-slate-400 flex items-center gap-2">
+              {saving ? (
+                <>
+                  {" "}
+                  <l-ring-2
+                    size="20"
+                    stroke="2"
+                    stroke-length="0.25"
+                    bg-opacity="0.1"
+                    speed="0.8"
+                    color="white"
+                  ></l-ring-2>
+                  <p>Saving...</p>
+                </>
+              ) : (
+                <p className="text-sm text-green-500">Notes Saved</p>
+              )}
+            </div>
           </div>
         </div>
         {editorUsername && editorChatID === chatID && (
