@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 import type { ChatHeaderProps } from "../../interfaces";
 import { useLocation } from "react-router-dom";
 import useChatStore from "../../store/useChatStore";
+import useSocketStore from "../../store/useSocketStore";
 
 export default function ChatHeader({
   fullWidth,
@@ -12,6 +14,8 @@ export default function ChatHeader({
   const { pathname } = useLocation();
   const { setHideSystemMessages, hideSystemMessages, selectedChat } =
     useChatStore();
+  const { socket } = useSocketStore();
+  const { data: currUserData } = useCurrentUser();
 
   useEffect(() => {
     fullWidthToggle(true);
@@ -59,7 +63,17 @@ export default function ChatHeader({
         <option value="character3">Character 3</option>
       </select> */}
       <button
-        onClick={() => fullWidthToggle(!fullWidth)}
+        onClick={() => {
+          fullWidthToggle(!fullWidth);
+          if (!fullWidth) {
+            socket?.emit("noteEditorUpdate", {
+              chatID: selectedChat?._id,
+              uid: currUserData?._id,
+              username: currUserData?.username,
+              action: "stop",
+            });
+          }
+        }}
         className="m-2 border border-white rounded-md px-2 py-1 hover:cursor-pointer justify-end"
       >
         {fullWidth ? "Show" : "Hide"} Side Panel
