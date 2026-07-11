@@ -66,5 +66,9 @@
   {
     "id": 22,
     "bug": "If both users remove the chat from their inbox, the chat isn't deleted."
+  },
+  {
+    "id": 23,
+    "bug": "For some reason, if you favorite your own ad, the 'repost' button is disabled."
   }
 ]
