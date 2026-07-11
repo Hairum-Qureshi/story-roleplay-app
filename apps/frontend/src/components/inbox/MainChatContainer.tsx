@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import useChatStore from "../../store/useChatStore";
 import ChatBubble from "./ChatBubble";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
@@ -12,12 +12,9 @@ import ChatFooter from "./ChatFooter";
 import type { MainChatContainerProps } from "../../interfaces";
 
 export default function MainChatContainer({
-  selectedChat,
   noMessageOpened,
   fullWidth,
   fullWidthToggle,
-  partner,
-  partnerUsername,
 }: MainChatContainerProps) {
   const { chatID } = useParams();
   const {
@@ -31,11 +28,14 @@ export default function MainChatContainer({
   const { rolePlayChatMessages, deleteMessage, endRolePlayConversation } =
     useRolePlayChat(chatID || "");
 
+  const { hideSystemMessages, selectedChat } = useChatStore();
   const { data: currUser } = useCurrentUser();
   const bottomOfContainer = useRef<HTMLDivElement>(null);
   const isFirstLoad = useRef(true);
-  const [chatEnded, setChatEnded] = useState(selectedChat?.chatEnded);
-  const { hideSystemMessages } = useChatStore();
+  const chatEnded = selectedChat?.chatEnded;
+  const partner = selectedChat?.participants.find(
+    (participant) => participant._id !== currUser?._id,
+  );
 
   useEffect(() => {
     socket?.emit("currentChatID", {
@@ -53,10 +53,6 @@ export default function MainChatContainer({
       bottomOfContainer.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [rolePlayChatMessages]);
-
-  useEffect(() => {
-    setChatEnded(selectedChat?.chatEnded);
-  }, [chatID, selectedChat?.chatEnded]);
 
   function isSystemMessage(message: Message) {
     const senderData = message.sender as Message["sender"] | string | undefined;
@@ -87,7 +83,6 @@ export default function MainChatContainer({
             <ChatHeader
               fullWidth={fullWidth}
               fullWidthToggle={fullWidthToggle}
-              selectedChat={selectedChat}
               endedConversationID={endedConversationID}
               endRolePlayConversation={endRolePlayConversation}
             />
@@ -167,9 +162,8 @@ export default function MainChatContainer({
               </div>
             ) : (
               <ChatFooter
-                partner={partner}
-                partnerUsername={partnerUsername}
-                selectedChat={selectedChat}
+                partner={partner?._id || ""}
+                partnerUsername={currUser?.username || ""}
               />
             )}
           </div>

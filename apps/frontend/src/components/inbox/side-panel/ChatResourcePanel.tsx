@@ -1,7 +1,6 @@
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
-import { useState, useEffect } from "react";
-import useSocketStore from "../../../store/useSocketStore";
-import type { Conversation, PinnedMessage } from "../../../interfaces";
+import { useState } from "react";
+import type { PinnedMessage } from "../../../interfaces";
 import UserCard from "../UserCard";
 import { MdPushPin } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
@@ -10,29 +9,16 @@ import { useParams } from "react-router-dom";
 import useRolePlayChat from "../../../hooks/useRolePlayChat";
 import SidePanelTipTapEditor from "./SidePanelTipTapEditor";
 import ChatResourcePanelFooter from "./ChatResourcePanelFooter";
+import useChatStore from "../../../store/useChatStore";
 
-export default function ChatResourcePanel({
-  fullWidth,
-  selectedChat,
-}: {
-  fullWidth: boolean;
-  selectedChat: Conversation | null;
-}) {
+export default function ChatResourcePanel({ fullWidth }: { fullWidth: boolean }) {
   const { data: currUserData } = useCurrentUser();
+  const { selectedChat } = useChatStore();
   const isSearching = false;
   const [showPinnedMessages, setShowPinnedMessages] = useState(false);
   const { chatID } = useParams();
   const { pinnedRoleplayMessages } = useRolePlayChat(chatID || "");
   const [noteMode, setNoteMode] = useState(false);
-  const { socket } = useSocketStore();
-
-  useEffect(() => {
-    socket?.emit("noteEditorUpdate", {
-      chatID: chatID,
-      uid: currUserData._id,
-      username: currUserData.username,
-    });
-  }, [socket, chatID, currUserData._id, currUserData.username]);
 
   return (
     <aside
@@ -180,7 +166,6 @@ export default function ChatResourcePanel({
           <ChatResourcePanelFooter
             noteMode={noteMode}
             showPinnedMessages={showPinnedMessages}
-            selectedChat={selectedChat}
             onShowMembers={() => setShowPinnedMessages(false)}
             onToggleNoteMode={() => {
               setNoteMode((prev) => !prev);

@@ -6,12 +6,12 @@ import useChatStore from "../../store/useChatStore";
 export default function ChatHeader({
   fullWidth,
   fullWidthToggle,
-  selectedChat,
   endedConversationID,
   endRolePlayConversation,
 }: ChatHeaderProps) {
   const { pathname } = useLocation();
-  const { setHideSystemMessages, hideSystemMessages } = useChatStore();
+  const { setHideSystemMessages, hideSystemMessages, selectedChat } =
+    useChatStore();
 
   useEffect(() => {
     fullWidthToggle(true);

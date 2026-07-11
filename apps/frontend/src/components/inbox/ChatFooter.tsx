@@ -2,12 +2,13 @@ import { useState } from "react";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
 import useTyping from "../../hooks/useTyping";
 import type { ChatFooterProps } from "../../interfaces";
+import useChatStore from "../../store/useChatStore";
 
 export default function ChatFooter({
 	partner,
-	partnerUsername,
-	selectedChat
+	partnerUsername
 }: ChatFooterProps) {
+	const { selectedChat } = useChatStore();
 	const [message, setMessage] = useState("");
 	const { sendMessage } = useRolePlayChat(selectedChat?._id || "");
 	const { typingIndicator } = useTyping();
