@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import useRolePlayAds from "../../hooks/useRolePlayAds";
+import NotFound from "../../pages/NotFound";
 
 export default function OwnerRoutesGuard({
 	children
@@ -17,7 +18,7 @@ export default function OwnerRoutesGuard({
 	}
 
 	if (!adData || adData.author._id !== currUserData?._id) {
-		return <Navigate to="/" />;
+		return <NotFound />;
 	}
 
 	return <>{children}</>;
