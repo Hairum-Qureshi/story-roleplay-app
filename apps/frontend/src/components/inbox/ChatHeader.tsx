@@ -22,7 +22,7 @@ export default function ChatHeader({
   }, [pathname, fullWidthToggle]);
 
   return (
-    <div className="w-full mt-5 border-b border-slate-700 flex items-center">
+    <div className="w-full border-b border-slate-700 flex items-center">
       <h3
         className={
           fullWidth
