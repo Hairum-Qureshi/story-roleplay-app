@@ -88,10 +88,5 @@
     "id": 26,
     "subheading": "Editor toolbar button focus highlighting",
     "description": "When a user clicks on a button in the editor toolbar, the button will be highlighted to indicate that it is currently active or selected. This visual feedback will help users understand which formatting options are currently applied to their text and improve the overall usability of the editor."
-  },
-  {
-    "id": 27,
-    "subheading": "Allowing users to hide/remove system messages",
-    "description": "Users will have the option to hide or remove system messages from their chat view, allowing them to customize their chat experience and focus on the messages that are most relevant to them. This feature will provide users with greater control over their chat environment and help reduce clutter in their conversations."
   }
 ]
