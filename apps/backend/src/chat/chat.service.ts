@@ -225,7 +225,7 @@ export class ChatService {
     // create a welcome message from SYSTEM to both users
     const message: MessageInterface = await this.createSystemMessage(
       newConversation._id,
-      `A role-play chat has been started between you and @${partner.username}. Optionally, before you start role-playing, you can select an existing character from above or create a new one to share with your role-play partner.`,
+      `A role-play chat has been started between you and @${partner.username}. Optionally, before you begin role-playing, you can organize your thoughts by creating notes that can be viewable between you and your partner. Please do not include personal informational in these notes. To create a note, open the side panel and click the 'Create Note' button.`,
     );
 
     // update conversation model with the message ID
