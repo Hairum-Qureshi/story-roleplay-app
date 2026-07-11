@@ -1,5 +1,5 @@
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { PinnedMessage } from "../../../interfaces";
 import UserCard from "../UserCard";
 import { MdPushPin } from "react-icons/md";
@@ -24,6 +24,10 @@ export default function ChatResourcePanel({
   const { pinnedRoleplayMessages } = useRolePlayChat(chatID || "");
   const [noteMode, setNoteMode] = useState(false);
 
+  useEffect(() => {
+    if (selectedChat) setNoteMode(false);
+  }, [selectedChat]);
+
   return (
     <aside
       className={`
@@ -42,9 +46,7 @@ export default function ChatResourcePanel({
       ) : (
         <>
           <div className="px-5 pt-6 pb-4 border-b border-slate-800">
-            <h2 className="text-lg font-semibold text-white">
-              Chat Resources
-            </h2>
+            <h2 className="text-lg font-semibold text-white">Chat Resources</h2>
             <div className="relative mt-5">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <input
@@ -172,7 +174,7 @@ export default function ChatResourcePanel({
             showPinnedMessages={showPinnedMessages}
             onShowMembers={() => setShowPinnedMessages(false)}
             onToggleNoteMode={() => {
-              setNoteMode((prev) => !prev);
+              setNoteMode(!noteMode);
             }}
           />
         </div>
