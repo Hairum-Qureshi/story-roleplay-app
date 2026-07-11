@@ -17,14 +17,11 @@ export default function SidePanelTipTapEditor() {
     <>
       <div className="px-5 pt-6 pb-4 border-b border-slate-800">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white mt-5">
-            Role-Play Notes
-          </h2>
-          <div className="flex items-center gap-2 mt-3">
+          <h2 className="text-lg font-semibold text-white">Role-Play Notes</h2>
+          <div className="flex items-center gap-2">
             <div className="text-sm text-slate-400 flex items-center gap-2">
               {saving ? (
                 <>
-                  {" "}
                   <l-ring-2
                     size="20"
                     stroke="2"
