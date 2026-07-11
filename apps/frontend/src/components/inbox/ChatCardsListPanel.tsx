@@ -10,7 +10,7 @@ export default function ChatCardsListPanel({
   currUserConversations:
     { _id: string; conversations: Conversation[] } | undefined;
 }) {
-  const { setSelectedChat } = useChatStore();
+  const { selectedChat, setSelectedChat } = useChatStore();
   const { socket } = useSocketStore();
 
   return (
@@ -22,7 +22,7 @@ export default function ChatCardsListPanel({
               <Link
                 to={`/inbox/${chat._id}`}
                 onClick={() => {
-                  setSelectedChat(chat);
+                  if (selectedChat?._id !== chat._id) setSelectedChat(chat);
                   socket?.emit("currentChatID", {
                     chatID: chat._id || null,
                   });
