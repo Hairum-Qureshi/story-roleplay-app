@@ -474,6 +474,13 @@ export class ChatService {
 
     if (!conversation) throw new NotFoundException('Conversation not found');
 
+    if (conversation.chatEnded) {
+      throw new HttpException(
+        'Cannot create notes for a conversation that has ended',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     if (!content || !content.trim())
       throw new HttpException(
         'Note content cannot be empty',
