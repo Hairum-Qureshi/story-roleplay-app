@@ -137,7 +137,7 @@ export default function FAQ() {
           question:
             "Can I still edit my ads after they have ongoing conversations?",
           answer:
-            "Yes, you can edit your ads even after conversations have started. A system message will be sent to your role-play partner notifying them of the changes. It's recommended to communicate with your role-play partner about any major changes to ensure a smooth continuation of the story.",
+            "Yes, you can edit your ads even after conversations have started. A system message will be sent in the chat notifying your partner of the changes. It's recommended to communicate with your role-play partner about any major changes to ensure a smooth continuation of the story.",
         },
       ],
     },
