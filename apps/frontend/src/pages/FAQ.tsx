@@ -133,6 +133,12 @@ export default function FAQ() {
           answer:
             "Pinning messages allows you to revisit important messages in your role-play conversation. This can be useful for keeping track of key plot points, character details, or any other information that you want to easily reference later. You can view all pinned messages in the side panel of the chat interface.",
         },
+        {
+          question:
+            "Am I still able to edit my ads after they are posted/have conversations?",
+          answer:
+            "Yes, you can edit your ads after they are posted. However, please note that if your ad has ongoing conversations, editing certain details may affect the context of those conversations. A system notification is sent to inform participants of the changes. It's recommended to make edits that do not disrupt the flow of existing role-play interactions.",
+        },
       ],
     },
     {
