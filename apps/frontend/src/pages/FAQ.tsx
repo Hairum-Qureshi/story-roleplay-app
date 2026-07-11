@@ -135,9 +135,9 @@ export default function FAQ() {
         },
         {
           question:
-            "Am I still able to edit my ads after they are posted/have conversations?",
+            "Can I still edit my ads after they have ongoing conversations?",
           answer:
-            "Yes, you can edit your ads after they are posted. However, please note that if your ad has ongoing conversations, editing certain details may affect the context of those conversations. A system notification is sent to inform participants of the changes. It's recommended to make edits that do not disrupt the flow of existing role-play interactions.",
+            "Yes, you can edit your ads even after conversations have started. A system message will be sent to your role-play partner notifying them of the changes. It's recommended to communicate with your role-play partner about any major changes to ensure a smooth continuation of the story.",
         },
       ],
     },
