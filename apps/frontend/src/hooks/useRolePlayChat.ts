@@ -191,14 +191,14 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
       if (Notification.permission === "granted") {
         new Notification(`New message from @${message.sender?.username}`, {
           body: message.content,
-          icon: message.sender.profilePicture,
+          icon: message.sender?.profilePicture,
         });
       } else if (Notification.permission !== "denied") {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
             new Notification(`New message from @${message.sender?.username}`, {
               body: message.content,
-              icon: message.sender.profilePicture,
+              icon: message.sender?.profilePicture,
             });
           }
         });
