@@ -108,4 +108,19 @@ export class ChatController {
   getPinnedMessages(@Param('chatID') chatID: string) {
     return this.chatService.getPinnedMessages(chatID);
   }
+
+  @Get(':chatID/notes')
+  @UseGuards(AuthGuard(), IsChatMember)
+  getRolePlayNotes(@Param('chatID') chatID: string) {
+    return this.chatService.getRolePlayNotes(chatID);
+  }
+
+  @Patch(':chatID/notes')
+  @UseGuards(AuthGuard(), IsChatMember)
+  createRolePlayNotes(
+    @Param('chatID') chatID: string,
+    @Body() content: { content: string },
+  ) {
+    return this.chatService.createRolePlayNotes(chatID, content.content);
+  }
 }
