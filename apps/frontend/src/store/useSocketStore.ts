@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { io } from "socket.io-client";
 import type { SocketStore } from "../interfaces";
 import type { Message } from "../interfaces";
-import { useParams } from "react-router-dom";
 
 const useSocketStore = create<SocketStore>((set, get) => ({
   socket: null,
