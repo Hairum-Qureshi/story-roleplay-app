@@ -70,5 +70,13 @@
   {
     "id": 23,
     "bug": "For some reason, if you favorite your own ad, the 'repost' button is disabled."
+  },
+  {
+    "id": 24,
+    "bug": "Whenever you go to a new conversation, the chat panel doesn't close automatically."
+  },
+  {
+    "id": 25,
+    "bug": "When you double click a contact with the members list visible in the side panel, the data goes undefined for some reason."
   }
 ]
