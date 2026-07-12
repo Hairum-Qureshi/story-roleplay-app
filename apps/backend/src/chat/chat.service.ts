@@ -301,8 +301,10 @@ export class ChatService {
       .populate({
         path: 'conversations',
         select: '-__v',
+        options: {
+          sort: { createdAt: -1 },
+        },
       })
-      .sort({ 'conversations.createdAt': -1 })
       .lean();
 
     return userConversations;
