@@ -9,11 +9,12 @@ import { Socket, Server } from 'socket.io';
 import { RolePlayAd } from '../types';
 import { EventsService } from './events.service';
 import { Types } from 'mongoose';
-import { Inject, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { IsChatMemberGuard } from 'src/guards/websockets/isChatMember.guard';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Message } from 'src/schemas/inbox/Message';
+// import { Model } from 'mongoose';
+// import { Message } from 'src/schemas/inbox/Message';
+// import { Conversation } from 'src/schemas/inbox/Conversation';
 
 @WebSocketGateway({
   cors: {
@@ -27,9 +28,9 @@ export class EventsGateway {
 
   constructor(
     private eventsService: EventsService,
-    @InjectModel(Message.name)
-    private messageModel: Model<Message>,
-    @InjectModel('Conversation') private conversationModel: Model<any>,
+    // @InjectModel(Message.name)
+    // private messageModel: Model<Message>,
+    // @InjectModel('Conversation') private conversationModel: Model<Conversation>,
   ) {}
 
   handleConnection(client: Socket) {
