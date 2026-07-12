@@ -4,10 +4,6 @@
     "bug": "When you have a chat with a user and delete your account, an error occurs when the other user tries opening a chat with the deleted account."
   },
   {
-    "id": 2,
-    "bug": "When you have a chat open and click on the chat card from the chat list, the role-play ad data goes undefined."
-  },
-  {
     "id": 3,
     "bug": "When you repost more than 1 ad, the frontend UI appears to duplicate the ad more than once unless you refresh the page."
   },
@@ -37,7 +33,7 @@
   },
   {
     "id": 15,
-    "bug": "The Notification API seems to only send out a notification when you have the chat open, but not when you're on a different page. This is likely due to the fact that the notification logic is currently tied to the chat component, so if you're not on the chat page, the notifications won't be triggered."
+    "bug": "The Notification API seems to only send out a notification when you have the chat open, but not when you're on a different page. This is likely due to the fact that the notification logic is currently tied to the chat component, so if you're not on the chat page, the notifications won't be triggered. Consider switching to utilizing a tune instead of a notification for when a new message is received, or implementing a more global notification system that can trigger notifications regardless of the current page."
   },
   {
     "id": 16,
@@ -64,10 +60,6 @@
     "bug": "If you're viewing the feed page without being logged in, no posted ads are shown unless you sign in."
   },
   {
-    "id": 22,
-    "bug": "If both users remove the chat from their inbox, the chat isn't deleted."
-  },
-  {
     "id": 23,
     "bug": "For some reason, if you favorite your own ad, the 'repost' button is disabled."
   },
@@ -81,6 +73,6 @@
   },
   {
     "id": 27,
-    "bug": "When you post an ad, the page freezes and it shows a 'respond to ad' button despite you being the one who posted the ad."
+    "bug": "When you post an ad, the page freezes and it shows a 'respond to ad' button despite you being the one who posted the ad. Similar to ID #19"
   }
 ]
