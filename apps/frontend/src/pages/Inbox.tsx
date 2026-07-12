@@ -16,19 +16,15 @@ export default function Inbox() {
   );
 
   const fullWidthToggle = useCallback(() => {
-    setFullWidth((prev) => !prev);
+    if (!selectedChat) return;
 
-    if (!selectedChat) setFullWidth(false);
+    setFullWidth((prev) => !prev);
   }, [selectedChat]);
 
   const noMessageOpened = !chatID;
   const isSidePanelHidden = fullWidth || noMessageOpened;
 
   // TODO - when a user selects a character, make sure a message/notification is shown in the chat that says "You have selected [character name] for this chat which, for the role-play partner would link to that specific character bio for them to view."
-
-  // TODO - fix issue where if fullWidth is false, and the side panel is open, the 'hide side panel' button is not aligned all the way to the right
-
-  // TODO - fix scrolling issue with this component
 
   // ! formatter needs some tinkering. For example, if you try and put '> **__COOL__**' in a message, the markdown isn't rendered correctly.
 
@@ -37,7 +33,7 @@ export default function Inbox() {
   }, [chatID, rolePlayChats, syncSelectedChatById]);
 
   return (
-    <div className="h-[calc(100vh-4rem)] bg-slate-950 text-white flex overflow-y-hidden">
+    <div className="h-[calc(100vh-4rem)] bg-slate-950 text-white flex items-stretch overflow-hidden">
       <ChatCardsListPanel currUserConversations={currUserConversations} />
       <MainChatContainer
         noMessageOpened={noMessageOpened}
