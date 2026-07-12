@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import type { ChatHeaderProps } from "../../interfaces";
-import { useLocation } from "react-router-dom";
 import useChatStore from "../../store/useChatStore";
 import useSocketStore from "../../store/useSocketStore";
 
@@ -11,7 +9,6 @@ export default function ChatHeader({
   endedConversationID,
   endRolePlayConversation,
 }: ChatHeaderProps) {
-  const { pathname } = useLocation();
   const { setHideSystemMessages, hideSystemMessages, selectedChat } =
     useChatStore();
   const { socket } = useSocketStore();
