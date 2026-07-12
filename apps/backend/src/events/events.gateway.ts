@@ -104,7 +104,7 @@ export class EventsGateway {
   }
 
   @SubscribeMessage('noteEditorUpdate')
-  async createNote(
+  createNote(
     @MessageBody()
     payload: {
       chatID: string;
