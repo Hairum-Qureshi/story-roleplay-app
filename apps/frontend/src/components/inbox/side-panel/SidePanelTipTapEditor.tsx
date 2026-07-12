@@ -1,5 +1,6 @@
 import TipTapEditor from "../../tiptap/TipTapEditor";
 import useSocketStore from "../../../store/useSocketStore";
+import useChatStore from "../../../store/useChatStore";
 import { useCurrentUser } from "../../../hooks/useCurrentUser";
 import { useParams } from "react-router-dom";
 import { ring2 } from "ldrs";
@@ -10,6 +11,7 @@ export default function SidePanelTipTapEditor() {
   const { data: currentUser } = useCurrentUser();
   const { chatID } = useParams<{ chatID: string }>();
   const { saving } = autoSaveStore();
+  const { selectedChat } = useChatStore();
 
   ring2.register();
 
@@ -18,47 +20,56 @@ export default function SidePanelTipTapEditor() {
       <div className="px-5 pt-6 pb-4 border-b border-slate-800">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">Role-Play Notes</h2>
-          <div className="flex items-center gap-2">
-            <div className="text-sm text-slate-400 flex items-center gap-2">
-              {saving ? (
-                <>
-                  <l-ring-2
-                    size="20"
-                    stroke="2"
-                    stroke-length="0.25"
-                    bg-opacity="0.1"
-                    speed="0.8"
-                    color="white"
-                  ></l-ring-2>
-                  <p>Saving...</p>
-                </>
-              ) : (
-                <p className="text-sm text-green-500">Notes Saved</p>
-              )}
+          {selectedChat?.chatEnded && !selectedChat?.notes && (
+            <div className="flex items-center gap-2">
+              <div className="text-sm text-slate-400 flex items-center gap-2">
+                {saving ? (
+                  <>
+                    <l-ring-2
+                      size="20"
+                      stroke="2"
+                      stroke-length="0.25"
+                      bg-opacity="0.1"
+                      speed="0.8"
+                      color="white"
+                    ></l-ring-2>
+                    <p>Saving...</p>
+                  </>
+                ) : (
+                  <p className="text-sm text-green-500">Notes Saved</p>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
-        {editorUsername && editorChatID === chatID && (
-          <div className="flex items-start gap-2">
-            <div className="flex items-center gap-1">
-              <span className="relative flex items-center size-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
-                <span className="relative flex items-center size-2 rounded-full bg-green-500"></span>
-              </span>
+        {editorUsername &&
+          editorChatID === chatID &&
+          !selectedChat?.chatEnded && (
+            <div className="flex items-start gap-2">
+              <div className="flex items-center gap-1">
+                <span className="relative flex items-center size-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75"></span>
+                  <span className="relative flex items-center size-2 rounded-full bg-green-500"></span>
+                </span>
 
-              <p className="text-sm text-green-500">
-                {editorUsername === currentUser?.username
-                  ? "You are"
-                  : `${editorUsername} is`}{" "}
-                editing this note
-              </p>
+                <p className="text-sm text-green-500">
+                  {editorUsername === currentUser?.username
+                    ? "You are"
+                    : `${editorUsername} is`}{" "}
+                  editing this note
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
-
       <div className="flex-1 overflow-y-auto px-4 py-2">
-        <TipTapEditor />
+        {!selectedChat?.chatEnded ? (
+          <TipTapEditor />
+        ) : (
+          <div
+            dangerouslySetInnerHTML={{ __html: selectedChat?.notes || "" }}
+          ></div>
+        )}
       </div>
     </>
   );
