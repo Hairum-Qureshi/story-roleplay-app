@@ -134,7 +134,7 @@ interface ChatBubbleProps {
 
 interface ChatHeaderProps {
   fullWidth: boolean;
-  fullWidthToggle: (fullWidth: boolean) => void;
+  fullWidthToggle: () => void;
   endedConversationID: string | null;
   endRolePlayConversation: (conversationID: string) => void;
 }
@@ -142,7 +142,7 @@ interface ChatHeaderProps {
 interface MainChatContainerProps {
   noMessageOpened: boolean;
   fullWidth: boolean;
-  fullWidthToggle: (fullWidth: boolean) => void;
+  fullWidthToggle: () => void;
 }
 
 interface ChatFooterProps {
