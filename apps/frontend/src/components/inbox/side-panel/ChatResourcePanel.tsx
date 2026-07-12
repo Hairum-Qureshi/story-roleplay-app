@@ -33,6 +33,7 @@ export default function ChatResourcePanel({
       className={`
         ${fullWidth ? "hidden" : "flex"}
         w-90
+        shrink-0
         h-full
         min-h-0
         flex-col
