@@ -15,7 +15,7 @@ export default function ChatCardsListPanel({
   const { socket } = useSocketStore();
 
   return (
-    <div className="w-1/4 h-full min-h-0 pt-3 overflow-y-auto border-r border-slate-700 flex flex-col gap-1">
+    <div className="w-1/4 shrink-0 h-full min-h-0 pt-3 overflow-y-auto border-r border-slate-700 flex flex-col gap-1">
       <div className="px-4 mb-2 relative">
         <input
           type="text"
