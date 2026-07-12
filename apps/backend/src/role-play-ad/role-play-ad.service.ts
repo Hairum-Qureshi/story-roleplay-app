@@ -75,11 +75,9 @@ export class RolePlayAdService {
 
       this.eventsGateway.emitSystemMessage(
         updatedConversation._id.toString(),
-        message,
+        message.content,
       );
     }
-
-    // TODO - send this update to all connected clients in the conversation
 
     return await this.rolePlayAdModel.findByIdAndUpdate(adID, {
       title,
@@ -172,7 +170,7 @@ export class RolePlayAdService {
 
           this.eventsGateway.emitSystemMessage(
             conversation._id.toString(),
-            message,
+            message.content,
           );
         },
       );
