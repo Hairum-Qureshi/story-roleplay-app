@@ -63,8 +63,8 @@ export default function ChatResourcePanelFooter({
           text-slate-200
           transition
           hover:bg-slate-800
-          hover:cursor-pointer ${selectedChat?.chatEnded ? "opacity-50" : ""}`}
-        disabled={selectedChat?.chatEnded}
+          hover:cursor-pointer ${selectedChat?.chatEnded && !selectedChat?.notes ? "opacity-50" : ""}`}
+        disabled={selectedChat?.chatEnded && !selectedChat?.notes}
         onClick={() => {
           onToggleNoteMode();
           if (!noteMode) {
@@ -91,7 +91,9 @@ export default function ChatResourcePanelFooter({
             <RiStickyNote2Fill className="text-yellow-400 text-lg" />
           )}
           <span className="font-medium">
-            {noteMode ? "Back To Resources" : "Create Note"}
+            {noteMode
+              ? "Back To Resources"
+              : `${selectedChat?.notes && selectedChat?.chatEnded ? "View Notes" : selectedChat?.notes ? "Edit Notes" : "Add Notes"}`}
           </span>
         </div>
       </button>
