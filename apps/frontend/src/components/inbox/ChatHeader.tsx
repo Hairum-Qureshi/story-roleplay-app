@@ -17,9 +17,9 @@ export default function ChatHeader({
   const { socket } = useSocketStore();
   const { data: currUserData } = useCurrentUser();
 
-  useEffect(() => {
-    fullWidthToggle(true);
-  }, [pathname, fullWidthToggle]);
+  // useEffect(() => {
+  //   fullWidthToggle(true);
+  // }, [pathname, fullWidthToggle]);
 
   return (
     <div className="w-full border-b border-slate-700 flex items-center">
