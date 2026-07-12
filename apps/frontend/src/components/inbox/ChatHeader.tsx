@@ -19,7 +19,7 @@ export default function ChatHeader({
   // }, [pathname, fullWidthToggle]);
 
   return (
-    <div className="w-full border-b border-slate-700 flex items-center gap-3 py-2 px-3">
+    <div className="w-full border-b border-slate-700 flex items-center gap-3 px-3 py-2">
       <h3 className="min-w-0 flex-1 truncate font-semibold text-lg">
         {selectedChat?.title}
       </h3>
@@ -56,7 +56,7 @@ export default function ChatHeader({
       </select> */}
         <button
           onClick={() => {
-            fullWidthToggle(!fullWidth);
+            fullWidthToggle();
             if (!fullWidth) {
               socket?.emit("noteEditorUpdate", {
                 chatID: selectedChat?._id,

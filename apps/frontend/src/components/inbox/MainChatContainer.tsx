@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useLayoutEffect } from "react";
 import useChatStore from "../../store/useChatStore";
 import ChatBubble from "./ChatBubble";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
@@ -30,8 +30,10 @@ export default function MainChatContainer({
 
   const { hideSystemMessages, selectedChat } = useChatStore();
   const { data: currUser } = useCurrentUser();
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const bottomOfContainer = useRef<HTMLDivElement>(null);
   const isFirstLoad = useRef(true);
+  const pendingDistanceFromBottom = useRef<number | null>(null);
   const chatEnded = selectedChat?.chatEnded;
   const partner = selectedChat?.participants.find(
     (participant) => participant._id !== currUser?._id,
@@ -44,15 +46,50 @@ export default function MainChatContainer({
   }, [chatID, socket]);
 
   useEffect(() => {
-    if (!bottomOfContainer.current) return;
+    const messagesContainer = messagesContainerRef.current;
+    if (!messagesContainer) return;
 
     if (isFirstLoad.current) {
-      bottomOfContainer.current.scrollIntoView({ behavior: "auto" });
+      messagesContainer.scrollTo({
+        top: messagesContainer.scrollHeight,
+        behavior: "auto",
+      });
       isFirstLoad.current = false;
     } else {
-      bottomOfContainer.current.scrollIntoView({ behavior: "smooth" });
+      messagesContainer.scrollTo({
+        top: messagesContainer.scrollHeight,
+        behavior: "smooth",
+      });
     }
   }, [rolePlayChatMessages]);
+
+  useLayoutEffect(() => {
+    if (pendingDistanceFromBottom.current === null) return;
+
+    const messagesContainer = messagesContainerRef.current;
+    if (!messagesContainer) return;
+
+    messagesContainer.scrollTop = Math.max(
+      0,
+      messagesContainer.scrollHeight -
+        messagesContainer.clientHeight -
+        pendingDistanceFromBottom.current,
+    );
+    pendingDistanceFromBottom.current = null;
+  }, [fullWidth]);
+
+  function handleFullWidthToggle() {
+    const messagesContainer = messagesContainerRef.current;
+
+    if (messagesContainer) {
+      pendingDistanceFromBottom.current =
+        messagesContainer.scrollHeight -
+        messagesContainer.scrollTop -
+        messagesContainer.clientHeight;
+    }
+
+    fullWidthToggle();
+  }
 
   function isSystemMessage(message: Message) {
     const senderData = message.sender as Message["sender"] | string | undefined;
@@ -67,11 +104,7 @@ export default function MainChatContainer({
   }
 
   return (
-    <div
-      className={`${
-        fullWidth ? "w-3/4" : "w-1/2"
-      } h-[calc(100vh-2.5rem)] flex flex-col overflow-hidden`}
-    >
+    <div className="flex-1 h-full min-h-0 min-w-0 flex flex-col overflow-hidden">
       {noMessageOpened ? (
         <p className="text-sky-600 text-center text-3xl mt-50 font-semibold flex items-center justify-center">
           Select a chat to view messages
@@ -82,14 +115,17 @@ export default function MainChatContainer({
           <div>
             <ChatHeader
               fullWidth={fullWidth}
-              fullWidthToggle={fullWidthToggle}
+              fullWidthToggle={handleFullWidthToggle}
               endedConversationID={endedConversationID}
               endRolePlayConversation={endRolePlayConversation}
             />
           </div>
 
           {/* Messages */}
-          <div className="overflow-y-auto">
+          <div
+            ref={messagesContainerRef}
+            className="flex-1 min-h-0 overflow-y-auto"
+          >
             {selectedChat && (
               <div className="m-4">
                 <Ad rolePlayAd={selectedChat.roleplayAd} hideButton />
@@ -142,7 +178,7 @@ export default function MainChatContainer({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center w-full bg-slate-800 px-4 py-2">
+          <div className="shrink-0 flex items-center w-full bg-slate-800 px-4 py-2">
             {chatEnded || endedConversationID ? (
               <div className="text-center w-full py-1.5 border border-red-600 text-red-500 rounded-md">
                 <p>
