@@ -175,22 +175,19 @@ export class EventsGateway {
 
       // only emit if the uid that corresponds to the chatID in the notesEditorMap is the same as the uid in the payload
       if (existingEditor && existingEditor.userID === uid) {
-        const content = `@${username} has stopped editing notes for this role-play. To view changes, open the notes tab in the side panel.`;
-
-        const systemMessage = await this.messageModel.create({
-          sender: '000000000000000000000001',
-          conversation: new Types.ObjectId(chatID),
-          content,
-        });
-
-        await this.conversationModel.findByIdAndUpdate(
-          new Types.ObjectId(chatID),
-          {
-            $push: { messages: systemMessage._id },
-          },
-        );
-
-        this.emitSystemMessage(chatID, content);
+        // const content = `@${username} has stopped editing notes for this role-play. To view changes, open the notes tab in the side panel.`;
+        // const systemMessage = await this.messageModel.create({
+        //   sender: '000000000000000000000001',
+        //   conversation: new Types.ObjectId(chatID),
+        //   content,
+        // });
+        // await this.conversationModel.findByIdAndUpdate(
+        //   new Types.ObjectId(chatID),
+        //   {
+        //     $push: { messages: systemMessage._id },
+        //   },
+        // );
+        // this.emitSystemMessage(chatID, content);
       }
     }
 
