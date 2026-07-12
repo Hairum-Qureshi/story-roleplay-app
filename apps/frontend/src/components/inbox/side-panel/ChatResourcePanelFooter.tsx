@@ -3,13 +3,12 @@ import { RiStickyNote2Fill } from "react-icons/ri";
 import { FiDownload } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import useSocketStore from "../../../store/useSocketStore";
-import { useCurrentUser } from "../../../hooks/useCurrentUser";
-import useChatStore from "../../../store/useChatStore";
+import type { Conversation } from "../../../interfaces";
 
 interface ChatResourcePanelFooterProps {
   noteMode: boolean;
   showPinnedMessages: boolean;
+  selectedChat: Conversation | null;
   onToggleNoteMode: () => void;
   onShowMembers: () => void;
 }
@@ -17,13 +16,10 @@ interface ChatResourcePanelFooterProps {
 export default function ChatResourcePanelFooter({
   noteMode,
   showPinnedMessages,
+  selectedChat,
   onToggleNoteMode,
   onShowMembers,
 }: ChatResourcePanelFooterProps) {
-  const { data: currUserData } = useCurrentUser();
-  const { socket } = useSocketStore();
-  const { selectedChat } = useChatStore();
-
   return (
     <>
       {showPinnedMessages ? (
@@ -52,7 +48,8 @@ export default function ChatResourcePanelFooter({
       ) : null}
 
       <button
-        className={`group
+        className="
+          group
           flex
           w-full
           items-center
@@ -63,26 +60,9 @@ export default function ChatResourcePanelFooter({
           text-slate-200
           transition
           hover:bg-slate-800
-          hover:cursor-pointer ${selectedChat?.chatEnded && !selectedChat?.notes ? "opacity-50" : ""}`}
-        disabled={selectedChat?.chatEnded && !selectedChat?.notes}
-        onClick={() => {
-          onToggleNoteMode();
-          if (!noteMode) {
-            socket?.emit("noteEditorUpdate", {
-              chatID: selectedChat?._id,
-              uid: currUserData?._id,
-              username: currUserData?.username,
-              action: "start",
-            });
-          } else {
-            socket?.emit("noteEditorUpdate", {
-              chatID: selectedChat?._id,
-              uid: currUserData?._id,
-              username: currUserData?.username,
-              action: "stop",
-            });
-          }
-        }}
+          hover:cursor-pointer
+        "
+        onClick={onToggleNoteMode}
       >
         <div className="flex items-center gap-3">
           {noteMode ? (
@@ -91,9 +71,7 @@ export default function ChatResourcePanelFooter({
             <RiStickyNote2Fill className="text-yellow-400 text-lg" />
           )}
           <span className="font-medium">
-            {noteMode
-              ? "Back To Resources"
-              : `${selectedChat?.notes && selectedChat?.chatEnded ? "View Notes" : selectedChat?.notes ? "Edit Notes" : "Add Notes"}`}
+            {noteMode ? "Back To Resources" : "Create Note"}
           </span>
         </div>
       </button>
