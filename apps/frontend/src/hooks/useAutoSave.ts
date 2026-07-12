@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 
 export default function useAutoSave() {
   const setSaving = autoSaveStore((s) => s.setSaving);
-  const { saving } = autoSaveStore();
   const queryClient = useQueryClient();
   const keyUpTimer = useRef<number | null>(null);
   const { chatID } = useParams();
@@ -31,18 +30,19 @@ export default function useAutoSave() {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["role-play-notes", chatID] });
+      queryClient.invalidateQueries({
+        queryKey: ["role-play-notes", chatID],
+      });
+
       console.log("Note saved successfully");
-    },
-    onSettled: () => {
       setSaving(false);
     },
   });
 
   function autosave(noteData: string) {
-    setSaving(true);
     if (keyUpTimer.current) {
       clearTimeout(keyUpTimer.current);
+      setSaving(true);
     }
 
     keyUpTimer.current = window.setTimeout(() => {
@@ -52,5 +52,5 @@ export default function useAutoSave() {
     }, 500);
   }
 
-  return { autosave, saving };
+  return { autosave };
 }
