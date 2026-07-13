@@ -112,6 +112,7 @@ interface SocketStore {
   chatID: string | null;
   currUID: string | null;
   editorUsername: string | null;
+  notification: boolean;
 }
 
 interface AdProps {
