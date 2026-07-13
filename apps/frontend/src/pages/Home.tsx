@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import FeatureColumn from "../components/FeatureColumn";
 import Footer from "../components/Footer";
-import useGoogleAuth from "../hooks/useGoogleAuth";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import GoogleOAuthButton from "../components/GoogleOAuthButton";
 
