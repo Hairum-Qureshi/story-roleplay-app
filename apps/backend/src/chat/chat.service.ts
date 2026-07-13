@@ -135,7 +135,7 @@ export class ChatService {
     this.eventsGateway.sendMessageToUser(
       conversation._id.toString(),
       message.content,
-      participants
+      participants,
     );
 
     return {
@@ -519,9 +519,12 @@ export class ChatService {
         $push: { messages: systemMessage._id },
       });
 
+      const participants: string[] = conversation.participants;
+
       this.eventsGateway.sendMessageToUser(
         conversation._id.toString(),
         systemMessage.content,
+        participants,
       );
     }
 
