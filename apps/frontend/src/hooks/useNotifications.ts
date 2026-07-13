@@ -1,8 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import useSocketStore from "../store/useSocketStore";
+import { useEffect } from "react";
 
 export default function useNotifications() {
   const queryClient = useQueryClient();
+  const { notification } = useSocketStore();
+
+  useEffect(() => {
+    if (!notification) return;
+
+    queryClient.invalidateQueries({
+      queryKey: ["your-chats"],
+    });
+  }, [notification]);
 
   const { mutate: resetNotificationMutation } = useMutation({
     mutationFn: async ({ chatID }: { chatID: string }) => {
