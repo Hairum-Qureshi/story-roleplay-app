@@ -116,6 +116,7 @@ type Editor = {
 type Notif = {
   userID: string;
   convoID: string;
+  unreadCount: number;
 };
 
 type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
