@@ -6,7 +6,7 @@ export class Notification {
   @Prop()
   userID: string;
 
-  @Prop({ ref: 'Conversation' })
+  @Prop()
   convoID: string;
 }
 
