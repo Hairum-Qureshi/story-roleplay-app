@@ -193,6 +193,3 @@ Use these values for:
   - `GOOGLE_OAUTH_CLIENT_SECRET`
 
 These credentials allow the frontend to initiate Google sign-in and the backend to securely verify OAuth authentication.
-
----
-```
