@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   Conversation,
   ConversationSchema,
-} from 'src/schemas/inbox/Conversation';
+} from '../schemas/inbox/Conversation';
 // import { Message, MessageSchema } from 'src/schemas/inbox/Message';
 
 @Module({
