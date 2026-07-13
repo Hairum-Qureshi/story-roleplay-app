@@ -1,5 +1,3 @@
-import { signInWithPopup } from "@firebase/auth";
-import { auth, googleProvider } from "../config/firebase";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
