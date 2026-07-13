@@ -4,6 +4,7 @@ import type { Conversation } from "../../interfaces";
 import useChatStore from "../../store/useChatStore";
 import useSocketStore from "../../store/useSocketStore";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import useNotifications from "../../hooks/useNotifications";
 
 export default function ChatCardsListPanel({
   currUserConversations,
@@ -13,6 +14,7 @@ export default function ChatCardsListPanel({
 }) {
   const { selectedChat, setSelectedChat } = useChatStore();
   const { socket } = useSocketStore();
+  const { resetNotificationMutation } = useNotifications();
 
   return (
     <div className="w-1/4 shrink-0 h-full min-h-0 pt-3 overflow-y-auto border-r border-slate-700 flex flex-col gap-1">
@@ -28,7 +30,14 @@ export default function ChatCardsListPanel({
       </div>
       {(currUserConversations?.conversations?.length ?? 0) > 0 ? (
         currUserConversations?.conversations.map((chat: Conversation) => (
-          <div key={chat._id}>
+          <div
+            key={chat._id}
+            onClick={() => {
+              if (chat.unreadCount > 0) {
+                resetNotificationMutation({ chatID: chat._id });
+              }
+            }}
+          >
             <Link
               to={`/inbox/${chat._id}`}
               onClick={() => {
