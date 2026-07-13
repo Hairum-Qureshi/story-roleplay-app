@@ -35,7 +35,7 @@ export class EventsGateway {
   handleConnection(client: Socket) {
     const userId = client.handshake.auth?.userId as string | undefined;
 
-    console.log(`Client connected: ${client.id} with uid: ${userId}`);
+    // console.log(`Client connected: ${client.id} with uid: ${userId}`);
 
     client.emit('connected', {
       message: 'Successfully connected to WebSocket gateway',
@@ -99,8 +99,20 @@ export class EventsGateway {
 
     if (chatID && client) {
       await client.join(chatID);
-      console.log(`Client ${client.id} joined chat room: ${chatID}`);
+      this.eventsService.addUserToRoom(
+        chatID,
+        client.handshake.auth?.userId as string,
+      );
+      // console.log(`Client ${client.id} joined chat room: ${chatID}`);
     }
+
+    // [debug] show all the users that are in chatID
+    // const clientsInRoom = await this.server.in(chatID).fetchSockets();
+    // const clientIdsInRoom = clientsInRoom.map((socket) => socket.id);
+    // console.log(
+    //   `Clients in chat room ${chatID}: ${clientIdsInRoom.join(', ')}`,
+    // );
+    // console.log('[debug]', this.eventsService.viewRoomToUsersMap());
   }
 
   @SubscribeMessage('noteEditorUpdate')
