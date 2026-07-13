@@ -332,7 +332,10 @@ export class ChatService {
       },
     );
 
-    return updatedUserConversationsObject;
+    return {
+      _id: userConversations?._id,
+      conversations: updatedUserConversationsObject,
+    };
   }
 
   async endConversation(chatID: string) {
