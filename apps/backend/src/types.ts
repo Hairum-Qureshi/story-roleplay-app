@@ -113,6 +113,11 @@ type Editor = {
   userID: string;
 };
 
+type Notif = {
+  userID: string;
+  convoID: string;
+};
+
 type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
 type ConversationDocument = HydratedDocument<Conversation>;
 type MessageDocument = HydratedDocument<Message>;
@@ -132,5 +137,6 @@ export type {
   HydratedConversationDocument,
   HydratedMessage,
   Editor,
+  Notif,
 };
 export { PovType };
