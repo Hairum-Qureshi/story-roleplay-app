@@ -21,7 +21,6 @@ import { EventsModule } from '../events/events.module';
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
-      { name: Notification.name, schema: NotificationSchema },
     ]),
     EventsModule,
   ],
