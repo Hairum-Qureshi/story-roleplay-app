@@ -93,6 +93,7 @@ interface Conversation {
   characterBios?: string[];
   latestMessage: string | null;
   latestMessageAt: string | null;
+  unreadCount: number;
   createdAt: string;
 }
 
