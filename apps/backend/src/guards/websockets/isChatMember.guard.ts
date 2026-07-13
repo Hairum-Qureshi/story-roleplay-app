@@ -2,8 +2,8 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { WsException } from '@nestjs/websockets';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Conversation } from 'src/schemas/inbox/Conversation';
-import { ConversationDocument } from 'src/types';
+import { Conversation } from '../../schemas/inbox/Conversation';
+import { ConversationDocument } from '../../types';
 
 @Injectable()
 export class IsChatMemberGuard implements CanActivate {
