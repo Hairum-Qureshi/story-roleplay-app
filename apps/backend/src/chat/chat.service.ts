@@ -135,7 +135,9 @@ export class ChatService {
     this.eventsGateway.sendMessageToUser(
       conversation._id.toString(),
       message.content,
-      participants,
+      participants.filter(
+        (participantID) => participantID !== '000000000000000000000001',
+      ), // send to all participants except the SYSTEM user
     );
 
     return {
@@ -524,7 +526,9 @@ export class ChatService {
       this.eventsGateway.sendMessageToUser(
         conversation._id.toString(),
         systemMessage.content,
-        participants,
+        participants.filter(
+          (participantID) => participantID !== '000000000000000000000001',
+        ), // send to all participants except the SYSTEM user
       );
     }
 
