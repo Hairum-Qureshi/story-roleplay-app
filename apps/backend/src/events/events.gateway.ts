@@ -110,7 +110,7 @@ export class EventsGateway {
 
     if (!userSocketID) return;
 
-    this.server.to(userSocketID).emit('newMessageNotification', participantUID);
+    this.server.to(userSocketID).emit('newMessageNotification', '+1');
     await this.notificationService.createNotification(chatID, participantUID);
   }
 
