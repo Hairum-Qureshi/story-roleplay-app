@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { Notification, NotificationSchema } from '../schemas/Notification';
 import { ChatService } from './chat.service';
 import { ChatController } from './chat.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -20,6 +21,7 @@ import { EventsModule } from '../events/events.module';
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
+      { name: Notification.name, schema: NotificationSchema },
     ]),
     EventsModule,
   ],
