@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { EventsGateway } from './events.gateway';
 import { EventsService } from './events.service';
-import { IsChatMemberGuard } from 'src/guards/websockets/isChatMember.guard';
+import { IsChatMemberGuard } from '../guards/websockets/isChatMember.guard';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   Conversation,
