@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Conversation } from '../schemas/inbox/Conversation';
 import { RolePlayAd } from '../schemas/RolePlayAd';
 import type {
@@ -20,7 +20,6 @@ import { CreateMessage } from '../DTOs/CreateMessage.dto';
 import type { MessageDocument } from '../types';
 import { EventsGateway } from '../events/events.gateway';
 import { EditMessage } from '../DTOs/EditMessage.dto';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class ChatService {
