@@ -135,6 +135,7 @@ export class ChatService {
     this.eventsGateway.sendMessageToUser(
       conversation._id.toString(),
       message.content,
+      participants
     );
 
     return {
