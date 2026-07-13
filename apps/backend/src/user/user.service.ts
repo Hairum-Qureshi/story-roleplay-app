@@ -1,10 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CharacterBio, CharacterBioDocument } from '../schemas/CharacterBio';
 import { RolePlayAd, RolePlayAdDocument } from '../schemas/RolePlayAd';
 import { User, UserDocument } from '../schemas/User';
-import * as admin from 'firebase-admin';
 import {
   Conversation,
   ConversationDocument,
@@ -19,7 +18,6 @@ export class UserService {
     private characterBioModel: Model<CharacterBioDocument>,
     @InjectModel(RolePlayAd.name)
     private rolePlayAdModel: Model<RolePlayAdDocument>,
-    @Inject('FIREBASE_ADMIN') private firebase: admin.app.App,
     @InjectModel(Conversation.name)
     private conversationModel: Model<ConversationDocument>,
   ) {}
@@ -35,9 +33,6 @@ export class UserService {
       characterBios: [],
       rolePlayAds: [],
     });
-
-    // delete the email from Firebase
-    await this.firebase.auth().deleteUser(userId);
 
     // first need to check if any of the user's character bios are attached to ongoing conversations
     const conversationsWithUserBios: ConversationDocument[] =

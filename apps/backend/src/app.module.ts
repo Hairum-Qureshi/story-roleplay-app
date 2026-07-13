@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { EventsModule } from './events/events.module';
 import { AuthModule } from './auth/auth.module';
-import { FirebaseModule } from './firebase/firebase.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolePlayAdModule } from './role-play-ad/role-play-ad.module';
@@ -15,7 +14,6 @@ import { EmailModule } from './email/email.module';
   imports: [
     EventsModule,
     AuthModule,
-    FirebaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
