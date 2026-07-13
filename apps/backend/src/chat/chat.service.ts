@@ -305,7 +305,6 @@ export class ChatService {
       .find({ userID: user._id })
       .lean()
       .select('convoID unreadCount -_id');
-    console.log('allNotifications', allNotifications);
 
     const userConversations = await this.userModel
       .findById(user._id)
