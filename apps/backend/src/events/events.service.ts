@@ -5,6 +5,10 @@ import { Editor } from 'src/types';
 export class EventsService {
   private socketToUserMap: Map<string, string> = new Map<string, string>();
   private notesEditorMap: Map<string, Editor> = new Map<string, Editor>();
+  private roomToUsersMap: Map<string, Set<string>> = new Map<
+    string,
+    Set<string>
+  >();
 
   identifyUser(socketID: string, userID: string) {
     this.socketToUserMap.set(socketID, userID);
@@ -34,6 +38,17 @@ export class EventsService {
     console.log(`User ${userID} is now editing a note for chat ${chatID}`);
 
     return newEditor;
+  }
+
+  addUserToRoom(roomID: string, userID: string) {
+    if (!this.roomToUsersMap.has(roomID)) {
+      this.roomToUsersMap.set(roomID, new Set<string>());
+    }
+    this.roomToUsersMap.get(roomID)?.add(userID);
+  }
+
+  viewRoomToUsersMap(): Map<string, Set<string>> {
+    return this.roomToUsersMap;
   }
 
   viewNotesEditorMap(): Map<string, Editor> {
