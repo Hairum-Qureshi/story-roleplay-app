@@ -30,16 +30,8 @@ export class AuthService {
       audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
     });
 
-    const { email, name, picture, given_name, family_name } =
+    const { email, picture, given_name, family_name } =
       ticket.getPayload() || {};
-
-    console.log({
-      email,
-      name,
-      picture,
-      given_name,
-      family_name,
-    });
 
     let user = await this.userModel.findOne({ email });
 
