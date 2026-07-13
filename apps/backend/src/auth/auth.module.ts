@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { GoogleOAuthConfig } from '../../config/google-oauth.config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
@@ -30,7 +31,7 @@ import { JwtStrategy } from './jwt-strategy';
       },
     ]),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, GoogleOAuthConfig],
   controllers: [AuthController],
   exports: [PassportModule, JwtStrategy, AuthService],
 })
