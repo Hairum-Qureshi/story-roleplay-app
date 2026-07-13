@@ -8,6 +8,9 @@ export class Notification {
 
   @Prop()
   convoID: string;
+
+  @Prop({ default: 0 })
+  unreadCount: number;
 }
 
 SchemaFactory.createForClass(Notification);
