@@ -11,6 +11,7 @@ import { EventsService } from './events.service';
 import { Types } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
 import { IsChatMemberGuard } from '../guards/websockets/isChatMember.guard';
+import { NotificationService } from 'src/notification/notification.service';
 // import { Model } from 'mongoose';
 // import { Message } from 'src/schemas/inbox/Message';
 // import { Conversation } from 'src/schemas/inbox/Conversation';
@@ -27,6 +28,7 @@ export class EventsGateway {
 
   constructor(
     private eventsService: EventsService,
+    private notificationService: NotificationService,
     // @InjectModel(Message.name)
     // private messageModel: Model<Message>,
     // @InjectModel('Conversation') private conversationModel: Model<Conversation>,
@@ -74,13 +76,42 @@ export class EventsGateway {
 
   @SubscribeMessage('sendMessageToUser')
   @UseGuards(IsChatMemberGuard)
-  sendMessageToUser(chatID: string, message: string) {
+  sendMessageToUser(chatID: string, message: string, participants?: string[]) {
     this.server.to(chatID).emit('newMessage', message);
+
+    // check if the user has the chat open; if not, emit a notification to the user and also create a notification in the database for the user
+
+    // first check if the user is in the room for the chatID from the roomToUsersMap in the eventsService
+    const usersInRoom = this.eventsService.viewRoomToUsersMap().get(chatID);
+
+    if (!usersInRoom)
+      // console.log(`No users in room for chatID: ${chatID}`);
+      return;
+
+    usersInRoom.forEach((userID) => {
+      if (!participants?.length) return;
+
+      const [partnerUID] = participants.filter(
+        (participantID) => participantID !== userID,
+      );
+
+      this.emitMessageNotification(chatID, partnerUID);
+    });
   }
 
   @UseGuards(IsChatMemberGuard)
   emitSystemMessage(chatID: string, message: string) {
     this.server.to(chatID).emit('newMessage', message);
+  }
+
+  @UseGuards(IsChatMemberGuard)
+  async emitMessageNotification(chatID: string, participantUID: string) {
+    const userSocketID = this.eventsService.getUserSocketId(participantUID);
+
+    if (!userSocketID) return;
+
+    this.server.to(userSocketID).emit('newMessageNotification', participantUID);
+    await this.notificationService.createNotification(chatID, participantUID);
   }
 
   endConversation(chatID: Types.ObjectId | string) {
@@ -186,21 +217,21 @@ export class EventsGateway {
       }
 
       // only emit if the uid that corresponds to the chatID in the notesEditorMap is the same as the uid in the payload
-      if (existingEditor && existingEditor.userID === uid) {
-        // const content = `@${username} has stopped editing notes for this role-play. To view changes, open the notes tab in the side panel.`;
-        // const systemMessage = await this.messageModel.create({
-        //   sender: '000000000000000000000001',
-        //   conversation: new Types.ObjectId(chatID),
-        //   content,
-        // });
-        // await this.conversationModel.findByIdAndUpdate(
-        //   new Types.ObjectId(chatID),
-        //   {
-        //     $push: { messages: systemMessage._id },
-        //   },
-        // );
-        // this.emitSystemMessage(chatID, content);
-      }
+      // if (existingEditor && existingEditor.userID === uid) {
+      // const content = `@${username} has stopped editing notes for this role-play. To view changes, open the notes tab in the side panel.`;
+      // const systemMessage = await this.messageModel.create({
+      //   sender: '000000000000000000000001',
+      //   conversation: new Types.ObjectId(chatID),
+      //   content,
+      // });
+      // await this.conversationModel.findByIdAndUpdate(
+      //   new Types.ObjectId(chatID),
+      //   {
+      //     $push: { messages: systemMessage._id },
+      //   },
+      // );
+      // this.emitSystemMessage(chatID, content);
+      // }
     }
 
     return;
@@ -222,6 +253,7 @@ export class EventsGateway {
       this.eventsService.getUserSocketId(partnerID);
 
     if (socketID) {
+      // TODO - change the room to be the chatID instead of the socketID
       this.server.to(socketID).emit('typingIndicator', {
         typing,
         partnerUsername,
