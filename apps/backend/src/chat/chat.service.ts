@@ -12,6 +12,7 @@ import type {
   UserPayload,
   ConversationDocument,
   RolePlayAd as RolePlayAdInterface,
+  Notif,
 } from '../types';
 import { User, UserDocument } from '../schemas/User';
 import { Message } from '../schemas/inbox/Message';
@@ -20,6 +21,7 @@ import { CreateMessage } from '../DTOs/CreateMessage.dto';
 import type { MessageDocument } from '../types';
 import { EventsGateway } from '../events/events.gateway';
 import { EditMessage } from '../DTOs/EditMessage.dto';
+import { Notification } from '../schemas/Notification';
 
 @Injectable()
 export class ChatService {
@@ -33,6 +35,8 @@ export class ChatService {
     @InjectModel(Message.name)
     private messageModel: Model<Message>,
     private readonly eventsGateway: EventsGateway,
+    @InjectModel(Notification.name)
+    private notificationModel: Model<Notif>,
   ) {}
 
   async isUserMemberOfChat(userID: string, chatID: string): Promise<boolean> {
@@ -297,6 +301,12 @@ export class ChatService {
   }
 
   async getAllUserChats(user: UserPayload) {
+    const allNotifications = await this.notificationModel
+      .find({ userID: user._id })
+      .lean()
+      .select('convoID unreadCount -_id');
+    console.log('allNotifications', allNotifications);
+
     const userConversations = await this.userModel
       .findById(user._id)
       .select('conversations')
@@ -309,7 +319,20 @@ export class ChatService {
       })
       .lean();
 
-    return userConversations;
+    const updatedUserConversationsObject = userConversations?.conversations.map(
+      (conversation) => {
+        return {
+          ...conversation,
+          unreadCount:
+            allNotifications.find(
+              (notification) =>
+                notification.convoID.toString() === conversation._id.toString(),
+            )?.unreadCount || 0,
+        };
+      },
+    );
+
+    return updatedUserConversationsObject;
   }
 
   async endConversation(chatID: string) {
