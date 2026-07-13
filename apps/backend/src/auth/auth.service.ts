@@ -1,18 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { OAuth2Client } from 'google-auth-library';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/User';
-import * as admin from 'firebase-admin';
 import { JwtService } from '@nestjs/jwt';
 import { UserPayload } from '../types';
 import { generateUsername } from 'unique-username-generator';
+import crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private jwtService: JwtService,
-    @Inject('FIREBASE_ADMIN') private firebase: admin.app.App,
+    @Inject('GoogleOAuthClient') private googleOAuthClient: OAuth2Client,
   ) {}
 
   getAuthCookieOptions() {
@@ -24,22 +25,32 @@ export class AuthService {
   }
 
   async googleAuth(token: string): Promise<{ jwtToken: string }> {
-    const payload = await this.firebase.auth().verifyIdToken(token);
-    const payloadUID: string = payload.uid;
-    const userRecord = await this.firebase.auth().getUser(payloadUID);
+    const ticket = await this.googleOAuthClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    });
 
-    let user = await this.userModel.findOne({ email: userRecord.email });
+    const { email, name, picture, given_name, family_name } =
+      ticket.getPayload() || {};
+
+    console.log({
+      email,
+      name,
+      picture,
+      given_name,
+      family_name,
+    });
+
+    let user = await this.userModel.findOne({ email });
 
     if (!user) {
       user = new this.userModel({
-        _id: payloadUID,
-        firstName: userRecord.displayName?.split(' ')[0] || 'GoogleUser',
-        lastName: userRecord.displayName
-          ? userRecord.displayName.split(' ').slice(1).join(' ')
-          : 'GoogleUser',
+        _id: crypto.randomUUID(),
+        firstName: given_name || 'GoogleUser',
+        lastName: family_name || 'GoogleUser',
         username: generateUsername('', 2, 19),
-        email: userRecord.email,
-        profilePicture: userRecord.photoURL,
+        email,
+        profilePicture: picture,
       });
       await user.save();
     }
