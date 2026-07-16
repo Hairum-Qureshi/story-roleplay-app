@@ -88,5 +88,15 @@
     "id": 27,
     "subheading": "Chat pinning",
     "description": "Users will have the ability to pin important role-play chats to the top of their inbox for easy access. Pinned chats will remain at the top of the chat list, allowing users to quickly find and engage with their most relevant conversations without having to scroll through their entire inbox."
+  },
+  {
+    "id": 28,
+    "subheading": "Discord Authentication",
+    "description": "Users will have the option to authenticate their accounts using Discord, allowing for a seamless login experience and integration with their existing Discord accounts."
+  },
+  {
+    "id": 29,
+    "subheading": "Writing style showcase",
+    "description": "Users will have the ability to showcase their writing style through a dedicated section on their profile, allowing them to show off their writing style to help other users get a better sense of their writing abilities and preferences. This feature will aim to help users find compatible role-playing partners who match their writing style and enhance the overall role-playing experience on the platform."
   }
 ]
