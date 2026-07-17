@@ -142,6 +142,7 @@ export class ChatService {
       participants.filter(
         (participantID) => participantID !== '000000000000000000000001',
       ), // send to all participants except the SYSTEM user
+      user._id,
     );
 
     return {
@@ -505,7 +506,7 @@ export class ChatService {
     };
   }
 
-  async createRolePlayNotes(chatID: string, content: string) {
+  async createRolePlayNotes(chatID: string, content: string, userID: string) {
     // first check if a conversation exists by ID by invoking the checkIfConversationExists method
     const conversation: ConversationDocument =
       await this.checkIfConversationExists(chatID);
@@ -553,7 +554,8 @@ export class ChatService {
         systemMessage.content,
         participants.filter(
           (participantID) => participantID !== '000000000000000000000001',
-        ), // send to all participants except the SYSTEM user
+        ),
+        userID,
       );
     }
 
