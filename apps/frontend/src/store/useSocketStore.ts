@@ -15,7 +15,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
   chatID: null,
   currUID: null,
   editorUsername: null,
-  notification: true,
+  notification: false,
   setTyping: (typing: boolean) => set({ typing }),
   connectSocket: (userId: string) => {
     const socket = io(import.meta.env.VITE_BACKEND_BASE_URL, {
