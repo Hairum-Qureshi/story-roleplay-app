@@ -76,7 +76,12 @@ export class EventsGateway {
 
   @SubscribeMessage('sendMessageToUser')
   @UseGuards(IsChatMemberGuard)
-  sendMessageToUser(chatID: string, message: string, participants?: string[]) {
+  sendMessageToUser(
+    chatID: string,
+    message: string,
+    participants: string[],
+    currUserID: string,
+  ) {
     this.server.to(chatID).emit('newMessage', message);
 
     // check if the user has the chat open; if not, emit a notification to the user and also create a notification in the database for the user
@@ -84,16 +89,30 @@ export class EventsGateway {
     // first check if the user is in the room for the chatID from the roomToUsersMap in the eventsService
     const usersInRoom = this.eventsService.viewRoomToUsersMap().get(chatID);
 
-    if (!usersInRoom)
-      // console.log(`No users in room for chatID: ${chatID}`);
-      return;
+    if (!usersInRoom) return;
+
+    console.log('USERS IN ROOM', usersInRoom, 'PARTICIPANTS', participants);
 
     usersInRoom.forEach((userID) => {
-      if (!participants?.length) return;
+      // if (!participants?.length || userID === currUserID) {
+      //   console.log('RAN 1');
+      //   return;
+      // }
 
       const [partnerUID] = participants.filter(
         (participantID) => participantID !== userID,
       );
+
+      if (usersInRoom.has(currUserID) && usersInRoom.has(partnerUID)) {
+        // both users are in the room, so no need to send a notification
+        return;
+      }
+
+      if (usersInRoom.has(partnerUID)) {
+        // the partner is in the room, so just send a notification to the current user
+        this.emitMessageNotification(chatID, currUserID);
+        return;
+      }
 
       this.emitMessageNotification(chatID, partnerUID);
     });
@@ -116,6 +135,25 @@ export class EventsGateway {
 
   endConversation(chatID: Types.ObjectId | string) {
     this.server.emit('conversationEnded', { chatID });
+  }
+
+  @SubscribeMessage('removeFromChatRoom')
+  async removeFromChatRoom(
+    @MessageBody()
+    payload: {
+      chatID: string;
+      userID: string;
+    },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const { chatID, userID } = payload;
+
+    if (chatID && userID) {
+      await client.leave(chatID);
+      this.eventsService.removeUserFromAllNotesEditors(userID);
+      this.eventsService.removeUserBySocketId(client.id);
+      console.log(`Client ${client.id} left chat room: ${chatID}`);
+    }
   }
 
   @SubscribeMessage('currentChatID')
