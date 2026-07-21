@@ -78,7 +78,7 @@ export class EventsGateway {
 
   @SubscribeMessage('sendMessageToUser')
   @UseGuards(IsChatMemberGuard)
-  sendMessageToUser(
+  async sendMessageToUser(
     chatID: string,
     message: string,
     participants: string[],
@@ -93,34 +93,12 @@ export class EventsGateway {
     // check if the receipient is in the room for the chatID from the roomToUsersMap in the eventsService
     const usersInRoom = this.eventsService.viewRoomToUsersMap().get(chatID);
 
-    if (receipient && (!usersInRoom || !usersInRoom.has(receipient))) {
+    if (usersInRoom && usersInRoom.size === 2) return;
+
+    if (receipient) {
       this.emitMessageNotification(chatID, receipient);
+      await this.notificationService.createNotification(chatID, receipient);
     }
-
-    // first check if the user is in the room for the chatID from the roomToUsersMap in the eventsService
-    // const usersInRoom = this.eventsService.viewRoomToUsersMap().get(chatID);
-
-    // console.log('USERS IN ROOM', usersInRoom, 'PARTICIPANTS', participants);
-
-    // if (!participants?.length || userID === currUserID) {
-    //   console.log('RAN 1');
-    //   return;
-    // }
-
-    // const [partnerUID] = participants.filter(
-    //   (participantID) => participantID !== currUserID,
-    // );
-
-    // if (usersInRoom.has(currUserID) && usersInRoom.has(partnerUID)) {
-    //   // both users are in the room, so no need to send a notification
-    //   return;
-    // }
-
-    // if (usersInRoom.has(partnerUID)) {
-    //   // the partner is in the room, so just send a notification to the current user
-    //   this.emitMessageNotification(chatID, currUserID);
-    //   return;
-    // }
   }
 
   @UseGuards(IsChatMemberGuard)
@@ -129,13 +107,12 @@ export class EventsGateway {
   }
 
   @UseGuards(IsChatMemberGuard)
-  async emitMessageNotification(chatID: string, participantUID: string) {
+  emitMessageNotification(chatID: string, participantUID: string) {
     const userSocketID = this.eventsService.getUserSocketId(participantUID);
 
     if (!userSocketID) return;
 
     this.server.to(userSocketID).emit('newMessageNotification', true);
-    await this.notificationService.createNotification(chatID, participantUID);
   }
 
   endConversation(chatID: Types.ObjectId | string) {
@@ -157,7 +134,7 @@ export class EventsGateway {
       await client.leave(chatID);
       this.eventsService.removeUserFromAllNotesEditors(userID);
       this.eventsService.removeUserBySocketId(client.id);
-      console.log(`Client ${client.id} left chat room: ${chatID}`);
+      this.eventsService.removeUserFromRoom(userID, chatID);
     }
   }
 
