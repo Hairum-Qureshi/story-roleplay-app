@@ -76,6 +76,10 @@ export class EventsService {
     return releasedChatIDs;
   }
 
+  removeAllUsersFromRoom(roomID: string) {
+    this.roomToUsersMap.delete(roomID);
+  }
+
   removeUserFromNotesEditorMap(chatID: string, userID: string) {
     const existingEditor = this.notesEditorMap.get(chatID);
 
