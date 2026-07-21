@@ -98,5 +98,10 @@
     "id": 29,
     "subheading": "Writing style showcase",
     "description": "Users will have the ability to showcase their writing style through a dedicated section on their profile, allowing them to show off their writing style to help other users get a better sense of their writing abilities and preferences. This feature will aim to help users find compatible role-playing partners who match their writing style and enhance the overall role-playing experience on the platform."
+  },
+  {
+    "id": 30,
+    "subheading": "Loading indicator for conversations",
+    "description": "A loading indicator will be displayed when users are waiting for their conversations to load, providing visual feedback that the system is processing their request and improving the overall user experience by keeping users informed about the status of their actions."
   }
 ]
