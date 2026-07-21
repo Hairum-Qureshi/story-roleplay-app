@@ -46,7 +46,7 @@ export class EventsGateway {
 
     if (userId) {
       this.eventsService.identifyUser(client.id, userId);
-      console.log(this.eventsService.viewSocketToUserMap());
+      // console.log(this.eventsService.viewSocketToUserMap());
     }
   }
 
@@ -60,6 +60,8 @@ export class EventsGateway {
     if (userID) {
       const releasedChatIDs =
         this.eventsService.removeUserFromAllNotesEditors(userID);
+
+      this.eventsService.removeAllUsersFromRoom(client.id);
 
       for (const chatID of releasedChatIDs) {
         this.server.to(chatID).emit('noteEditorResponse', {
@@ -84,38 +86,41 @@ export class EventsGateway {
   ) {
     this.server.to(chatID).emit('newMessage', message);
 
-    // check if the user has the chat open; if not, emit a notification to the user and also create a notification in the database for the user
+    const receipient = participants.find(
+      (participantID) => participantID !== currUserID,
+    );
 
-    // first check if the user is in the room for the chatID from the roomToUsersMap in the eventsService
+    // check if the receipient is in the room for the chatID from the roomToUsersMap in the eventsService
     const usersInRoom = this.eventsService.viewRoomToUsersMap().get(chatID);
 
-    if (!usersInRoom) return;
+    if (receipient && (!usersInRoom || !usersInRoom.has(receipient))) {
+      this.emitMessageNotification(chatID, receipient);
+    }
 
-    console.log('USERS IN ROOM', usersInRoom, 'PARTICIPANTS', participants);
+    // first check if the user is in the room for the chatID from the roomToUsersMap in the eventsService
+    // const usersInRoom = this.eventsService.viewRoomToUsersMap().get(chatID);
 
-    usersInRoom.forEach((userID) => {
-      // if (!participants?.length || userID === currUserID) {
-      //   console.log('RAN 1');
-      //   return;
-      // }
+    // console.log('USERS IN ROOM', usersInRoom, 'PARTICIPANTS', participants);
 
-      const [partnerUID] = participants.filter(
-        (participantID) => participantID !== userID,
-      );
+    // if (!participants?.length || userID === currUserID) {
+    //   console.log('RAN 1');
+    //   return;
+    // }
 
-      if (usersInRoom.has(currUserID) && usersInRoom.has(partnerUID)) {
-        // both users are in the room, so no need to send a notification
-        return;
-      }
+    // const [partnerUID] = participants.filter(
+    //   (participantID) => participantID !== currUserID,
+    // );
 
-      if (usersInRoom.has(partnerUID)) {
-        // the partner is in the room, so just send a notification to the current user
-        this.emitMessageNotification(chatID, currUserID);
-        return;
-      }
+    // if (usersInRoom.has(currUserID) && usersInRoom.has(partnerUID)) {
+    //   // both users are in the room, so no need to send a notification
+    //   return;
+    // }
 
-      this.emitMessageNotification(chatID, partnerUID);
-    });
+    // if (usersInRoom.has(partnerUID)) {
+    //   // the partner is in the room, so just send a notification to the current user
+    //   this.emitMessageNotification(chatID, currUserID);
+    //   return;
+    // }
   }
 
   @UseGuards(IsChatMemberGuard)
