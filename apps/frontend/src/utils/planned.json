@@ -103,5 +103,10 @@
     "id": 30,
     "subheading": "Loading indicator for conversations",
     "description": "A loading indicator will be displayed when users are waiting for their conversations to load, providing visual feedback that the system is processing their request and improving the overall user experience by keeping users informed about the status of their actions."
+  },
+  {
+    "id": 31,
+    "subheading": "Preventing unpinning in ended chats",
+    "description": "Once a chat has ended, users will not be able to unpin previously pinned messages, ensuring that important information remains accessible even after the conversation has concluded."
   }
 ]
