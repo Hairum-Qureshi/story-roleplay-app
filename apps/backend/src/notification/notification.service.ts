@@ -48,10 +48,10 @@ export class NotificationService {
     }
   }
 
-  async removeNotification(chatID: string, userID: string): Promise<void> {
-    await this.notificationModel.findOneAndDelete({
-      userID,
-      convoID: chatID,
-    });
+  async resetUnreadCount(chatID: string, userID: string): Promise<void> {
+    await this.notificationModel.findOneAndUpdate(
+      { userID, convoID: chatID },
+      { $set: { unreadCount: 0 } },
+    );
   }
 }
