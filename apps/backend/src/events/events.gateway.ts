@@ -95,10 +95,15 @@ export class EventsGateway {
 
     if (usersInRoom && usersInRoom.size === 2) return;
 
-    if (receipient) {
-      this.emitMessageNotification(chatID, receipient);
-      await this.notificationService.createNotification(chatID, receipient);
-    }
+    if (!receipient) return;
+
+    this.emitMessageNotification(receipient);
+    // await this.notificationService.createNotification(chatID, receipient);
+
+    await this.notificationService.createNotification(
+      chatID,
+      receipient ? receipient : currUserID,
+    );
   }
 
   @UseGuards(IsChatMemberGuard)
@@ -107,7 +112,7 @@ export class EventsGateway {
   }
 
   @UseGuards(IsChatMemberGuard)
-  emitMessageNotification(chatID: string, participantUID: string) {
+  emitMessageNotification(participantUID: string) {
     const userSocketID = this.eventsService.getUserSocketId(participantUID);
 
     if (!userSocketID) return;
