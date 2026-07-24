@@ -7,6 +7,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import useSocketStore from "../store/useSocketStore";
 import useChatStore from "../store/useChatStore";
+import useNotifications from "../hooks/useNotifications";
 
 export default function Navbar() {
   const location = useLocation();
@@ -15,6 +16,7 @@ export default function Navbar() {
   const [showMenu, setMenuVisibility] = useState(false);
   const { selectedChat } = useChatStore();
   const { socket } = useSocketStore();
+  const { totalNotifications } = useNotifications();
 
   useEffect(() => {
     setMenuVisibility(false);
@@ -45,7 +47,7 @@ export default function Navbar() {
           <>
             <Link
               to="/inbox"
-              className="text-base font-medium text-zinc-300 hover:text-white transition"
+              className="text-base font-medium text-zinc-300 hover:text-white transition flex items-center justify-center"
               onClick={() =>
                 socket?.emit("removeFromChatRoom", {
                   chatID: selectedChat?._id,
@@ -54,6 +56,13 @@ export default function Navbar() {
               }
             >
               Inbox
+              {totalNotifications && totalNotifications.total > 0 && (
+                <span className="ml-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                  {totalNotifications.total > 99
+                    ? "99+"
+                    : totalNotifications.total}
+                </span>
+              )}
             </Link>
             <Link
               className="hover:cursor-pointer px-2 py-1 hover:bg-slate-800 hover:rounded-md"
