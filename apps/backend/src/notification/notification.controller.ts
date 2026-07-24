@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Param, Patch } from '@nestjs/common';
+import { Controller, Post, UseGuards, Param, Patch, Get } from '@nestjs/common';
 import type { UserPayload } from 'src/types';
 import { AuthGuard } from '@nestjs/passport';
 import { NotificationService } from './notification.service';
@@ -24,5 +24,11 @@ export class NotificationController {
     @CurrentUser() user: UserPayload,
   ) {
     return this.notificationService.resetUnreadCount(chatID, user._id);
+  }
+
+  @Get('/all/total')
+  @UseGuards(AuthGuard())
+  getAllNotifications(@CurrentUser() user: UserPayload) {
+    return this.notificationService.getTotalNotifications(user._id);
   }
 }
