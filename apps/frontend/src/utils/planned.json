@@ -108,5 +108,10 @@
     "id": 32,
     "subheading": "Pinned messages will also have rendered markdown",
     "description": "Pinned messages will be displayed with rendered markdown formatting, allowing users to view the content of pinned messages with proper styling and formatting, enhancing readability and preserving the intended presentation of the message."
+  },
+  {
+    "id": 33,
+    "subheading": "Notifications sounds for new messages",
+    "description": "Users will have the option to enable notification sounds for new messages, providing an audible alert when they receive a new message, even if they are not actively looking at the chat window. This feature will help users stay informed about incoming messages and improve their overall messaging experience by ensuring they don't miss important communications."
   }
 ]
