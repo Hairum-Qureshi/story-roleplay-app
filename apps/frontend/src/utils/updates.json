@@ -30,12 +30,6 @@
     "description": "The contact form on the website is now functional, allowing users to send messages directly to the support team. This will enable users to easily reach out for assistance, report issues, or provide feedback, improving overall communication and support for the platform."
   },
   {
-    "id": 6,
-    "heading": "Added in-browser notifications for new messages and ad replies",
-    "timestamp": "03-25-2026",
-    "description": "Users will now receive in-browser notifications for new messages and ad replies, ensuring they stay informed about incoming communications even when they are not actively viewing the inbox. This feature enhances user engagement and responsiveness by providing timely alerts for important interactions on the platform."
-  },
-  {
     "id": 7,
     "heading": "Added confirmation prompt before account deletion and ad deletion",
     "timestamp": "03-26-2026",
@@ -82,5 +76,11 @@
     "heading": "Users can now show/hide system messages in chat",
     "timestamp": "07-10-2026",
     "description": "Users are now able to favorite role-play ads, allowing them to easily focus on messages between their partner and themselves as well as reducing clutter in their chat."
+  },
+  {
+    "id": 15,
+    "heading": "Removed in-browser notifications for messages",
+    "timestamp": "07-23-2026",
+    "description": "In-browser notifications for messages have been removed to reduce distractions and improve user experience. Users will now receive notifications through the platform's notification system, ensuring that they stay informed about important updates without being interrupted by in-browser alerts. This change allows users to focus on their conversations and activities within the platform without being overwhelmed by constant notifications, while still staying up to date with relevant information."
   }
 ]
