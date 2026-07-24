@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useSocketStore from "../store/useSocketStore";
 import { useEffect } from "react";
@@ -36,8 +36,28 @@ export default function useNotifications() {
       queryClient.invalidateQueries({
         queryKey: ["your-chats"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["total-notifications"],
+      });
     },
   });
 
-  return { resetNotificationMutation };
+  const { data: totalNotifications } = useQuery({
+    queryKey: ["total-notifications"],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/notification/all/total`,
+          {
+            withCredentials: true,
+          },
+        );
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+
+  return { resetNotificationMutation, totalNotifications };
 }
