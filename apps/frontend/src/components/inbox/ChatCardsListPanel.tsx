@@ -5,6 +5,7 @@ import useChatStore from "../../store/useChatStore";
 import useSocketStore from "../../store/useSocketStore";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import useNotifications from "../../hooks/useNotifications";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 export default function ChatCardsListPanel({
   currUserConversations,
@@ -15,6 +16,7 @@ export default function ChatCardsListPanel({
   const { selectedChat, setSelectedChat } = useChatStore();
   const { socket } = useSocketStore();
   const { resetNotificationMutation } = useNotifications();
+  const { data: currUserData } = useCurrentUser();
 
   return (
     <div className="w-1/4 shrink-0 h-full min-h-0 pt-3 overflow-y-auto border-r border-slate-700 flex flex-col gap-1">
@@ -36,6 +38,15 @@ export default function ChatCardsListPanel({
               if (chat.unreadCount > 0) {
                 resetNotificationMutation({ chatID: chat._id });
               }
+
+              socket?.emit("removeFromChatRoom", {
+                chatID: selectedChat?._id,
+                userID: currUserData?._id,
+              });
+
+              socket?.emit("currentChatID", {
+                chatID: chat._id,
+              });
             }}
           >
             <Link
