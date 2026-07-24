@@ -82,5 +82,11 @@
     "heading": "Removed in-browser notifications for messages",
     "timestamp": "07-23-2026",
     "description": "In-browser notifications for messages have been removed to reduce distractions and improve user experience. Users will now receive notifications through the platform's notification system, ensuring that they stay informed about important updates without being interrupted by in-browser alerts. This change allows users to focus on their conversations and activities within the platform without being overwhelmed by constant notifications, while still staying up to date with relevant information."
+  },
+  {
+    "id": 16,
+    "heading": "Implemented notification count for messages",
+    "timestamp": "07-23-2026",
+    "description": "A notification count has been implemented for messages, allowing users to easily see the number of unread messages they have at a glance. This feature enhances user experience by providing a clear and concise way to track message notifications, ensuring that users can stay informed about new messages without having to navigate through their inbox or chat history. The notification count will be displayed prominently, making it easy for users to stay on top of their conversations and respond promptly to important messages."
   }
 ]
