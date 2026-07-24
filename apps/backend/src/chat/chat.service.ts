@@ -109,6 +109,18 @@ export class ChatService {
       throw new Error('User is not a participant in this conversation');
     }
 
+    const senderUIDFromClient =
+      typeof messageDto.senderUID === 'string' ? messageDto.senderUID : null;
+
+    if (senderUIDFromClient && senderUIDFromClient !== user._id) {
+      throw new HttpException(
+        'Invalid sender UID for authenticated user',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const senderUIDForEmit = senderUIDFromClient || user._id;
+
     // create the message
     const message: MessageDocument = await this.messageModel.create({
       sender: user._id,
@@ -136,13 +148,13 @@ export class ChatService {
       }
     }
 
-    this.eventsGateway.sendMessageToUser(
+    void this.eventsGateway.sendMessageToUser(
       conversation._id.toString(),
-      message.content,
+      message,
       participants.filter(
         (participantID) => participantID !== '000000000000000000000001',
       ), // send to all participants except the SYSTEM user
-      user._id,
+      senderUIDForEmit,
     );
 
     return {
@@ -477,7 +489,7 @@ export class ChatService {
 
     this.eventsGateway.emitSystemMessage(
       message.conversation.toString(),
-      systemMessage.content,
+      systemMessage,
     );
   }
 
@@ -549,9 +561,9 @@ export class ChatService {
 
       const participants: string[] = conversation.participants;
 
-      this.eventsGateway.sendMessageToUser(
+      void this.eventsGateway.sendMessageToUser(
         conversation._id.toString(),
-        systemMessage.content,
+        systemMessage,
         participants.filter(
           (participantID) => participantID !== '000000000000000000000001',
         ),

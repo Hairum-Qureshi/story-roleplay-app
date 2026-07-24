@@ -3,8 +3,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Conversation, Message, PinnedMessage } from "../interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocketStore from "../store/useSocketStore";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCurrentUser } from "./useCurrentUser";
+
+const SYSTEM_USER_ID = "000000000000000000000001";
+const PLAYED_PING_MESSAGE_IDS = new Set<string>();
+const MAX_PLAYED_PING_CACHE_SIZE = 500;
 
 interface UseRolePlayChatHook {
   createConversation: (adID: string) => void;
@@ -35,6 +40,8 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
   const queryClient = useQueryClient();
   const { message } = useSocketStore();
   const navigate = useNavigate();
+  const { data: currUserData } = useCurrentUser();
+  const lastPlayedMessageIDRef = useRef<string | null>(null);
 
   const { mutate } = useMutation<
     AxiosResponse<{ conversation: Conversation }>,
@@ -65,14 +72,16 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
     mutationFn: async ({
       chatID,
       message,
+      senderUID,
     }: {
       chatID: string;
       message: string;
+      senderUID: string;
     }) => {
       try {
         await axios.post(
           `${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/send-message`,
-          { message },
+          { message, senderUID },
           {
             withCredentials: true,
           },
@@ -181,11 +190,15 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
   function sendMessage(chatID: string, message: string) {
     if (!message.trim()) return alert("Message cannot be empty");
 
+    if (!currUserData?._id) {
+      return alert("Unable to identify sender. Please refresh and try again.");
+    }
+
     if (message.length > 2000) {
       return alert("Message cannot exceed 2000 characters");
     }
 
-    messageMutation({ chatID, message });
+    messageMutation({ chatID, message, senderUID: currUserData._id });
   }
 
   function createConversation(adID: string) {
@@ -193,18 +206,46 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
   }
 
   useEffect(() => {
-    if (!message || message.conversation !== chatID) return;
+    if (!message || message.message.conversation !== chatID) return;
 
     queryClient.setQueryData<Message[]>(
       ["chat-messages", chatID],
       (oldMessages = []) => {
-        if (oldMessages.some((m) => m._id === message._id)) {
+        if (oldMessages.some((m) => m._id === message.message._id)) {
           return oldMessages;
         }
-        return [...oldMessages, message];
+        return [...oldMessages, message.message];
       },
     );
-  }, [message, chatID]);
+
+    if (!currUserData?._id) return;
+
+    if (
+      lastPlayedMessageIDRef.current === message.message._id ||
+      PLAYED_PING_MESSAGE_IDS.has(message.message._id)
+    ) {
+      return;
+    }
+
+    const senderUID = message.senderUID || message.message.sender?._id || "";
+    const isOwnMessage = senderUID === currUserData._id;
+    const isSystemMessage = senderUID === SYSTEM_USER_ID;
+
+    if (!isOwnMessage && !isSystemMessage) {
+      // const messagePingAudio = new Audio(messagePingSound);
+      // messagePingAudio.volume = MESSAGE_PING_VOLUME;
+      // messagePingAudio.play().catch((error) => {
+      //   console.error("Error playing message ping sound:", error);
+      // });
+
+      lastPlayedMessageIDRef.current = message.message._id;
+      PLAYED_PING_MESSAGE_IDS.add(message.message._id);
+
+      if (PLAYED_PING_MESSAGE_IDS.size > MAX_PLAYED_PING_CACHE_SIZE) {
+        PLAYED_PING_MESSAGE_IDS.clear();
+      }
+    }
+  }, [message, chatID, queryClient, currUserData?._id]);
 
   const { mutate: endChatMutation } = useMutation({
     mutationFn: async ({ chatID }: { chatID: string }) => {

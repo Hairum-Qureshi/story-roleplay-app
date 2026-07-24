@@ -75,7 +75,7 @@ export class RolePlayAdService {
 
       this.eventsGateway.emitSystemMessage(
         updatedConversation._id.toString(),
-        message.content,
+        message,
       );
     }
 
@@ -170,7 +170,7 @@ export class RolePlayAdService {
 
           this.eventsGateway.emitSystemMessage(
             conversation._id.toString(),
-            message.content,
+            message,
           );
         },
       );

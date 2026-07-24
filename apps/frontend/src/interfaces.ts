@@ -76,6 +76,11 @@ interface Message {
   updatedAt: string;
 }
 
+interface SocketMessagePayload {
+  message: Message;
+  senderUID: string;
+}
+
 interface Conversation {
   _id: string;
   participants: [
@@ -102,7 +107,7 @@ interface SocketStore {
   connectSocket: (userId: string) => void;
   disconnectSocket: () => void;
   rolePlayAd: RolePlayAd | null;
-  message: Message | null;
+  message: SocketMessagePayload | null;
   endedConversationID: string | null;
   typing: boolean;
   setTyping: (typing: boolean) => void;
@@ -188,6 +193,7 @@ export type {
   RolePlayAd,
   Conversation,
   Message,
+  SocketMessagePayload,
   PovType,
   User,
   SocketStore,

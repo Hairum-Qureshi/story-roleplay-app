@@ -12,6 +12,7 @@ import { Types } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
 import { IsChatMemberGuard } from '../guards/websockets/isChatMember.guard';
 import { NotificationService } from 'src/notification/notification.service';
+import type { Message as MessageType } from 'src/types';
 // import { Model } from 'mongoose';
 // import { Message } from 'src/schemas/inbox/Message';
 // import { Conversation } from 'src/schemas/inbox/Conversation';
@@ -80,11 +81,14 @@ export class EventsGateway {
   @UseGuards(IsChatMemberGuard)
   async sendMessageToUser(
     chatID: string,
-    message: string,
+    message: MessageType,
     participants: string[],
     currUserID: string,
   ) {
-    this.server.to(chatID).emit('newMessage', message);
+    this.server.to(chatID).emit('newMessage', {
+      message,
+      senderUID: currUserID,
+    });
 
     const receipient = participants.find(
       (participantID) => participantID !== currUserID,
@@ -107,8 +111,14 @@ export class EventsGateway {
   }
 
   @UseGuards(IsChatMemberGuard)
-  emitSystemMessage(chatID: string, message: string) {
-    this.server.to(chatID).emit('newMessage', message);
+  emitSystemMessage(chatID: string, message: MessageType) {
+    this.server.to(chatID).emit('newMessage', {
+      message,
+      senderUID:
+        typeof message.sender === 'string'
+          ? message.sender
+          : message.sender.toString(),
+    });
   }
 
   @UseGuards(IsChatMemberGuard)
