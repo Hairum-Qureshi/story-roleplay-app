@@ -74,5 +74,9 @@
   {
     "id": 27,
     "bug": "When you post an ad, the page freezes and it shows a 'respond to ad' button despite you being the one who posted the ad. Similar to ID #19"
+  },
+  {
+    "id": 28,
+    "bug": "While the role-play notes turn feature does work, it can be a little glitchy at times as the 'you are currently editing' message sometimes goes away, but it still prevents the other user from editing the notes while you're editing them."
   }
 ]
