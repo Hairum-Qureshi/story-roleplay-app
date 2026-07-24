@@ -54,4 +54,14 @@ export class NotificationService {
       { $set: { unreadCount: 0 } },
     );
   }
+
+  async getTotalNotifications(userID: string): Promise<{ total: number }> {
+    const notifications = await this.notificationModel.find({ userID });
+    return {
+      total: notifications.reduce(
+        (total, notif) => total + notif.unreadCount,
+        0,
+      ),
+    };
+  }
 }
