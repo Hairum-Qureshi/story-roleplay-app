@@ -78,5 +78,9 @@
   {
     "id": 28,
     "bug": "While the role-play notes turn feature does work, it can be a little glitchy at times as the 'you are currently editing' message sometimes goes away, but it still prevents the other user from editing the notes while you're editing them."
+  },
+  {
+    "id": 29,
+    "bug": "For some reason, when you close the website and the other user sends you messages, your notification count is shown as 99+ instead of the actual number of unread messages you have. This ties in with the issue where if you close the page and the other user sends you messages, it doesn't accurately register the number of unread notifications you have."
   }
 ]
