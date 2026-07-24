@@ -70,11 +70,6 @@
     "description": "The generated story PDF will include a timestamp for the role-play start date and end date (if applicable)"
   },
   {
-    "id": 24,
-    "subheading": "Reducing Annoyance with chat window message notifications",
-    "description": "If you're already in the chat window, you shouldn't get message notifications for new messages in that chat since you're already there. This will prevent redundant notifications and improve the user experience by only sending notifications for new messages in chats that the user is not currently viewing."
-  },
-  {
     "id": 25,
     "subheading": "Brief highlight of pinned message",
     "description": "When a user clicks on a pinned message, the message will be highlighted for a brief moment to draw attention to it, making it easier for users to locate and reference the pinned message within the chat conversation."
