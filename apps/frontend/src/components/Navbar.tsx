@@ -67,24 +67,48 @@ export default function Navbar() {
             <Link
               className="hover:cursor-pointer px-2 py-1 hover:bg-slate-800 hover:rounded-md"
               to="/favorited-ads"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
             >
               Favorited Ads
             </Link>
             <Link
               className="hover:cursor-pointer px-2 py-1 hover:bg-slate-800 hover:rounded-md"
               to="/new-ad"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
             >
               Create Ad
             </Link>
             <Link
               className="hover:cursor-pointer px-2 py-1 hover:bg-slate-800 hover:rounded-md"
               to="/new-character"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
             >
               Create Character
             </Link>
             <Link
               className="hover:cursor-pointer px-2 py-1 hover:bg-slate-800 hover:rounded-md"
               to="/character-bios"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
             >
               Character Bios
             </Link>
@@ -112,7 +136,16 @@ export default function Navbar() {
                       alt="Profile"
                       className="w-7 h-7 rounded-full mr-3"
                     />
-                    <Link className="" to="/profile">
+                    <Link
+                      className=""
+                      to="/profile"
+                      onClick={() =>
+                        socket?.emit("removeFromChatRoom", {
+                          chatID: selectedChat?._id,
+                          userID: currUserData?._id,
+                        })
+                      }
+                    >
                       Profile
                     </Link>
                   </div>
@@ -120,30 +153,60 @@ export default function Navbar() {
                   <Link
                     className="hover:cursor-pointer transition px-2 py-1 mt-2 hover:bg-slate-800 hover:rounded-md"
                     to="/contact"
+                    onClick={() =>
+                      socket?.emit("removeFromChatRoom", {
+                        chatID: selectedChat?._id,
+                        userID: currUserData?._id,
+                      })
+                    }
                   >
                     Contact
                   </Link>
                   <Link
                     className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
                     to="/faq"
+                    onClick={() =>
+                      socket?.emit("removeFromChatRoom", {
+                        chatID: selectedChat?._id,
+                        userID: currUserData?._id,
+                      })
+                    }
                   >
                     FAQ
                   </Link>
                   <Link
                     className="hover:cursor-pointer transition  px-2 py-1 hover:bg-slate-800 hover:rounded-md"
                     to="/about"
+                    onClick={() =>
+                      socket?.emit("removeFromChatRoom", {
+                        chatID: selectedChat?._id,
+                        userID: currUserData?._id,
+                      })
+                    }
                   >
                     About
                   </Link>
                   <Link
                     className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
                     to="/guidelines"
+                    onClick={() =>
+                      socket?.emit("removeFromChatRoom", {
+                        chatID: selectedChat?._id,
+                        userID: currUserData?._id,
+                      })
+                    }
                   >
                     Guidelines
                   </Link>
                   <Link
                     className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
                     to="/updates-changelog"
+                    onClick={() =>
+                      socket?.emit("removeFromChatRoom", {
+                        chatID: selectedChat?._id,
+                        userID: currUserData?._id,
+                      })
+                    }
                   >
                     Updates
                   </Link>
@@ -151,7 +214,13 @@ export default function Navbar() {
                   <div className="border-t border-slate-700 my-1" />
 
                   <button
-                    onClick={signOut}
+                    onClick={() => {
+                      socket?.emit("removeFromChatRoom", {
+                        chatID: selectedChat?._id,
+                        userID: currUserData?._id,
+                      });
+                      signOut();
+                    }}
                     className="text-left px-4 py-2 hover:cursor-pointer rounded-md text-red-500 hover:bg-slate-800 transition"
                   >
                     Sign Out
