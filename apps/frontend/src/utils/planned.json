@@ -118,5 +118,10 @@
     "id": 34,
     "subheading": "Role-play ends if one user deletes their account",
     "description": "If one user deletes their account, the role-play chat will automatically end, and the remaining user will be notified that the chat has concluded due to the account deletion. This feature will help maintain the integrity of role-play conversations and ensure that users are aware of the status of their ongoing role-play interactions."
+  },
+  {
+    "id": 35,
+    "subheading": "Users cannot update role-play title after posting",
+    "description": "To prevent users from attempting to circumvent the 1 hour repost window or make major changes to an existing role-play ad, users will not be able to update the title of their role-play ad after it has been posted. This restriction will help maintain the integrity of the role-play ads and ensure that users are aware of the content they are posting before it goes live."
   }
 ]
