@@ -113,5 +113,10 @@
     "id": 33,
     "subheading": "Notifications sounds for new messages",
     "description": "Users will have the option to enable notification sounds for new messages, providing an audible alert when they receive a new message, even if they are not actively looking at the chat window. This feature will help users stay informed about incoming messages and improve their overall messaging experience by ensuring they don't miss important communications."
+  },
+  {
+    "id": 34,
+    "subheading": "Role-play ends if one user deletes their account",
+    "description": "If one user deletes their account, the role-play chat will automatically end, and the remaining user will be notified that the chat has concluded due to the account deletion. This feature will help maintain the integrity of role-play conversations and ensure that users are aware of the status of their ongoing role-play interactions."
   }
 ]
