@@ -102,12 +102,12 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
             <button
               className="inline-flex items-center justify-center rounded-lg bg-red-600 px-3 py-2.5 text-lg font-semibold text-white hover:bg-red-500 transition hover:cursor-pointer"
               onClick={() =>
-                isLiked
+                rolePlayAd?.isLiked
                   ? unlikeMutate({ adID: rolePlayAd._id })
                   : likeMutate({ adID: rolePlayAd._id })
               }
             >
-              {isLiked ? <FaHeart /> : <FaRegHeart />}
+              {rolePlayAd?.isLiked ? <FaHeart /> : <FaRegHeart />}
             </button>
           </div>
         )}
