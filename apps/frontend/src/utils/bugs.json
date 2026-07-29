@@ -82,5 +82,9 @@
   {
     "id": 29,
     "bug": "For some reason, when you close the website and the other user sends you messages, your notification count is shown as 99+ instead of the actual number of unread messages you have. This ties in with the issue where if you close the page and the other user sends you messages, it doesn't accurately register the number of unread notifications you have."
+  },
+  {
+    "id": 30,
+    "bug": "If you have a chat going on with your ad and you delete your account, the other user can still access the chat, but the ad data is gone. Need to revisit the delete user logic and find out what's going on with the ad data and where the conditional logic is failing to properly handle the deletion of the ad data when a user deletes their account."
   }
 ]
