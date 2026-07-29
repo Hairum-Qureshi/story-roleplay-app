@@ -24,7 +24,7 @@ export default function UserCard({
                 hover:bg-slate-800/80
             "
     >
-      {username.includes("deleted_user") ? (
+      {username?.includes("deleted_user") ? (
         <IoMdClose className="h-10 w-10 text-red-500" />
       ) : (
         <img
