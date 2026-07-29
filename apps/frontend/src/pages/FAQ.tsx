@@ -83,6 +83,12 @@ export default function FAQ() {
           answer:
             "Usernames are permanent and randomly generated during account creation. Profile pictures are pulled from your Google account and cannot be changed within the site. Future updates may include options to customize these elements.",
         },
+        {
+          question:
+            "If I delete my account and sign up with the same email, will I be able to recover my old account?",
+          answer:
+            "No, once an account is deleted, it cannot be recovered. Signing up with the same email will create a new account without access to previous data.",
+        },
       ],
     },
     {
