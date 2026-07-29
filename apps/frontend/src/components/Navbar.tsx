@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { IoHomeSharp } from "react-icons/io5";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import useGoogleAuth from "../hooks/useGoogleAuth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import useSocketStore from "../store/useSocketStore";
@@ -18,19 +18,22 @@ export default function Navbar() {
   const { socket } = useSocketStore();
   const { totalNotifications } = useNotifications();
 
-  useEffect(() => {
-    setMenuVisibility(false);
-  }, [location.pathname]);
+  const closeMenuOnLinkClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("a")) {
+      setMenuVisibility(false);
+    }
+  };
 
   return (
     <div
+      onClickCapture={closeMenuOnLinkClick}
       className={`w-full h-16 text-white bg-slate-900/95 backdrop-blur border-b border-slate-800 flex items-center px-6 ${
         location.pathname !== "/inbox" && location.pathname !== "/faq"
           ? "sticky top-0 z-50"
           : ""
       }`}
     >
-      {/* LEFT */}
       <div className="flex items-center gap-6">
         <Link to="/" className="flex items-center">
           <IoHomeSharp className="text-sky-400 text-xl hover:scale-110 transition" />
@@ -115,8 +118,6 @@ export default function Navbar() {
           </>
         )}
       </div>
-
-      {/* RIGHT */}
       <div className="ml-auto flex items-center gap-4">
         {currUserData && (
           <div className="relative group">
