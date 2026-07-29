@@ -34,6 +34,8 @@ export default function useGoogleAuth(): UseGoogleAuthHook {
     );
 
     queryClient.setQueryData(["currentUser"], null);
+    queryClient.removeQueries({ queryKey: ["total-notifications"] });
+    queryClient.removeQueries({ queryKey: ["your-chats"] });
   };
 
   return { googleSignInMutation, signOut };
