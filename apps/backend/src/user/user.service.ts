@@ -29,7 +29,7 @@ export class UserService {
       firstName: null,
       lastName: null,
       username: `deleted_user_${userId.slice(-6)}`,
-      profilePicture: `${process.env.BACKEND_URL}/assets/deleted-user-pfp.jpg`,
+      profilePicture: '-',
       characterBios: [],
       rolePlayAds: [],
     });
@@ -80,10 +80,7 @@ export class UserService {
       await this.rolePlayAdModel.deleteMany({ author: userId });
     }
 
-    if (
-      conversationsWithUserAds.length === 0 &&
-      conversationsWithUserBios.length === 0
-    ) {
+    if (!conversationsWithUserAds.length && !conversationsWithUserBios.length) {
       // if none of the user's ads or bios are attached to any conversations, we can delete them all
       await this.characterBioModel.deleteMany({ author: userId });
       await this.rolePlayAdModel.deleteMany({ author: userId });
