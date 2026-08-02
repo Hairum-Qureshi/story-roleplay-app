@@ -101,7 +101,7 @@ export class EventsGateway {
 
     if (!receipient) return;
 
-    this.emitMessageNotification(receipient);
+    this.emitMessageNotification(chatID, receipient);
     // await this.notificationService.createNotification(chatID, receipient);
 
     await this.notificationService.createNotification(
@@ -122,10 +122,15 @@ export class EventsGateway {
   }
 
   @UseGuards(IsChatMemberGuard)
-  emitMessageNotification(participantUID: string) {
+  async emitMessageNotification(chatID: string, participantUID: string) {
     const userSocketID = this.eventsService.getUserSocketId(participantUID);
 
-    if (!userSocketID) return;
+    if (!userSocketID) {
+      // if the user is not connected, we don't need to emit a notification, but still need to create a notification in the database for them to see when they log back in
+
+      await this.notificationService.createNotification(chatID, participantUID);
+      return;
+    }
 
     this.server.to(userSocketID).emit('newMessageNotification', true);
   }
