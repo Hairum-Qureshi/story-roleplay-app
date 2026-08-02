@@ -57,7 +57,7 @@ export class RolePlayAdService {
         {
           title,
         },
-        { new: true },
+        { returnDocument: 'after' },
       )) as unknown as ConversationDocument;
 
     if (updatedConversation) {

@@ -35,7 +35,7 @@ export class NotificationService {
       return this.notificationModel.findOneAndUpdate(
         { userID, convoID: chatID },
         { $inc: { unreadCount: 1 } },
-        { new: true },
+        { returnDocument: 'after' },
       );
     } else {
       // if it doesn't exist, create a new notification record with unreadCount = 1
