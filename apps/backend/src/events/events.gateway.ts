@@ -104,7 +104,6 @@ export class EventsGateway {
     this.emitMessageNotification(chatID, receipient);
     // await this.notificationService.createNotification(chatID, receipient);
 
-    console.log('ran while the page was closed as well');
     await this.notificationService.createNotification(
       chatID,
       receipient ? receipient : currUserID,
@@ -128,7 +127,6 @@ export class EventsGateway {
 
     if (!userSocketID) return;
 
-    console.log('Also ran while the page was open >', userSocketID);
     this.server.to(userSocketID).emit('newMessageNotification', true);
   }
 
