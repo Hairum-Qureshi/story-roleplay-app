@@ -1,8 +1,8 @@
 import { Controller, Post, UseGuards, Param, Patch, Get } from '@nestjs/common';
-import type { UserPayload } from 'src/types';
+import type { UserPayload } from '../types';
 import { AuthGuard } from '@nestjs/passport';
 import { NotificationService } from './notification.service';
-import { CurrentUser } from 'src/decorators/currentUser.decorator';
+import { CurrentUser } from '../decorators/currentUser.decorator';
 
 @Controller('notification')
 export class NotificationController {

@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Notification, NotificationDocument } from 'src/schemas/Notification';
-import { Conversation } from 'src/types';
+import { Notification, NotificationDocument } from '../schemas/Notification';
+import { Conversation } from '../types';
 
 @Injectable()
 export class NotificationService {
