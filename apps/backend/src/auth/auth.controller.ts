@@ -13,7 +13,7 @@ import { CurrentUser } from '../decorators/currentUser.decorator';
 import * as types from '../types';
 import express from 'express';
 import { BearerToken } from '../decorators/bearerToken.decorator';
-import type { Response, CookieOptions } from 'express';
+import type { Response } from 'express';
 
 @Controller('api/auth')
 export class AuthController {
@@ -41,10 +41,7 @@ export class AuthController {
   signOut(@Res({ passthrough: true }) res: Response): {
     message: string;
   } {
-    res.clearCookie(
-      'auth-session',
-      this.authService.getAuthCookieOptions() as CookieOptions,
-    );
+    res.clearCookie('auth-session', this.authService.getAuthCookieOptions());
     return { message: 'success' };
   }
 
