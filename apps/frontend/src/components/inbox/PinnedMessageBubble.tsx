@@ -1,5 +1,6 @@
 import { MdPushPin } from "react-icons/md";
 import useRolePlayChat from "../../hooks/useRolePlayChat";
+import { IoMdClose } from "react-icons/io";
 
 interface PinnedMessageBubbleProps {
   profilePicture: string;
@@ -7,6 +8,7 @@ interface PinnedMessageBubbleProps {
   message: string;
   chatID: string;
   messageID: string;
+  username: string;
 }
 
 export default function PinnedMessageBubble({
@@ -15,6 +17,7 @@ export default function PinnedMessageBubble({
   message,
   chatID,
   messageID,
+  username,
 }: PinnedMessageBubbleProps) {
   const { pinMessageMutation } = useRolePlayChat(chatID || "");
 
@@ -46,11 +49,15 @@ export default function PinnedMessageBubble({
         />
       </div>
       <div className="flex items-start gap-3">
-        <img
-          src={profilePicture}
-          alt="Profile Picture"
-          className="h-9 w-9 rounded-full object-cover"
-        />
+        {username.includes("deleted_user") ? (
+          <IoMdClose className="h-10 w-10 text-red-600" />
+        ) : (
+          <img
+            src={profilePicture}
+            alt="Profile Picture"
+            className="h-9 w-9 rounded-full object-cover"
+          />
+        )}
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-400">

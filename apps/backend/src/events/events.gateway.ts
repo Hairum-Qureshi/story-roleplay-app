@@ -11,6 +11,8 @@ import { EventsService } from './events.service';
 import { Types } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
 import { IsChatMemberGuard } from '../guards/websockets/isChatMember.guard';
+import { NotificationService } from 'src/notification/notification.service';
+import type { Message as MessageType } from 'src/types';
 // import { Model } from 'mongoose';
 // import { Message } from 'src/schemas/inbox/Message';
 // import { Conversation } from 'src/schemas/inbox/Conversation';
@@ -27,6 +29,7 @@ export class EventsGateway {
 
   constructor(
     private eventsService: EventsService,
+    private notificationService: NotificationService,
     // @InjectModel(Message.name)
     // private messageModel: Model<Message>,
     // @InjectModel('Conversation') private conversationModel: Model<Conversation>,
@@ -35,7 +38,7 @@ export class EventsGateway {
   handleConnection(client: Socket) {
     const userId = client.handshake.auth?.userId as string | undefined;
 
-    console.log(`Client connected: ${client.id} with uid: ${userId}`);
+    // console.log(`Client connected: ${client.id} with uid: ${userId}`);
 
     client.emit('connected', {
       message: 'Successfully connected to WebSocket gateway',
@@ -44,7 +47,7 @@ export class EventsGateway {
 
     if (userId) {
       this.eventsService.identifyUser(client.id, userId);
-      console.log(this.eventsService.viewSocketToUserMap());
+      // console.log(this.eventsService.viewSocketToUserMap());
     }
   }
 
@@ -58,6 +61,8 @@ export class EventsGateway {
     if (userID) {
       const releasedChatIDs =
         this.eventsService.removeUserFromAllNotesEditors(userID);
+
+      this.eventsService.removeAllUsersFromRoom(client.id);
 
       for (const chatID of releasedChatIDs) {
         this.server.to(chatID).emit('noteEditorResponse', {
@@ -74,17 +79,80 @@ export class EventsGateway {
 
   @SubscribeMessage('sendMessageToUser')
   @UseGuards(IsChatMemberGuard)
-  sendMessageToUser(chatID: string, message: string) {
-    this.server.to(chatID).emit('newMessage', message);
+  async sendMessageToUser(
+    chatID: string,
+    message: MessageType,
+    participants: string[],
+    currUserID: string,
+  ) {
+    this.server.to(chatID).emit('newMessage', {
+      message,
+      senderUID: currUserID,
+    });
+
+    const receipient = participants.find(
+      (participantID) => participantID !== currUserID,
+    );
+
+    // check if the receipient is in the room for the chatID from the roomToUsersMap in the eventsService
+    const usersInRoom = this.eventsService.viewRoomToUsersMap().get(chatID);
+
+    if (usersInRoom && usersInRoom.size === 2) return;
+
+    if (!receipient) return;
+
+    this.emitMessageNotification(chatID, receipient);
+    // await this.notificationService.createNotification(chatID, receipient);
+
+    console.log('ran while the page was closed as well');
+    await this.notificationService.createNotification(
+      chatID,
+      receipient ? receipient : currUserID,
+    );
   }
 
   @UseGuards(IsChatMemberGuard)
-  emitSystemMessage(chatID: string, message: string) {
-    this.server.to(chatID).emit('newMessage', message);
+  emitSystemMessage(chatID: string, message: MessageType) {
+    this.server.to(chatID).emit('newMessage', {
+      message,
+      senderUID:
+        typeof message.sender === 'string'
+          ? message.sender
+          : message.sender.toString(),
+    });
+  }
+
+  @UseGuards(IsChatMemberGuard)
+  emitMessageNotification(chatID: string, participantUID: string) {
+    const userSocketID = this.eventsService.getUserSocketId(participantUID);
+
+    if (!userSocketID) return;
+
+    console.log('Also ran while the page was open >', userSocketID);
+    this.server.to(userSocketID).emit('newMessageNotification', true);
   }
 
   endConversation(chatID: Types.ObjectId | string) {
     this.server.emit('conversationEnded', { chatID });
+  }
+
+  @SubscribeMessage('removeFromChatRoom')
+  async removeFromChatRoom(
+    @MessageBody()
+    payload: {
+      chatID: string;
+      userID: string;
+    },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const { chatID, userID } = payload;
+
+    if (chatID && userID) {
+      await client.leave(chatID);
+      this.eventsService.removeUserFromAllNotesEditors(userID);
+      this.eventsService.removeUserBySocketId(client.id);
+      this.eventsService.removeUserFromRoom(userID, chatID);
+    }
   }
 
   @SubscribeMessage('currentChatID')
@@ -99,8 +167,20 @@ export class EventsGateway {
 
     if (chatID && client) {
       await client.join(chatID);
-      console.log(`Client ${client.id} joined chat room: ${chatID}`);
+      this.eventsService.addUserToRoom(
+        chatID,
+        client.handshake.auth?.userId as string,
+      );
+      // console.log(`Client ${client.id} joined chat room: ${chatID}`);
     }
+
+    // [debug] show all the users that are in chatID
+    // const clientsInRoom = await this.server.in(chatID).fetchSockets();
+    // const clientIdsInRoom = clientsInRoom.map((socket) => socket.id);
+    // console.log(
+    //   `Clients in chat room ${chatID}: ${clientIdsInRoom.join(', ')}`,
+    // );
+    // console.log('[debug]', this.eventsService.viewRoomToUsersMap());
   }
 
   @SubscribeMessage('noteEditorUpdate')
@@ -174,21 +254,21 @@ export class EventsGateway {
       }
 
       // only emit if the uid that corresponds to the chatID in the notesEditorMap is the same as the uid in the payload
-      if (existingEditor && existingEditor.userID === uid) {
-        // const content = `@${username} has stopped editing notes for this role-play. To view changes, open the notes tab in the side panel.`;
-        // const systemMessage = await this.messageModel.create({
-        //   sender: '000000000000000000000001',
-        //   conversation: new Types.ObjectId(chatID),
-        //   content,
-        // });
-        // await this.conversationModel.findByIdAndUpdate(
-        //   new Types.ObjectId(chatID),
-        //   {
-        //     $push: { messages: systemMessage._id },
-        //   },
-        // );
-        // this.emitSystemMessage(chatID, content);
-      }
+      // if (existingEditor && existingEditor.userID === uid) {
+      // const content = `@${username} has stopped editing notes for this role-play. To view changes, open the notes tab in the side panel.`;
+      // const systemMessage = await this.messageModel.create({
+      //   sender: '000000000000000000000001',
+      //   conversation: new Types.ObjectId(chatID),
+      //   content,
+      // });
+      // await this.conversationModel.findByIdAndUpdate(
+      //   new Types.ObjectId(chatID),
+      //   {
+      //     $push: { messages: systemMessage._id },
+      //   },
+      // );
+      // this.emitSystemMessage(chatID, content);
+      // }
     }
 
     return;
@@ -210,6 +290,7 @@ export class EventsGateway {
       this.eventsService.getUserSocketId(partnerID);
 
     if (socketID) {
+      // TODO - change the room to be the chatID instead of the socketID
       this.server.to(socketID).emit('typingIndicator', {
         typing,
         partnerUsername,

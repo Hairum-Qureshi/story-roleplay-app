@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { io } from "socket.io-client";
 import type { SocketStore } from "../interfaces";
-import type { Message } from "../interfaces";
+import type { SocketMessagePayload } from "../interfaces";
 
 const useSocketStore = create<SocketStore>((set, get) => ({
   socket: null,
@@ -15,6 +15,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
   chatID: null,
   currUID: null,
   editorUsername: null,
+  notification: false,
   setTyping: (typing: boolean) => set({ typing }),
   connectSocket: (userId: string) => {
     const socket = io(import.meta.env.VITE_BACKEND_BASE_URL, {
@@ -43,8 +44,8 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       set({ rolePlayAd: ad });
     });
 
-    socket.on("newMessage", (message: Message) => {
-      set({ message });
+    socket.on("newMessage", (messagePayload: SocketMessagePayload) => {
+      set({ message: messagePayload });
     });
 
     socket.on("conversationEnded", ({ chatID }: { chatID: string }) => {
@@ -72,6 +73,10 @@ const useSocketStore = create<SocketStore>((set, get) => ({
         set({ chatID, editorUsername: username });
       },
     );
+
+    socket.on("newMessageNotification", (notification: boolean) => {
+      set({ notification });
+    });
 
     socket.connect();
     set({ socket });

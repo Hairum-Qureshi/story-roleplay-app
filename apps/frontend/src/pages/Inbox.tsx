@@ -5,7 +5,7 @@ import MainChatContainer from "../components/inbox/MainChatContainer";
 import ChatCardsListPanel from "../components/inbox/ChatCardsListPanel";
 import ChatResourcePanel from "../components/inbox/side-panel/ChatResourcePanel";
 import useChatStore from "../store/useChatStore";
-
+ 
 export default function Inbox() {
   const { chatID } = useParams();
   const [fullWidth, setFullWidth] = useState(false);

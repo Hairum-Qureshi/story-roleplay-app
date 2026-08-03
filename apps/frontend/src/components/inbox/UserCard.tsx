@@ -1,3 +1,5 @@
+import { IoMdClose } from "react-icons/io";
+
 export default function UserCard({
   username,
   you,
@@ -22,11 +24,14 @@ export default function UserCard({
                 hover:bg-slate-800/80
             "
     >
-      <img
-        src={profilePicture}
-        alt={`${username}'s avatar`}
-        referrerPolicy="no-referrer"
-        className="
+      {username?.includes("deleted_user") ? (
+        <IoMdClose className="h-10 w-10 text-red-500" />
+      ) : (
+        <img
+          src={profilePicture}
+          alt={`${username}'s avatar`}
+          referrerPolicy="no-referrer"
+          className="
                     h-10
                     w-10
                     rounded-lg
@@ -35,7 +40,8 @@ export default function UserCard({
                     border-slate-700
                     shrink-0
                 "
-      />
+        />
+      )}
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">

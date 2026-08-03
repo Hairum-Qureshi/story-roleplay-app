@@ -24,10 +24,11 @@ export default function ChatContainer({ chat }: { chat: Conversation }) {
         {/* Right side */}
         <div className="flex items-center space-x-3">
           <div className="flex flex-col items-end space-y-1">
-            {/* <span className="text-gray-500 text-xs">2:45 PM</span> */}
-            <span className="bg-indigo-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-              3
-            </span>
+            {chat.unreadCount > 0 && (
+              <span className="bg-indigo-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                {chat.unreadCount}
+              </span>
+            )}
             <button
               onClick={(e) => {
                 e.stopPropagation();

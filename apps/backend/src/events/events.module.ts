@@ -3,6 +3,7 @@ import { EventsGateway } from './events.gateway';
 import { EventsService } from './events.service';
 import { IsChatMemberGuard } from '../guards/websockets/isChatMember.guard';
 import { MongooseModule } from '@nestjs/mongoose';
+import { NotificationModule } from '../notification/notification.module';
 import {
   Conversation,
   ConversationSchema,
@@ -11,6 +12,7 @@ import {
 
 @Module({
   imports: [
+    NotificationModule,
     MongooseModule.forFeature([
       { name: Conversation.name, schema: ConversationSchema },
     ]),

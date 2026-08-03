@@ -57,7 +57,7 @@ export class RolePlayAdService {
         {
           title,
         },
-        { new: true },
+        { returnDocument: 'after' },
       )) as unknown as ConversationDocument;
 
     if (updatedConversation) {
@@ -75,7 +75,7 @@ export class RolePlayAdService {
 
       this.eventsGateway.emitSystemMessage(
         updatedConversation._id.toString(),
-        message.content,
+        message,
       );
     }
 
@@ -170,7 +170,7 @@ export class RolePlayAdService {
 
           this.eventsGateway.emitSystemMessage(
             conversation._id.toString(),
-            message.content,
+            message,
           );
         },
       );

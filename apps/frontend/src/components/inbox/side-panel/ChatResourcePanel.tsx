@@ -101,6 +101,7 @@ export default function ChatResourcePanel({
                           message={message.content}
                           chatID={chatID || ""}
                           messageID={message._id}
+                          username={message.sender.username}
                         />
                       </div>
                     ))

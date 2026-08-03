@@ -76,6 +76,11 @@ interface Message {
   updatedAt: string;
 }
 
+interface SocketMessagePayload {
+  message: Message;
+  senderUID: string;
+}
+
 interface Conversation {
   _id: string;
   participants: [
@@ -93,6 +98,7 @@ interface Conversation {
   characterBios?: string[];
   latestMessage: string | null;
   latestMessageAt: string | null;
+  unreadCount: number;
   createdAt: string;
 }
 
@@ -101,7 +107,7 @@ interface SocketStore {
   connectSocket: (userId: string) => void;
   disconnectSocket: () => void;
   rolePlayAd: RolePlayAd | null;
-  message: Message | null;
+  message: SocketMessagePayload | null;
   endedConversationID: string | null;
   typing: boolean;
   setTyping: (typing: boolean) => void;
@@ -111,6 +117,7 @@ interface SocketStore {
   chatID: string | null;
   currUID: string | null;
   editorUsername: string | null;
+  notification: boolean;
 }
 
 interface AdProps {
@@ -186,6 +193,7 @@ export type {
   RolePlayAd,
   Conversation,
   Message,
+  SocketMessagePayload,
   PovType,
   User,
   SocketStore,

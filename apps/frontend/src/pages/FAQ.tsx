@@ -83,6 +83,12 @@ export default function FAQ() {
           answer:
             "Usernames are permanent and randomly generated during account creation. Profile pictures are pulled from your Google account and cannot be changed within the site. Future updates may include options to customize these elements.",
         },
+        {
+          question:
+            "If I delete my account and sign up with the same email, will I be able to recover my old account?",
+          answer:
+            "No, once an account is deleted, it cannot be recovered. Signing up with the same email will create a new account without access to previous data.",
+        },
       ],
     },
     {
@@ -116,12 +122,6 @@ export default function FAQ() {
           question: "Can I undo the 'End Role-Play' button?",
           answer:
             "No. Once pressed, the action is permanent. A new role-play session must be initiated to continue.",
-        },
-        {
-          question:
-            "How do I stop receiving browser notifications when I receive a new message?",
-          answer:
-            "To stop receiving browser notifications, you can adjust your browser settings to block notifications from this site. The exact steps may vary depending on your browser, but generally, you can go to your browser's settings or preferences, find the section for notifications or site permissions, and remove or block this site from sending notifications.",
         },
         {
           question: "What's the note feature for?",
@@ -226,7 +226,7 @@ export default function FAQ() {
         {
           question: "Can I delete a role-play conversation?",
           answer:
-            "You can delete conversations from your inbox. This is permanent and only removes it from your view. Your partner will still have access unless they delete it as well. If, however, your partner sends a new message in the deleted conversation, it will reappear in your inbox. The only way to stop receiving messages from the conversation is by ending the role-play.",
+            "Yes, you can delete conversations from your inbox. This is permanent and only removes it from your view. Your partner will still have access unless they delete it as well. If, however, your partner sends a new message in the deleted conversation, it will reappear in your inbox. The only way to stop receiving messages from the conversation is by ending the role-play.",
         },
         {
           question: "Are images and links supported in messages?",

@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
 import { PdfModule } from './pdf/pdf.module';
 import { EmailModule } from './email/email.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { EmailModule } from './email/email.module';
     ChatModule,
     PdfModule,
     EmailModule,
+    NotificationModule,
   ],
   controllers: [AppController],
 })

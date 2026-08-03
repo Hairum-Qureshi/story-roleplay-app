@@ -70,11 +70,6 @@
     "description": "The generated story PDF will include a timestamp for the role-play start date and end date (if applicable)"
   },
   {
-    "id": 24,
-    "subheading": "Reducing Annoyance with chat window message notifications",
-    "description": "If you're already in the chat window, you shouldn't get message notifications for new messages in that chat since you're already there. This will prevent redundant notifications and improve the user experience by only sending notifications for new messages in chats that the user is not currently viewing."
-  },
-  {
     "id": 25,
     "subheading": "Brief highlight of pinned message",
     "description": "When a user clicks on a pinned message, the message will be highlighted for a brief moment to draw attention to it, making it easier for users to locate and reference the pinned message within the chat conversation."
@@ -88,5 +83,45 @@
     "id": 27,
     "subheading": "Chat pinning",
     "description": "Users will have the ability to pin important role-play chats to the top of their inbox for easy access. Pinned chats will remain at the top of the chat list, allowing users to quickly find and engage with their most relevant conversations without having to scroll through their entire inbox."
+  },
+  {
+    "id": 28,
+    "subheading": "Discord Authentication",
+    "description": "Users will have the option to authenticate their accounts using Discord, allowing for a seamless login experience and integration with their existing Discord accounts."
+  },
+  {
+    "id": 29,
+    "subheading": "Writing style showcase",
+    "description": "Users will have the ability to showcase their writing style through a dedicated section on their profile, allowing them to show off their writing style to help other users get a better sense of their writing abilities and preferences. This feature will aim to help users find compatible role-playing partners who match their writing style and enhance the overall role-playing experience on the platform."
+  },
+  {
+    "id": 30,
+    "subheading": "Loading indicator for conversations",
+    "description": "A loading indicator will be displayed when users are waiting for their conversations to load, providing visual feedback that the system is processing their request and improving the overall user experience by keeping users informed about the status of their actions."
+  },
+  {
+    "id": 31,
+    "subheading": "Preventing unpinning in ended chats",
+    "description": "Once a chat has ended, users will not be able to unpin previously pinned messages, ensuring that important information remains accessible even after the conversation has concluded."
+  },
+  {
+    "id": 32,
+    "subheading": "Pinned messages will also have rendered markdown",
+    "description": "Pinned messages will be displayed with rendered markdown formatting, allowing users to view the content of pinned messages with proper styling and formatting, enhancing readability and preserving the intended presentation of the message."
+  },
+  {
+    "id": 33,
+    "subheading": "Notifications sounds for new messages",
+    "description": "Users will have the option to enable notification sounds for new messages, providing an audible alert when they receive a new message, even if they are not actively looking at the chat window. This feature will help users stay informed about incoming messages and improve their overall messaging experience by ensuring they don't miss important communications."
+  },
+  {
+    "id": 34,
+    "subheading": "Role-play ends if one user deletes their account",
+    "description": "If one user deletes their account, the role-play chat will automatically end, and the remaining user will be notified that the chat has concluded due to the account deletion. This feature will help maintain the integrity of role-play conversations and ensure that users are aware of the status of their ongoing role-play interactions."
+  },
+  {
+    "id": 35,
+    "subheading": "Users cannot update role-play title after posting",
+    "description": "To prevent users from attempting to circumvent the 1 hour repost window or make major changes to an existing role-play ad, users will not be able to update the title of their role-play ad after it has been posted. This restriction will help maintain the integrity of the role-play ads and ensure that users are aware of the content they are posting before it goes live."
   }
 ]

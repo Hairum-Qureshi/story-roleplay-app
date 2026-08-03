@@ -5,13 +5,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Conversation } from '../schemas/inbox/Conversation';
 import { RolePlayAd } from '../schemas/RolePlayAd';
 import type {
   UserPayload,
   ConversationDocument,
   RolePlayAd as RolePlayAdInterface,
+  Notif,
 } from '../types';
 import { User, UserDocument } from '../schemas/User';
 import { Message } from '../schemas/inbox/Message';
@@ -20,7 +21,7 @@ import { CreateMessage } from '../DTOs/CreateMessage.dto';
 import type { MessageDocument } from '../types';
 import { EventsGateway } from '../events/events.gateway';
 import { EditMessage } from '../DTOs/EditMessage.dto';
-import { Types } from 'mongoose';
+import { Notification } from '../schemas/Notification';
 
 @Injectable()
 export class ChatService {
@@ -34,6 +35,8 @@ export class ChatService {
     @InjectModel(Message.name)
     private messageModel: Model<Message>,
     private readonly eventsGateway: EventsGateway,
+    @InjectModel(Notification.name)
+    private notificationModel: Model<Notif>,
   ) {}
 
   async isUserMemberOfChat(userID: string, chatID: string): Promise<boolean> {
@@ -106,6 +109,18 @@ export class ChatService {
       throw new Error('User is not a participant in this conversation');
     }
 
+    const senderUIDFromClient =
+      typeof messageDto.senderUID === 'string' ? messageDto.senderUID : null;
+
+    if (senderUIDFromClient && senderUIDFromClient !== user._id) {
+      throw new HttpException(
+        'Invalid sender UID for authenticated user',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const senderUIDForEmit = senderUIDFromClient || user._id;
+
     // create the message
     const message: MessageDocument = await this.messageModel.create({
       sender: user._id,
@@ -133,9 +148,13 @@ export class ChatService {
       }
     }
 
-    this.eventsGateway.sendMessageToUser(
+    void this.eventsGateway.sendMessageToUser(
       conversation._id.toString(),
-      message.content,
+      message,
+      participants.filter(
+        (participantID) => participantID !== '000000000000000000000001',
+      ), // send to all participants except the SYSTEM user
+      senderUIDForEmit,
     );
 
     return {
@@ -295,6 +314,11 @@ export class ChatService {
   }
 
   async getAllUserChats(user: UserPayload) {
+    const allNotifications = await this.notificationModel
+      .find({ userID: user._id })
+      .lean()
+      .select('convoID unreadCount -_id');
+
     const userConversations = await this.userModel
       .findById(user._id)
       .select('conversations')
@@ -307,7 +331,23 @@ export class ChatService {
       })
       .lean();
 
-    return userConversations;
+    const updatedUserConversationsObject = userConversations?.conversations.map(
+      (conversation) => {
+        return {
+          ...conversation,
+          unreadCount:
+            allNotifications.find(
+              (notification) =>
+                notification.convoID.toString() === conversation._id.toString(),
+            )?.unreadCount || 0,
+        };
+      },
+    );
+
+    return {
+      _id: userConversations?._id,
+      conversations: updatedUserConversationsObject,
+    };
   }
 
   async endConversation(chatID: string) {
@@ -449,7 +489,7 @@ export class ChatService {
 
     this.eventsGateway.emitSystemMessage(
       message.conversation.toString(),
-      systemMessage.content,
+      systemMessage,
     );
   }
 
@@ -478,7 +518,7 @@ export class ChatService {
     };
   }
 
-  async createRolePlayNotes(chatID: string, content: string) {
+  async createRolePlayNotes(chatID: string, content: string, userID: string) {
     // first check if a conversation exists by ID by invoking the checkIfConversationExists method
     const conversation: ConversationDocument =
       await this.checkIfConversationExists(chatID);
@@ -519,9 +559,15 @@ export class ChatService {
         $push: { messages: systemMessage._id },
       });
 
-      this.eventsGateway.sendMessageToUser(
+      const participants: string[] = conversation.participants;
+
+      void this.eventsGateway.sendMessageToUser(
         conversation._id.toString(),
-        systemMessage.content,
+        systemMessage,
+        participants.filter(
+          (participantID) => participantID !== '000000000000000000000001',
+        ),
+        userID,
       );
     }
 

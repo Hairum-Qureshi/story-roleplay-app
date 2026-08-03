@@ -7,6 +7,7 @@ import GoogleOAuthButton from "../components/GoogleOAuthButton";
 export default function Home() {
   const { data: currUserData } = useCurrentUser();
 
+
   return (
     <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden flex flex-col">
       {/* Background Gradient */}

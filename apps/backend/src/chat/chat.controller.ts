@@ -120,7 +120,12 @@ export class ChatController {
   createRolePlayNotes(
     @Param('chatID') chatID: string,
     @Body() content: { content: string },
+    @CurrentUser() user: UserPayload,
   ) {
-    return this.chatService.createRolePlayNotes(chatID, content.content);
+    return this.chatService.createRolePlayNotes(
+      chatID,
+      content.content,
+      user._id,
+    );
   }
 }

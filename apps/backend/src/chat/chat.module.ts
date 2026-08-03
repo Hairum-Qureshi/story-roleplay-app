@@ -8,6 +8,7 @@ import {
 } from '../schemas/inbox/Conversation';
 import { RolePlayAd, RolePlayAdSchema } from '../schemas/RolePlayAd';
 import { User, UserSchema } from '../schemas/User';
+import { Notification, NotificationSchema } from '../schemas/Notification';
 import { AuthModule } from '../auth/auth.module';
 import { Message, MessageSchema } from '../schemas/inbox/Message';
 import { EventsModule } from '../events/events.module';
@@ -20,6 +21,7 @@ import { EventsModule } from '../events/events.module';
       { name: RolePlayAd.name, schema: RolePlayAdSchema },
       { name: User.name, schema: UserSchema },
       { name: Message.name, schema: MessageSchema },
+      { name: Notification.name, schema: NotificationSchema },
     ]),
     EventsModule,
   ],
