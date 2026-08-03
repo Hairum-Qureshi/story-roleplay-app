@@ -86,5 +86,9 @@
   {
     "id": 32,
     "bug": "If you're idle for a while on the site and receive notifications, the counter doesn't update until you refresh the page."
+  },
+  {
+    "id": 33,
+    "bug": "When you sign in, your profile picture isn't loaded in until you refresh the page."
   }
 ]
