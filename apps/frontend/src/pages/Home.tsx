@@ -3,10 +3,10 @@ import FeatureColumn from "../components/FeatureColumn";
 import Footer from "../components/Footer";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import GoogleOAuthButton from "../components/GoogleOAuthButton";
+import DiscordOAuthButton from "../components/DIscordOAuthButton";
 
 export default function Home() {
   const { data: currUserData } = useCurrentUser();
-
 
   return (
     <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden flex flex-col">
@@ -49,7 +49,12 @@ export default function Home() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col items-center gap-4">
-          {!currUserData && <GoogleOAuthButton />}
+          {!currUserData && (
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <GoogleOAuthButton />
+              <DiscordOAuthButton />
+            </div>
+          )}
 
           {/* Link directly under the button */}
           <Link
