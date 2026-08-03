@@ -13,7 +13,10 @@ export default function useNotifications() {
     queryClient.invalidateQueries({
       queryKey: ["your-chats"],
     });
-  }, [notification]);
+    queryClient.invalidateQueries({
+      queryKey: ["total-notifications"],
+    });
+  }, [notification, queryClient]);
 
   const { mutate: resetNotificationMutation } = useMutation({
     mutationFn: async ({ chatID }: { chatID: string }) => {
@@ -55,6 +58,7 @@ export default function useNotifications() {
         return response.data;
       } catch (error) {
         console.error(error);
+        throw error;
       }
     },
   });

@@ -104,6 +104,7 @@ export class EventsGateway {
     this.emitMessageNotification(chatID, receipient);
     // await this.notificationService.createNotification(chatID, receipient);
 
+    console.log('ran while the page was closed as well');
     await this.notificationService.createNotification(
       chatID,
       receipient ? receipient : currUserID,
@@ -122,16 +123,12 @@ export class EventsGateway {
   }
 
   @UseGuards(IsChatMemberGuard)
-  async emitMessageNotification(chatID: string, participantUID: string) {
+  emitMessageNotification(chatID: string, participantUID: string) {
     const userSocketID = this.eventsService.getUserSocketId(participantUID);
 
-    if (!userSocketID) {
-      // if the user is not connected, we don't need to emit a notification, but still need to create a notification in the database for them to see when they log back in
+    if (!userSocketID) return;
 
-      await this.notificationService.createNotification(chatID, participantUID);
-      return;
-    }
-
+    console.log('Also ran while the page was open >', userSocketID);
     this.server.to(userSocketID).emit('newMessageNotification', true);
   }
 
