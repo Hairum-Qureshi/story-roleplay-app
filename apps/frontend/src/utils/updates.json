@@ -88,5 +88,11 @@
     "heading": "Implemented notification count for messages",
     "timestamp": "07-23-2026",
     "description": "A notification count has been implemented for messages, allowing users to easily see the number of unread messages they have at a glance. This feature enhances user experience by providing a clear and concise way to track message notifications, ensuring that users can stay informed about new messages without having to navigate through their inbox or chat history. The notification count will be displayed prominently, making it easy for users to stay on top of their conversations and respond promptly to important messages."
+  },
+  {
+    "id": 17,
+    "heading": "Discord authentication implemented",
+    "timestamp": "08-03-2026",
+    "description": "Users now have the option to authenticate their accounts using Discord, allowing for a seamless login experience and integration with their existing Discord accounts. This feature provides users with an alternative authentication method, making it easier for them to access the platform and connect with their Discord communities."
   }
 ]
