@@ -11,7 +11,7 @@ import { EventsService } from './events.service';
 import { Types } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
 import { IsChatMemberGuard } from '../guards/websockets/isChatMember.guard';
-import { NotificationService } from 'src/notification/notification.service';
+import { NotificationService } from '../notification/notification.service';
 import type { Message as MessageType } from 'src/types';
 // import { Model } from 'mongoose';
 // import { Message } from 'src/schemas/inbox/Message';
