@@ -86,5 +86,13 @@
   {
     "id": 30,
     "bug": "If you have a chat going on with your ad and you delete your account, the other user can still access the chat, but the ad data is gone. Need to revisit the delete user logic and find out what's going on with the ad data and where the conditional logic is failing to properly handle the deletion of the ad data when a user deletes their account."
+  },
+  {
+    "id": 31,
+    "bug": "If you close out of the tab and receive unread messages from another user, you need to refresh the page to see the correct updated number of unread notifications. For some raeson it doesn't accurately show the number of unread notifications unless you for some reason visit the /inbox route."
+  },
+  {
+    "id": 32,
+    "bug": "If you're idle for a while on the site and receive notifications, the counter doesn't update until you refresh the page."
   }
 ]
