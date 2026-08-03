@@ -3,7 +3,7 @@ import FeatureColumn from "../components/FeatureColumn";
 import Footer from "../components/Footer";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import GoogleOAuthButton from "../components/GoogleOAuthButton";
-import DiscordOAuthButton from "../components/DIscordOAuthButton";
+import DiscordOAuthButton from "../components/DiscordOAuthButton";
 
 export default function Home() {
   const { data: currUserData } = useCurrentUser();
