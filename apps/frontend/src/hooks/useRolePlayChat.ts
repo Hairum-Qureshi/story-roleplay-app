@@ -1,5 +1,10 @@
 import axios, { type AxiosResponse } from "axios";
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import type {
   Conversation,
   Message,
@@ -39,6 +44,9 @@ interface UseRolePlayChatHook {
     messageID: string;
   }) => void;
   pinnedRoleplayMessages: PinnedMessage[];
+  fetchNextPage: () => void;
+  hasNextPage: boolean | undefined;
+  isFetchingNextPage: boolean;
 }
 
 export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
@@ -126,21 +134,24 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
     }
   }
 
-  const { data: rolePlayChatMessages } = useInfiniteQuery<{
+  const {
+    data: rolePlayChatMessages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<{
     messages: Message[];
     page: number;
   }>({
     queryKey: ["chat-messages", chatID],
+    enabled: !!chatID,
     queryFn: ({ pageParam }) =>
       fetchChatMessages({
         chatID: chatID as string,
         pageParam: pageParam as number,
       }),
-    getNextPageParam: (lastPage) => {
-      if (lastPage.messages.length === 0) return undefined;
-
-      return lastPage.page + 1; // Fetch the next page
-    },
+    getNextPageParam: (lastPage) =>
+      lastPage.messages.length < 10 ? undefined : lastPage.page + 1,
     initialPageParam: 0,
   });
 
@@ -236,15 +247,29 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
   useEffect(() => {
     if (!message || message.message.conversation !== chatID) return;
 
-    queryClient.setQueryData<Message[]>(
-      ["chat-messages", chatID],
-      (oldMessages = []) => {
-        if (oldMessages.some((m) => m._id === message.message._id)) {
-          return oldMessages;
-        }
-        return [...oldMessages, message.message];
-      },
-    );
+    queryClient.setQueryData<
+      InfiniteData<{ messages: Message[]; page: number }>
+    >(["chat-messages", chatID], (oldData) => {
+      if (!oldData) return oldData;
+
+      const firstPage = oldData.pages[0];
+
+      if (firstPage?.messages.some((m) => m._id === message.message._id)) {
+        return oldData;
+      }
+
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page, index) =>
+          index === 0
+            ? {
+                ...page,
+                messages: [message.message, ...page.messages],
+              }
+            : page,
+        ),
+      };
+    });
 
     if (!currUserData?._id) return;
 
@@ -455,5 +480,8 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
     currUserConversations,
     pinMessageMutation,
     pinnedRoleplayMessages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   };
 }
