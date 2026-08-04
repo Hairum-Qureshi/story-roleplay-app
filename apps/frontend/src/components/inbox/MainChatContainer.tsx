@@ -131,42 +131,44 @@ export default function MainChatContainer({
                 <Ad rolePlayAd={selectedChat.roleplayAd} hideButton />
               </div>
             )}
-            {rolePlayChatMessages?.map((message: Message) =>
-              hideSystemMessages &&
-              isSystemMessage(message) ? null : isSystemMessage(message) ? (
-                <div
-                  key={message._id}
-                  className="text-center text-sky-400 my-6 mx-10 italic"
-                >
-                  <p>
-                    {message.content.includes(currUser?.username)
-                      ? message.content
-                          .replace(`@${currUser?.username} has`, "You have")
-                          .replace("their", "your")
-                      : message.content}
-                  </p>
-                </div>
-              ) : (
-                <div id={`message-${message._id}`} key={message._id}>
-                  <ChatBubble
-                    messageData={{
-                      message: message.content,
-                      you: message.sender?._id === currUser?._id,
-                      timestamp: message.createdAt,
-                    }}
-                    onDelete={() =>
-                      selectedChat &&
-                      deleteMessage(selectedChat._id, message._id)
-                    }
-                    isPinned={message.isPinned || false}
-                    chatEnded={chatEnded || false}
-                    isDeleted={message.isDeleted}
-                    isEdited={message.isEdited || false}
-                    messageID={message._id}
-                  />
-                </div>
-              ),
-            )}
+            {rolePlayChatMessages?.pages
+              ?.flatMap((page) => page.messages)
+              ?.map((message: Message) =>
+                hideSystemMessages &&
+                isSystemMessage(message) ? null : isSystemMessage(message) ? (
+                  <div
+                    key={message._id}
+                    className="text-center text-sky-400 my-6 mx-10 italic"
+                  >
+                    <p>
+                      {message.content.includes(currUser?.username)
+                        ? message.content
+                            .replace(`@${currUser?.username} has`, "You have")
+                            .replace("their", "your")
+                        : message.content}
+                    </p>
+                  </div>
+                ) : (
+                  <div id={`message-${message._id}`} key={message._id}>
+                    <ChatBubble
+                      messageData={{
+                        message: message.content,
+                        you: message.sender?._id === currUser?._id,
+                        timestamp: message.createdAt,
+                      }}
+                      onDelete={() =>
+                        selectedChat &&
+                        deleteMessage(selectedChat._id, message._id)
+                      }
+                      isPinned={message.isPinned || false}
+                      chatEnded={chatEnded || false}
+                      isDeleted={message.isDeleted}
+                      isEdited={message.isEdited || false}
+                      messageID={message._id}
+                    />
+                  </div>
+                ),
+              )}
 
             <div ref={bottomOfContainer} />
 
