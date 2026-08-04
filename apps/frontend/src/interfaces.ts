@@ -60,6 +60,10 @@ interface RolePlayAd {
   updatedAt: string;
 }
 
+interface PaginateMessagesResponse {
+  pages: { messages: Message[]; page: number }[];
+}
+
 interface Message {
   _id: string;
   sender: {
@@ -206,4 +210,5 @@ export type {
   PlannedFeature,
   Bug,
   PinnedMessage,
+  PaginateMessagesResponse,
 };
