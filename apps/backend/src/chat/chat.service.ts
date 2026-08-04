@@ -276,11 +276,6 @@ export class ChatService {
       },
     });
 
-    // validate that the user is a participant in the chat
-    if (!conversation.participants.includes(user._id)) {
-      throw new Error('User is not a participant in this conversation');
-    }
-
     return conversation.messages;
   }
 
