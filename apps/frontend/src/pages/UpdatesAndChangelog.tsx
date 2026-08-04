@@ -57,18 +57,6 @@ export default function UpdatesAndChangelog() {
             ))}
           </ul>
         </section>
-
-        {/* Known Issues */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-medium text-slate-100">Known Issues</h2>
-
-          <div className="rounded-lg border border-slate-800 bg-slate-900/50 p-5 space-y-3">
-            <p className="text-sm text-slate-400">
-              Some issues are tracked privately for security and stability
-              reasons. Below are user-facing problems we're actively working on.
-            </p>
-          </div>
-        </section>
       </div>
     </div>
   );
