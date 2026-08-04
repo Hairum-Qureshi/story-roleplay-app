@@ -1,6 +1,11 @@
 import axios, { type AxiosResponse } from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import type { Conversation, Message, PinnedMessage } from "../interfaces";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  Conversation,
+  Message,
+  PaginateMessagesResponse,
+  PinnedMessage,
+} from "../interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import useSocketStore from "../store/useSocketStore";
 import { useEffect, useRef } from "react";
@@ -16,7 +21,7 @@ interface UseRolePlayChatHook {
   rolePlayChats: Conversation[];
   rolePlayNotes: { notes: string } | undefined;
   sendMessage: (adID: string, message: string) => void;
-  rolePlayChatMessages: Message[];
+  rolePlayChatMessages: PaginateMessagesResponse | undefined;
   deleteMessage: (chatID: string, messageID: string) => void;
   editMessage: (
     chatID: string,
@@ -97,23 +102,46 @@ export default function useRolePlayChat(chatID?: string): UseRolePlayChatHook {
     },
   });
 
-  const { data: rolePlayChatMessages } = useQuery({
-    queryKey: ["chat-messages", chatID],
-    queryFn: async () => {
-      try {
-        if (!chatID) return [];
+  async function fetchChatMessages({
+    chatID,
+    pageParam = 0,
+  }: {
+    chatID: string;
+    pageParam?: number;
+  }): Promise<{ messages: Message[]; page: number }> {
+    try {
+      if (!chatID) return { messages: [], page: -1 };
 
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/all-messages`,
-          {
-            withCredentials: true,
-          },
-        );
-        return response.data;
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/chat/${chatID}/all-messages?page=${pageParam}`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      return { messages: response.data.messages, page: response.data.page };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  const { data: rolePlayChatMessages } = useInfiniteQuery<{
+    messages: Message[];
+    page: number;
+  }>({
+    queryKey: ["chat-messages", chatID],
+    queryFn: ({ pageParam }) =>
+      fetchChatMessages({
+        chatID: chatID as string,
+        pageParam: pageParam as number,
+      }),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.messages.length === 0) return undefined;
+
+      return lastPage.page + 1; // Fetch the next page
     },
+    initialPageParam: 0,
   });
 
   const { data: pinnedRoleplayMessages } = useQuery({
