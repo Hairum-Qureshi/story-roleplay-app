@@ -50,7 +50,11 @@ export class AuthController {
     @Query('code') code: string,
     @Res({ passthrough: true }) res: express.Response,
   ): Promise<{ jwtToken: string } | { url: string; statusCode: number }> {
-    if (!code) throw new NotFoundException('Code is required');
+    if (!code)
+      return {
+        url: this.configService.get<string>('FRONTEND_URL') as string,
+        statusCode: 302,
+      };
 
     const { jwtToken } = await this.authService.discordAuth(code);
 
@@ -63,7 +67,7 @@ export class AuthController {
 
     return {
       jwtToken,
-      url: this.configService.get('FRONTEND_URL'),
+      url: this.configService.get<string>('FRONTEND_URL') as string,
       statusCode: 302,
     };
   }

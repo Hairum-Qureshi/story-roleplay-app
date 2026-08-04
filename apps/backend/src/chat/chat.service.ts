@@ -264,24 +264,28 @@ export class ChatService {
     return { conversation: newConversation, rolePlayAd: ad };
   }
 
-  async getAllMessagesInConversation(chatID: string, user: UserPayload) {
-    const conversation: ConversationDocument =
-      await this.checkIfConversationExists(chatID);
+  async getAllMessagesInConversation(chatID: string, page: string) {
+    const currPage = parseInt(page) || 0;
+    const messagesPerView = 10;
 
-    await conversation.populate({
-      path: 'messages',
-      populate: {
-        path: 'sender',
-        select: 'username profilePicture',
-      },
-    });
+    const conversation = await this.conversationModel
+      .findById({ _id: new Types.ObjectId(chatID) })
+      .populate({
+        path: 'messages',
+        populate: {
+          path: 'sender',
+          select: 'username profilePicture',
+        },
+        options: {
+          sort: { createdAt: -1 },
+          skip: currPage * messagesPerView,
+          limit: messagesPerView,
+        },
+      });
 
-    // validate that the user is a participant in the chat
-    if (!conversation.participants.includes(user._id)) {
-      throw new Error('User is not a participant in this conversation');
-    }
-
-    return conversation.messages;
+    return conversation
+      ? { messages: conversation.messages, page: currPage }
+      : { messages: [], page: -1 };
   }
 
   async getAllConversationsData(user: UserPayload) {

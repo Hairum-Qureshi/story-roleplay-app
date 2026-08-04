@@ -25,15 +25,25 @@ export default function MainChatContainer({
     currentTypingChatID,
   } = useSocketStore();
 
-  const { rolePlayChatMessages, deleteMessage, endRolePlayConversation } =
-    useRolePlayChat(chatID || "");
+  const {
+    rolePlayChatMessages,
+    deleteMessage,
+    endRolePlayConversation,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useRolePlayChat(chatID || "");
 
   const { hideSystemMessages, selectedChat } = useChatStore();
   const { data: currUser } = useCurrentUser();
   const messagesContainerRef = useRef<HTMLDivElement>(null);
-  const bottomOfContainer = useRef<HTMLDivElement>(null);
   const isFirstLoad = useRef(true);
+  const isFetchingOlderMessages = useRef(false);
+  const previousScrollHeight = useRef(0);
+  const anchorMessageId = useRef<string | null>(null);
+  const anchorOffsetFromContainer = useRef(0);
   const pendingDistanceFromBottom = useRef<number | null>(null);
+  const shouldStickToBottom = useRef(true);
   const chatEnded = selectedChat?.chatEnded;
   const partner = selectedChat?.participants.find(
     (participant) => participant._id !== currUser?._id,
@@ -46,8 +56,76 @@ export default function MainChatContainer({
   }, [chatID, socket]);
 
   useEffect(() => {
+    if (!hasNextPage) return;
+
     const messagesContainer = messagesContainerRef.current;
     if (!messagesContainer) return;
+
+    const handleScroll = () => {
+      const distanceFromBottom =
+        messagesContainer.scrollHeight -
+        messagesContainer.scrollTop -
+        messagesContainer.clientHeight;
+
+      shouldStickToBottom.current = distanceFromBottom < 160;
+
+      if (
+        messagesContainer.scrollTop === 0 &&
+        !isFetchingOlderMessages.current &&
+        hasNextPage &&
+        !isFetchingNextPage
+      ) {
+        previousScrollHeight.current = messagesContainer.scrollHeight;
+        const topMessage =
+          messagesContainer.querySelector<HTMLElement>("[data-message-id]");
+
+        anchorMessageId.current = topMessage?.dataset.messageId ?? null;
+        anchorOffsetFromContainer.current = topMessage
+          ? topMessage.getBoundingClientRect().top -
+            messagesContainer.getBoundingClientRect().top
+          : 0;
+        isFetchingOlderMessages.current = true;
+        fetchNextPage();
+      }
+    };
+
+    messagesContainer.addEventListener("scroll", handleScroll);
+
+    return () => {
+      messagesContainer.removeEventListener("scroll", handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  useLayoutEffect(() => {
+    const messagesContainer = messagesContainerRef.current;
+    if (!messagesContainer) return;
+
+    if (isFetchingOlderMessages.current) {
+      const anchorElement = anchorMessageId.current
+        ? messagesContainer.querySelector<HTMLElement>(
+            `[data-message-id="${anchorMessageId.current}"]`,
+          )
+        : null;
+
+      if (anchorElement) {
+        const nextOffset =
+          anchorElement.getBoundingClientRect().top -
+          messagesContainer.getBoundingClientRect().top;
+
+        messagesContainer.scrollTop +=
+          nextOffset - anchorOffsetFromContainer.current;
+      } else {
+        const scrollHeightDelta =
+          messagesContainer.scrollHeight - previousScrollHeight.current;
+
+        messagesContainer.scrollTop = scrollHeightDelta;
+      }
+
+      anchorMessageId.current = null;
+      anchorOffsetFromContainer.current = 0;
+      isFetchingOlderMessages.current = false;
+      return;
+    }
 
     if (isFirstLoad.current) {
       messagesContainer.scrollTo({
@@ -55,7 +133,11 @@ export default function MainChatContainer({
         behavior: "auto",
       });
       isFirstLoad.current = false;
-    } else {
+      shouldStickToBottom.current = true;
+      return;
+    }
+
+    if (shouldStickToBottom.current) {
       messagesContainer.scrollTo({
         top: messagesContainer.scrollHeight,
         behavior: "smooth",
@@ -64,10 +146,10 @@ export default function MainChatContainer({
   }, [rolePlayChatMessages]);
 
   useLayoutEffect(() => {
-    if (pendingDistanceFromBottom.current === null) return;
-
     const messagesContainer = messagesContainerRef.current;
     if (!messagesContainer) return;
+
+    if (pendingDistanceFromBottom.current === null) return;
 
     messagesContainer.scrollTop = Math.max(
       0,
@@ -131,44 +213,50 @@ export default function MainChatContainer({
                 <Ad rolePlayAd={selectedChat.roleplayAd} hideButton />
               </div>
             )}
-            {rolePlayChatMessages?.map((message: Message) =>
-              hideSystemMessages &&
-              isSystemMessage(message) ? null : isSystemMessage(message) ? (
-                <div
-                  key={message._id}
-                  className="text-center text-sky-400 my-6 mx-10 italic"
-                >
-                  <p>
-                    {message.content.includes(currUser?.username)
-                      ? message.content
-                          .replace(`@${currUser?.username} has`, "You have")
-                          .replace("their", "your")
-                      : message.content}
-                  </p>
-                </div>
-              ) : (
-                <div id={`message-${message._id}`} key={message._id}>
-                  <ChatBubble
-                    messageData={{
-                      message: message.content,
-                      you: message.sender?._id === currUser?._id,
-                      timestamp: message.createdAt,
-                    }}
-                    onDelete={() =>
-                      selectedChat &&
-                      deleteMessage(selectedChat._id, message._id)
-                    }
-                    isPinned={message.isPinned || false}
-                    chatEnded={chatEnded || false}
-                    isDeleted={message.isDeleted}
-                    isEdited={message.isEdited || false}
-                    messageID={message._id}
-                  />
-                </div>
-              ),
-            )}
-
-            <div ref={bottomOfContainer} />
+            {rolePlayChatMessages?.pages
+              ?.flatMap((page) => page.messages)
+              ?.reverse()
+              ?.map((message: Message) =>
+                hideSystemMessages &&
+                isSystemMessage(message) ? null : isSystemMessage(message) ? (
+                  <div
+                    key={message._id}
+                    data-message-id={message._id}
+                    className="text-center text-sky-400 my-6 mx-10 italic"
+                  >
+                    <p>
+                      {message.content.includes(currUser?.username)
+                        ? message.content
+                            .replace(`@${currUser?.username} has`, "You have")
+                            .replace("their", "your")
+                        : message.content}
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    id={`message-${message._id}`}
+                    key={message._id}
+                    data-message-id={message._id}
+                  >
+                    <ChatBubble
+                      messageData={{
+                        message: message.content,
+                        you: message.sender?._id === currUser?._id,
+                        timestamp: message.createdAt,
+                      }}
+                      onDelete={() =>
+                        selectedChat &&
+                        deleteMessage(selectedChat._id, message._id)
+                      }
+                      isPinned={message.isPinned || false}
+                      chatEnded={chatEnded || false}
+                      isDeleted={message.isDeleted}
+                      isEdited={message.isEdited || false}
+                      messageID={message._id}
+                    />
+                  </div>
+                ),
+              )}
 
             {typing && currentTypingChatID === selectedChat?._id && (
               <p className="text-slate-400 italic ml-4 mb-2">

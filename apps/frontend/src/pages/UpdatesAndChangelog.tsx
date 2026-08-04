@@ -2,14 +2,11 @@ import PlannedFeaturesCard from "../components/PlannedFeaturesCard";
 import UpdateCard from "../components/UpdateCard";
 import planned from ".././utils/planned.json";
 import updates from ".././utils/updates.json";
-import bug from ".././utils/bugs.json";
-import type { Bug, PlannedFeature, Update } from "../interfaces";
-import BugCard from "./BugCard";
+import type { PlannedFeature, Update } from "../interfaces";
 
 export default function UpdatesAndChangelog() {
   const plannedFeatures: PlannedFeature[] = planned;
   const updatesToShow: Update[] = updates.sort((a, b) => b.id - a.id);
-  const currentBugs: Bug[] = bug;
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-950 text-slate-200 px-6 py-10">
@@ -70,12 +67,6 @@ export default function UpdatesAndChangelog() {
               Some issues are tracked privately for security and stability
               reasons. Below are user-facing problems we're actively working on.
             </p>
-
-            <div className="list-disc list-inside space-y-6 text-sm text-slate-400">
-              {currentBugs.map((bug) => (
-                <BugCard bug={bug} key={bug.id} />
-              ))}
-            </div>
           </div>
         </section>
       </div>

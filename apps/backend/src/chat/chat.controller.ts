@@ -6,6 +6,7 @@ import {
   Get,
   Body,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
@@ -43,9 +44,9 @@ export class ChatController {
   @UseGuards(AuthGuard(), IsChatMember)
   getAllMessagesInConversation(
     @Param('chatID') chatID: string,
-    @CurrentUser() user: UserPayload,
+    @Query('page') page: string,
   ) {
-    return this.chatService.getAllMessagesInConversation(chatID, user);
+    return this.chatService.getAllMessagesInConversation(chatID, page);
   }
 
   @Get('all-data')
