@@ -94,5 +94,11 @@
     "heading": "Discord authentication implemented",
     "timestamp": "08-03-2026",
     "description": "Users now have the option to authenticate their accounts using Discord, allowing for a seamless login experience and integration with their existing Discord accounts. This feature provides users with an alternative authentication method, making it easier for them to access the platform and connect with their Discord communities."
+  },
+  {
+    "id": 18,
+    "heading": "Added infinite scroll to chat messages",
+    "timestamp": "08-04-2026",
+    "description": "Infinite scroll has been implemented for chat messages, allowing users to seamlessly load and view older messages as they scroll up in the chat window."
   }
 ]
