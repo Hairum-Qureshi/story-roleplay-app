@@ -16,7 +16,7 @@ Unlike traditional role-play sites that can feel cluttered or intimidating, Tale
 - Letting conversations turn into stories naturally
 - Keeping the interface clean, modern, and distraction-free
 
-Users can post role-play ads with minimal friction—no lengthy profiles or mandatory character sheets. Just describe what you're looking for, wait for replies, and begin writing together in a real-time chat environment.
+Users can post role-play ads with minimal friction. No lengthy profiles or mandatory character sheets. Just describe what you're looking for, wait for replies, and begin writing together in a real-time chat environment.
 
 ---
 
@@ -45,11 +45,6 @@ This project uses a modern TypeScript-first stack and is organized as a monorepo
 - **Vite**
 - **Tailwind CSS**
 
-## Tooling
-
-- **TurboRepo** – Task orchestration and caching
-- **Single lockfile** – Consistent dependency resolution
-
 ---
 
 # Repository Structure
@@ -68,23 +63,6 @@ This project uses a modern TypeScript-first stack and is organized as a monorepo
 
 ---
 
-# Features (Current & Planned)
-
-Current features:
-
-- Role-play ad creation and discovery
-- One-on-one role-play chats (DMs)
-- Real-time messaging via WebSockets
-- Optional character bios per role-play
-
-Planned features:
-
-- Multiple characters per user
-- Character reuse across chats
-- Advanced filtering for role-play ads
-
----
-
 # Development Status
 
 TaleWeaver is currently under active development. The architecture is being designed with long-term scalability in mind, prioritizing clean boundaries between domain logic, transport layers, and UI concerns.
@@ -95,7 +73,7 @@ If you're interested in collaborative storytelling, real-time writing, or buildi
 
 Check out the **TaleWeaver** website for bug reports, upcoming features, and a changelog:
 
-https://story-roleplay-app-frontend.vercel.app/updates-changelog
+https://www.taleweaver-roleplays.com/updates-changelog
 
 ---
 
@@ -128,12 +106,16 @@ VITE_BACKEND_BASE_URL=http://localhost:3000
 
 # Google OAuth
 VITE_GOOGLE_OAUTH_CLIENT_ID=your_google_oauth_client_id
+
+# Discord OAuth
+VITE_DISCORD_OAUTH2_URL=https://discord.com/oauth2/authorize?...
 ```
 
 ### Notes
 
 - `VITE_BACKEND_BASE_URL` should point to your backend API.
 - `VITE_GOOGLE_OAUTH_CLIENT_ID` is the OAuth Client ID from your Google Cloud project.
+- `VITE_DISCORD_OAUTH2_URL` is the Discord OAuth authorization URL used to initiate Discord sign-in.
 - Environment variables exposed to the frontend must begin with the `VITE_` prefix.
 
 ---
@@ -160,6 +142,11 @@ MONGO_URI=your_mongodb_connection_string
 GOOGLE_OAUTH_CLIENT_ID=your_google_oauth_client_id
 GOOGLE_OAUTH_CLIENT_SECRET=your_google_oauth_client_secret
 
+# Discord OAuth
+DISCORD_CLIENT_ID=your_discord_client_id
+DISCORD_CLIENT_SECRET=your_discord_client_secret
+DISCORD_REDIRECT_URI=http://localhost:3000/api/auth/discord/redirect
+
 # Email (Resend)
 RESEND_API_KEY=your_resend_api_key
 RESEND_SENDER_EMAIL=your_sender_email
@@ -176,8 +163,8 @@ To configure it:
 
 1. Create a project in the **Google Cloud Console**.
 2. Enable the **Google Identity / OAuth** APIs if prompted.
-3. Configure the **OAuth consent screen**.
-4. Create an **OAuth 2.0 Client ID**.
+3. Configure the OAuth consent screen.
+4. Create an OAuth 2.0 Client ID.
 5. Add your development and production origins and redirect URIs as needed.
 6. Copy the generated:
    - **Client ID**
@@ -185,11 +172,61 @@ To configure it:
 
 Use these values for:
 
-- **Frontend**
-  - `VITE_GOOGLE_OAUTH_CLIENT_ID`
+### Frontend
 
-- **Backend**
-  - `GOOGLE_OAUTH_CLIENT_ID`
-  - `GOOGLE_OAUTH_CLIENT_SECRET`
+- `VITE_GOOGLE_OAUTH_CLIENT_ID`
+
+### Backend
+
+- `GOOGLE_OAUTH_CLIENT_ID`
+- `GOOGLE_OAUTH_CLIENT_SECRET`
 
 These credentials allow the frontend to initiate Google sign-in and the backend to securely verify OAuth authentication.
+
+---
+
+# Discord OAuth Setup
+
+TaleWeaver also supports signing in with **Discord OAuth 2.0**.
+
+To configure it:
+
+1. Open the **Discord Developer Portal**.
+2. Create a **New Application**.
+3. Give your application a name.
+4. Navigate to **OAuth2 > General**.
+5. Copy the following values:
+   - **Client ID**
+   - **Client Secret**
+6. Under **Redirects**, add the redirect URI:
+
+```
+http://localhost:3000/api/auth/discord/redirect
+```
+
+For production, add your deployed backend redirect URI as well.
+
+### Backend
+
+Use the following values:
+
+```env
+DISCORD_CLIENT_ID=your_discord_client_id
+DISCORD_CLIENT_SECRET=your_discord_client_secret
+DISCORD_REDIRECT_URI=http://localhost:3000/api/auth/discord/redirect
+```
+
+### Frontend
+
+The frontend redirects users directly to Discord's authorization endpoint. Construct the authorization URL using your Discord application information and store it as:
+
+```env
+VITE_DISCORD_OAUTH2_URL=https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fdiscord%2Fredirect&scope=identify%20email
+```
+
+Replace:
+
+- `YOUR_CLIENT_ID` with your Discord application's Client ID.
+- The encoded `redirect_uri` with your production backend redirect URI when deploying.
+
+This URL is used by the frontend to begin the Discord OAuth flow, while the backend exchanges the authorization code for an access token and authenticates the user.
