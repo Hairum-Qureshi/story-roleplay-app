@@ -5,6 +5,8 @@ import type { AdProps } from "../interfaces";
 import moment from "moment";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { FiTrash2 } from "react-icons/fi";
+import { MdReport } from "react-icons/md";
 
 export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
   const formattedDate = new Date(rolePlayAd?.createdAt).toLocaleDateString(
@@ -17,7 +19,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
   );
 
   const { data: currUserData } = useCurrentUser();
-
+  const { deleteAdMutate } = useRolePlayAds();
   const { createConversation } = useRolePlayChat();
   const { likeMutate, unlikeMutate } = useRolePlayAds(rolePlayAd?._id);
 
@@ -90,24 +92,91 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
           <div className="flex flex-wrap gap-3">
             {!currUserData ||
               (currUserData?._id !== rolePlayAd?.author?._id && (
-                <button
-                  className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 transition hover:cursor-pointer"
-                  onClick={() => {
-                    createConversation(rolePlayAd._id);
-                  }}
-                >
-                  Respond to Ad
-                </button>
+                <>
+                  <button
+                    className="
+                      inline-flex items-center justify-center
+                      rounded-lg
+                      bg-indigo-600
+                      px-5 py-2.5
+                      text-sm font-semibold text-white
+                      shadow-sm
+                      transition-all duration-200
+                      hover:bg-indigo-700
+                      hover:shadow-md
+                      active:scale-[0.98]
+                      cursor-pointer
+                    "
+                    onClick={() => {
+                      createConversation(rolePlayAd._id);
+                    }}
+                  >
+                    Respond to Ad
+                  </button>
+
+                  <button
+                    className="
+                      group inline-flex items-center justify-center gap-2
+                      rounded-xl
+                      border border-gray-600
+                      bg-gray-800/80
+                      px-5 py-2.5
+                      text-sm font-semibold text-gray-100
+                      shadow-md shadow-black/20
+                      backdrop-blur-sm
+                      transition-all duration-200
+                      hover:-translate-y-0.5
+                      hover:border-gray-500
+                      hover:bg-gray-700
+                      hover:shadow-lg
+                      active:translate-y-0
+                      cursor-pointer
+                    "
+                    onClick={() => {
+                      confirm(
+                        "Are you sure you want to report this ad? This action cannot be undone.",
+                      ) && alert("Feature Coming Soon");
+                    }}
+                  >
+                    <MdReport className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
+                    <span>Report Ad</span>
+                  </button>
+                </>
               ))}
+            {currUserData?._id === rolePlayAd?.author?._id && (
+              <button
+                className="flex items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-700 transition-colors hover:cursor-pointer hover:border-red-500 hover:bg-red-50 hover:text-red-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-red-500 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+                onClick={() => {
+                  confirm("Are you sure you want to delete this ad?") &&
+                    deleteAdMutate({ adID: rolePlayAd._id });
+                }}
+              >
+                <FiTrash2 className="h-4 w-4" />
+              </button>
+            )}
             <button
-              className="inline-flex items-center justify-center rounded-lg bg-red-600 px-3 py-2.5 text-lg font-semibold text-white hover:bg-red-500 transition hover:cursor-pointer"
+              className="
+                group inline-flex items-center justify-center
+                rounded-xl
+                bg-gradient-to-br from-red-500 to-rose-600
+                px-3 py-2.5
+                text-lg font-semibold text-white
+                shadow-md shadow-red-500/25
+                transition-all duration-200
+                hover:-translate-y-0.5
+                hover:shadow-lg hover:shadow-red-500/40
+                active:scale-95
+                cursor-pointer
+              "
               onClick={() =>
                 rolePlayAd?.isLiked
                   ? unlikeMutate({ adID: rolePlayAd._id })
                   : likeMutate({ adID: rolePlayAd._id })
               }
             >
-              {rolePlayAd?.isLiked ? <FaHeart /> : <FaRegHeart />}
+              <span className="transition-transform duration-200 group-hover:scale-125">
+                {rolePlayAd?.isLiked ? <FaHeart /> : <FaRegHeart />}
+              </span>
             </button>
           </div>
         )}

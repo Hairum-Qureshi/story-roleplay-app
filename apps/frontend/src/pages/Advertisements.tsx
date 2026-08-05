@@ -12,10 +12,8 @@ export default function Advertisements() {
           placeholder="Search..."
           className="w-full p-3 border border-sky-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 bg-slate-900 text-white placeholder-slate-400 transition"
         />
-
-        {/* Ads List */}
         <div className="flex flex-col gap-6">
-          {roleplayAds && roleplayAds?.length > 0 ? (
+          {roleplayAds && roleplayAds?.length ? (
             roleplayAds?.map((ad) => <Ad key={ad._id} rolePlayAd={ad} />)
           ) : (
             <p className="text-center text-slate-400">

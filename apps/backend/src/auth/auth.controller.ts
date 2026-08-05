@@ -67,7 +67,7 @@ export class AuthController {
 
     return {
       jwtToken,
-      url: this.configService.get<string>('FRONTEND_URL') as string,
+      url: `${this.configService.get<string>('FRONTEND_URL')}/profile`,
       statusCode: 302,
     };
   }

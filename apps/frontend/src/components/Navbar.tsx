@@ -45,6 +45,34 @@ export default function Navbar() {
         >
           Main Feed
         </Link>
+        {!currUserData && (
+          <>
+            <Link
+              className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/faq"
+            >
+              FAQ
+            </Link>
+            <Link
+              className="hover:cursor-pointer transition  px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/about"
+            >
+              About
+            </Link>
+            <Link
+              className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/guidelines"
+            >
+              Guidelines
+            </Link>
+            <Link
+              className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/updates-changelog"
+            >
+              Updates
+            </Link>
+          </>
+        )}
 
         {currUserData && (
           <>
