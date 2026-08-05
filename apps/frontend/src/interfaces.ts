@@ -190,6 +190,19 @@ interface PinnedMessage {
   createdAt: string;
 }
 
+interface UseRolePlayAdsHook {
+  roleplayAds: RolePlayAd[];
+  deleteProfile: () => void;
+  currUserRoleplayAds: RolePlayAd[];
+  adData: RolePlayAd | null;
+  loading: boolean;
+  repostAd: (adID: string) => void;
+  deleteAdMutate: ({ adID }: { adID: string }) => void;
+  likeMutate: ({ adID }: { adID: string }) => void;
+  unlikeMutate: ({ adID }: { adID: string }) => void;
+  likedRolePlayAds: RolePlayAd[];
+}
+
 export type {
   FeatureColumnProps,
   UseGoogleAuthHook,
