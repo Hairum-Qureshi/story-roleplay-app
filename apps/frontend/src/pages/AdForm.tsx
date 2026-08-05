@@ -30,7 +30,9 @@ export default function AdForm() {
       setWritingExpectations(adData.writingExpectations);
       setContentNotes(adData.contentNotes);
       setInputs(
-        adData.writingExpectations.map((item) => ({ expectation: item })),
+        adData.writingExpectations.map((item: string) => ({
+          expectation: item,
+        })),
       );
     }
   }, [adData, adID]);
