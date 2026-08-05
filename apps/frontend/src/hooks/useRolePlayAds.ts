@@ -1,28 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import type { RolePlayAd } from "../interfaces";
-import useSocketStore from "../store/useSocketStore";
+import type { RolePlayAd, UseRolePlayAdsHook } from "../interfaces";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-interface UseRolePlayAdsHook {
-  roleplayAds: RolePlayAd[];
-  deleteProfile: () => void;
-  currUserRoleplayAds: RolePlayAd[];
-  adData: RolePlayAd | null;
-  loading: boolean;
-  repostAd: (adID: string) => void;
-  deleteAdMutate: ({ adID }: { adID: string }) => void;
-  likeMutate: ({ adID }: { adID: string }) => void;
-  unlikeMutate: ({ adID }: { adID: string }) => void;
-  likedRolePlayAds: RolePlayAd[];
-}
-
-export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
+export default function useRolePlayAds(): UseRolePlayAdsHook {
   const queryClient = useQueryClient();
-  const { rolePlayAd } = useSocketStore();
-  const [adData, setAdData] = useState<RolePlayAd | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [adData] = useState<RolePlayAd | null>(null);
+  const [loading] = useState(true);
 
   const navigate = useNavigate();
 
