@@ -93,7 +93,7 @@ export default function FAQ() {
         {
           question: "Can I change my username or profile picture?",
           answer:
-            "Usernames are permanent and randomly generated during account creation. Profile pictures are pulled from your Google account and cannot be changed within the site. Future updates may include options to customize these elements.",
+            "Usernames are permanent and randomly generated during account creation. Profile pictures are pulled from your Google and/or Discord account and cannot be changed within the site. Future updates may include options to customize these elements. If you're not satisfied with your username and/or profile picture, one option is to sign in through your Discord account instead.",
         },
         {
           question:
