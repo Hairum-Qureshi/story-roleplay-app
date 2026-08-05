@@ -15,6 +15,42 @@ export default function Guidelines() {
 
         <section className="space-y-4">
           <h2 className="text-xl font-medium text-blue-300">
+            General Community Standards
+          </h2>
+          <ul className="list-disc list-inside space-y-2 text-slate-300">
+            <li>You must be 18 or older to use this platform.</li>
+            <li>
+              Content that is sexually explicit, exploitative, or otherwise
+              inappropriate for minors is not allowed.
+            </li>
+            <li>
+              This platform is intended for adult users only, including any
+              content involving adult themes, sexual content, or explicit
+              material.
+            </li>
+            <li>
+              Do not share personal information, including real names, contact
+              details, addresses, school information, or other identifying
+              details.
+            </li>
+            <li>
+              Do not doxx, harass, stalk, threaten, or encourage others to do
+              so.
+            </li>
+            <li>
+              Do not solicit private meetings, exchange personal contact
+              information, or try to move conversations off-platform in ways
+              that create risk.
+            </li>
+            <li>
+              Keep interactions respectful and safe for all users, even when
+              discussing sensitive or controversial topics.
+            </li>
+          </ul>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-xl font-medium text-blue-300">
             What's Encouraged
           </h2>
           <ul className="list-disc list-inside space-y-2 text-slate-300">
