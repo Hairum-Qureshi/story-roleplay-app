@@ -5,6 +5,7 @@ import type { AdProps } from "../interfaces";
 import moment from "moment";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { FiTrash2 } from "react-icons/fi";
 
 export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
   const formattedDate = new Date(rolePlayAd?.createdAt).toLocaleDateString(
@@ -17,7 +18,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
   );
 
   const { data: currUserData } = useCurrentUser();
-
+  const { deleteAdMutate } = useRolePlayAds();
   const { createConversation } = useRolePlayChat();
   const { likeMutate, unlikeMutate } = useRolePlayAds(rolePlayAd?._id);
 
@@ -99,6 +100,17 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
                   Respond to Ad
                 </button>
               ))}
+            {currUserData?._id === rolePlayAd?.author?._id && (
+              <button
+                className="flex items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-700 transition-colors hover:cursor-pointer hover:border-red-500 hover:bg-red-50 hover:text-red-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-red-500 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+                onClick={() => {
+                  confirm("Are you sure you want to delete this ad?") &&
+                    deleteAdMutate({ adID: rolePlayAd._id });
+                }}
+              >
+                <FiTrash2 className="h-4 w-4" />
+              </button>
+            )}
             <button
               className="inline-flex items-center justify-center rounded-lg bg-red-600 px-3 py-2.5 text-lg font-semibold text-white hover:bg-red-500 transition hover:cursor-pointer"
               onClick={() =>
