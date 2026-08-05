@@ -190,7 +190,7 @@ interface PinnedMessage {
   createdAt: string;
 }
 
-interface UseRolePlayAdsHook {
+export interface UseRolePlayAdsHook {
   roleplayAds: RolePlayAd[];
   deleteProfile: () => void;
   currUserRoleplayAds: RolePlayAd[];
