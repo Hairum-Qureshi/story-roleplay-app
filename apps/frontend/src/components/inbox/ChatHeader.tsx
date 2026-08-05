@@ -2,6 +2,8 @@ import { useCurrentUser } from "../../hooks/useCurrentUser";
 import type { ChatHeaderProps } from "../../interfaces";
 import useChatStore from "../../store/useChatStore";
 import useSocketStore from "../../store/useSocketStore";
+import { LuPanelLeftOpen } from "react-icons/lu";
+import { LuPanelLeftClose } from "react-icons/lu";
 
 export default function ChatHeader({
   fullWidth,
@@ -66,9 +68,27 @@ export default function ChatHeader({
               });
             }
           }}
-          className="border border-white rounded-md px-2 py-1 hover:cursor-pointer"
+          className="
+            ml-2 flex items-center justify-center
+            h-9 w-9
+            rounded-lg
+            border border-blue-900/50
+            bg-slate-950
+            text-blue-300/70
+            transition-all duration-200
+            hover:bg-blue-950/60
+            hover:text-blue-200
+            hover:border-blue-700/60
+            hover:shadow-[0_0_12px_rgba(37,99,235,0.15)]
+            active:scale-95
+            cursor-pointer
+          "
         >
-          {fullWidth ? "Show" : "Hide"} Side Panel
+          {fullWidth ? (
+            <LuPanelLeftOpen className="h-5 w-5" />
+          ) : (
+            <LuPanelLeftClose className="h-5 w-5" />
+          )}
         </button>
       </div>
     </div>
