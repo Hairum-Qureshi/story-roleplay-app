@@ -17,7 +17,7 @@ export default function ProfileAdCard({
 	const { repostAd, deleteAdMutate } = useRolePlayAds();
 	const { data: currUser } = useCurrentUser();
 	const { createConversation } = useRolePlayChat();
-	const { unlikeMutate } = useRolePlayAds(ad?._id);
+	const { unlikeMutate } = useRolePlayAds();
 
 	return (
 		<div

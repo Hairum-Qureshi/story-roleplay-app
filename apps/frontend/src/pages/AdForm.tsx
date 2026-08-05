@@ -8,7 +8,7 @@ import useRolePlayAds from "../hooks/useRolePlayAds";
 
 export default function AdForm() {
 	const { adID } = useParams();
-	const { adData } = useRolePlayAds(adID);
+	const { adData } = useRolePlayAds();
 	const [inputs, setInputs] = useState([{ expectation: "" }]);
 	const [title, setTitle] = useState("");
 	const [pov, setPov] = useState<PovType | "">("");

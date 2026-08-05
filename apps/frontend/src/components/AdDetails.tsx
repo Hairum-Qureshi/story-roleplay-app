@@ -1,10 +1,8 @@
-import { useParams } from "react-router-dom";
 import Ad from "./Ad";
 import useRolePlayAds from "../hooks/useRolePlayAds";
 
 export default function AdDetails() {
-  const { adID } = useParams();
-  const { adData } = useRolePlayAds(adID || "");
+  const { adData } = useRolePlayAds();
 
   return (
     <div className="min-h-screen bg-slate-950">
