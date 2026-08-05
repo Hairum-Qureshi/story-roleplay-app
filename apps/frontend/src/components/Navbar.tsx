@@ -45,6 +45,58 @@ export default function Navbar() {
         >
           Main Feed
         </Link>
+        {!currUserData && (
+          <>
+            <Link
+              className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/faq"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
+            >
+              FAQ
+            </Link>
+            <Link
+              className="hover:cursor-pointer transition  px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/about"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
+            >
+              About
+            </Link>
+            <Link
+              className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/guidelines"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
+            >
+              Guidelines
+            </Link>
+            <Link
+              className="hover:cursor-pointer transition px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+              to="/updates-changelog"
+              onClick={() =>
+                socket?.emit("removeFromChatRoom", {
+                  chatID: selectedChat?._id,
+                  userID: currUserData?._id,
+                })
+              }
+            >
+              Updates
+            </Link>
+          </>
+        )}
 
         {currUserData && (
           <>
