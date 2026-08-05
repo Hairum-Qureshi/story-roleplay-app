@@ -10,11 +10,6 @@
     "description": "Users will have the ability to search for specific chats by title from their list of conversations, allowing for quicker access to relevant chats without having to scroll through the entire inbox."
   },
   {
-    "id": 5,
-    "subheading": "Message count for unread messages",
-    "description": "A message count will be added to indicate the number of unread messages in each chat, helping users quickly identify which conversations require their attention."
-  },
-  {
     "id": 6,
     "subheading": "Read/unread indicators for messages",
     "description": "Unopened messages will be visually distinguishable from opened ones, allowing users to easily identify which messages they have already read and which ones are new."
