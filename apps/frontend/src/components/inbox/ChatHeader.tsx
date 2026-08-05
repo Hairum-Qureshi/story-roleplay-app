@@ -4,6 +4,7 @@ import useChatStore from "../../store/useChatStore";
 import useSocketStore from "../../store/useSocketStore";
 import { LuPanelLeftOpen } from "react-icons/lu";
 import { LuPanelLeftClose } from "react-icons/lu";
+import { FaUserSlash } from "react-icons/fa6";
 
 export default function ChatHeader({
   fullWidth,
@@ -57,6 +58,37 @@ export default function ChatHeader({
         <option value="character3">Character 3</option>
       </select> */}
         <button
+          className="
+          group flex items-center justify-center
+          rounded-lg
+          border border-red-500/30
+          bg-black/40
+          p-2.5
+          text-red-400
+          transition-all duration-200
+          hover:border-red-400/70
+          hover:bg-red-950/50
+          hover:text-red-300
+          hover:shadow-[0_0_20px_rgba(239,68,68,0.35)]
+          active:scale-95 
+          hover:cursor-pointer
+        "
+          aria-label="Block user"
+          onClick={() => {
+            confirm(
+              "Are you sure you want to block this user? This will terminate the role-play which cannot be undone.",
+            ) && alert("Feature Coming Soon");
+          }}
+        >
+          <FaUserSlash
+            className="
+              h-4 w-4
+              transition-transform duration-200
+              group-hover:scale-110
+            "
+          />
+        </button>
+        <button
           onClick={() => {
             fullWidthToggle();
             if (!fullWidth) {
@@ -69,7 +101,7 @@ export default function ChatHeader({
             }
           }}
           className="
-            ml-2 flex items-center justify-center
+            flex items-center justify-center
             h-9 w-9
             rounded-lg
             border border-blue-900/50
