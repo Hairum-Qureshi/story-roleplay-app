@@ -1,8 +1,8 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import useRolePlayAds from "../../hooks/useRolePlayAds";
 import NotFound from "../../pages/NotFound";
+import { useParams } from "react-router-dom";
 
 export default function OwnerRoutesGuard({
   children,
