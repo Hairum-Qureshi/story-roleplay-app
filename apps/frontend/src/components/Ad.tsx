@@ -21,7 +21,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
   const { data: currUserData } = useCurrentUser();
   const { deleteAdMutate } = useRolePlayAds();
   const { createConversation } = useRolePlayChat();
-  const { likeMutate, unlikeMutate } = useRolePlayAds(rolePlayAd?._id);
+  const { likeMutate, unlikeMutate } = useRolePlayAds();
 
   return (
     <article className="w-full max-w-4xl mx-auto rounded-xl border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 shadow-lg mb-8">
