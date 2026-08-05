@@ -147,12 +147,12 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-semibold text-white">Contact Us</h2>
             <p className="mt-4 text-lg leading-8 text-slate-300">
               If you have questions about this Privacy Policy, your information,
-              or your rights under this policy, please contact us at{" "}
+              or your rights under this policy, please visit our{" "}
               <a
-                href="mailto:support@taleweaver.com"
+                href="/contact"
                 className="font-semibold text-indigo-300 transition hover:text-indigo-200"
               >
-                support@taleweaver.com
+                contact page
               </a>
               .
             </p>
