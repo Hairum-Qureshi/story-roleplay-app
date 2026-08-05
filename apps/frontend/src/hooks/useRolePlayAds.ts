@@ -2,12 +2,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import type { RolePlayAd, UseRolePlayAdsHook } from "../interfaces";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function useRolePlayAds(): UseRolePlayAdsHook {
+export default function useRolePlayAds(adID?: string): UseRolePlayAdsHook {
   const queryClient = useQueryClient();
-  const [adData] = useState<RolePlayAd | null>(null);
-  const [loading] = useState(true);
+  const [adData, setAdData] = useState<RolePlayAd | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -85,34 +85,25 @@ export default function useRolePlayAds(): UseRolePlayAdsHook {
     mutate();
   }
 
-  // useEffect(() => {
-  // 	const fetchAd = async () => {
-  // 		try {
-  // 			setLoading(true);
-  // 			const response = await axios.get(
-  // 				`${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/${adID}`,
-  // 				{ withCredentials: true }
-  // 			);
-  // 			setAdData(response.data);
-  // 		} catch (error) {
-  // 			console.error(error);
-  // 			setAdData(null);
-  // 		} finally {
-  // 			setLoading(false);
-  // 		}
-  // 	};
+  useEffect(() => {
+    const fetchAd = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/role-play-ad/${adID}`,
+          { withCredentials: true },
+        );
+        setAdData(response.data);
+      } catch (error) {
+        console.error(error);
+        setAdData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // 	if (adID) fetchAd();
-  // }, [adID]);
-
-  // useEffect(() => {
-  // 	if (rolePlayAd) {
-  // 		queryClient.setQueryData<RolePlayAd[] | undefined>(
-  // 			["roleplayAds"],
-  // 			old => [rolePlayAd, ...(old ?? [])]
-  // 		);
-  // 	}
-  // }, [rolePlayAd]);
+    if (adID) fetchAd();
+  }, [adID]);
 
   const { mutate: repostAdMutate } = useMutation({
     mutationFn: async ({ adID }: { adID: string }) => {
