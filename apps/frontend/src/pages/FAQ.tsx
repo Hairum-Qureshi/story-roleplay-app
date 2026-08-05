@@ -64,6 +64,18 @@ export default function FAQ() {
             </p>
           ),
         },
+        {
+          question:
+            "How old do you have to be to use this platform and participate in role-plays?",
+          answer: (
+            <p>
+              You must be 18 years or older. Please check out{" "}
+              <Link to="/guidelines" className="underline text-blue-500">
+                our guidelines for more information on this topic
+              </Link>
+            </p>
+          ),
+        },
       ],
     },
     {
