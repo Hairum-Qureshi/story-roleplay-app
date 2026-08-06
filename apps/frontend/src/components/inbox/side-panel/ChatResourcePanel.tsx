@@ -132,6 +132,10 @@ export default function ChatResourcePanel({
                           username={member.username}
                           you={member.username === currUserData?.username}
                           profilePicture={member.profilePicture || ""}
+                          isBlockedFlag={
+                            member._id !== currUserData?._id &&
+                            currUserData?.blockedUsers.includes(member._id)
+                          }
                         />
                       ),
                   )}
