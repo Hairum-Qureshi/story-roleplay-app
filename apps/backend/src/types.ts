@@ -72,6 +72,8 @@ type UserPayload = {
   characterBios: CharacterBio[];
   conversations: Conversation[];
   rolePlayAds: RolePlayAd[];
+  isAdmin: boolean;
+  blockedUsers: string[];
   createdAt: Date;
 };
 
