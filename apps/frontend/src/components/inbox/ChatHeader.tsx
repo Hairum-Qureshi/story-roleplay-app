@@ -5,6 +5,7 @@ import useSocketStore from "../../store/useSocketStore";
 import { LuPanelLeftOpen } from "react-icons/lu";
 import { LuPanelLeftClose } from "react-icons/lu";
 import { FaUserSlash } from "react-icons/fa6";
+import useUser from "../../hooks/useUser";
 
 export default function ChatHeader({
   fullWidth,
@@ -16,6 +17,13 @@ export default function ChatHeader({
     useChatStore();
   const { socket } = useSocketStore();
   const { data: currUserData } = useCurrentUser();
+  const { blockUserMutation, unBlockUserMutation } = useUser();
+
+  const partner = selectedChat?.participants.find(
+    (participant) => participant._id !== currUserData?._id,
+  );
+
+  const blockedUser = currUserData?.blockedUsers.includes(partner?._id || "");
 
   // useEffect(() => {
   //   fullWidthToggle(true);
@@ -73,11 +81,18 @@ export default function ChatHeader({
           active:scale-95 
           hover:cursor-pointer
         "
+          title={blockedUser ? "Unblock user" : "Block user"}
           aria-label="Block user"
           onClick={() => {
             confirm(
-              "Are you sure you want to block this user? This will terminate the role-play which cannot be undone.",
-            ) && alert("Feature Coming Soon");
+              blockedUser
+                ? "Are you sure you want to unblock this user?"
+                : "Are you sure you want to block this user? This will terminate the role-play which cannot be undone.",
+            ) &&
+            partner &&
+            blockedUser
+              ? unBlockUserMutation(partner._id)
+              : blockUserMutation(partner!._id);
           }}
         >
           <FaUserSlash
