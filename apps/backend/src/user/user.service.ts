@@ -109,7 +109,7 @@ export class UserService {
     if (!conversationsWithUser.length) return;
 
     for (const conversation of conversationsWithUser) {
-      await this.chatService.endConversation((conversation)._id.toString());
+      await this.chatService.endConversation(conversation._id.toString());
     }
   }
 
@@ -131,5 +131,14 @@ export class UserService {
     await this.userModel.findByIdAndUpdate(currUserID, {
       $pull: { blockedUsers: targetUserID },
     });
+  }
+
+  async getBlockedUsers(currUserID: string) {
+    const user = await this.userModel.findById(currUserID).populate({
+      path: 'blockedUsers',
+      select: 'username profilePicture',
+    });
+
+    return user?.blockedUsers;
   }
 }
