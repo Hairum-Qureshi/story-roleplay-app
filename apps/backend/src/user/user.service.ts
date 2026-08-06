@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CharacterBio, CharacterBioDocument } from '../schemas/CharacterBio';
@@ -9,6 +9,7 @@ import {
   ConversationDocument,
 } from '../schemas/inbox/Conversation';
 import type { Conversation as ConversationInterface } from '../types';
+import { ChatService } from 'src/chat/chat.service';
 
 @Injectable()
 export class UserService {
@@ -20,6 +21,7 @@ export class UserService {
     private rolePlayAdModel: Model<RolePlayAdDocument>,
     @InjectModel(Conversation.name)
     private conversationModel: Model<ConversationDocument>,
+    private readonly chatService: ChatService,
   ) {}
 
   async deleteUserById(userId: string) {
@@ -85,5 +87,49 @@ export class UserService {
       await this.characterBioModel.deleteMany({ author: userId });
       await this.rolePlayAdModel.deleteMany({ author: userId });
     }
+  }
+
+  async blockUser(currUserID: string, targetUserId: string) {
+    // check if the targetUserID is valid
+    const validUser = await this.userModel.findById(targetUserId);
+
+    const conversationsWithUser: ConversationInterface[] =
+      await this.conversationModel.find({
+        participants: { $all: [currUserID, targetUserId] },
+      });
+
+    if (!validUser) throw new NotFoundException('User not found');
+
+    // block the user
+    await this.userModel.findByIdAndUpdate(currUserID, {
+      $addToSet: { blockedUsers: targetUserId },
+    });
+
+    // check if the user has any existing conversations with the user and if so, end the conversations:
+    if (!conversationsWithUser.length) return;
+
+    for (const conversation of conversationsWithUser) {
+      await this.chatService.endConversation((conversation)._id.toString());
+    }
+  }
+
+  async unblockUser(currUserID: string, targetUserID: string) {
+    // check if the targetUserID is valid
+    const validUser = await this.userModel.findById(targetUserID);
+
+    if (!validUser) throw new NotFoundException('User not found');
+
+    // check if the user is actually blocked by the current user
+    const isBlocked = !!(await this.userModel.findOne({
+      _id: currUserID,
+      blockedUsers: targetUserID,
+    }));
+
+    if (!isBlocked) throw new HttpException('User is not blocked', 400);
+
+    // unblock the user
+    await this.userModel.findByIdAndUpdate(currUserID, {
+      $pull: { blockedUsers: targetUserID },
+    });
   }
 }
