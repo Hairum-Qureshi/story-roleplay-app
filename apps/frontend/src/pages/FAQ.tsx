@@ -151,6 +151,11 @@ export default function FAQ() {
           answer:
             "Yes, you can edit your ads even after conversations have started. A system message will be sent in the chat notifying your partner of the changes. It's recommended to communicate with your role-play partner about any major changes to ensure a smooth continuation of the story.",
         },
+        {
+          question: "How do I block or unblock a user?",
+          answer:
+            "You can block or unblock a user by clicking the 'Block User' or 'Unblock User' button in the chat header. Blocking a user will terminate all existing role-play sessions you have with that user and it will prevent them from sending you messages. Note that just because a role-play session has been terminated, it does not necessarily mean the other user has blocked you. Unblocking a user will allow them to interact with your posts again, but it will not restore any previous conversations that have been terminated from the block.",
+        },
       ],
     },
     {
