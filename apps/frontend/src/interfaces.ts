@@ -36,8 +36,9 @@ interface User {
   conversations: Conversation[];
   rolePlayAds: RolePlayAd[];
   isAdmin: boolean;
-  blockedUsers: string[];
+  isBlocked: string[];
   createdAt: string;
+  updatedAt: string;
 }
 
 type PovType = "First Person" | "Second Person" | "Third Person";
