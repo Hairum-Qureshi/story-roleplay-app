@@ -9,7 +9,7 @@ import {
   ConversationDocument,
 } from '../schemas/inbox/Conversation';
 import type { Conversation as ConversationInterface } from '../types';
-import { ChatService } from 'src/chat/chat.service';
+import { ChatService } from '../chat/chat.service';
 
 @Injectable()
 export class UserService {
@@ -90,9 +90,9 @@ export class UserService {
   }
 
   async blockUser(currUserID: string, targetUserId: string) {
-
     // ensure the current user is not blocking themself
-    if(currUserID === targetUserId) throw new HttpException('You cannot block yourself', 400);
+    if (currUserID === targetUserId)
+      throw new HttpException('You cannot block yourself', 400);
 
     // check if the targetUserID is valid
     const validUser = await this.userModel.findById(targetUserId);
