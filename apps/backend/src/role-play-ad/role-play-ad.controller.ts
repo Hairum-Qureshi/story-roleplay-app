@@ -35,7 +35,7 @@ export class RolePlayAdController {
   @Get('all')
   @UseGuards(AuthGuard())
   getAllAds(@CurrentUser() user: UserPayload) {
-    return this.rolePlayAdService.getAllAds(user._id);
+    return this.rolePlayAdService.getAllAds(user._id, user.blockedUsers);
   }
 
   @Get('/liked')
