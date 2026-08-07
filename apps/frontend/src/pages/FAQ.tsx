@@ -64,6 +64,18 @@ export default function FAQ() {
             </p>
           ),
         },
+        {
+          question:
+            "How old do you have to be to use this platform and participate in role-plays?",
+          answer: (
+            <p>
+              You must be 18 years or older. Please check out{" "}
+              <Link to="/guidelines" className="underline text-blue-500">
+                our guidelines for more information on this topic
+              </Link>
+            </p>
+          ),
+        },
       ],
     },
     {
@@ -81,7 +93,7 @@ export default function FAQ() {
         {
           question: "Can I change my username or profile picture?",
           answer:
-            "Usernames are permanent and randomly generated during account creation. Profile pictures are pulled from your Google account and cannot be changed within the site. Future updates may include options to customize these elements.",
+            "Usernames are permanent and randomly generated during account creation. Profile pictures are pulled from your Google and/or Discord account and cannot be changed within the site. Future updates may include options to customize these elements. If you're not satisfied with your username and/or profile picture, one option is to sign in through your Discord account instead.",
         },
         {
           question:
@@ -138,6 +150,11 @@ export default function FAQ() {
             "Can I still edit my ads after they have ongoing conversations?",
           answer:
             "Yes, you can edit your ads even after conversations have started. A system message will be sent in the chat notifying your partner of the changes. It's recommended to communicate with your role-play partner about any major changes to ensure a smooth continuation of the story.",
+        },
+        {
+          question: "How do I block or unblock a user?",
+          answer:
+            "You can block or unblock a user by clicking the 'Block User' or 'Unblock User' button in the chat header. Blocking a user will terminate all existing role-play sessions you have with that user and it will prevent them from sending you messages. Note that just because a role-play session has been terminated, it does not necessarily mean the other user has blocked you. Unblocking a user will allow them to interact with your posts again, but it will not restore any previous conversations that have been terminated from the block.",
         },
       ],
     },

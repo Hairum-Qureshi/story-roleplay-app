@@ -5,7 +5,12 @@ import { CreateAd } from '../DTOs/CreateAd.dto';
 import { EventsGateway } from '../events/events.gateway';
 import { RolePlayAd, RolePlayAdDocument } from '../schemas/RolePlayAd';
 import { User, UserDocument } from '../schemas/User';
-import { ConversationDocument, Message, UserPayload } from '../types';
+import {
+  ConversationDocument,
+  Message,
+  UserPayload,
+  PopulatedRolePlayAd,
+} from '../types';
 import { Conversation } from '../schemas/inbox/Conversation';
 import { ChatService } from '../chat/chat.service';
 import mongoose from 'mongoose';
@@ -111,36 +116,47 @@ export class RolePlayAdService {
     }));
   }
 
-  async getAllAds(userID: string) {
-    // ! there seems to be an issue where if you repost more than 1 ad, then the frontend UI appears to duplicate the ad more than once unless you refresh the page
+  async getAllAds(
+    userID: string,
+    blockedUsers: string[],
+  ): Promise<(PopulatedRolePlayAd & { isLiked: boolean })[]> {
     const ONE_HOUR = 60 * 60 * 1000;
 
-    const allAds: RolePlayAdDocument[] = await this.rolePlayAdModel
+    type AdWithBlockedList = PopulatedRolePlayAd & {
+      author: { blockedUsers: string[] };
+    };
+
+    const allAds: AdWithBlockedList[] = await this.rolePlayAdModel
       .find({
         createdAt: {
           $gte: new Date(Date.now() - ONE_HOUR),
         },
+        author: { $nin: blockedUsers },
         isDeleted: { $ne: true }, // only retrieves ads that are less than an hour old and not set to deleted
       })
       .populate({
         path: 'author',
-        select: 'username profilePicture',
+        select: 'username profilePicture blockedUsers',
       })
       .select('-__v')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean<AdWithBlockedList[]>();
 
-    const allAdsJSON: RolePlayAdType[] = await Promise.all(
-      allAds.map(async (ad) => {
-        const adObj = ad.toObject();
+    const filteredAds = allAds.filter((ad: AdWithBlockedList) => {
+      const authorBlockedUsers = ad.author.blockedUsers ?? [];
+
+      return !authorBlockedUsers.includes(userID);
+    });
+
+    const allAdsJSON = await Promise.all(
+      filteredAds.map(async (ad: PopulatedRolePlayAd) => {
+        const adWithLikeData = await this.getAdByID(ad._id.toString(), userID);
         return {
-          ...adObj,
-          isLiked: await this.getAdByID(ad._id.toString(), userID).then(
-            (ad) => ad.isLiked,
-          ),
+          ...ad,
+          isLiked: adWithLikeData.isLiked ?? false,
         };
       }),
     );
-
     return allAdsJSON;
   }
 

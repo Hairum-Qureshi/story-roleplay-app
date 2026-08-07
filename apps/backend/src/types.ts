@@ -35,6 +35,24 @@ type RolePlayAd = {
   updatedAt: Date;
 };
 
+type PopulatedRolePlayAd = {
+  _id: Types.ObjectId;
+  title: string;
+  pov: PovType;
+  adultRoleplay: boolean;
+  premise: string;
+  writingExpectations: string[];
+  contentNotes: string;
+  author: {
+    _id: string;
+    username: string;
+    profilePicture: string;
+  };
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 type Conversation = {
   _id: Types.ObjectId;
   participants: string[];
@@ -72,6 +90,8 @@ type UserPayload = {
   characterBios: CharacterBio[];
   conversations: Conversation[];
   rolePlayAds: RolePlayAd[];
+  isAdmin: boolean;
+  blockedUsers: string[];
   createdAt: Date;
 };
 
@@ -139,5 +159,6 @@ export type {
   HydratedMessage,
   Editor,
   Notif,
+  PopulatedRolePlayAd,
 };
 export { PovType };

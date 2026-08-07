@@ -17,6 +17,9 @@ export const CurrentUser = createParamDecorator(
       characterBios: user.characterBios,
       conversations: user.conversations,
       rolePlayAds: user.rolePlayAds,
+      isAdmin: user.isAdmin,
+      blockedUsers: user.blockedUsers,
+      createdAt: user.createdAt,
     };
     return userPayload;
   },

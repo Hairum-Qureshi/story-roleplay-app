@@ -10,6 +10,7 @@ import {
   Conversation,
   ConversationSchema,
 } from '../schemas/inbox/Conversation';
+import { ChatModule } from 'src/chat/chat.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import {
       },
       { name: Conversation.name, schema: ConversationSchema },
     ]),
+    ChatModule,
   ],
   providers: [UserService],
   controllers: [UserController],

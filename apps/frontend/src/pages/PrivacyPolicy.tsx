@@ -1,122 +1,164 @@
 export default function PrivacyPolicy() {
-	return (
-		<div className="min-h-screen bg-slate-950 text-white relative overflow-hidden flex flex-col">
-			<div className="relative flex flex-col px-8 py-20 max-w-5xl mx-auto z-10 space-y-10">
-				<div>
-					<h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-						Privacy Policy
-					</h1>
-					<p className="text-slate-400 text-base mt-4 font-light leading-relaxed">
-						Last updated: 1/24/2026
-					</p>
-				</div>
-				<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-					At TaleWeaver, your privacy is important to us. This policy explains
-					how we collect, use, store, and protect the information you provide
-					when using our platform.
-				</p>
+  return (
+    <div className="min-h-screen bg-slate-950 text-white">
+      <div className="mx-auto flex max-w-6xl flex-col px-6 py-16 md:px-8 lg:px-10">
+        <div className="mb-8 p-8">
+          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+            Privacy Policy
+          </h1>
+          <p className="mt-4 text-sm font-medium uppercase text-slate-400">
+            Last updated: August 5, 2026
+          </p>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+            This Privacy Policy explains how TaleWeaver collects, uses, stores,
+            and protects personal information when you use our platform.
+            TaleWeaver is a community platform for creating, discovering, and
+            interacting with role-play advertisements, character profiles, and
+            related content.
+          </p>
+        </div>
 
-				<section className="space-y-6">
-					<h2 className="text-2xl font-semibold text-white">
-						Information We Collect
-					</h2>
-					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						We collect information you provide directly, including:
-					</p>
-					<ul className="list-disc list-inside text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						<li>
-							Account information obtained through Google sign-in, including
-							your name, email, and profile picture.
-						</li>
-						<li>
-							Character bios, which may include your character’s name,
-							appearance, personality traits, backstory, and age.
-						</li>
-						<li>
-							Role-play ads, capturing details like preferred perspective,
-							premise, content notes, and writing expectations.
-						</li>
-						<li>
-							Conversations and messages, including chat history with other
-							users and participants in role-play sessions.
-						</li>
-					</ul>
-					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						We may also collect technical information automatically, such as IP
-						addresses, browser type, and usage data, to maintain and improve
-						platform performance.
-					</p>
-				</section>
+        <div className="space-y-5">
+          <section className="p-7">
+            <h2 className="text-2xl font-semibold text-white">
+              Information We Collect
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              We collect information that is necessary to provide, operate, and
+              improve the service. This may include:
+            </p>
+            <ul className="mt-4 list-disc space-y-2 pl-6 text-lg leading-8 text-slate-300">
+              <li>
+                Account information you provide or authorize through Google or
+                Discord sign-in, including your name, email address, profile
+                picture, and authentication-related details.
+              </li>
+              <li>
+                Profile and content you create, such as character bios,
+                role-play ads, writing preferences, content notes, and other
+                descriptive information shared on the platform.
+              </li>
+              <li>
+                Messages, conversations, notifications, and interaction data
+                generated while using the app, including chat history and
+                communications with other users.
+              </li>
+            </ul>
+          </section>
 
-				<section className="space-y-6">
-					<h2 className="text-2xl font-semibold text-white">
-						How We Use Your Information
-					</h2>
-					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						Your data is used to provide and maintain our platform, facilitate
-						role-play interactions, and enable communication with other users.
-						For example:
-					</p>
-					<ul className="list-disc list-inside text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						<li>Managing conversations, messages, and chat history.</li>
-						<li>
-							Displaying your character bios and role-play ads to other users.
-						</li>
-						<li>
-							Allowing you to create, edit, or end role-play sessions safely.
-						</li>
-						<li>
-							Improving user experience based on technical and usage data.
-						</li>
-					</ul>
-					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						We do not sell or share your personal data with third parties for
-						marketing purposes.
-					</p>
-				</section>
+          <section className="p-7">
+            <h2 className="text-2xl font-semibold text-white">
+              How We Use Your Information
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              We use your information to provide and improve the platform,
+              including to:
+            </p>
+            <ul className="mt-4 list-disc space-y-2 pl-6 text-lg leading-8 text-slate-300">
+              <li>
+                Create and manage your account and authentication session.
+              </li>
+              <li>
+                Display your profile content, ads, and messages to the relevant
+                users.
+              </li>
+              <li>
+                Support messaging, inbox activity, role-play discovery, and
+                community interaction.
+              </li>
+              <li>
+                Protect the platform from fraud, abuse, or unauthorized access.
+              </li>
+              <li>
+                Analyze usage patterns to improve reliability, performance, and
+                user experience.
+              </li>
+            </ul>
+          </section>
 
-				<section className="space-y-6">
-					<h2 className="text-2xl font-semibold text-white">Data Security</h2>
-					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						We take reasonable technical and administrative steps to protect
-						your information from unauthorized access or disclosure. However, no
-						system is completely secure, and we cannot guarantee the absolute
-						security of your data.
-					</p>
-				</section>
+          <section className="p-7">
+            <h2 className="text-2xl font-semibold text-white">
+              How We Share Information
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              TaleWeaver does not sell your personal data for marketing
+              purposes. We may share information only as reasonably necessary to
+              operate the service, including with:
+            </p>
+            <ul className="mt-4 list-disc space-y-2 pl-6 text-lg leading-8 text-slate-300">
+              <li>
+                Authentication providers such as Google and Discord when you
+                sign in.
+              </li>
+              <li>
+                Hosting, storage, or infrastructure providers that support app
+                functionality.
+              </li>
+              <li>
+                Legal or regulatory authorities when required by law or to
+                protect rights and safety.
+              </li>
+            </ul>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              Content you voluntarily share publicly or with other users, such
+              as role-play ads or profile information, may be visible to other
+              users of the platform as part of the service.
+            </p>
+          </section>
 
-				<section className="space-y-6">
-					<h2 className="text-2xl font-semibold text-white">Your Choices</h2>
-					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						Since accounts are created via Google sign-in, changes to your
-						Google account may automatically update your TaleWeaver account. You
-						can also:
-					</p>
-					<ul className="list-disc list-inside text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						<li>
-							Update your character bios and role-play ads directly in the
-							platform.
-						</li>
-						<li>Delete conversations or end role-play sessions permanently.</li>
-						<li>Delete your account</li>
-					</ul>
-				</section>
+          <section className="p-7">
+            <h2 className="text-2xl font-semibold text-white">Data Security</h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              We take reasonable administrative, technical, and organizational
+              measures to protect your information from unauthorized access,
+              loss, misuse, or disclosure. However, no internet-based service
+              can guarantee absolute security, and you should also take
+              appropriate steps to protect your account credentials.
+            </p>
+          </section>
 
-				<section className="space-y-6">
-					<h2 className="text-2xl font-semibold text-white">Contact Us</h2>
-					<p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed">
-						If you have questions about this Privacy Policy or how your
-						information is handled, please reach out to us at{" "}
-						<a
-							href="mailto:support@taleweaver.com"
-							className="text-indigo-500 hover:underline"
-						>
-							support@taleweaver.com
-						</a>
-						.
-					</p>
-				</section>
-			</div>
-		</div>
-	);
+          <section className="p-7">
+            <h2 className="text-2xl font-semibold text-white">
+              Retention and Your Choices
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              We retain your information for as long as your account remains
+              active or as needed to fulfill the purposes described in this
+              policy, comply with legal obligations, resolve disputes, and
+              enforce agreements. You may update or remove content you have
+              created, and you may request account deletion where available
+              through the platform or by contacting us directly.
+            </p>
+          </section>
+
+          <section className="p-7">
+            <h2 className="text-2xl font-semibold text-white">
+              Children’s Privacy
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              TaleWeaver is not intended for children under the age of 13. We do
+              not knowingly collect personal information from children under 13.
+              If you believe we have collected such information unintentionally,
+              please contact us so we can delete it.
+            </p>
+          </section>
+
+          <section className="p-7">
+            <h2 className="text-2xl font-semibold text-white">Contact Us</h2>
+            <p className="mt-4 text-lg leading-8 text-slate-300">
+              If you have questions about this Privacy Policy, your information,
+              or your rights under this policy, please visit our{" "}
+              <a
+                href="/contact"
+                className="font-semibold text-indigo-300 transition hover:text-indigo-200"
+              >
+                contact page
+              </a>
+              .
+            </p>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
 }

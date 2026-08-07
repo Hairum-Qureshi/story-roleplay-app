@@ -1,4 +1,12 @@
-import { Controller, Delete, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Param,
+  Post,
+  Res,
+  Get,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { UserPayload } from '../types';
@@ -13,6 +21,30 @@ export class UserController {
     private readonly authService: AuthService,
   ) {}
 
+  @Post(':userID/block')
+  @UseGuards(AuthGuard())
+  async blockUser(
+    @CurrentUser() user: UserPayload,
+    @Param('userID') userID: string,
+  ) {
+    await this.userService.blockUser(user._id, userID);
+  }
+
+  @Post(':userID/unblock')
+  @UseGuards(AuthGuard())
+  async unblockUser(
+    @CurrentUser() user: UserPayload,
+    @Param('userID') userID: string,
+  ) {
+    await this.userService.unblockUser(user._id, userID);
+  }
+
+  @Get('all/blocked')
+  @UseGuards(AuthGuard())
+  async getBlockedUsers(@CurrentUser() user: UserPayload) {
+    return this.userService.getBlockedUsers(user._id);
+  }
+  
   @Delete('delete-account')
   @UseGuards(AuthGuard())
   async deleteAccount(

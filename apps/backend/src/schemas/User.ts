@@ -33,6 +33,12 @@ export class User {
   @Prop({ type: [Types.ObjectId], ref: 'RolePlayAd', default: [] })
   rolePlayAds: Types.ObjectId[];
 
+  @Prop({ default: [], ref: 'User' })
+  blockedUsers: Types.ObjectId[];
+
+  @Prop({ default: false })
+  isAdmin: boolean;
+
   @Prop({ default: Date.now })
   createdAt: Date;
 }

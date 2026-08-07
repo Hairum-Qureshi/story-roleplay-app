@@ -3,139 +3,159 @@ import { useCurrentUser } from "../hooks/useCurrentUser";
 import useEmail from "../hooks/useEmail";
 
 export default function Contact() {
-	const { data: currUser } = useCurrentUser();
-	const { sendFeedbackEmail, successMessage, errorMessage } = useEmail();
+  const { data: currUser } = useCurrentUser();
+  const { sendFeedbackEmail, successMessage, errorMessage } = useEmail();
 
-	const [from, setFrom] = useState("");
-	const [subject, setSubject] = useState("");
-	const [message, setMessage] = useState("");
+  const [from, setFrom] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
-	useEffect(() => {
-		if (!currUser) return;
+  useEffect(() => {
+    if (!currUser) return;
 
-		setFrom(`${currUser.firstName} ${currUser.lastName} (${currUser.email})`);
-	}, [currUser]);
+    setFrom(`${currUser.firstName} ${currUser.lastName} (${currUser.email})`);
+  }, [currUser]);
 
-	return (
-		<div className="relative h-[calc(100vh-4rem)] bg-slate-950 overflow-hidden">
-			{/* Subtle background glow */}
-			<div className="pointer-events-none absolute inset-0">
-				<div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-blue-900/20 blur-3xl" />
-				<div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-indigo-900/20 blur-3xl" />
-			</div>
-			<div className="relative z-10 h-full flex items-center justify-center px-6">
-				<div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-12">
-					{/* Left side: context */}
-					<div className="flex flex-col justify-center">
-						<h1 className="text-3xl font-semibold text-slate-100">
-							Get in touch
-						</h1>
-						<p className="mt-4 text-slate-400 leading-relaxed">
-							This project is still evolving. If something feels off, breaks
-							immersion, or you have an idea that would make role-play better, I
-							want to hear it.
-						</p>
+  async function handleSubmit(e: React.SubmitEvent) {
+    e.preventDefault();
 
-						<div className="mt-8 border-t border-slate-800 py-4 text-sm text-slate-400">
-							Email:{" "}
-							<span className="text-sky-600">support@taleweaver.com</span>
-						</div>
+    if (!from.trim() || !subject.trim() || !message.trim()) {
+      return;
+    }
 
-						<div className="border-t border-slate-800 pt-4 text-sm text-red-700">
-							<p>
-								Inappropriate or abusive messages will not receive a response
-								and may result in an account ban.
-							</p>
-						</div>
-					</div>
+    try {
+      setIsSending(true);
 
-					{/* Right side: message composer */}
-					<div className="relative">
-						<div className="absolute z-0 inset-0 rounded-xl bg-gradient-to-b from-slate-900/60 to-slate-950/60" />
-						{successMessage && (
-							<p className="relative text-green-500 z-10 text-center mt-5">
-								{successMessage}
-							</p>
-						)}
-						{errorMessage && (
-							<p className="relative text-red-500 z-10 text-center mt-5">
-								{errorMessage}
-							</p>
-						)}
-						<form className="relative p-8 z-10 space-y-6">
-							{/* Sender context */}
+      await sendFeedbackEmail({
+        from,
+        subject,
+        message,
+      });
 
-							<div className="rounded-md border border-slate-800 bg-slate-900/60 px-4 py-3">
-								<p className="text-xs uppercase tracking-wide text-slate-500">
-									From
-								</p>
-								<p className="text-sm text-slate-200 flex items-center">
-									{currUser?.firstName} {currUser?.lastName}
-									<span className="text-slate-500 mx-2">
-										{" "}
-										({currUser?.email})
-									</span>
-								</p>
-							</div>
+      setSubject("");
+      setMessage("");
+    } finally {
+      setIsSending(false);
+    }
+  }
 
-							{/* Subject */}
-							<div>
-								<label className="block text-xs uppercase tracking-wide text-slate-500 mb-1">
-									Subject <span className="text-red-600">*</span>
-								</label>
-								<input
-									type="text"
-									placeholder="Bug report, feedback, idea…"
-									className="w-full bg-slate-900/50 border border-slate-800 rounded-md px-3 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-900"
-									value={subject}
-									onChange={e => setSubject(e.target.value)}
-								/>
-							</div>
+  return (
+    <div className="relative min-h-[calc(100vh-4rem)] bg-slate-950 overflow-hidden">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-48 -left-48 h-[30rem] w-[30rem] rounded-full bg-blue-900/20 blur-3xl" />
+        <div className="absolute -bottom-48 -right-48 h-[30rem] w-[30rem] rounded-full bg-indigo-900/20 blur-3xl" />
+      </div>
 
-							{/* Message */}
-							<div>
-								<label className="block text-sm text-slate-300 mb-2">
-									Message <span className="text-red-600">*</span>
-								</label>
-								<textarea
-									rows={6}
-									placeholder="Write your message here..."
-									className="w-full bg-slate-900/70 border border-slate-800 rounded-md px-4 py-3 text-slate-100 placeholder-slate-500 resize-none focus:outline-none focus:ring-2 focus:ring-blue-900"
-									value={message}
-									onChange={e => setMessage(e.target.value)}
-								/>
-							</div>
+      <div className="relative z-10 flex min-h-full items-center justify-center px-6 py-16">
+        <div className="grid w-full max-w-5xl gap-12 md:grid-cols-2">
+          {/* Information */}
+          <section className="flex flex-col justify-center">
+            <p className="text-sm uppercase tracking-widest text-blue-400">
+              Support
+            </p>
 
-							{/* Submit */}
-							<div className="pt-4 border-t border-slate-800 flex items-center justify-between">
-								<p className="text-xs text-slate-500">
-									Please keep messages respectful.
-								</p>
+            <h1 className="mt-3 text-4xl font-semibold text-slate-100">
+              Have feedback?
+            </h1>
 
-								<button
-									type="submit"
-									className="rounded-md bg-blue-900/80 hover:bg-blue-900 px-6 py-2 text-slate-100 font-medium transition hover:cursor-pointer"
-									onClick={e => {
-										e.preventDefault();
+            <p className="mt-5 max-w-md leading-relaxed text-slate-400">
+              Whether you found a bug, have a feature suggestion, or want to
+              share an idea to improve the experience, your feedback helps shape
+              Taleweaver.
+            </p>
 
-										if (!from.trim() || !subject.trim() || !message.trim()) {
-											alert("Please fill in all required fields.");
-											return;
-										}
+            <div className="mt-8 space-y-4 text-sm">
+              {/* <div className="border-t border-slate-800 pt-4">
+                <p className="text-slate-500">Email</p>
+                <p className="mt-1 text-sky-400">support@taleweaver.com</p>
+              </div> */}
 
-										sendFeedbackEmail({ from, subject, message });
+              <div className="border-t border-slate-800 pt-4">
+                <p className="text-slate-500">Response time</p>
+                <p className="mt-1 text-slate-300">
+                  Usually within a few business days
+                </p>
+              </div>
 
-										setSubject("");
-										setMessage("");
-									}}
-								>
-									Send message
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+              <div className="border-t border-slate-800 pt-4">
+                <p className="text-slate-500">
+                  Please avoid sharing sensitive information.
+                </p>
+                <p className="text-red-500/70 hover:text-red-500">
+                  Innappropriate content will be ignored and may result in
+                  account suspension.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <form
+            onSubmit={handleSubmit}
+            className="rounded-xl p-8 shadow-xl shadow-black/20"
+          >
+            <div className="space-y-6">
+              <div aria-live="polite" className="text-center text-sm">
+                {successMessage && (
+                  <p className="text-green-400">{successMessage}</p>
+                )}
+
+                {errorMessage && <p className="text-red-400">{errorMessage}</p>}
+              </div>
+
+              <div>
+                <p className="text-xs uppercase tracking-wide text-slate-500">
+                  From
+                </p>
+
+                <div className="mt-2 rounded-md border border-slate-800 bg-slate-950 px-4 py-3">
+                  <p className="text-sm text-slate-200">
+                    {currUser?.firstName} {currUser?.lastName}
+                    <span className="ml-2 text-slate-500">
+                      ({currUser?.email})
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs uppercase tracking-wide text-slate-500">
+                  Subject<span className="text-red-500">*</span>
+                </label>
+
+                <input
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Bug report, suggestion, question..."
+                  className="w-full rounded-md border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:border-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900/40"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs uppercase tracking-wide text-slate-500">
+                  Message<span className="text-red-500">*</span>
+                </label>
+
+                <textarea
+                  rows={7}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Tell us what happened..."
+                  className="w-full resize-none rounded-md border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 placeholder:text-slate-600 focus:border-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900/40"
+                />
+              </div>
+
+              <button
+                disabled={isSending}
+                className="w-full rounded-md bg-blue-900 px-6 py-3 font-medium text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isSending ? "Sending..." : "Send message"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }

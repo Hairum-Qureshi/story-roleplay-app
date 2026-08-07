@@ -4,10 +4,12 @@ export default function UserCard({
   username,
   you,
   profilePicture,
+  isBlockedFlag,
 }: {
   username: string;
   you: boolean;
   profilePicture: string;
+  isBlockedFlag: boolean;
 }) {
   return (
     <button
@@ -52,6 +54,12 @@ export default function UserCard({
           {you && (
             <span className="rounded bg-sky-500/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-sky-400">
               You
+            </span>
+          )}
+
+          {!you && isBlockedFlag && (
+            <span className="rounded bg-red-500/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-red-400">
+              Blocked
             </span>
           )}
         </div>
