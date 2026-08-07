@@ -76,6 +76,11 @@ export default function FAQ() {
             </p>
           ),
         },
+        {
+          question: "Do you have plans for AI integration?",
+          answer:
+            "No, we do not plan to integrate AI into the platform for the forseeable future.",
+        },
       ],
     },
     {
