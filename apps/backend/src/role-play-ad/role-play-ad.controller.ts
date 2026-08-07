@@ -41,7 +41,7 @@ export class RolePlayAdController {
   @Get('/liked')
   @UseGuards(AuthGuard())
   getLikedAds(@CurrentUser() user: UserPayload) {
-    return this.rolePlayAdService.getLikedAds(user._id);
+    return this.rolePlayAdService.getLikedAds(user._id, user.blockedUsers);
   }
 
   @Post(':adID/repost')
