@@ -10,7 +10,7 @@ import {
   Conversation,
   ConversationSchema,
 } from '../schemas/inbox/Conversation';
-import { ChatModule } from 'src/chat/chat.module';
+import { ChatModule } from '../chat/chat.module';
 
 @Module({
   imports: [
