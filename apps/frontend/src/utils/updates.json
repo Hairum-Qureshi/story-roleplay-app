@@ -100,5 +100,11 @@
     "heading": "Added infinite scroll to chat messages",
     "timestamp": "08-04-2026",
     "description": "Infinite scroll has been implemented for chat messages, allowing users to seamlessly load and view older messages as they scroll up in the chat window."
+  },
+  {
+    "id": 19,
+    "heading": "Added block feature",
+    "timestamp": "08-07-2026",
+    "description": "Users now have the ability to block other users, preventing them from sending messages or viewing their ads. This feature enhances user safety and allows individuals to curate their interactions on the platform, ensuring a more comfortable and secure experience. Blocked users will not be able to initiate contact or access the content of the user who has blocked them."
   }
 ]
