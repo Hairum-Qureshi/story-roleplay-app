@@ -108,5 +108,10 @@
     "id": 36,
     "subheading": "Message reactions",
     "description": "Users will have the ability to react to messages with emojis, allowing for quick and expressive feedback within the chat conversation. This feature will enhance user engagement and provide a fun way for users to interact with each other's messages, fostering a more dynamic and enjoyable role-playing experience."
+  },
+  {
+    "id": 37,
+    "subheading": "Writing samples",
+    "description": "An optional section on user profiles where users can showcase their writing style and abilities through short writing samples. This feature will allow users to provide a glimpse of their writing skills, helping potential role-playing partners assess compatibility and find suitable collaborators for their role-playing adventures."
   }
 ]
