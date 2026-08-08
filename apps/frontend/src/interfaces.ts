@@ -35,11 +35,13 @@ interface User {
   characterBios: CharacterBio[];
   conversations: Conversation[];
   rolePlayAds: RolePlayAd[];
-  isAdmin: boolean;
+  role: UserRole;
   isBlocked: string[];
   createdAt: string;
   updatedAt: string;
 }
+
+type UserRole = "user" | "admin" | "moderator";
 
 type PovType = "First Person" | "Second Person" | "Third Person";
 
@@ -227,4 +229,5 @@ export type {
   Bug,
   PinnedMessage,
   PaginateMessagesResponse,
+  UserRole,
 };
