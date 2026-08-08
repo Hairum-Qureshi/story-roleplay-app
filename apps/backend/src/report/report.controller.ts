@@ -31,7 +31,7 @@ export class ReportController {
   @Roles([Role.ADMIN, Role.MODERATOR])
   addReportNotes() {}
 
-  @Post('new')
+  @Post()
   @UseGuards(AuthGuard())
   createReport() {}
 
@@ -44,6 +44,26 @@ export class ReportController {
   @UseGuards(AuthGuard(), HasRolePermissions)
   @Roles([Role.ADMIN, Role.MODERATOR])
   reopenReport() {}
+
+  @Post('ban-user/:userID')
+  @UseGuards(AuthGuard(), HasRolePermissions)
+  @Roles([Role.ADMIN, Role.MODERATOR])
+  banUser() {}
+
+  @Post('suspend-user/:userID')
+  @UseGuards(AuthGuard(), HasRolePermissions)
+  @Roles([Role.ADMIN, Role.MODERATOR])
+  suspendUser() {}
+
+  @Post('warn-user/:userID')
+  @UseGuards(AuthGuard(), HasRolePermissions)
+  @Roles([Role.ADMIN, Role.MODERATOR])
+  warnUser() {}
+
+  @Post('/clear-moderation/:userID')
+  @UseGuards(AuthGuard(), HasRolePermissions)
+  @Roles([Role.ADMIN, Role.MODERATOR])
+  clearModeration() {}
 
   @Post(':reportID/close')
   @UseGuards(AuthGuard(), HasRolePermissions)
