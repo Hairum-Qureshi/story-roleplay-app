@@ -3,13 +3,14 @@ import { HttpService } from '@nestjs/axios';
 import { OAuth2Client } from 'google-auth-library';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from '../schemas/User';
+import { ModerationStatus, User, UserDocument } from '../schemas/User';
 import { JwtService } from '@nestjs/jwt';
 import { UserPayload } from '../types';
 import { generateUsername } from 'unique-username-generator';
 import crypto from 'crypto';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
+import { ReportService } from 'src/report/report.service';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,7 @@ export class AuthService {
     @Inject('GoogleOAuthClient') private googleOAuthClient: OAuth2Client,
     private configService: ConfigService,
     private readonly httpService: HttpService,
+    private readonly reportService: ReportService,
   ) {}
 
   getAuthCookieOptions() {
@@ -51,6 +53,8 @@ export class AuthService {
       });
       await user.save();
     }
+
+    await this.reportService.checkUserModerationStatus(user);
 
     const jwtToken = this.jwtService.sign({
       _id: user._id,
@@ -109,6 +113,8 @@ export class AuthService {
     let user = await this.userModel.findOne({ email });
 
     if (user) {
+      await this.reportService.checkUserModerationStatus(user);
+
       const jwtToken = this.jwtService.sign({
         _id: user._id,
       });
