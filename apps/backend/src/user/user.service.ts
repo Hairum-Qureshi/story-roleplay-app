@@ -24,7 +24,11 @@ export class UserService {
     private readonly chatService: ChatService,
   ) {}
 
-  async deleteUserById(userId: string) {
+  async deleteUserById(userId: string, userRole: string) {
+    if (userRole === 'admin') {
+      throw new HttpException('Admins cannot delete their accounts', 403);
+    }
+
     await this.userModel.findByIdAndUpdate(userId, {
       _id: `${userId}`,
       email: `deleted_user_${userId.slice(-6)}@deleted.com`,
