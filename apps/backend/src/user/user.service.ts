@@ -10,7 +10,7 @@ import {
 } from '../schemas/inbox/Conversation';
 import type { Conversation as ConversationInterface } from '../types';
 import { ChatService } from '../chat/chat.service';
-import Role from '../roles.enum';
+import Role from '../enums/roles.enum';
 
 @Injectable()
 export class UserService {
