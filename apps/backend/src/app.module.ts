@@ -10,6 +10,7 @@ import { ChatModule } from './chat/chat.module';
 import { PdfModule } from './pdf/pdf.module';
 import { EmailModule } from './email/email.module';
 import { NotificationModule } from './notification/notification.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { NotificationModule } from './notification/notification.module';
     PdfModule,
     EmailModule,
     NotificationModule,
+    ReportModule,
   ],
   controllers: [AppController],
 })
