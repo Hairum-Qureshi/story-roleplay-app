@@ -120,7 +120,7 @@ export default function Profile() {
             irreversible. Please ensure you have downloaded any role-plays you
             want to keep.
           </p>
-          {currUserData?.isAdmin ? (
+          {currUserData?.role === "admin" ? (
             <p className="text-sm text-white text-center border border-sky-600 p-3 bg-sky-900/50 rounded-md">
               As an admin, you cannot delete your account. Please contact the
               development team if you wish to delete your account.
