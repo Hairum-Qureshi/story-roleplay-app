@@ -271,7 +271,8 @@ export class RolePlayAdService {
     });
   }
 
-  async getLikedAds(userID: string) {
+  async getLikedAds(userID: string, blockedUsers:string[]) {
+  
     const likedAds = (await this.likeModel
       .find({ userID })
       .populate({
@@ -292,9 +293,14 @@ export class RolePlayAdService {
       updatedAt: string;
     }[];
 
+      // TODO - need to remove ads of blocked users and users the current user blocked
+
+      // TODO - need to handle case where if the current user has an existing conversation with user B but decides to block user B just as user B was about to send a message, the user should be notified that they are unable to do so
+
     const ads = likedAds
       .map((like) => like.adID)
       .filter((ad): ad is RolePlayAdType => Boolean(ad))
+      .filter((ad: RolePlayAdType) => !blockedUsers.includes(ad.author)) // remove ads of blocked users
       .sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
