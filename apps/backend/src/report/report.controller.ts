@@ -9,7 +9,7 @@ import {
 import { ReportService } from './report.service';
 import { AuthGuard } from '@nestjs/passport';
 import { HasRolePermissions } from 'src/guards/isAuthorized.guard';
-import Role from 'src/roles.enum';
+import Role from 'src/enums/roles.enum';
 import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('api/report')
