@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
+import { ModerationGuard } from '../guards/moderation.guard';
 import type { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
@@ -7,6 +8,7 @@ import { PdfService } from './pdf.service';
 import { IsChatMember } from '../guards/IsChatMember.guard';
 
 @Controller('pdf')
+@UseGuards(ModerationGuard)
 export class PdfController {
   constructor(private pdfService: PdfService) {}
 
