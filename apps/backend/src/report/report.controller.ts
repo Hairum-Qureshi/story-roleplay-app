@@ -6,6 +6,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { ModerationGuard } from 'src/guards/moderation.guard';
 import { ReportService } from './report.service';
 import { AuthGuard } from '@nestjs/passport';
 import { HasRolePermissions } from 'src/guards/isAuthorized.guard';
@@ -32,7 +33,7 @@ export class ReportController {
   addReportNotes() {}
 
   @Post()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   createReport() {}
 
   @Post(':reportID/resolve')
