@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
+import Role from 'src/roles.enum';
 
 @Schema()
 export class User {
@@ -36,8 +37,12 @@ export class User {
   @Prop({ default: [], ref: 'User' })
   blockedUsers: Types.ObjectId[];
 
-  @Prop({ default: false })
-  isAdmin: boolean;
+  @Prop({
+    type: String,
+    enum: Role,
+    default: Role.USER,
+  })
+  role: Role;
 
   @Prop({ default: Date.now })
   createdAt: Date;
