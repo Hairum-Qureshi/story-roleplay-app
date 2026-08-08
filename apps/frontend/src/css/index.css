@@ -16,10 +16,11 @@
 }
 
 .react-responsive-modal-modal {
-  background-color: #1e293b;
+  background-color: #0e1a30;
   color: #f8fafc;
   border-radius: 0.5rem;
   padding: 1.5rem;
+  border: 2px solid #1f3252;
 }
 
 .react-responsive-modal-closeButton svg,
