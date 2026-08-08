@@ -1,4 +1,5 @@
 import { HydratedDocument, Types } from 'mongoose';
+import Role from './roles.enum';
 
 type CharacterBio = {
   _id: string;
@@ -90,7 +91,7 @@ type UserPayload = {
   characterBios: CharacterBio[];
   conversations: Conversation[];
   rolePlayAds: RolePlayAd[];
-  isAdmin: boolean;
+  role: Role;
   blockedUsers: string[];
   createdAt: Date;
 };
