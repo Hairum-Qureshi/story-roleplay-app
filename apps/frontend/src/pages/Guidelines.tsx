@@ -46,6 +46,11 @@ export default function Guidelines() {
               Keep interactions respectful and safe for all users, even when
               discussing sensitive or controversial topics.
             </li>
+            <li>
+              Ads must be role-play related inviting users to join a role-play.
+              Spam and self-promotion are not allowed.
+            </li>
+            <li>Plagiarism is strictly prohibited.</li>
           </ul>
         </section>
 
