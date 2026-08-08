@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { OAuth2Client } from 'google-auth-library';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ModerationStatus, User, UserDocument } from '../schemas/User';
+import { User, UserDocument } from '../schemas/User';
 import { JwtService } from '@nestjs/jwt';
 import { UserPayload } from '../types';
 import { generateUsername } from 'unique-username-generator';
@@ -40,7 +40,9 @@ export class AuthService {
     const { email, picture, given_name, family_name } =
       ticket.getPayload() || {};
 
-    let user = await this.userModel.findOne({ email });
+    let user: UserDocument | null = await this.userModel.findOne({
+      email,
+    });
 
     if (!user) {
       user = new this.userModel({
