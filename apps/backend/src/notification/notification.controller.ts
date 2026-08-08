@@ -1,10 +1,12 @@
 import { Controller, Post, UseGuards, Param, Patch, Get } from '@nestjs/common';
+import { ModerationGuard } from '../guards/moderation.guard';
 import type { UserPayload } from '../types';
 import { AuthGuard } from '@nestjs/passport';
 import { NotificationService } from './notification.service';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 
 @Controller('notification')
+@UseGuards(ModerationGuard)
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
