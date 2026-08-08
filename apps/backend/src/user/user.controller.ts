@@ -51,7 +51,7 @@ export class UserController {
     @CurrentUser() user: UserPayload,
     @Res({ passthrough: true }) res: Response,
   ) {
-    await this.userService.deleteUserById(user._id);
+    await this.userService.deleteUserById(user._id, user.role);
 
     res.clearCookie('auth-session', this.authService.getAuthCookieOptions());
   }

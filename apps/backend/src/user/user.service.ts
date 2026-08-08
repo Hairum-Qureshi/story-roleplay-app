@@ -10,6 +10,7 @@ import {
 } from '../schemas/inbox/Conversation';
 import type { Conversation as ConversationInterface } from '../types';
 import { ChatService } from '../chat/chat.service';
+import Role from '../roles.enum';
 
 @Injectable()
 export class UserService {
@@ -24,7 +25,7 @@ export class UserService {
     private readonly chatService: ChatService,
   ) {}
 
-  async deleteUserById(userId: string, userRole: string) {
+  async deleteUserById(userId: string, userRole: Role) {
     if (userRole === 'admin') {
       throw new HttpException('Admins cannot delete their accounts', 403);
     }
