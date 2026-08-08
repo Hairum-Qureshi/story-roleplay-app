@@ -2,6 +2,13 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import Role from 'src/roles.enum';
 
+enum ModerationStatus {
+  NONE = 'NONE',
+  WARNED = 'WARNED',
+  SUSPENDED = 'SUSPENDED',
+  BANNED = 'BANNED',
+}
+
 @Schema()
 export class User {
   @Prop({ type: String })
@@ -43,6 +50,23 @@ export class User {
     default: Role.USER,
   })
   role: Role;
+
+  @Prop({
+    type: {
+      status: {
+        type: String,
+        enum: ModerationStatus,
+        default: ModerationStatus.NONE,
+      },
+      reason: { type: String, default: '' },
+      expiresAt: { type: Date, default: null },
+    },
+  })
+  moderation: {
+    status: ModerationStatus;
+    reason: string;
+    expiresAt: Date;
+  };
 
   @Prop({ default: Date.now })
   createdAt: Date;
