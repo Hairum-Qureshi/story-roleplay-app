@@ -7,6 +7,7 @@ import {
   Get,
   UseGuards,
 } from '@nestjs/common';
+import { ModerationGuard } from 'src/guards/moderation.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { UserPayload } from '../types';
@@ -15,6 +16,7 @@ import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 
 @Controller('api/user')
+@UseGuards(ModerationGuard)
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -44,7 +46,7 @@ export class UserController {
   async getBlockedUsers(@CurrentUser() user: UserPayload) {
     return this.userService.getBlockedUsers(user._id);
   }
-  
+
   @Delete('delete-account')
   @UseGuards(AuthGuard())
   async deleteAccount(
