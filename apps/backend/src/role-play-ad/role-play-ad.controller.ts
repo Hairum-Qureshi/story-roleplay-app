@@ -14,9 +14,11 @@ import { CurrentUser } from '../decorators/currentUser.decorator';
 import { type UserPayload } from '../types';
 import { AuthGuard } from '@nestjs/passport';
 import { IsOwnerGuard } from '../guards/IsOwner.guard';
+import { ModerationGuard } from 'src/guards/moderation.guard';
 import { EditAd } from '../DTOs/EditAd.dto';
 
 @Controller('role-play-ad')
+@UseGuards(ModerationGuard)
 export class RolePlayAdController {
   constructor(private readonly rolePlayAdService: RolePlayAdService) {}
 
