@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 import { UserDocument } from 'src/schemas/User';
 import { Reflector } from '@nestjs/core';
 import { Roles } from 'src/decorators/roles.decorator';
-import Role from 'src/roles.enum';
+import Role from 'src/enums/roles.enum';
 
 @Injectable()
 export class HasRolePermissions implements CanActivate {
@@ -24,7 +24,7 @@ export class HasRolePermissions implements CanActivate {
     const roles: Role[] = this.reflector.get<Role[]>(
       Roles,
       context.getHandler(),
-    ); 
+    );
 
     const user: UserDocument | null = await this.userModel
       .findById(currUserID)
