@@ -51,6 +51,7 @@ export default function Guidelines() {
               Spam and self-promotion are not allowed.
             </li>
             <li>Plagiarism is strictly prohibited.</li>
+            <li>No AI generated role-play ads.</li>
           </ul>
         </section>
 
