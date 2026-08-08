@@ -14,3 +14,15 @@
 .ProseMirror li::marker {
   color: currentColor;
 }
+
+.react-responsive-modal-modal {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.react-responsive-modal-closeButton svg,
+.react-responsive-modal-closeButton svg * {
+  fill: white;
+}
