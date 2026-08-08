@@ -48,12 +48,16 @@ export class ReportController {
   @Post('ban-user/:userID')
   @UseGuards(AuthGuard(), HasRolePermissions)
   @Roles([Role.ADMIN, Role.MODERATOR])
-  banUser() {}
+  banUser() {
+    // TODO - make sure to ad a guard where admins cannot be banned
+  }
 
   @Post('suspend-user/:userID')
   @UseGuards(AuthGuard(), HasRolePermissions)
   @Roles([Role.ADMIN, Role.MODERATOR])
-  suspendUser() {}
+  suspendUser() {
+    // TODO - make sure to ad a guard where admins cannot be suspended
+  }
 
   @Post('warn-user/:userID')
   @UseGuards(AuthGuard(), HasRolePermissions)
