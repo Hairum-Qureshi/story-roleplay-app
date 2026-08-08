@@ -9,6 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ModerationGuard } from '../guards/moderation.guard';
 import { CurrentUser } from '../decorators/currentUser.decorator';
 import type { UserPayload } from '../types';
 import { ChatService } from './chat.service';
@@ -18,6 +19,7 @@ import { EditMessage } from '../DTOs/EditMessage.dto';
 import { IsMessageOwner } from '../guards/IsMessageOwner.guard';
 
 @Controller('api/chat')
+@UseGuards(ModerationGuard)
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
