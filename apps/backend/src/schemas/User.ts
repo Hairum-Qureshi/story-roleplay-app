@@ -1,13 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
-import Role from 'src/roles.enum';
-
-enum ModerationStatus {
-  NONE = 'NONE',
-  WARNED = 'WARNED',
-  SUSPENDED = 'SUSPENDED',
-  BANNED = 'BANNED',
-}
+import { ModerationStatus } from 'src/enums/moderation.enum';
+import Role from 'src/enums/roles.enum';
 
 @Schema()
 export class User {
@@ -65,7 +59,7 @@ export class User {
   moderation: {
     status: ModerationStatus;
     reason: string;
-    expiresAt: Date;
+    expiresAt: Date | null;
   };
 
   @Prop({ default: Date.now })
