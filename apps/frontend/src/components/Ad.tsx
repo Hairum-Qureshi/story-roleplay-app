@@ -3,10 +3,12 @@ import useRolePlayAds from "../hooks/useRolePlayAds";
 import useRolePlayChat from "../hooks/useRolePlayChat";
 import type { AdProps } from "../interfaces";
 import moment from "moment";
+import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { MdReport } from "react-icons/md";
+import ReportModal from "./ReportModal";
 
 export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
   const formattedDate = new Date(rolePlayAd?.createdAt).toLocaleDateString(
@@ -22,9 +24,16 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
   const { deleteAdMutate } = useRolePlayAds();
   const { createConversation } = useRolePlayChat();
   const { likeMutate, unlikeMutate } = useRolePlayAds();
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <article className="w-full max-w-4xl mx-auto rounded-xl border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 shadow-lg mb-8">
+      {openModal && (
+        <ReportModal
+          openModal={openModal}
+          onCloseModal={() => setOpenModal(false)}
+        />
+      )}
       <header className="p-6 border-b border-slate-800 space-y-3">
         <h2 className="text-2xl font-bold text-zinc-100 leading-tight">
           {rolePlayAd?.title}
@@ -133,9 +142,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
                       cursor-pointer
                     "
                     onClick={() => {
-                      confirm(
-                        "Are you sure you want to report this ad? This action cannot be undone.",
-                      ) && alert("Feature Coming Soon");
+                      setOpenModal(true);
                     }}
                   >
                     <MdReport className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
