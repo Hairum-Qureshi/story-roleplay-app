@@ -4,13 +4,14 @@ import { AuthGuard } from '@nestjs/passport';
 import type { UserPayload } from '../types';
 import { SendEmail } from '../DTOs/SendEmail.dto';
 import { CurrentUser } from '../decorators/currentUser.decorator';
+import { ModerationGuard } from 'src/guards/moderation.guard';
 
 @Controller('email')
 export class EmailController {
   constructor(private emailService: EmailService) {}
 
   @Post('send')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   async sendEmail(
     @CurrentUser() currUser: UserPayload,
     @Body() sendEmailDto: SendEmail,
