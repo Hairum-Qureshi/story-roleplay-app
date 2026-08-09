@@ -17,6 +17,8 @@ export default function Navbar() {
   const { selectedChat } = useChatStore();
   const { socket } = useSocketStore();
   const { totalNotifications } = useNotifications();
+  const isModerator =
+    currUserData?.role === "admin" || currUserData?.role === "moderator";
 
   const closeMenuOnLinkClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement;
@@ -143,6 +145,20 @@ export default function Navbar() {
             >
               Character Bios
             </Link>
+            {isModerator && (
+              <Link
+                className="hover:cursor-pointer px-2 py-1 hover:bg-slate-800 hover:rounded-md"
+                to="/moderator-dashboard"
+                onClick={() =>
+                  socket?.emit("removeFromChatRoom", {
+                    chatID: selectedChat?._id,
+                    userID: currUserData?._id,
+                  })
+                }
+              >
+                Moderator Dashboard
+              </Link>
+            )}
           </>
         )}
       </div>
