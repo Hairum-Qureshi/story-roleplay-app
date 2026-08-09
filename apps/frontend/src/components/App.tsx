@@ -25,6 +25,8 @@ import UpdatesAndChangelog from "../pages/UpdatesAndChangelog";
 import Contact from "../pages/Contact";
 import Guidelines from "../pages/Guidelines";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import IsModerator from "./middleware/IsModerator";
+import ModeratorDashboard from "../pages/ModeratorDashboard";
 
 export default function App() {
   const connectSocket = useSocketStore((state) => state.connectSocket);
@@ -133,6 +135,16 @@ export default function App() {
             element={
               <ProtectedRoutesGuard>
                 <AdDetails />
+              </ProtectedRoutesGuard>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoutesGuard>
+                <IsModerator>
+                  <ModeratorDashboard />
+                </IsModerator>
               </ProtectedRoutesGuard>
             }
           />
