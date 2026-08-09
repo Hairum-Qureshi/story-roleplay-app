@@ -148,7 +148,7 @@ export default function Navbar() {
             {isModerator && (
               <Link
                 className="hover:cursor-pointer px-2 py-1 hover:bg-slate-800 hover:rounded-md"
-                to="/moderator-dashboard"
+                to="/dashboard"
                 onClick={() =>
                   socket?.emit("removeFromChatRoom", {
                     chatID: selectedChat?._id,
