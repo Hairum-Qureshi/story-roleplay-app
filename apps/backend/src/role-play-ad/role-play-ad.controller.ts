@@ -18,48 +18,47 @@ import { ModerationGuard } from 'src/guards/moderation.guard';
 import { EditAd } from '../DTOs/EditAd.dto';
 
 @Controller('role-play-ad')
-@UseGuards(ModerationGuard)
 export class RolePlayAdController {
   constructor(private readonly rolePlayAdService: RolePlayAdService) {}
 
   @Post('create')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   createAd(@Body() createAdDto: CreateAd, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.createAd(createAdDto, user);
   }
 
   @Get('all/yours')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   getPostedAds(@CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.getPostedAdsByUser(user);
   }
 
   @Get('all')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   getAllAds(@CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.getAllAds(user._id, user.blockedUsers);
   }
 
   @Get('/liked')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   getLikedAds(@CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.getLikedAds(user._id, user.blockedUsers);
   }
 
   @Post(':adID/repost')
-  @UseGuards(AuthGuard(), IsOwnerGuard)
+  @UseGuards(AuthGuard(), ModerationGuard, IsOwnerGuard)
   repostAd(@Param('adID') adID: string) {
     return this.rolePlayAdService.repostAd(adID);
   }
 
   @Get(':adID')
-  @UseGuards(AuthGuard(), IsOwnerGuard)
+  @UseGuards(AuthGuard(), ModerationGuard, IsOwnerGuard)
   getAdByID(@Param('adID') adID: string, @CurrentUser() currUser: UserPayload) {
     return this.rolePlayAdService.getAdByID(adID, currUser._id);
   }
 
   @Patch(':adID/edit')
-  @UseGuards(AuthGuard(), IsOwnerGuard)
+  @UseGuards(AuthGuard(), ModerationGuard, IsOwnerGuard)
   editAd(
     @Param('adID') adID: string,
     @Body() editAdDto: EditAd,
@@ -69,19 +68,19 @@ export class RolePlayAdController {
   }
 
   @Delete('delete/:adID')
-  @UseGuards(AuthGuard(), IsOwnerGuard)
+  @UseGuards(AuthGuard(), ModerationGuard, IsOwnerGuard)
   deleteAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.deleteAd(adID, user);
   }
 
   @Patch(':adID/like')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   likeAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.likeAd(adID, user._id);
   }
 
   @Patch(':adID/unlike')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   unlikeAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.unlikeAd(adID, user._id);
   }
