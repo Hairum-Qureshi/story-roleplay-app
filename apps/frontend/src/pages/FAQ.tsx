@@ -11,6 +11,7 @@ export default function FAQ() {
     "Character Bios",
     "Ads",
     "Messaging",
+    "Moderation",
   ];
 
   useEffect(() => {
