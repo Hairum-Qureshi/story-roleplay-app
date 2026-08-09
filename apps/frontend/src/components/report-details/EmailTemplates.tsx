@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { moderationStore } from "../../store/useModerationStore";
+import { useEffect, useState } from "react";
 
 type TemplateKey = "ban" | "warn" | "suspend";
 
@@ -62,12 +61,25 @@ function templateLabel(template: TemplateKey) {
   return "ban";
 }
 
-export default function EmailTemplates({ username }: { username: string }) {
+export default function EmailTemplates({
+  username,
+  selectedAction,
+  onEmailSent,
+}: {
+  username: string;
+  selectedAction: TemplateKey | null;
+  onEmailSent: (action: TemplateKey) => void;
+}) {
   const [suspensionDays, setSuspensionDays] = useState(7);
   const [templates, setTemplates] = useState(initialTemplates(7));
   const [activeTemplate, setActiveTemplate] = useState<TemplateKey>("warn");
   const [sentTemplate, setSentTemplate] = useState<TemplateKey | null>(null);
-  const setEmailSent = moderationStore((state) => state.setSentEmail);
+
+  useEffect(() => {
+    if (!selectedAction) return;
+    setActiveTemplate(selectedAction);
+    setSentTemplate(null);
+  }, [selectedAction]);
 
   function updateSuspensionDays(nextDays: number) {
     const clamped = clampSuspensionDays(nextDays);
@@ -87,11 +99,11 @@ export default function EmailTemplates({ username }: { username: string }) {
 
   function sendEmail() {
     setSentTemplate(activeTemplate);
-    setEmailSent(true);
+    onEmailSent(activeTemplate);
   }
 
   return (
-    <div className="flex min-h-0 max-h-[78vh] flex-col rounded-2xl border border-slate-700 bg-slate-900/80 p-5">
+    <div className="flex min-h-0 max-h-auto flex-col rounded-2xl border border-slate-700 bg-slate-900/80 p-5">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Email Templates</h2>
 
@@ -106,23 +118,18 @@ export default function EmailTemplates({ username }: { username: string }) {
             {templateLabel(sentTemplate)} email sent to user {username}
           </p>
         </div>
+      ) : !selectedAction ? (
+        <div className="mt-4 flex min-h-0 flex-1 items-center justify-center rounded-xl border border-slate-700 bg-slate-950/50 p-6">
+          <p className="text-center text-sm text-slate-300">
+            Choose an action above: Warn User, Suspend User, or Ban User.
+          </p>
+        </div>
       ) : (
         <>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {(["warn", "suspend", "ban"] as TemplateKey[]).map((key) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setActiveTemplate(key)}
-                className={`rounded-full px-3 py-1.5 text-sm capitalize transition-colors ${
-                  activeTemplate === key
-                    ? "bg-sky-500/20 text-sky-200"
-                    : "bg-slate-800 text-slate-300 hover:bg-slate-700"
-                }`}
-              >
-                {key}
-              </button>
-            ))}
+          <div className="mt-4">
+            <span className="inline-flex rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1 text-xs uppercase tracking-[0.16em] text-sky-200">
+              {templateLabel(activeTemplate)} template selected
+            </span>
           </div>
 
           <div className="mt-4 flex min-h-0 flex-1 flex-col overflow-y-auto pr-1">
