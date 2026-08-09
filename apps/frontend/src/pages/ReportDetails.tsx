@@ -4,6 +4,7 @@ import Overview from "../components/report-details/Overview";
 import ReportHeader from "../components/report-details/ReportHeader";
 import ReportedContent from "../components/report-details/ReportedContent";
 import type { ReportDetailsData } from "../components/report-details/types";
+import { useState } from "react";
 
 const report: ReportDetailsData = {
   id: "RPT-2401",
@@ -54,11 +55,28 @@ const report: ReportDetailsData = {
 export default function ReportDetails() {
   const reportedAdExists = true;
   const isChatReport = report.reportedContentType === "chat";
+  const [selectedAction, setSelectedAction] = useState<
+    "warn" | "suspend" | "ban" | null
+  >(null);
+  const [completedAction, setCompletedAction] = useState<
+    "warn" | "suspend" | "ban" | null
+  >(null);
+
+  function handleSelectAction(action: "warn" | "suspend" | "ban") {
+    setSelectedAction(action);
+    setCompletedAction(null);
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 md:px-8 md:py-12">
-        <ReportHeader id={report.id} title={report.title} />
+        <ReportHeader
+          id={report.id}
+          title={report.title}
+          selectedAction={selectedAction}
+          onSelectAction={handleSelectAction}
+          completedAction={completedAction}
+        />
 
         <section className="grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div className="space-y-6">
@@ -79,7 +97,11 @@ export default function ReportDetails() {
           </div>
 
           <div className="min-h-0 lg:self-start">
-            <EmailTemplates username={report.reportedUser} />
+            <EmailTemplates
+              username={report.reportedUser}
+              selectedAction={selectedAction}
+              onEmailSent={setCompletedAction}
+            />
           </div>
         </section>
       </div>
