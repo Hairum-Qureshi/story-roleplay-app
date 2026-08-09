@@ -8,12 +8,11 @@ import { PdfService } from './pdf.service';
 import { IsChatMember } from '../guards/IsChatMember.guard';
 
 @Controller('pdf')
-@UseGuards(ModerationGuard)
 export class PdfController {
   constructor(private pdfService: PdfService) {}
 
   @Get('/:chatID/role-play')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   async getPDF(
     @Param('chatID') chatID: string,
     @Res() res: Response,
