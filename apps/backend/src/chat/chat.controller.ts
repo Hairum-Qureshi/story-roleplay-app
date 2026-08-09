@@ -19,12 +19,11 @@ import { EditMessage } from '../DTOs/EditMessage.dto';
 import { IsMessageOwner } from '../guards/IsMessageOwner.guard';
 
 @Controller('api/chat')
-@UseGuards(ModerationGuard)
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Post('/:chatID/send-message')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   createConversationMessage(
     @Param('chatID') chatID: string,
     @Body() messageDto: CreateMessage,
@@ -34,7 +33,7 @@ export class ChatController {
   }
 
   @Post('create/:adID')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   createConversation(
     @Param('adID') adID: string,
     @CurrentUser() user: UserPayload,
@@ -43,7 +42,7 @@ export class ChatController {
   }
 
   @Get(':chatID/all-messages')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   getAllMessagesInConversation(
     @Param('chatID') chatID: string,
     @Query('page') page: string,
@@ -52,25 +51,25 @@ export class ChatController {
   }
 
   @Get('all-data')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   getAllConversationsData(@CurrentUser() user: UserPayload) {
     return this.chatService.getAllConversationsData(user);
   }
 
   @Get('all/user-chats')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   getAllUserChats(@CurrentUser() user: UserPayload) {
     return this.chatService.getAllUserChats(user);
   }
 
   @Patch(':chatID/end-conversation')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   endConversation(@Param('chatID') chatID: string) {
     return this.chatService.endConversation(chatID);
   }
 
   @Patch(':chatID/:messageID/edit-message')
-  @UseGuards(AuthGuard(), IsChatMember, IsMessageOwner)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember, IsMessageOwner)
   editMessage(
     @Param('chatID') chatID: string,
     @Param('messageID') messageID: string,
@@ -80,7 +79,7 @@ export class ChatController {
   }
 
   @Patch(':chatID/:messageID/delete-message')
-  @UseGuards(AuthGuard(), IsChatMember, IsMessageOwner)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember, IsMessageOwner)
   deleteMessage(
     @Param('chatID') chatID: string,
     @Param('messageID') messageID: string,
@@ -89,7 +88,7 @@ export class ChatController {
   }
 
   @Patch(':chatID/remove-from-list')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   removeChatFromList(
     @Param('chatID') chatID: string,
     @CurrentUser() user: UserPayload,
@@ -98,7 +97,7 @@ export class ChatController {
   }
 
   @Patch(':chatID/:messageID/pin')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   pinMessage(
     @Param('messageID') messageID: string,
     @CurrentUser() user: UserPayload,
@@ -107,19 +106,19 @@ export class ChatController {
   }
 
   @Get(':chatID/pins')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   getPinnedMessages(@Param('chatID') chatID: string) {
     return this.chatService.getPinnedMessages(chatID);
   }
 
   @Get(':chatID/notes')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   getRolePlayNotes(@Param('chatID') chatID: string) {
     return this.chatService.getRolePlayNotes(chatID);
   }
 
   @Patch(':chatID/notes')
-  @UseGuards(AuthGuard(), IsChatMember)
+  @UseGuards(AuthGuard(), ModerationGuard, IsChatMember)
   createRolePlayNotes(
     @Param('chatID') chatID: string,
     @Body() content: { content: string },
