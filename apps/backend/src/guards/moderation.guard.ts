@@ -14,7 +14,7 @@ export class ModerationGuard implements CanActivate {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const userID = context.switchToHttp().getRequest().user._id;
+    const userID = context.switchToHttp().getRequest().user?._id;
     const user = await this.userModel.findById(userID);
 
     if (!user) throw new NotFoundException('User not found');
