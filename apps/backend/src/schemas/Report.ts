@@ -33,6 +33,9 @@ export class Report {
   @Prop({ required: true, enum: AdStatus, default: AdStatus.OPEN })
   status: AdStatus;
 
+  @Prop({ type: String, required: true })
+  adLink: string;
+
   @Prop({ default: Date.now })
   createdAt: Date;
 
