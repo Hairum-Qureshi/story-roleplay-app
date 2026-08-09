@@ -150,4 +150,10 @@ export class UserService {
 
     return user?.blockedUsers;
   }
+
+  async getAllUsers() {
+    return this.userModel
+      .find()
+      .select('username _id email role profilePicture moderation');
+  }
 }
