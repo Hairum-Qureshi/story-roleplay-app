@@ -113,5 +113,10 @@
     "id": 37,
     "subheading": "Writing samples",
     "description": "An optional section on user profiles where users can showcase their writing style and abilities through short writing samples. This feature will allow users to provide a glimpse of their writing skills, helping potential role-playing partners assess compatibility and find suitable collaborators for their role-playing adventures."
+  },
+  {
+    "id": 38,
+    "subheading": "Report options in chat",
+    "description": "Users will have the ability to report specific messages or users within a chat conversation, allowing for quick and easy reporting of inappropriate content or behavior. This feature will help maintain a safe and respectful environment within the platform, enabling users to take action against any violations of community guidelines and ensuring that the platform remains a welcoming space for all users."
   }
 ]
