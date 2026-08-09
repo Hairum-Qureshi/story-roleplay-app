@@ -14,6 +14,9 @@ import type { UserPayload } from '../types';
 import type { Response } from 'express';
 import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
+import { HasRolePermissions } from 'src/guards/isAuthorized.guard';
+import Role from 'src/enums/roles.enum';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('api/user')
 export class UserController {
@@ -21,6 +24,13 @@ export class UserController {
     private readonly userService: UserService,
     private readonly authService: AuthService,
   ) {}
+
+  @Get('all')
+  @UseGuards(AuthGuard(), ModerationGuard, HasRolePermissions)
+  @Roles([Role.ADMIN, Role.MODERATOR])
+  async getAllUsers() {
+    return this.userService.getAllUsers();
+  }
 
   @Post(':userID/block')
   @UseGuards(AuthGuard(), ModerationGuard)
