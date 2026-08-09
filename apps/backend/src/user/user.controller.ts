@@ -16,7 +16,6 @@ import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 
 @Controller('api/user')
-@UseGuards(ModerationGuard)
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -24,7 +23,7 @@ export class UserController {
   ) {}
 
   @Post(':userID/block')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   async blockUser(
     @CurrentUser() user: UserPayload,
     @Param('userID') userID: string,
@@ -33,7 +32,7 @@ export class UserController {
   }
 
   @Post(':userID/unblock')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   async unblockUser(
     @CurrentUser() user: UserPayload,
     @Param('userID') userID: string,
@@ -42,13 +41,13 @@ export class UserController {
   }
 
   @Get('all/blocked')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   async getBlockedUsers(@CurrentUser() user: UserPayload) {
     return this.userService.getBlockedUsers(user._id);
   }
 
   @Delete('delete-account')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), ModerationGuard)
   async deleteAccount(
     @CurrentUser() user: UserPayload,
     @Res({ passthrough: true }) res: Response,
