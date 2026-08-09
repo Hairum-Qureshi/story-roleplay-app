@@ -59,6 +59,7 @@ export default function EmailTemplates() {
   const [suspensionDays, setSuspensionDays] = useState(7);
   const [templates, setTemplates] = useState(initialTemplates(7));
   const [activeTemplate, setActiveTemplate] = useState<TemplateKey>("warn");
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
 
   function updateSuspensionDays(nextDays: number) {
     const clamped = clampSuspensionDays(nextDays);
@@ -76,8 +77,21 @@ export default function EmailTemplates() {
     }));
   }
 
+  function sendEmail(templateToSend: TemplateKey = activeTemplate) {
+    if (templateToSend === "suspend") {
+      setEmailStatus(
+        `Suspension email sent for ${suspensionDays} days. Return date: ${getSuspensionReturnDate(suspensionDays)}.`,
+      );
+      return;
+    }
+
+    const templateName =
+      templateToSend.charAt(0).toUpperCase() + templateToSend.slice(1);
+    setEmailStatus(`${templateName} email sent.`);
+  }
+
   return (
-    <div className="rounded-2xl border border-slate-700 bg-slate-900/80 p-5">
+    <div className="flex h-full min-h-0 flex-col rounded-2xl border border-slate-700 bg-slate-900/80 p-5">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Email Templates</h2>
 
@@ -103,90 +117,93 @@ export default function EmailTemplates() {
         ))}
       </div>
 
-      {activeTemplate === "suspend" ? (
-        <div className="mt-4 rounded-xl border border-orange-400/30 bg-orange-500/10 p-4">
-          <p className="text-xs font-medium uppercase tracking-[0.16em] text-orange-200">
-            Suspension Duration
-          </p>
+      <div className="mt-4 flex min-h-0 flex-1 flex-col overflow-y-auto pr-1">
+        {activeTemplate === "suspend" ? (
+          <div className="rounded-xl border border-orange-400/30 bg-orange-500/10 p-4">
+            <p className="text-xs font-medium uppercase tracking-[0.16em] text-orange-200">
+              Suspension Duration
+            </p>
 
-          <div className="mt-2 flex flex-wrap gap-2">
-            {suspensionPresets.map((presetDays) => (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {suspensionPresets.map((presetDays) => (
+                <button
+                  key={presetDays}
+                  type="button"
+                  onClick={() => updateSuspensionDays(presetDays)}
+                  className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
+                    suspensionDays === presetDays
+                      ? "border-orange-300/50 bg-orange-300/20 text-orange-100"
+                      : "border-orange-400/30 bg-orange-500/5 text-orange-200 hover:bg-orange-500/20"
+                  }`}
+                >
+                  {presetDays}d
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-3 flex items-center gap-2">
               <button
-                key={presetDays}
                 type="button"
-                onClick={() => updateSuspensionDays(presetDays)}
-                className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
-                  suspensionDays === presetDays
-                    ? "border-orange-300/50 bg-orange-300/20 text-orange-100"
-                    : "border-orange-400/30 bg-orange-500/5 text-orange-200 hover:bg-orange-500/20"
-                }`}
+                onClick={() => updateSuspensionDays(suspensionDays - 1)}
+                className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
               >
-                {presetDays}d
+                -
               </button>
-            ))}
+
+              <input
+                type="number"
+                min={1}
+                max={365}
+                value={suspensionDays}
+                onChange={(event) => {
+                  const parsed = Number.parseInt(event.target.value, 10);
+                  updateSuspensionDays(parsed);
+                }}
+                className="w-24 rounded-md border border-orange-400/30 bg-slate-950/80 px-2 py-1 text-sm text-orange-100 focus:border-orange-300/60 focus:outline-none"
+              />
+
+              <button
+                type="button"
+                onClick={() => updateSuspensionDays(suspensionDays + 1)}
+                className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
+              >
+                +
+              </button>
+
+              <span className="text-xs text-orange-100/80">days</span>
+            </div>
+
+            <p className="mt-2 text-xs text-orange-100/80">
+              Return date: {getSuspensionReturnDate(suspensionDays)}
+            </p>
           </div>
+        ) : null}
 
-          <div className="mt-3 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => updateSuspensionDays(suspensionDays - 1)}
-              className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
-            >
-              -
-            </button>
+        <div className="mt-4">
+          <label className="text-sm font-medium text-slate-200">
+            {activeTemplate.charAt(0).toUpperCase() + activeTemplate.slice(1)}{" "}
+            Template
+          </label>
 
-            <input
-              type="number"
-              min={1}
-              max={365}
-              value={suspensionDays}
-              onChange={(event) => {
-                const parsed = Number.parseInt(event.target.value, 10);
-                updateSuspensionDays(parsed);
-              }}
-              className="w-24 rounded-md border border-orange-400/30 bg-slate-950/80 px-2 py-1 text-sm text-orange-100 focus:border-orange-300/60 focus:outline-none"
-            />
-
-            <button
-              type="button"
-              onClick={() => updateSuspensionDays(suspensionDays + 1)}
-              className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
-            >
-              +
-            </button>
-
-            <span className="text-xs text-orange-100/80">days</span>
-          </div>
-
-          <p className="mt-2 text-xs text-orange-100/80">
-            Return date: {getSuspensionReturnDate(suspensionDays)}
-          </p>
+          <textarea
+            value={templates[activeTemplate]}
+            onChange={(event) =>
+              updateTemplate(activeTemplate, event.target.value)
+            }
+            rows={12}
+            className="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-500/60 focus:outline-none"
+          />
         </div>
-      ) : null}
 
-      <div className="mt-4">
-        <label className="text-sm font-medium text-slate-200">
-          {activeTemplate.charAt(0).toUpperCase() + activeTemplate.slice(1)}{" "}
-          Template
-        </label>
-
-        <textarea
-          value={templates[activeTemplate]}
-          onChange={(event) =>
-            updateTemplate(activeTemplate, event.target.value)
-          }
-          rows={12}
-          className="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-500/60 focus:outline-none"
-        />
-      </div>
-
-      <div className="mt-4 rounded-xl border border-slate-800 bg-slate-950/60 p-4 text-sm text-slate-300">
-        <p className="font-medium text-slate-100">Tip</p>
-
-        <p className="mt-2 leading-6">
-          Keep the tone calm, clear, and community-focused. You can edit the
-          message here before sending it to the user.
-        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => sendEmail()}
+            className="rounded-lg border border-sky-400/40 bg-sky-500/10 px-3 py-2 text-sm font-medium text-sky-200 transition-colors hover:bg-sky-500/20"
+          >
+            Send Email
+          </button>
+        </div>
       </div>
     </div>
   );
