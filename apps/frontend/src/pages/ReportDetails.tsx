@@ -60,7 +60,7 @@ export default function ReportDetails() {
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 md:px-8 md:py-12">
         <ReportHeader id={report.id} title={report.title} />
 
-        <section className="grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <section className="grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div className="space-y-6">
             <Overview
               reporter={report.reporter}
@@ -78,7 +78,9 @@ export default function ReportDetails() {
             <DetailsCard details={report.details} />
           </div>
 
-          <EmailTemplates />
+          <div className="min-h-0 lg:self-start">
+            <EmailTemplates />
+          </div>
         </section>
       </div>
     </div>

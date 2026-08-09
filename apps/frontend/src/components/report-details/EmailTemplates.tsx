@@ -91,7 +91,7 @@ export default function EmailTemplates() {
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col rounded-2xl border border-slate-700 bg-slate-900/80 p-5">
+    <div className="flex min-h-0 max-h-[78vh] flex-col rounded-2xl border border-slate-700 bg-slate-900/80 p-5">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Email Templates</h2>
 
@@ -201,8 +201,14 @@ export default function EmailTemplates() {
             onClick={() => sendEmail()}
             className="rounded-lg border border-sky-400/40 bg-sky-500/10 px-3 py-2 text-sm font-medium text-sky-200 transition-colors hover:bg-sky-500/20"
           >
-            Send Email
+            {activeTemplate === "suspend"
+              ? "Send Suspension Email"
+              : "Send Email"}
           </button>
+
+          {emailStatus ? (
+            <span className="text-xs text-slate-300">{emailStatus}</span>
+          ) : null}
         </div>
       </div>
     </div>
