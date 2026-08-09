@@ -267,6 +267,46 @@ export default function FAQ() {
         },
       ],
     },
+    {
+      title: (
+        <HashLink smooth to="#moderation">
+          Moderation
+        </HashLink>
+      ),
+      items: [
+        {
+          question: "How do I report a user or content?",
+          answer:
+            "You can report users or content by clicking the 'Report' button available on a role-play ad. At this time, a report option is not available inside of chats, but stay tuned. A modal will pop up to fill out the report form with relevant details and submit it for review.",
+        },
+        {
+          question: "What happens after I submit a report?",
+          answer:
+            "After submitting a report, our moderation team will review the case. You may receive updates on the status of your report, and appropriate actions will be taken based on our community guidelines.",
+        },
+        {
+          question: "Can I appeal a moderation action taken against me?",
+          answer:
+            "Yes, if you believe a moderation action was taken in error, you can contact support to appeal the decision. Provide any relevant information to support your case.",
+        },
+        {
+          question:
+            "What are the consequences of violating community guidelines?",
+          answer:
+            "Consequences can range from warnings to temporary suspensions or permanent bans, depending on the severity and frequency of the violations. Our goal is to maintain a safe and respectful environment for all users.",
+        },
+        {
+          question: "How can I contact support for moderation issues?",
+          answer:
+            "You can contact support through the 'Contact' page, where you can submit your concerns or questions regarding moderation actions or other issues.",
+        },
+        {
+          question: "How do I become a moderator?",
+          answer:
+            "Moderator positions are typically filled by invitation based on community involvement and trust. If you're interested in becoming a moderator, please reach out to support with your qualifications and reasons for wanting to join the moderation team.",
+        },
+      ],
+    },
   ];
 
   return (
