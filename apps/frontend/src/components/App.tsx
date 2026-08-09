@@ -27,6 +27,7 @@ import Guidelines from "../pages/Guidelines";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import IsModerator from "./middleware/IsModerator";
 import ModeratorDashboard from "../pages/ModeratorDashboard";
+import ReportDetails from "../pages/ReportDetails";
 
 export default function App() {
   const connectSocket = useSocketStore((state) => state.connectSocket);
@@ -144,6 +145,16 @@ export default function App() {
               <ProtectedRoutesGuard>
                 <IsModerator>
                   <ModeratorDashboard />
+                </IsModerator>
+              </ProtectedRoutesGuard>
+            }
+          />
+          <Route
+            path="/report/:reportID"
+            element={
+              <ProtectedRoutesGuard>
+                <IsModerator>
+                  <ReportDetails />
                 </IsModerator>
               </ProtectedRoutesGuard>
             }
