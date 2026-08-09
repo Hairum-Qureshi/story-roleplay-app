@@ -79,7 +79,7 @@ export default function ReportDetails() {
           </div>
 
           <div className="min-h-0 lg:self-start">
-            <EmailTemplates />
+            <EmailTemplates username={report.reportedUser} />
           </div>
         </section>
       </div>
