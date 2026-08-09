@@ -4,10 +4,11 @@ import {
   Conversation,
   ConversationSchema,
 } from '../schemas/inbox/Conversation';
+import { User, UserSchema } from '../schemas/User';
 import { NotificationService } from './notification.service';
 import { NotificationController } from './notification.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from '../auth/auth.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from '../auth/auth.module';
     MongooseModule.forFeature([
       { name: Notification.name, schema: NotificationSchema },
       { name: Conversation.name, schema: ConversationSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   providers: [NotificationService],
