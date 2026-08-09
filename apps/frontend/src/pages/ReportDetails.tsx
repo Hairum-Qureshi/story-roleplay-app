@@ -101,6 +101,7 @@ export default function ReportDetails() {
               username={report.reportedUser}
               selectedAction={selectedAction}
               onEmailSent={setCompletedAction}
+              onUndo={() => setCompletedAction(null)}
             />
           </div>
         </section>

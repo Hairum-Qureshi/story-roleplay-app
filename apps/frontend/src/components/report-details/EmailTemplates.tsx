@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-type TemplateKey = "ban" | "warn" | "suspend";
+type ModerationAction = "ban" | "warn" | "suspend";
+type TemplateKey = ModerationAction | "undo";
 
 const suspensionPresets = [1, 3, 7, 14, 30];
 
@@ -33,6 +34,28 @@ Thanks,
 The TaleWeaver Moderation Team`;
 }
 
+function buildUndoTemplate(previousAction: ModerationAction | null) {
+  const previousActionText =
+    previousAction === "warn"
+      ? "warning"
+      : previousAction === "suspend"
+        ? "suspension"
+        : previousAction === "ban"
+          ? "ban"
+          : "moderation";
+
+  return `Hello {{username}},
+
+Please disregard our previous ${previousActionText} email.
+
+We reviewed your case again and confirmed your account is in good standing. No moderation action will be applied, and your account is fine.
+
+We apologize for the confusion and appreciate your patience.
+
+Thanks,
+The TaleWeaver Moderation Team`;
+}
+
 const initialTemplates = (
   suspensionDays: number,
 ): Record<TemplateKey, string> => ({
@@ -53,11 +76,13 @@ If this behavior continues, additional moderation action may follow.
 Thanks,
 The TaleWeaver Moderation Team`,
   suspend: buildSuspensionTemplate(suspensionDays),
+  undo: buildUndoTemplate(null),
 });
 
 function templateLabel(template: TemplateKey) {
   if (template === "warn") return "warning";
   if (template === "suspend") return "suspension";
+  if (template === "undo") return "undo";
   return "ban";
 }
 
@@ -65,10 +90,12 @@ export default function EmailTemplates({
   username,
   selectedAction,
   onEmailSent,
+  onUndo,
 }: {
   username: string;
-  selectedAction: TemplateKey | null;
-  onEmailSent: (action: TemplateKey) => void;
+  selectedAction: ModerationAction | null;
+  onEmailSent: (action: ModerationAction) => void;
+  onUndo: () => void;
 }) {
   const [suspensionDays, setSuspensionDays] = useState(7);
   const [templates, setTemplates] = useState(initialTemplates(7));
@@ -99,7 +126,23 @@ export default function EmailTemplates({
 
   function sendEmail() {
     setSentTemplate(activeTemplate);
-    onEmailSent(activeTemplate);
+
+    if (activeTemplate !== "undo") {
+      onEmailSent(activeTemplate);
+    }
+  }
+
+  function openUndoTemplate() {
+    const previousAction =
+      sentTemplate && sentTemplate !== "undo" ? sentTemplate : null;
+
+    setTemplates((prev) => ({
+      ...prev,
+      undo: buildUndoTemplate(previousAction),
+    }));
+    setActiveTemplate("undo");
+    setSentTemplate(null);
+    onUndo();
   }
 
   return (
@@ -114,9 +157,21 @@ export default function EmailTemplates({
 
       {sentTemplate ? (
         <div className="mt-4 flex min-h-0 flex-1 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 p-6">
-          <p className="text-center text-sm font-medium text-emerald-200">
-            {templateLabel(sentTemplate)} email sent to user {username}
-          </p>
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-center text-sm font-medium text-emerald-200">
+              {templateLabel(sentTemplate)} email sent to user {username}
+            </p>
+
+            {sentTemplate !== "undo" ? (
+              <button
+                type="button"
+                onClick={openUndoTemplate}
+                className="rounded-md border border-emerald-300/40 bg-emerald-300/20 px-3 py-1.5 text-xs font-medium text-emerald-50 hover:bg-emerald-300/30"
+              >
+                Undo (Send Apology Email)
+              </button>
+            ) : null}
+          </div>
         </div>
       ) : !selectedAction ? (
         <div className="mt-4 flex min-h-0 flex-1 items-center justify-center rounded-xl border border-slate-700 bg-slate-950/50 p-6">
