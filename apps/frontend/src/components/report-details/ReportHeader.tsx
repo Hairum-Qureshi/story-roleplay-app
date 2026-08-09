@@ -1,3 +1,5 @@
+type ModerationAction = "warn" | "suspend" | "ban";
+
 const actionButtons = [
   { label: "Warn", tone: "amber" },
   { label: "Suspend", tone: "orange" },
@@ -19,10 +21,23 @@ function getToneClasses(tone: (typeof actionButtons)[number]["tone"]) {
 export default function ReportHeader({
   id,
   title,
+  selectedAction,
+  onSelectAction,
+  completedAction,
 }: {
   id: string;
   title: string;
+  selectedAction: ModerationAction | null;
+  onSelectAction: (action: ModerationAction) => void;
+  completedAction: ModerationAction | null;
 }) {
+  const completedTone =
+    completedAction === "warn"
+      ? "amber"
+      : completedAction === "suspend"
+        ? "orange"
+        : "rose";
+
   return (
     <section className="rounded-2xl border border-slate-700/70 bg-slate-900/70 p-6 shadow-[0_8px_30px_rgba(2,6,23,0.45)] backdrop-blur-sm">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -37,15 +52,36 @@ export default function ReportHeader({
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {actionButtons.map((button) => (
-            <button
-              key={button.label}
-              type="button"
-              className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${getToneClasses(button.tone)}`}
+          {completedAction ? (
+            <span
+              className={`rounded-full border px-3 py-2 text-sm font-medium capitalize ${getToneClasses(completedTone)}`}
             >
-              {button.label}
-            </button>
-          ))}
+              user has been
+              {completedAction === "warn"
+                ? " warned"
+                : completedAction === "suspend"
+                  ? " suspended"
+                  : " banned"}
+            </span>
+          ) : (
+            actionButtons.map((button) => {
+              const actionKey = button.label.toLowerCase() as ModerationAction;
+              const isSelected = selectedAction === actionKey;
+
+              return (
+                <button
+                  key={button.label}
+                  type="button"
+                  className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${getToneClasses(button.tone)} ${
+                    isSelected ? "ring-1 ring-white/50" : ""
+                  }`}
+                  onClick={() => onSelectAction(actionKey)}
+                >
+                  {button.label} User
+                </button>
+              );
+            })
+          )}
         </div>
       </div>
     </section>
