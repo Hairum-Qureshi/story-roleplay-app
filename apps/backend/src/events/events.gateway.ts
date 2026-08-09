@@ -52,7 +52,7 @@ export class EventsGateway {
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    // console.log(`Client disconnected: ${client.id}`);
 
     const userID = this.eventsService.getUserIdBySocketId(client.id);
 
