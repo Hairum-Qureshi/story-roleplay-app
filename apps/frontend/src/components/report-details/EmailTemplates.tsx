@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { moderationStore } from "../../store/useModerationStore";
 
 type TemplateKey = "ban" | "warn" | "suspend";
 
@@ -66,6 +67,7 @@ export default function EmailTemplates({ username }: { username: string }) {
   const [templates, setTemplates] = useState(initialTemplates(7));
   const [activeTemplate, setActiveTemplate] = useState<TemplateKey>("warn");
   const [sentTemplate, setSentTemplate] = useState<TemplateKey | null>(null);
+  const setEmailSent = moderationStore((state) => state.setSentEmail);
 
   function updateSuspensionDays(nextDays: number) {
     const clamped = clampSuspensionDays(nextDays);
@@ -85,6 +87,7 @@ export default function EmailTemplates({ username }: { username: string }) {
 
   function sendEmail() {
     setSentTemplate(activeTemplate);
+    setEmailSent(true);
   }
 
   return (
