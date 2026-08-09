@@ -55,11 +55,17 @@ The TaleWeaver Moderation Team`,
   suspend: buildSuspensionTemplate(suspensionDays),
 });
 
-export default function EmailTemplates() {
+function templateLabel(template: TemplateKey) {
+  if (template === "warn") return "warning";
+  if (template === "suspend") return "suspension";
+  return "ban";
+}
+
+export default function EmailTemplates({ username }: { username: string }) {
   const [suspensionDays, setSuspensionDays] = useState(7);
   const [templates, setTemplates] = useState(initialTemplates(7));
   const [activeTemplate, setActiveTemplate] = useState<TemplateKey>("warn");
-  const [emailStatus, setEmailStatus] = useState<string | null>(null);
+  const [sentTemplate, setSentTemplate] = useState<TemplateKey | null>(null);
 
   function updateSuspensionDays(nextDays: number) {
     const clamped = clampSuspensionDays(nextDays);
@@ -77,17 +83,8 @@ export default function EmailTemplates() {
     }));
   }
 
-  function sendEmail(templateToSend: TemplateKey = activeTemplate) {
-    if (templateToSend === "suspend") {
-      setEmailStatus(
-        `Suspension email sent for ${suspensionDays} days. Return date: ${getSuspensionReturnDate(suspensionDays)}.`,
-      );
-      return;
-    }
-
-    const templateName =
-      templateToSend.charAt(0).toUpperCase() + templateToSend.slice(1);
-    setEmailStatus(`${templateName} email sent.`);
+  function sendEmail() {
+    setSentTemplate(activeTemplate);
   }
 
   return (
@@ -100,117 +97,124 @@ export default function EmailTemplates() {
         </span>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        {(["warn", "suspend", "ban"] as TemplateKey[]).map((key) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setActiveTemplate(key)}
-            className={`rounded-full px-3 py-1.5 text-sm capitalize transition-colors ${
-              activeTemplate === key
-                ? "bg-sky-500/20 text-sky-200"
-                : "bg-slate-800 text-slate-300 hover:bg-slate-700"
-            }`}
-          >
-            {key}
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-4 flex min-h-0 flex-1 flex-col overflow-y-auto pr-1">
-        {activeTemplate === "suspend" ? (
-          <div className="rounded-xl border border-orange-400/30 bg-orange-500/10 p-4">
-            <p className="text-xs font-medium uppercase tracking-[0.16em] text-orange-200">
-              Suspension Duration
-            </p>
-
-            <div className="mt-2 flex flex-wrap gap-2">
-              {suspensionPresets.map((presetDays) => (
-                <button
-                  key={presetDays}
-                  type="button"
-                  onClick={() => updateSuspensionDays(presetDays)}
-                  className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
-                    suspensionDays === presetDays
-                      ? "border-orange-300/50 bg-orange-300/20 text-orange-100"
-                      : "border-orange-400/30 bg-orange-500/5 text-orange-200 hover:bg-orange-500/20"
-                  }`}
-                >
-                  {presetDays}d
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-3 flex items-center gap-2">
+      {sentTemplate ? (
+        <div className="mt-4 flex min-h-0 flex-1 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 p-6">
+          <p className="text-center text-sm font-medium text-emerald-200">
+            {templateLabel(sentTemplate)} email sent to user {username}
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {(["warn", "suspend", "ban"] as TemplateKey[]).map((key) => (
               <button
+                key={key}
                 type="button"
-                onClick={() => updateSuspensionDays(suspensionDays - 1)}
-                className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
+                onClick={() => setActiveTemplate(key)}
+                className={`rounded-full px-3 py-1.5 text-sm capitalize transition-colors ${
+                  activeTemplate === key
+                    ? "bg-sky-500/20 text-sky-200"
+                    : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                }`}
               >
-                -
+                {key}
               </button>
-
-              <input
-                type="number"
-                min={1}
-                max={365}
-                value={suspensionDays}
-                onChange={(event) => {
-                  const parsed = Number.parseInt(event.target.value, 10);
-                  updateSuspensionDays(parsed);
-                }}
-                className="w-24 rounded-md border border-orange-400/30 bg-slate-950/80 px-2 py-1 text-sm text-orange-100 focus:border-orange-300/60 focus:outline-none"
-              />
-
-              <button
-                type="button"
-                onClick={() => updateSuspensionDays(suspensionDays + 1)}
-                className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
-              >
-                +
-              </button>
-
-              <span className="text-xs text-orange-100/80">days</span>
-            </div>
-
-            <p className="mt-2 text-xs text-orange-100/80">
-              Return date: {getSuspensionReturnDate(suspensionDays)}
-            </p>
+            ))}
           </div>
-        ) : null}
 
-        <div className="mt-4">
-          <label className="text-sm font-medium text-slate-200">
-            {activeTemplate.charAt(0).toUpperCase() + activeTemplate.slice(1)}{" "}
-            Template
-          </label>
+          <div className="mt-4 flex min-h-0 flex-1 flex-col overflow-y-auto pr-1">
+            {activeTemplate === "suspend" ? (
+              <div className="rounded-xl border border-orange-400/30 bg-orange-500/10 p-4">
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-orange-200">
+                  Suspension Duration
+                </p>
 
-          <textarea
-            value={templates[activeTemplate]}
-            onChange={(event) =>
-              updateTemplate(activeTemplate, event.target.value)
-            }
-            rows={12}
-            className="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-500/60 focus:outline-none"
-          />
-        </div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {suspensionPresets.map((presetDays) => (
+                    <button
+                      key={presetDays}
+                      type="button"
+                      onClick={() => updateSuspensionDays(presetDays)}
+                      className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
+                        suspensionDays === presetDays
+                          ? "border-orange-300/50 bg-orange-300/20 text-orange-100"
+                          : "border-orange-400/30 bg-orange-500/5 text-orange-200 hover:bg-orange-500/20"
+                      }`}
+                    >
+                      {presetDays}d
+                    </button>
+                  ))}
+                </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => sendEmail()}
-            className="rounded-lg border border-sky-400/40 bg-sky-500/10 px-3 py-2 text-sm font-medium text-sky-200 transition-colors hover:bg-sky-500/20"
-          >
-            {activeTemplate === "suspend"
-              ? "Send Suspension Email"
-              : "Send Email"}
-          </button>
+                <div className="mt-3 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => updateSuspensionDays(suspensionDays - 1)}
+                    className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
+                  >
+                    -
+                  </button>
 
-          {emailStatus ? (
-            <span className="text-xs text-slate-300">{emailStatus}</span>
-          ) : null}
-        </div>
-      </div>
+                  <input
+                    type="number"
+                    min={1}
+                    max={365}
+                    value={suspensionDays}
+                    onChange={(event) => {
+                      const parsed = Number.parseInt(event.target.value, 10);
+                      updateSuspensionDays(parsed);
+                    }}
+                    className="w-24 rounded-md border border-orange-400/30 bg-slate-950/80 px-2 py-1 text-sm text-orange-100 focus:border-orange-300/60 focus:outline-none"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => updateSuspensionDays(suspensionDays + 1)}
+                    className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
+                  >
+                    +
+                  </button>
+
+                  <span className="text-xs text-orange-100/80">days</span>
+                </div>
+
+                <p className="mt-2 text-xs text-orange-100/80">
+                  Return date: {getSuspensionReturnDate(suspensionDays)}
+                </p>
+              </div>
+            ) : null}
+
+            <div className="mt-4">
+              <label className="text-sm font-medium text-slate-200">
+                {activeTemplate.charAt(0).toUpperCase() +
+                  activeTemplate.slice(1)}{" "}
+                Template
+              </label>
+
+              <textarea
+                value={templates[activeTemplate]}
+                onChange={(event) =>
+                  updateTemplate(activeTemplate, event.target.value)
+                }
+                rows={12}
+                className="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-sky-500/60 focus:outline-none"
+              />
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={sendEmail}
+                className="rounded-lg border border-sky-400/40 bg-sky-500/10 px-3 py-2 text-sm font-medium text-sky-200 transition-colors hover:bg-sky-500/20"
+              >
+                {activeTemplate === "suspend"
+                  ? "Send Suspension Email"
+                  : "Send Email"}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
