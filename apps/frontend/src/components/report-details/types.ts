@@ -15,6 +15,7 @@ export type RolePlayAdData = {
   tags: string[];
   starterSample: string;
   description: string;
+  postUrl: string;
   creator: {
     username: string;
     id: string;

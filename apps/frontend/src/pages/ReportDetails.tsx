@@ -29,6 +29,7 @@ const report: ReportDetailsData = {
       "The marble hall fell silent as the new envoy stepped into the court, cloak still wet from the storm. Every noble bowed except one.",
     description:
       "A dark fantasy role-play centered on political intrigue, forbidden attraction, and tense court drama.",
+    postUrl: "https://taleweaver.app/posts/ad-4472",
     creator: {
       username: "Inkbreaker",
       id: "usr_204",
