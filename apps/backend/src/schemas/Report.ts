@@ -22,6 +22,9 @@ export class Report {
   reportDetails: string;
 
   @Prop({ type: String })
+  reportedUserID: string;
+
+  @Prop({ type: String })
   reportNotes: string;
 
   @Prop({ required: true, enum: AdStatus, default: AdStatus.OPEN })
