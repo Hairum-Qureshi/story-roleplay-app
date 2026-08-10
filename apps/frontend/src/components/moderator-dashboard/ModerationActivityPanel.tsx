@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type {
   DashboardTab,
   ModerationUser,
@@ -6,7 +5,7 @@ import type {
   ReportStatus,
   UserModerationStatus,
 } from "./types";
-import { MdOpenInNew } from "react-icons/md";
+import ReportCard from "./ReportCard";
 
 function statusPillClasses(status: string) {
   if (status === "OPEN") {
@@ -44,24 +43,6 @@ const tabs: Array<{ key: DashboardTab; label: string }> = [
   { key: "users", label: "All Users" },
 ];
 
-const suspensionPresets = [1, 3, 7, 14, 30];
-
-function clampSuspensionDays(days: number) {
-  if (Number.isNaN(days)) return 1;
-  return Math.min(365, Math.max(1, days));
-}
-
-function getReturnDateLabel(days: number) {
-  const returnDate = new Date();
-  returnDate.setDate(returnDate.getDate() + days);
-
-  return returnDate.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
-
 export default function ModerationActivityPanel({
   activeTab,
   setActiveTab,
@@ -91,45 +72,6 @@ export default function ModerationActivityPanel({
   revokeSuspension: (userId: string) => void;
   revokeBan: (userId: string) => void;
 }) {
-  const [openSuspendEditorFor, setOpenSuspendEditorFor] = useState<
-    string | null
-  >(null);
-  const [suspensionDaysByReport, setSuspensionDaysByReport] = useState<
-    Record<string, number>
-  >({});
-  const [appliedSuspensions, setAppliedSuspensions] = useState<
-    Record<string, number>
-  >({});
-
-  function getSelectedDays(reportId: string) {
-    return suspensionDaysByReport[reportId] ?? 7;
-  }
-
-  function setSelectedDays(reportId: string, nextValue: number) {
-    const clamped = clampSuspensionDays(nextValue);
-    setSuspensionDaysByReport((prev) => ({
-      ...prev,
-      [reportId]: clamped,
-    }));
-  }
-
-  function openSuspendEditor(reportId: string) {
-    setOpenSuspendEditorFor(reportId);
-    setSuspensionDaysByReport((prev) => ({
-      ...prev,
-      [reportId]: prev[reportId] ?? 7,
-    }));
-  }
-
-  function applySuspension(reportId: string) {
-    const days = getSelectedDays(reportId);
-    setAppliedSuspensions((prev) => ({
-      ...prev,
-      [reportId]: days,
-    }));
-    setOpenSuspendEditorFor(null);
-  }
-
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-700 bg-slate-900/80 lg:col-span-2">
       <div className="space-y-4 border-b border-slate-800 px-5 py-4">
@@ -209,24 +151,12 @@ export default function ModerationActivityPanel({
                 key={report.id}
                 className="flex flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between"
               >
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-slate-400">
-                      {report.id}
-                    </span>
-                    <span
-                      className={`inline-flex rounded-full px-2 py-0.5 text-[11px] font-semibold ${statusPillClasses(report.status)}`}
-                    >
-                      {report.status}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-sm text-slate-100">
-                    {report.subject}
-                  </p>
-                </div>
-                <div>
-                  <MdOpenInNew className="text-slate-400 text-xl" />
-                </div>
+                <ReportCard
+                  reportID={report.id}
+                  reportStatus={report.status}
+                  reportSubject={report.subject}
+                  statusPillClasses={statusPillClasses}
+                />
               </div>
             ))
           ) : (
