@@ -9,9 +9,6 @@ export class Report {
   @Prop({ ref: 'User' })
   reporterUserID: string;
 
-  @Prop({ ref: 'User' })
-  reportedUserID: string;
-
   @Prop({ required: true, enum: ReportReason })
   reason: ReportReason;
 
@@ -23,9 +20,6 @@ export class Report {
 
   @Prop({ type: String })
   reportDetails: string;
-
-  @Prop({ type: String, ref: 'User' })
-  originalAdPoster: string;
 
   @Prop({ type: String })
   reportNotes: string;
