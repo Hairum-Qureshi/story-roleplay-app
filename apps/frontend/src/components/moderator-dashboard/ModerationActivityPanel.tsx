@@ -1,10 +1,5 @@
-import type {
-  DashboardTab,
-  ModerationUser,
-  ReportItem,
-  ReportStatus,
-  UserModerationStatus,
-} from "./types";
+import type { DashboardTab, ReportStatus, UserModerationStatus } from "./types";
+import PostReportGroup from "./PostReportGroup";
 import ReportCard from "./ReportCard";
 
 function statusPillClasses(status: string) {
@@ -19,7 +14,7 @@ function statusPillClasses(status: string) {
   return "border border-slate-500/40 bg-slate-700/60 text-slate-200";
 }
 
-function userStatusPillClasses(status: UserModerationStatus) {
+function userStatusPillClasses(status: string) {
   if (status === "ACTIVE") {
     return "border border-emerald-400/30 bg-emerald-500/20 text-emerald-300";
   }
@@ -67,11 +62,65 @@ export default function ModerationActivityPanel({
   setStatusFilter: (status: "ALL" | ReportStatus) => void;
   userStatusFilter: "ALL" | UserModerationStatus;
   setUserStatusFilter: (status: "ALL" | UserModerationStatus) => void;
-  filteredReports: ReportItem[];
-  filteredUsers: ModerationUser[];
+  filteredReports: Array<{
+    id: string;
+    subject: string;
+    status: string;
+    age: string;
+    postId: string;
+    postTitle: string;
+    postUrl: string;
+  }>;
+  filteredUsers: Array<{
+    id: string;
+    username: string;
+    reason: string;
+    updatedAt: string;
+    status: string;
+  }>;
   revokeSuspension: (userId: string) => void;
   revokeBan: (userId: string) => void;
 }) {
+  const consolidatedReports = Object.values(
+    filteredReports.reduce<
+      Record<
+        string,
+        {
+          postId: string;
+          postTitle: string;
+          postUrl: string;
+          reportIds: string[];
+          reportStatuses: string[];
+          reportSubjects: string[];
+          reportAges: string[];
+        }
+      >
+    >((acc, report) => {
+      const current = acc[report.postId];
+
+      if (!current) {
+        acc[report.postId] = {
+          postId: report.postId,
+          postTitle: report.postTitle,
+          postUrl: report.postUrl,
+          reportIds: [report.id],
+          reportStatuses: [report.status],
+          reportSubjects: [report.subject],
+          reportAges: [report.age],
+        };
+
+        return acc;
+      }
+
+      current.reportIds.push(report.id);
+      current.reportStatuses.push(report.status);
+      current.reportSubjects.push(report.subject);
+      current.reportAges.push(report.age);
+
+      return acc;
+    }, {}),
+  );
+
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-700 bg-slate-900/80 lg:col-span-2">
       <div className="space-y-4 border-b border-slate-800 px-5 py-4">
@@ -104,7 +153,7 @@ export default function ModerationActivityPanel({
             onChange={(event) => setQuery(event.target.value)}
             placeholder={
               isReportTab
-                ? "Search by report ID or summary..."
+                ? "Search by report ID, post ID, or post title..."
                 : "Search by user ID, username, or moderation note..."
             }
             className="w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:border-sky-500/60 focus:outline-none"
@@ -143,22 +192,34 @@ export default function ModerationActivityPanel({
         </div>
       </div>
 
-      <div className="divide-y divide-slate-800">
+      <div className="space-y-3 p-3">
         {isReportTab ? (
-          filteredReports.length > 0 ? (
-            filteredReports.map((report) => (
-              <div
-                key={report.id}
-                className="flex flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between"
-              >
-                <ReportCard
-                  reportID={report.id}
-                  reportStatus={report.status}
-                  reportSubject={report.subject}
+          consolidatedReports.length > 0 ? (
+            <>
+              {consolidatedReports.map((reportGroup) => (
+                <PostReportGroup
+                  key={reportGroup.postId}
+                  postId={reportGroup.postId}
+                  postTitle={reportGroup.postTitle}
+                  postUrl={reportGroup.postUrl}
+                  reportIds={reportGroup.reportIds}
+                  reportStatuses={reportGroup.reportStatuses}
+                  reportSubjects={reportGroup.reportSubjects}
+                  reportAges={reportGroup.reportAges}
                   statusPillClasses={statusPillClasses}
                 />
-              </div>
-            ))
+              ))}
+
+              {filteredReports.map((report) => (
+                <ReportCard
+                  reportId={report.id}
+                  reportStatus={report.status}
+                  reportSubject={report.subject}
+                  reportAge={report.age}
+                  statusPillClasses={statusPillClasses}
+                />
+              ))}
+            </>
           ) : (
             <div className="px-5 py-10 text-center text-sm text-slate-400">
               No reports found for this search/filter.
@@ -168,7 +229,7 @@ export default function ModerationActivityPanel({
           filteredUsers.map((user) => (
             <div
               key={user.id}
-              className="flex flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:justify-between"
+              className="flex flex-col gap-3 px-2 py-2 md:flex-row md:items-center md:justify-between"
             >
               <div>
                 <div className="flex flex-wrap items-center gap-2">

@@ -10,6 +10,9 @@ export type ReportItem = {
   subject: string;
   status: ReportStatus;
   age: string;
+  postId: string;
+  postTitle: string;
+  postUrl: string;
 };
 
 export type ModerationUser = {
