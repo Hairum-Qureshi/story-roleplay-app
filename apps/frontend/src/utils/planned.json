@@ -118,5 +118,10 @@
     "id": 38,
     "subheading": "Report options in chat",
     "description": "Users will have the ability to report specific messages or users within a chat conversation, allowing for quick and easy reporting of inappropriate content or behavior. This feature will help maintain a safe and respectful environment within the platform, enabling users to take action against any violations of community guidelines and ensuring that the platform remains a welcoming space for all users."
+  },
+  {
+    "id": 39,
+    "subheading": "Report user option",
+    "description": "Users will have the ability to report other users for inappropriate behavior or content, allowing for quick and easy reporting of violations of community guidelines. This feature will help maintain a safe and respectful environment within the platform, enabling users to take action against any misconduct and ensuring that the platform remains a welcoming space for all users."
   }
 ]
