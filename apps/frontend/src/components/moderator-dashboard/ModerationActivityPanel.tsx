@@ -6,6 +6,7 @@ import type {
   ReportStatus,
   UserModerationStatus,
 } from "./types";
+import { MdOpenInNew } from "react-icons/md";
 
 function statusPillClasses(status: string) {
   if (status === "OPEN") {
@@ -223,123 +224,9 @@ export default function ModerationActivityPanel({
                     {report.subject}
                   </p>
                 </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs text-slate-400">{report.age}</span>
-                  <button className="rounded-lg border border-amber-400/30 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-200 transition-colors hover:bg-amber-500/20">
-                    Warn
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => openSuspendEditor(report.id)}
-                    className="rounded-lg border border-orange-400/30 bg-orange-500/10 px-3 py-2 text-xs font-medium text-orange-200 transition-colors hover:bg-orange-500/20"
-                  >
-                    Suspend
-                  </button>
-                  <button className="rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-xs font-medium text-rose-200 transition-colors hover:bg-rose-500/20">
-                    Ban
-                  </button>
+                <div>
+                  <MdOpenInNew className="text-slate-400 text-xl" />
                 </div>
-
-                {openSuspendEditorFor === report.id ? (
-                  <div className="w-full rounded-xl border border-orange-400/30 bg-orange-500/10 p-3">
-                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-orange-200">
-                      Suspension Duration
-                    </p>
-
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {suspensionPresets.map((presetDays) => (
-                        <button
-                          key={presetDays}
-                          type="button"
-                          onClick={() => setSelectedDays(report.id, presetDays)}
-                          className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
-                            getSelectedDays(report.id) === presetDays
-                              ? "border-orange-300/50 bg-orange-300/20 text-orange-100"
-                              : "border-orange-400/30 bg-orange-500/5 text-orange-200 hover:bg-orange-500/20"
-                          }`}
-                        >
-                          {presetDays}d
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="mt-3 flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSelectedDays(
-                            report.id,
-                            getSelectedDays(report.id) - 1,
-                          )
-                        }
-                        className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
-                      >
-                        -
-                      </button>
-
-                      <input
-                        type="number"
-                        min={1}
-                        max={365}
-                        value={getSelectedDays(report.id)}
-                        onChange={(event) => {
-                          const parsed = Number.parseInt(
-                            event.target.value,
-                            10,
-                          );
-                          setSelectedDays(report.id, parsed);
-                        }}
-                        className="w-24 rounded-md border border-orange-400/30 bg-slate-950/80 px-2 py-1 text-sm text-orange-100 focus:border-orange-300/60 focus:outline-none"
-                      />
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSelectedDays(
-                            report.id,
-                            getSelectedDays(report.id) + 1,
-                          )
-                        }
-                        className="rounded-md border border-orange-400/30 bg-orange-500/5 px-2.5 py-1 text-sm text-orange-200 hover:bg-orange-500/20"
-                      >
-                        +
-                      </button>
-
-                      <span className="text-xs text-orange-100/80">days</span>
-                    </div>
-
-                    <p className="mt-2 text-xs text-orange-100/80">
-                      User can return on{" "}
-                      {getReturnDateLabel(getSelectedDays(report.id))}
-                    </p>
-
-                    <div className="mt-3 flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => applySuspension(report.id)}
-                        className="rounded-md border border-orange-300/40 bg-orange-300/20 px-3 py-1.5 text-xs font-medium text-orange-50 hover:bg-orange-300/30"
-                      >
-                        Confirm Suspend
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setOpenSuspendEditorFor(null)}
-                        className="rounded-md border border-slate-600 px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-800"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : null}
-
-                {appliedSuspensions[report.id] ? (
-                  <p className="w-full text-xs text-orange-200/80">
-                    Suspension configured: {appliedSuspensions[report.id]} days
-                    (returns {getReturnDateLabel(appliedSuspensions[report.id])}
-                    )
-                  </p>
-                ) : null}
               </div>
             ))
           ) : (
