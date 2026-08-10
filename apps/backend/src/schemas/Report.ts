@@ -16,7 +16,7 @@ export class Report {
   reason: ReportReason;
 
   @Prop({ type: RolePlayAdSchema })
-  snapshot: RolePlayAd;
+  adSnapshot: RolePlayAd;
 
   @Prop({ type: String, required: true })
   adID: string;
@@ -24,7 +24,7 @@ export class Report {
   @Prop({ type: String })
   reportDetails: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String, ref: 'User' })
   originalAdPoster: string;
 
   @Prop({ type: String })
