@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ModerationModule } from 'src/moderation/moderation.module';
 import { GoogleOAuthConfig } from '../../config/google-oauth.config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -9,7 +10,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt-strategy';
 import { HttpModule } from '@nestjs/axios';
-import { ReportModule } from 'src/report/report.module';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { ReportModule } from 'src/report/report.module';
       },
     ]),
     HttpModule,
-    ReportModule,
+    ModerationModule,
   ],
   providers: [AuthService, JwtStrategy, GoogleOAuthConfig],
   controllers: [AuthController],
