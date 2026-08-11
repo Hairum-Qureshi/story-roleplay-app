@@ -32,6 +32,7 @@ export default function Ad({ hideButton = false, rolePlayAd }: AdProps) {
         <ReportModal
           openModal={openModal}
           onCloseModal={() => setOpenModal(false)}
+          adID={rolePlayAd?._id}
         />
       )}
       <header className="p-6 border-b border-slate-800 space-y-3">
