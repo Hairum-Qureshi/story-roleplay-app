@@ -11,6 +11,7 @@ import { PdfModule } from './pdf/pdf.module';
 import { EmailModule } from './email/email.module';
 import { NotificationModule } from './notification/notification.module';
 import { ReportModule } from './report/report.module';
+import { ModerationModule } from './moderation/moderation.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ReportModule } from './report/report.module';
     EmailModule,
     NotificationModule,
     ReportModule,
+    ModerationModule,
   ],
   controllers: [AppController],
 })
