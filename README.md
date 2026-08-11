@@ -222,6 +222,7 @@ The frontend redirects users directly to Discord's authorization endpoint. Const
 
 ```env
 VITE_DISCORD_OAUTH2_URL=https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fdiscord%2Fredirect&scope=identify%20email
+VITE_FRONTEND_BASE_URL=http://localhost:5173
 ```
 
 Replace:
