@@ -1,6 +1,7 @@
 import { HydratedDocument, Types } from 'mongoose';
 import Role from './enums/roles.enum';
 import { ModerationStatus } from './enums/moderation.enum';
+import { ReportReason } from './enums/reason.enum';
 
 type CharacterBio = {
   _id: string;
@@ -141,6 +142,17 @@ type Notif = {
   unreadCount: number;
 };
 
+type ReportMap = {
+  'Underage or minor-related sexual content': ReportReason.Underage;
+  'Purely sexual or smut-focused ad': ReportReason.SexualContent;
+  'Hate speech, slurs, or extremist content': ReportReason.HateSpeech;
+  'This ad is plagiarized or stolen content': ReportReason.Plagiarism;
+  'Doxxing or sharing personal/contact information': ReportReason.Doxxing;
+  'Unrelated content or spam': ReportReason.Spam;
+  'AI generated content': ReportReason.AIContent;
+  Other: ReportReason.Other;
+};
+
 type RolePlayAdDocument = HydratedDocument<RolePlayAd>;
 type ConversationDocument = HydratedDocument<Conversation>;
 type MessageDocument = HydratedDocument<Message>;
@@ -162,5 +174,6 @@ export type {
   Editor,
   Notif,
   PopulatedRolePlayAd,
+  ReportMap,
 };
 export { PovType };
