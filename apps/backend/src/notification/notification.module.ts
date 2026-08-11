@@ -8,11 +8,9 @@ import { User, UserSchema } from '../schemas/User';
 import { NotificationService } from './notification.service';
 import { NotificationController } from './notification.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
-    AuthModule,
     MongooseModule.forFeature([
       { name: Notification.name, schema: NotificationSchema },
       { name: Conversation.name, schema: ConversationSchema },

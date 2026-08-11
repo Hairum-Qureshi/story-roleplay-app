@@ -5,7 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../schemas/User';
 import { CharacterBio, CharacterBioSchema } from '../schemas/CharacterBio';
 import { RolePlayAd, RolePlayAdSchema } from '../schemas/RolePlayAd';
-import { AuthModule } from '../auth/auth.module';
 import {
   Conversation,
   ConversationSchema,
@@ -14,7 +13,6 @@ import { ChatModule } from '../chat/chat.module';
 
 @Module({
   imports: [
-    AuthModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       {

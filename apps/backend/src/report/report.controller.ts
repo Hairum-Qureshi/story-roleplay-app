@@ -1,11 +1,5 @@
-import {
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { CreateReport } from 'src/DTOs/CreateReport.dto';
 import { ModerationGuard } from 'src/guards/moderation.guard';
 import { ReportService } from './report.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -32,9 +26,15 @@ export class ReportController {
   @Roles([Role.ADMIN, Role.MODERATOR])
   addReportNotes() {}
 
-  @Post()
+  @Post('create')
   @UseGuards(AuthGuard(), ModerationGuard)
-  createReport() {}
+  createReport(@Body() createReportDto: CreateReport) {
+    // TODO - make sure to add a guard where users cannot report themselves
+    // TODO - make sure to add a guard where users cannot report admins or moderators
+    // TODO - make sure to add a guard where users cannot report the same post multiple times for the same content
+
+    console.log(createReportDto);
+  }
 
   @Post(':reportID/resolve')
   @UseGuards(AuthGuard(), HasRolePermissions)
@@ -46,24 +46,7 @@ export class ReportController {
   @Roles([Role.ADMIN, Role.MODERATOR])
   reopenReport() {}
 
-  @Post('ban-user/:userID')
-  @UseGuards(AuthGuard(), HasRolePermissions)
-  @Roles([Role.ADMIN, Role.MODERATOR])
-  banUser() {
-    // TODO - make sure to ad a guard where admins cannot be banned
-  }
 
-  @Post('suspend-user/:userID')
-  @UseGuards(AuthGuard(), HasRolePermissions)
-  @Roles([Role.ADMIN, Role.MODERATOR])
-  suspendUser() {
-    // TODO - make sure to ad a guard where admins cannot be suspended
-  }
-
-  @Post('warn-user/:userID')
-  @UseGuards(AuthGuard(), HasRolePermissions)
-  @Roles([Role.ADMIN, Role.MODERATOR])
-  warnUser() {}
 
   @Post('/clear-moderation/:userID')
   @UseGuards(AuthGuard(), HasRolePermissions)

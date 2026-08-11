@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RolePlayAdService } from './role-play-ad.service';
 import { RolePlayAdController } from './role-play-ad.controller';
-import { AuthModule } from '../auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../schemas/User';
 import { RolePlayAd, RolePlayAdSchema } from '../schemas/RolePlayAd';
@@ -15,7 +14,6 @@ import { Like, LikeSchema } from '../schemas/Like';
 
 @Module({
   imports: [
-    AuthModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: RolePlayAd.name, schema: RolePlayAdSchema },

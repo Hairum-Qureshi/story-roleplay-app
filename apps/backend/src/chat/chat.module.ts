@@ -9,13 +9,11 @@ import {
 import { RolePlayAd, RolePlayAdSchema } from '../schemas/RolePlayAd';
 import { User, UserSchema } from '../schemas/User';
 import { Notification, NotificationSchema } from '../schemas/Notification';
-import { AuthModule } from '../auth/auth.module';
 import { Message, MessageSchema } from '../schemas/inbox/Message';
 import { EventsModule } from '../events/events.module';
 
 @Module({
   imports: [
-    AuthModule,
     MongooseModule.forFeature([
       { name: Conversation.name, schema: ConversationSchema },
       { name: RolePlayAd.name, schema: RolePlayAdSchema },

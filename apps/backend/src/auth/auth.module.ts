@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ModerationModule } from 'src/moderation/moderation.module';
 import { GoogleOAuthConfig } from '../../config/google-oauth.config';
 import { AuthService } from './auth.service';
@@ -11,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt-strategy';
 import { HttpModule } from '@nestjs/axios';
 
+@Global()
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
