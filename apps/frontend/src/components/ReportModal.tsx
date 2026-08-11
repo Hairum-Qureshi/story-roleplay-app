@@ -5,17 +5,22 @@ import { Link } from "react-router-dom";
 import "react-responsive-modal/styles.css";
 import "../css/index.css";
 import { useState } from "react";
+import useReport from "../hooks/useReport";
 
 export default function ReportModal({
   openModal,
   onCloseModal,
+  adID,
 }: {
   openModal: boolean;
   onCloseModal: () => void;
+  adID: string;
 }) {
   const [page, setPage] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
   const [details, setDetails] = useState("");
+  const { createReportMutation } = useReport();
+  const [claimedOriginalAdPoster, setClaimedOriginalAdPoster] = useState("");
 
   const reasons = [
     "Underage or minor-related sexual content",
@@ -115,6 +120,10 @@ export default function ReportModal({
                       type="text"
                       placeholder="Username"
                       className="w-full rounded-xl border border-slate-700 bg-slate-800/60 px-4 py-3 text-sm leading-relaxed text-white outline-none placeholder:text-slate-500 transition focus:border-sky-500/60 focus:bg-slate-800 focus:ring-2 focus:ring-sky-500/10 mb-3"
+                      value={claimedOriginalAdPoster}
+                      onChange={(e) =>
+                        setClaimedOriginalAdPoster(e.target.value)
+                      }
                     />
                   </>
                 )}
@@ -127,6 +136,14 @@ export default function ReportModal({
                 type="button"
                 disabled={!details.trim()}
                 className="mt-5 w-full rounded-xl bg-red-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-red-600 disabled:cursor-not-allowed hover:cursor-pointer disabled:bg-slate-700 disabled:text-slate-500"
+                onClick={() => {
+                  createReportMutation({
+                    reason: selectedReason,
+                    reportDetails: details.trim(),
+                    adLink: `${import.meta.env.VITE_FRONTEND_BASE_URL}/role-play-ad/${adID}`,
+                    claimedOriginalAdPoster: claimedOriginalAdPoster,
+                  });
+                }}
               >
                 Submit Report
               </button>
