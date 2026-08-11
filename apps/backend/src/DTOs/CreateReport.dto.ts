@@ -10,7 +10,7 @@ export class CreateReport {
   reportDetails: string;
 
   @IsString()
-  @IsUrl()
+  @IsUrl({ require_tld: process.env.NODE_ENV === 'production' })
   adLink: string;
 
   @IsString()
