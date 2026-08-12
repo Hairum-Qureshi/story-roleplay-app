@@ -19,7 +19,7 @@ export default function ReportModal({
   const [page, setPage] = useState(1);
   const [selectedReason, setSelectedReason] = useState("");
   const [details, setDetails] = useState("");
-  const { createReportMutation } = useReport();
+  const { createReportMutation, isReportLoading } = useReport();
   const [claimedOriginalAdPoster, setClaimedOriginalAdPoster] = useState("");
 
   const reasons = [
@@ -143,6 +143,14 @@ export default function ReportModal({
                     adLink: `${import.meta.env.VITE_FRONTEND_BASE_URL}/role-play-ad/${adID}`,
                     claimedOriginalAdPoster: claimedOriginalAdPoster,
                   });
+
+                  if (!isReportLoading) {
+                    setPage(1);
+                    setSelectedReason("");
+                    setDetails("");
+                    setClaimedOriginalAdPoster("");
+                    onCloseModal();
+                  }
                 }}
               >
                 Submit Report
