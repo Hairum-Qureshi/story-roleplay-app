@@ -21,7 +21,7 @@ export class Report {
   @Prop({ type: String })
   reportDetails: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String, ref: 'User' })
   reported: string;
 
   @Prop({ type: String })
