@@ -160,7 +160,7 @@ export default function FAQ() {
         {
           question: "How do I block or unblock a user?",
           answer:
-            "You can block or unblock a user by clicking the 'Block User' or 'Unblock User' button in the chat header. Blocking a user will terminate all existing role-play sessions you have with that user and it will prevent them from sending you messages. Note that just because a role-play session has been terminated, it does not necessarily mean the other user has blocked you. Unblocking a user will allow them to interact with your posts again, but it will not restore any previous conversations that have been terminated from the block.",
+            "You can block or unblock a user by clicking the 'Block User' or 'Unblock User' button in the chat header. Blocking a user will terminate all existing role-play sessions you have with that user and it will prevent them from sending you messages and viewing your ads. Note that just because a role-play session has been terminated, it does not necessarily mean the other user has blocked you. Unblocking a user will allow them to interact with your posts again, but it will not restore any previous conversations that have been terminated from the block.",
         },
       ],
     },
