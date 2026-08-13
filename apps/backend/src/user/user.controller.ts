@@ -6,7 +6,9 @@ import {
   Res,
   Get,
   UseGuards,
+  Query,
 } from '@nestjs/common';
+import type { ModerationStatus } from 'src/enums/moderation.enum';
 import { ModerationGuard } from 'src/guards/moderation.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../decorators/currentUser.decorator';
@@ -28,8 +30,8 @@ export class UserController {
   @Get('all')
   @UseGuards(AuthGuard(), ModerationGuard, HasRolePermissions)
   @Roles([Role.ADMIN, Role.MODERATOR])
-  async getAllUsers() {
-    return this.userService.getAllUsers();
+  async getAllUsers(@Query('status') status?: ModerationStatus) {
+    return this.userService.getAllUsers(status);
   }
 
   @Post(':userID/block')
