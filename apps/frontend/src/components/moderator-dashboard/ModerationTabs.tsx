@@ -6,7 +6,6 @@ const sections = {
     label: "Reports",
     options: [
       "all-reports",
-      "open-reports",
       "closed-reports",
       "resolved-reports",
     ],
