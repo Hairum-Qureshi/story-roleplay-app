@@ -22,7 +22,7 @@ export class Report {
   reportDetails: string;
 
   @Prop({ type: String })
-  reportedUserID: string;
+  reported: string;
 
   @Prop({ type: String })
   reportNotes: string;
