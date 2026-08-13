@@ -128,5 +128,10 @@
     "id": 40,
     "subheading": "FAQ question haslink",
     "description": "Each FAQ question will also have a dedicated haslink that will allow users to jump to that specific question and answer, instead of the section that contains that question and answer for easier navigation and reference."
+  },
+  {
+    "id": 41,
+    "subheading": "Adding status to role-play ads",
+    "description": "Role-play ads will have a status indicator that shows whether the ad is currently open (seeking partners) or closed (no longer seeking partners). Closed ads lose the 'respond to ad' button."
   }
 ]
