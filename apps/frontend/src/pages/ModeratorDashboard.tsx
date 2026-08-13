@@ -23,7 +23,9 @@ export default function ModerationDashboard() {
 
   const { allUsers, isAllUsersLoading } = useReport();
 
-  console.log(isAllUsersLoading);
+  const tabHeader = query
+    ? query.split("-")[0].charAt(0).toUpperCase() + query.split("-")[0].slice(1)
+    : "All";
 
   return (
     <div className="min-h-screen max-h-auto bg-slate-950 p-10">
@@ -48,13 +50,16 @@ export default function ModerationDashboard() {
         ) : (
           <div className="w-full flex flex-col space-y-3">
             <UserModerationManager>
+              <h2 className="text-xl font-bold mb-4 text-white">
+                {tabHeader} Users ({allUsers?.length})
+              </h2>
               {isAllUsersLoading ? (
                 <p className="text-center text-slate-400 my-10 text-lg">
                   Loading users...
                 </p>
               ) : !allUsers.length && query.split("-")[0] !== "all" ? (
                 <p className="text-center text-slate-400 my-10 text-lg">
-                  There are currently no {query.split("-")[0]} users.
+                  There are currently no {tabHeader.toLowerCase()} users.
                 </p>
               ) : (
                 allUsers?.map((user: UserData) => {
