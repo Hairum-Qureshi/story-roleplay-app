@@ -73,7 +73,7 @@ export default function useReport() {
     queryFn: async () => {
       try {
         const ALL_OPEN_REPORTS_ENDPOINT =
-          !query || query === "all-open-reports"
+          !query || query === "all-reports"
             ? `${import.meta.env.VITE_BACKEND_BASE_URL}/api/report/all?status=OPEN`
             : `${import.meta.env.VITE_BACKEND_BASE_URL}/api/report/all?status=${query.split("-")[0].toUpperCase()}`;
 
@@ -86,6 +86,10 @@ export default function useReport() {
       }
     },
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["all-reports"] });
+  }, [query]);
 
   return {
     createReportMutation,
