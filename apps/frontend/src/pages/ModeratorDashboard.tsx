@@ -21,7 +21,9 @@ export default function ModerationDashboard() {
     "resolved-reports",
   ];
 
-  const { allUsers } = useReport();
+  const { allUsers, isAllUsersLoading } = useReport();
+
+  console.log(isAllUsersLoading);
 
   return (
     <div className="min-h-screen max-h-auto bg-slate-950 p-10">
@@ -46,9 +48,19 @@ export default function ModerationDashboard() {
         ) : (
           <div className="w-full flex flex-col space-y-3">
             <UserModerationManager>
-              {allUsers?.map((user: UserData) => {
-                return <UserCard key={user._id} user={user} />;
-              })}
+              {isAllUsersLoading ? (
+                <p className="text-center text-slate-400 my-10 text-lg">
+                  Loading users...
+                </p>
+              ) : !allUsers.length && query.split("-")[0] !== "all" ? (
+                <p className="text-center text-slate-400 my-10 text-lg">
+                  There are currently no {query.split("-")[0]} users.
+                </p>
+              ) : (
+                allUsers?.map((user: UserData) => {
+                  return <UserCard key={user._id} user={user} />;
+                })
+              )}
             </UserModerationManager>
           </div>
         )}
