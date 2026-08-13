@@ -195,6 +195,19 @@ interface PinnedMessage {
   createdAt: string;
 }
 
+interface UserData {
+  _id: string;
+  email: string;
+  username: string;
+  profilePicture: string;
+  moderation: {
+    status: string;
+    reason: string;
+    expiresAt: string | null;
+  };
+  role: UserRole;
+}
+
 export interface UseRolePlayAdsHook {
   roleplayAds: RolePlayAd[];
   deleteProfile: () => void;
@@ -230,4 +243,5 @@ export type {
   PinnedMessage,
   PaginateMessagesResponse,
   UserRole,
+  UserData,
 };
