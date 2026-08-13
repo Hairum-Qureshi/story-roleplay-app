@@ -1,12 +1,30 @@
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useSearchParams } from "react-router-dom";
 import ModerationHeader from "../components/moderator-dashboard/ModerationHeader";
 import ModerationTabs from "../components/moderator-dashboard/ModerationTabs";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import ReportedMessagesDiv from "../components/moderator-dashboard/ReportedMessagesDiv";
-import ReportedAdsDiv from "../components/moderator-dashboard/ReportedAdsDiv";
+import ReportManager from "../components/moderator-dashboard/groups/ReportManager";
+import ReportedAdsDiv from "../components/moderator-dashboard/divs/ReportedAdsDiv";
+import ReportedMessagesDiv from "../components/moderator-dashboard/divs/ReportedMessagesDiv";
+import UserModerationManager from "../components/moderator-dashboard/groups/UserModerationManager";
+import UserCard from "../components/moderator-dashboard/cards/UserCard";
+import useReport from "../hooks/useReport";
+import type { UserData } from "../interfaces";
 
 export default function ModerationDashboard() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("tab");
+
+  const queriesToShowReportDivs = [
+    "all-reports",
+    "open-reports",
+    "closed-reports",
+    "resolved-reports",
+  ];
+
+  const { allUsers } = useReport();
+
   return (
-    <div className="h-screen bg-slate-950 p-10">
+    <div className="min-h-screen max-h-auto bg-slate-950 p-10">
       <div className="w-5/6 m-auto flex flex-col space-y-5">
         <ModerationHeader />
         <div className="relative">
@@ -18,10 +36,22 @@ export default function ModerationDashboard() {
           />
         </div>
         <ModerationTabs />
-        <div className="w-full flex flex-row space-x-3">
-          <ReportedAdsDiv />
-          <ReportedMessagesDiv />
-        </div>
+        {!query || queriesToShowReportDivs.includes(query) ? (
+          <div className="w-full flex flex-row space-x-3">
+            <ReportManager>
+              <ReportedAdsDiv />
+              <ReportedMessagesDiv />
+            </ReportManager>
+          </div>
+        ) : (
+          <div className="w-full flex flex-col space-y-3">
+            <UserModerationManager>
+              {allUsers.map((user: UserData) => {
+                return <UserCard key={user._id} user={user} />;
+              })}
+            </UserModerationManager>
+          </div>
+        )}
       </div>
     </div>
   );
