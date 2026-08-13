@@ -18,7 +18,7 @@ export default function ModerationDashboard() {
           />
         </div>
         <ModerationTabs />
-        <div className="w-full flex flex-row">
+        <div className="w-full flex flex-row space-x-3">
           <ReportedAdsDiv />
           <ReportedMessagesDiv />
         </div>
