@@ -236,6 +236,8 @@ interface ReportAd {
     _id: string;
     username: string;
     profilePicture: string;
+    firstName?: string;
+    lastName?: string;
   };
   status: AdStatus;
   adLink: string;
