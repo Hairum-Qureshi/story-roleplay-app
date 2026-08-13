@@ -11,6 +11,7 @@ import {
 import type { Conversation as ConversationInterface } from '../types';
 import { ChatService } from '../chat/chat.service';
 import Role from '../enums/roles.enum';
+import { ModerationStatus } from 'src/enums/moderation.enum';
 
 @Injectable()
 export class UserService {
@@ -152,26 +153,18 @@ export class UserService {
     return user?.blockedUsers;
   }
 
-  async getAllUsers() {
-    type TestUser = {
-      _id: string;
-      email: string;
-      username: string;
-      profilePicture: string;
-      role: Role;
-      moderation: {
-        status: string;
-        reason: string;
-        expiresAt: Date | null;
-      };
-    };
-
-    return this.userModel
+  async getAllUsers(status?: ModerationStatus) {
+    return !status ? this.userModel
       .find({
         isDeleted: { $ne: true },
         _id: { $ne: '000000000000000000000001' },
       })
+      .sort({ createdAt: -1 })
       .select('username _id email role profilePicture moderation')
-      .lean();
+      .lean() : await this.userModel.find({
+      isDeleted: { $ne: true },
+      _id: { $ne: '000000000000000000000001' },
+      'moderation.status': status,
+      }).lean();
   }
 }
