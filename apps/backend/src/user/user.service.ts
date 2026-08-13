@@ -37,6 +37,7 @@ export class UserService {
       lastName: null,
       username: `deleted_user_${userId.slice(-6)}`,
       profilePicture: '-',
+      isDeleted: true,
       characterBios: [],
       rolePlayAds: [],
     });
@@ -152,8 +153,24 @@ export class UserService {
   }
 
   async getAllUsers() {
+    type TestUser = {
+      _id: string;
+      email: string;
+      username: string;
+      profilePicture: string;
+      role: Role;
+      moderation: {
+        status: string;
+        reason: string;
+        expiresAt: Date | null;
+      };
+    };
+
     return this.userModel
-      .find()
-      .select('username _id email role profilePicture moderation');
+      .find({
+        isDeleted: { $ne: true },
+      })
+      .select('username _id email role profilePicture moderation')
+      .lean();
   }
 }
