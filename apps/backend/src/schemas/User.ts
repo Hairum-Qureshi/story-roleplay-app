@@ -62,6 +62,9 @@ export class User {
     expiresAt: Date | null;
   };
 
+  @Prop({ default: false })
+  isDeleted: boolean;
+
   @Prop({ default: Date.now })
   createdAt: Date;
 }
