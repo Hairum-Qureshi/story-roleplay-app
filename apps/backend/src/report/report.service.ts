@@ -48,7 +48,7 @@ export class ReportService {
       );
 
     const reportedAd = await this.reportModel.findOne({
-      reporterUserID: currUserID,
+      reporter: currUserID,
       adID,
     });
 
@@ -70,12 +70,12 @@ export class ReportService {
     };
 
     await this.reportModel.create({
-      reporterUserID: currUserID,
+      reporter: currUserID,
       reason: reasonMap[reason],
       adSnapshot: ad,
       adID,
       reportDetails,
-      reportedUserID: claimedOriginalAdPoster || ad.author,
+      reported: claimedOriginalAdPoster || ad.author,
       adLink,
     });
   }
@@ -84,9 +84,46 @@ export class ReportService {
     // TODO - later implement pagination
 
     return !status
-      ? await this.reportModel.find({
-          status: AdStatus.OPEN,
-        })
-      : await this.reportModel.find({ status });
+      ? await this.reportModel
+          .find({
+            status: AdStatus.OPEN,
+          })
+          .populate({
+            path: 'reporter',
+            select: '_id username profilePicture',
+          })
+          .populate({
+            path: 'reported',
+            select: '_id username profilePicture',
+          })
+      : await this.reportModel
+          .find({ status })
+          .populate({
+            path: 'reporter',
+            select: '_id username profilePicture',
+          })
+          .populate({
+            path: 'reported',
+            select: '_id username profilePicture',
+          });
+  }
+
+  async getReportByID(reportID: string) {
+    const report: ReportDocument | null = await this.reportModel
+      .findById(reportID)
+      .populate({
+        path: 'reporter',
+        select: '_id username profilePicture',
+      })
+      .populate({
+        path: 'reported',
+        select: '_id username profilePicture',
+      })
+      .lean();
+
+    if (!report)
+      throw new NotFoundException(`Report with ID ${reportID} not found`);
+
+    return await report;
   }
 }
