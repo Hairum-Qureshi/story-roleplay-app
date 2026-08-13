@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { CreateReport } from 'src/DTOs/CreateReport.dto';
 import { ModerationGuard } from 'src/guards/moderation.guard';
 import { ReportService } from './report.service';
@@ -24,7 +24,9 @@ export class ReportController {
   @Get(':reportID')
   @UseGuards(AuthGuard(), HasRolePermissions)
   @Roles([Role.ADMIN, Role.MODERATOR])
-  getReport() {}
+  getReport(@Param('reportID') reportID: string) {
+    return this.reportService.getReportByID(reportID);
+  }
 
   @Post(':reportID/notes')
   @UseGuards(AuthGuard(), HasRolePermissions)
