@@ -4,7 +4,7 @@ export default function ModerationHeader() {
   const { data: currUserData } = useCurrentUser();
 
   return (
-    <div className="bg-slate-900/80 p-10 w-5/6 m-auto rounded-md shadow-md text-white border border-sky-600/50 space-y-3">
+    <div className="bg-slate-900/80 p-10 rounded-md shadow-md text-white border border-sky-600/50 space-y-3">
       <h1 className="text-3xl font-bold">Moderator Dashboard</h1>
       <h2 className="text-xl text-slate-300">
         Hello,{" "}
