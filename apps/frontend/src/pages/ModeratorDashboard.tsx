@@ -46,7 +46,7 @@ export default function ModerationDashboard() {
         ) : (
           <div className="w-full flex flex-col space-y-3">
             <UserModerationManager>
-              {allUsers.map((user: UserData) => {
+              {allUsers?.map((user: UserData) => {
                 return <UserCard key={user._id} user={user} />;
               })}
             </UserModerationManager>
