@@ -68,5 +68,31 @@ export default function useReport() {
     queryClient.invalidateQueries({ queryKey: ["all-users"] });
   }, [query]);
 
-  return { createReportMutation, isReportLoading, allUsers, isAllUsersLoading };
+  const { data: allReports, isLoading: isAllReportsLoading } = useQuery({
+    queryKey: ["all-reports"],
+    queryFn: async () => {
+      try {
+        const ALL_OPEN_REPORTS_ENDPOINT =
+          !query || query === "all-open-reports"
+            ? `${import.meta.env.VITE_BACKEND_BASE_URL}/api/report/all?status=OPEN`
+            : `${import.meta.env.VITE_BACKEND_BASE_URL}/api/report/all?status=${query.split("-")[0].toUpperCase()}`;
+
+        const response = await axios.get(ALL_OPEN_REPORTS_ENDPOINT, {
+          withCredentials: true,
+        });
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+
+  return {
+    createReportMutation,
+    isReportLoading,
+    allUsers,
+    isAllUsersLoading,
+    allReports,
+    isAllReportsLoading,
+  };
 }
