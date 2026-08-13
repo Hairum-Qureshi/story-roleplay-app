@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function useReport() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("tab");
   const queryClient = useQueryClient();
+  const { reportID } = useParams();
 
   const { mutate: createReportMutation, isPending: isReportLoading } =
     useMutation({
@@ -64,6 +65,25 @@ export default function useReport() {
     },
   });
 
+  const { data: reportData } = useQuery({
+    queryKey: ["report", reportID],
+    queryFn: async () => {
+      try {
+        if (!reportID) return null;
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/report/${reportID}`,
+          {
+            withCredentials: true,
+          },
+        );
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["all-users"] });
   }, [query]);
@@ -98,5 +118,6 @@ export default function useReport() {
     isAllUsersLoading,
     allReports,
     isAllReportsLoading,
+    reportData,
   };
 }
