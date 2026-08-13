@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 export default function ModerationTabs() {
   const tabs = [
     "All Reports",
@@ -10,6 +13,14 @@ export default function ModerationTabs() {
     "Warned Users",
   ];
 
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("tab");
+  const [currentTab, setCurrentTab] = useState(
+    tabs.find((tab) => tab.toLowerCase().replace(/ /g, "-") === query) ||
+      tabs[0],
+  );
+  const navigate = useNavigate();
+
   return (
     <div
       className="
@@ -20,7 +31,15 @@ export default function ModerationTabs() {
       {tabs.map((tab) => (
         <button
           key={tab}
-          className="px-2 py-1 rounded-md hover:bg-sky-600/20 transition hover:cursor-pointer bg-sky-600/10 text-sky-400 font-semibold"
+          className={`px-2 py-1 rounded-md hover:bg-sky-600/20 transition hover:cursor-pointer font-semibold ${
+            currentTab === tab
+              ? "bg-sky-600/10 text-sky-400"
+              : "bg-transparent text-slate-400"
+          }`}
+          onClick={() => {
+            setCurrentTab(tab);
+            navigate(`?tab=${tab.toLowerCase().replace(/ /g, "-")}`);
+          }}
         >
           {tab}
         </button>
