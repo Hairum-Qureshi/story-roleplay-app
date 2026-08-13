@@ -59,7 +59,7 @@ export default function FAQ() {
           answer: (
             <p>
               Please check out{" "}
-              <Link to="/guidelines" className="underline text-blue-500">
+              <Link to="/guidelines" className="underline text-sky-300">
                 our guidelines
               </Link>
             </p>
@@ -71,7 +71,7 @@ export default function FAQ() {
           answer: (
             <p>
               You must be 18 years or older. Please check out{" "}
-              <Link to="/guidelines" className="underline text-blue-500">
+              <Link to="/guidelines" className="underline text-sky-300">
                 our guidelines for more information on this topic
               </Link>
             </p>
@@ -277,8 +277,24 @@ export default function FAQ() {
       items: [
         {
           question: "How do I report a user or content?",
-          answer:
-            "You can report users or content by clicking the 'Report' button available on a role-play ad. At this time, a report option is not available inside of chats, but stay tuned. A modal will pop up to fill out the report form with relevant details and submit it for review.",
+          answer: (
+            <p>
+              You can report users or content by clicking the 'Report' button
+              available on a role-play ad. At this time, a report option is not
+              available inside of chats, but stay tuned. If you want to cease
+              interactions with your partner, a solution for the time being is
+              to block them. To see how, check out{" "}
+              <HashLink
+                smooth
+                to="#role-play-management"
+                className="underline text-sky-300"
+              >
+                Role-Play Management
+              </HashLink>
+              . A modal will pop up to fill out the report form with relevant
+              details and submit it for review.
+            </p>
+          ),
         },
         {
           question: "What happens after I submit a report?",
