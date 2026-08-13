@@ -7,7 +7,7 @@ import { AdStatus } from 'src/enums/adStatus.enum';
 @Schema()
 export class Report {
   @Prop({ ref: 'User' })
-  reporterUserID: string;
+  reporter: string;
 
   @Prop({ required: true, enum: ReportReason })
   reason: ReportReason;
