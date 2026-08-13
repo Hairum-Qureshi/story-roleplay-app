@@ -133,5 +133,10 @@
     "id": 41,
     "subheading": "Adding status to role-play ads",
     "description": "Role-play ads will have a status indicator that shows whether the ad is currently open (seeking partners) or closed (no longer seeking partners). Closed ads lose the 'respond to ad' button."
+  },
+  {
+    "id": 42,
+    "subheading": "User badges",
+    "description": "Badges will be displayed on user profiles and next to usernames indicating who is a moderator or admin. This will help users easily identify the platform's moderators and administrators, allowing for better communication and support within the community."
   }
 ]
