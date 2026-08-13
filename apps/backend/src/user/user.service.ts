@@ -169,6 +169,7 @@ export class UserService {
     return this.userModel
       .find({
         isDeleted: { $ne: true },
+        _id: { $ne: '000000000000000000000001' },
       })
       .select('username _id email role profilePicture moderation')
       .lean();
