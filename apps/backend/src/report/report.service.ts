@@ -117,7 +117,7 @@ export class ReportService {
       })
       .populate({
         path: 'reported',
-        select: '_id username profilePicture',
+        select: '_id username profilePicture firstName lastName',
       })
       .lean();
 
