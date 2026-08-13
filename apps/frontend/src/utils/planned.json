@@ -123,5 +123,10 @@
     "id": 39,
     "subheading": "Report user option",
     "description": "Users will have the ability to report other users for inappropriate behavior or content, allowing for quick and easy reporting of violations of community guidelines. This feature will help maintain a safe and respectful environment within the platform, enabling users to take action against any misconduct and ensuring that the platform remains a welcoming space for all users."
+  },
+  {
+    "id": 40,
+    "subheading": "FAQ question haslink",
+    "description": "Each FAQ question will also have a dedicated haslink that will allow users to jump to that specific question and answer, instead of the section that contains that question and answer for easier navigation and reference."
   }
 ]
