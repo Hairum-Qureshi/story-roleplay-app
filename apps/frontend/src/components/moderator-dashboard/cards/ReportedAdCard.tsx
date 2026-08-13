@@ -1,4 +1,6 @@
-export default function ReportedAdCard() {
+import type { ReportAd } from "../../../interfaces";
+
+export default function ReportedAdCard({ report }: { report: ReportAd }) {
   return (
     <div className="group rounded-xl border border-slate-700/90 bg-slate-800/40 p-4 text-white shadow-lg shadow-black/10 transition hover:border-sky-500/40 hover:bg-slate-800/50 hover:shadow-sky-950/20">
       {/* Header */}
@@ -6,14 +8,16 @@ export default function ReportedAdCard() {
         <div className="min-w-0">
           <div className="mb-1 flex items-center gap-2">
             <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-xs font-semibold text-green-400 ring-1 ring-inset ring-green-500/20">
-              OPEN
+              {report.status.toUpperCase()}
             </span>
 
-            <span className="text-xs font-medium text-slate-500">#123</span>
+            <span className="text-xs font-medium text-slate-500">
+              AD ID: #{report._id}
+            </span>
           </div>
 
           <h2 className="truncate text-lg font-semibold tracking-tight text-slate-100">
-            Reported Post Title Here
+            {report.adSnapshot.title}
           </h2>
         </div>
       </div>
@@ -26,7 +30,7 @@ export default function ReportedAdCard() {
               Reported by
             </p>
             <p className="mt-0.5 text-sm font-medium text-slate-200">
-              @username
+              @{report.reporter.username}
             </p>
           </div>
 
@@ -35,7 +39,7 @@ export default function ReportedAdCard() {
               Posted by
             </p>
             <p className="mt-0.5 text-sm font-medium text-slate-200">
-              @username
+              @{report.reported.username}
             </p>
           </div>
         </div>
@@ -44,11 +48,10 @@ export default function ReportedAdCard() {
       {/* Description */}
       <div className="mb-5">
         <p className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-500">
-          Ad Premise
+          Description
         </p>
-
         <p className="line-clamp-2 text-sm leading-relaxed text-slate-400">
-          Ad premise here...
+          {report.adSnapshot.premise}
         </p>
       </div>
 
@@ -67,20 +70,15 @@ export default function ReportedAdCard() {
             <div className="min-w-0">
               <div className="mb-1 flex flex-wrap items-center gap-2">
                 <span className="rounded-md bg-red-500/10 px-2 py-0.5 text-xs font-semibold text-red-400 ring-1 ring-inset ring-red-500/20">
-                  Harassment
-                </span>
-
-                <span className="text-xs text-slate-600">•</span>
-
-                <span className="text-xs text-slate-500">
-                  Reported by @reporter
+                  {report.reason}
                 </span>
               </div>
 
-              <p className="text-sm leading-relaxed text-slate-300">
-                This advertisement contains content that may be targeting or
-                harassing another user.
-              </p>
+              {report.reportDetails && (
+                <p className="text-sm leading-relaxed text-slate-300">
+                  {report.reportDetails}
+                </p>
+              )}
             </div>
           </div>
         </div>
