@@ -223,12 +223,20 @@ type ReportReason =
 
 interface ReportAd {
   _id: string;
-  reporterUserID: string;
+  reporter: {
+    _id: string;
+    username: string;
+    profilePicture: string;
+  };
   reason: ReportReason;
   adSnapshot: RolePlayAd;
   adID: string;
   reportDetails: string;
-  reportedUserID: string;
+  reported: {
+    _id: string;
+    username: string;
+    profilePicture: string;
+  };
   status: AdStatus;
   adLink: string;
   createdAt: string;
