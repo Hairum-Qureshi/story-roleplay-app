@@ -6,6 +6,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { HasRolePermissions } from 'src/guards/isAuthorized.guard';
 import Role from 'src/enums/roles.enum';
 import { Roles } from 'src/decorators/roles.decorator';
+import { CurrentUser } from 'src/decorators/currentUser.decorator';
+import * as types from 'src/types';
+import { AdStatus } from 'src/enums/adStatus.enum';
 
 @Controller('api/report')
 export class ReportController {
@@ -14,7 +17,9 @@ export class ReportController {
   @Get('all')
   @UseGuards(AuthGuard(), HasRolePermissions)
   @Roles([Role.ADMIN, Role.MODERATOR])
-  getAllReports(@Query('status') status?: 'OPEN' | 'CLOSED' | 'RESOLVED') {}
+  getAllReports(@Query('status') status?: AdStatus) {
+    return this.reportService.getAllReports(status);
+  }
 
   @Get(':reportID')
   @UseGuards(AuthGuard(), HasRolePermissions)
@@ -28,12 +33,11 @@ export class ReportController {
 
   @Post('create')
   @UseGuards(AuthGuard(), ModerationGuard)
-  createReport(@Body() createReportDto: CreateReport) {
-    // TODO - make sure to add a guard where users cannot report themselves
-    // TODO - make sure to add a guard where users cannot report admins or moderators
-    // TODO - make sure to add a guard where users cannot report the same post multiple times for the same content
-
-    console.log(createReportDto);
+  async createReport(
+    @Body() createReportDto: CreateReport,
+    @CurrentUser() currUser: types.UserPayload,
+  ) {
+    await this.reportService.createReport(createReportDto, currUser._id);
   }
 
   @Post(':reportID/resolve')
@@ -45,8 +49,6 @@ export class ReportController {
   @UseGuards(AuthGuard(), HasRolePermissions)
   @Roles([Role.ADMIN, Role.MODERATOR])
   reopenReport() {}
-
-
 
   @Post('/clear-moderation/:userID')
   @UseGuards(AuthGuard(), HasRolePermissions)
