@@ -29,13 +29,6 @@ export class ReportService {
     return ad;
   }
 
-  async getAllReports(status?: 'OPEN' | 'CLOSED' | 'RESOLVED') {
-    // TODO - later implement pagination
-    return !status
-      ? await this.reportModel.find({})
-      : await this.reportModel.find({ status: AdStatus[status.toUpperCase()] });
-  }
-
   async createReport(reportData: CreateReport, currUserID: string) {
     const { reason, reportDetails, adLink, claimedOriginalAdPoster } =
       reportData;
@@ -56,6 +49,7 @@ export class ReportService {
 
     const reportedAd = await this.reportModel.findOne({
       reporterUserID: currUserID,
+      adID,
     });
 
     if (reportedAd)
@@ -84,5 +78,15 @@ export class ReportService {
       reportedUserID: claimedOriginalAdPoster || ad.author,
       adLink,
     });
+  }
+
+  async getAllReports(status: AdStatus | undefined) {
+    // TODO - later implement pagination
+
+    return !status
+      ? await this.reportModel.find({
+          status: AdStatus.OPEN,
+        })
+      : await this.reportModel.find({ status });
   }
 }
