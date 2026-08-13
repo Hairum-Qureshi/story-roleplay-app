@@ -195,17 +195,44 @@ interface PinnedMessage {
   createdAt: string;
 }
 
+type ModerationStatus = "NONE" | "WARNED" | "SUSPENDED" | "BANNED";
+
 interface UserData {
   _id: string;
   email: string;
   username: string;
   profilePicture: string;
   moderation: {
-    status: string;
+    status: ModerationStatus;
     reason: string;
     expiresAt: string | null;
   };
   role: UserRole;
+}
+
+type AdStatus = "OPEN" | "CLOSED" | "RESOLVED";
+type ReportReason =
+  | "UNDERAGE"
+  | "SEXUAL_CONTENT"
+  | "HATE_SPEECH"
+  | "PLAGIARISM"
+  | "DOXXING"
+  | "SPAM"
+  | "AI_CONTENT"
+  | "OTHER";
+
+interface ReportAd {
+  _id: string;
+  reporterUserID: string;
+  reason: ReportReason;
+  adSnapshot: RolePlayAd;
+  adID: string;
+  reportDetails: string;
+  reportedUserID: string;
+  status: AdStatus;
+  adLink: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UseRolePlayAdsHook {
@@ -244,4 +271,5 @@ export type {
   PaginateMessagesResponse,
   UserRole,
   UserData,
+  ReportAd,
 };
