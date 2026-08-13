@@ -1,4 +1,4 @@
-import ReportedMessageCard from "./ReportedMessageCard";
+import ReportedMessageCard from "../cards/ReportedMessageCard";
 
 export default function ReportedMessagesDiv() {
   return (

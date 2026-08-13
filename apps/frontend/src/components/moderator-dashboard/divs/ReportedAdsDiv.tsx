@@ -1,4 +1,4 @@
-import ReportedAdCard from "./ReportedAdCard";
+import ReportedAdCard from "./cards/ReportedAdCard";
 
 export default function ReportedAdsDiv() {
   return (
