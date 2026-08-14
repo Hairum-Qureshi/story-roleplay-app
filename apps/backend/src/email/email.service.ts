@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserPayload } from '../types';
 import { Model } from 'mongoose';
 import { ProfanityEngine } from '@coffeeandfun/google-profanity-words';
@@ -58,6 +58,18 @@ export class EmailService {
   ) {
     const { reportedUserEmail, reportedUserUsername, reportID, actionTaken } =
       reportedUserDataDto;
+
+    const report = await this.reportModel.findById(reportID);
+
+    if (!report)
+      throw new NotFoundException(`Report with ID ${reportID} not found`);
+
+    if (report?.sentApologyEmail) {
+      throw new HttpException(
+        'Apology email has already been sent for this report',
+        400,
+      );
+    }
 
     const caseOfAction =
       actionTaken.toLowerCase() === 'suspend'
