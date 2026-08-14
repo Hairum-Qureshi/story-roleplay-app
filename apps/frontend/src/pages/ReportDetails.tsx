@@ -6,14 +6,16 @@ import { useEffect } from "react";
 export default function ReportDetails() {
   const { reportData } = useReport();
 
-  const { setName, setUsername } = moderationStore();
+  const { setName, setUsername, sentEmail, setProfilePicture } =
+    moderationStore();
 
   useEffect(() => {
     if (reportData) {
-      setUsername(reportData.reported.username);
+      setUsername(reportData?.reported?.username);
       setName(
-        `${reportData.reported.firstName} ${reportData.reported.lastName}`,
+        `${reportData?.reported?.firstName} ${reportData?.reported?.lastName}`,
       );
+      setProfilePicture(reportData?.reported?.profilePicture);
     }
   }, [reportData]);
 
@@ -127,7 +129,16 @@ export default function ReportDetails() {
             Dismiss Report
           </button>
 
-          <button className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium transition hover:bg-blue-500">
+          <button
+            className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium transition hover:bg-blue-500"
+            onClick={() =>
+              !sentEmail
+                ? alert(
+                    "Please send an email to the user before resolving the report.",
+                  )
+                : alert("Report resolved successfully!")
+            }
+          >
             Resolve Report
           </button>
         </div>
