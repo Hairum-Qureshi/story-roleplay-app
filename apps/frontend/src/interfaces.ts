@@ -242,6 +242,8 @@ interface ReportAd {
   };
   status: AdStatus;
   adLink: string;
+  sentNoticeEmail: boolean;
+  sentApologyEmail: boolean;
   createdAt: string;
   updatedAt: string;
 }
