@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import EmailEditor from "./EmailEditor";
+import { moderationStore } from "../../store/useModerationStore";
 
 export default function ModeratorActionButtons() {
   const [action, setAction] = useState<
     "WARN" | "SUSPEND" | "BAN" | "DELETE" | null
   >(null);
+  const { setSentEmail } = moderationStore();
 
   return (
     <div className="mt-6 rounded-xl border border-slate-800 bg-slate-900">
@@ -74,7 +76,10 @@ export default function ModeratorActionButtons() {
         <div className="p-6">
           <button
             className="flex items-center gap-2 font-medium text-sky-300 hover:text-sky-400 hover:cursor-pointer"
-            onClick={() => setAction(null)}
+            onClick={() => {
+              setAction(null);
+              setSentEmail(false);
+            }}
           >
             <IoMdArrowRoundBack />
             <span>Go Back</span>
