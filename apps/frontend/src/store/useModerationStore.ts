@@ -11,6 +11,8 @@ interface ModerationState {
   setSentEmail: (sent: boolean) => void;
   profilePicture: string;
   setProfilePicture: (url: string) => void;
+  sentApologyEmail: boolean;
+  setSentApologyEmail: (sent: boolean) => void;
 }
 
 export const moderationStore = create<ModerationState>((set) => ({
@@ -28,4 +30,7 @@ export const moderationStore = create<ModerationState>((set) => ({
   profilePicture: "",
   setProfilePicture: (url: string) =>
     set((state) => ({ ...state, profilePicture: url })),
+  sentApologyEmail: false,
+  setSentApologyEmail: (sent: boolean) =>
+    set((state) => ({ ...state, sentApologyEmail: sent })),
 }));
