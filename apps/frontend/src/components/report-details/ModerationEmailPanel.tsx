@@ -4,6 +4,7 @@ import { CiWarning } from "react-icons/ci";
 import { CiMail } from "react-icons/ci";
 import { IoMdCheckmark } from "react-icons/io";
 import EmailEditor from "./EmailEditor";
+import useReport from "../../hooks/useReport";
 
 export default function ModerationEmailPanel({
   moderatorAction,
@@ -11,6 +12,7 @@ export default function ModerationEmailPanel({
   moderatorAction: "WARN" | "SUSPEND" | "BAN";
 }) {
   const { sentEmail } = moderationStore();
+  const { sendApologyModeratorEmailMutation, reportData } = useReport();
 
   const actionStyles = {
     WARN: {
@@ -134,7 +136,22 @@ export default function ModerationEmailPanel({
 
                   <button
                     type="button"
-                    className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white"
+                    className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white hover:cursor-pointer"
+                    onClick={() => {
+                      if (
+                        confirm(
+                          "Are you sure you want to send an apology email to the user? This action cannot be undone.",
+                        )
+                      ) {
+                        sendApologyModeratorEmailMutation({
+                          reportedUserEmail: reportData?.reported?.email,
+                          reportedUserUsername:
+                            reportData?.reported?.username || "",
+                          actionTaken: moderatorAction,
+                        });
+                        alert("Apology email sent successfully!");
+                      }
+                    }}
                   >
                     Send Apology Email
                   </button>
