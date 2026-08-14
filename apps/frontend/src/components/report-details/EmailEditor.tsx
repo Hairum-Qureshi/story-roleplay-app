@@ -4,6 +4,7 @@ import SuspensionDuration from "./SuspensionDuration";
 import { FaArrowRight } from "react-icons/fa6";
 import { CiWarning } from "react-icons/ci";
 import { CiMail } from "react-icons/ci";
+import { IoMdCheckmark } from "react-icons/io";
 
 const EMAIL_DRAFTS = {
   WARN: {
@@ -145,7 +146,7 @@ export default function EmailEditor({
             <div className="flex items-center justify-between px-6 py-5">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
-                 <CiMail className="h-5 w-5" />
+                  <CiMail className="h-5 w-5" />
                 </div>
 
                 <div>
@@ -162,11 +163,36 @@ export default function EmailEditor({
           </div>
 
           {sentEmail ? (
-            <div className="p-6 text-center text-green-400">
-              <p className="text-lg font-semibold">Email Sent Successfully!</p>
-              <p className="mt-1 text-sm">
-                The email has been sent to the user.
-              </p>
+            <div className="border-t border-slate-800 bg-slate-900/60 p-6">
+              <div className="flex flex-col items-center text-center">
+                {/* Success Icon */}
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+                  <IoMdCheckmark className="h-6 w-6" />
+                </div>
+
+                {/* Message */}
+                <h3 className="mt-4 text-base font-semibold text-slate-100">
+                  Email Sent Successfully
+                </h3>
+
+                <p className="mt-1 text-sm text-slate-400">
+                  The email has been successfully delivered to the user.
+                </p>
+
+                {/* Apology Action */}
+                <div className="mt-5 flex flex-col items-center gap-2 sm:flex-row">
+                  <p className="text-xs text-slate-500">
+                    Sent something by mistake?
+                  </p>
+
+                  <button
+                    type="button"
+                    className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white"
+                  >
+                    Send Apology Email
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <>
