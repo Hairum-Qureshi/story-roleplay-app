@@ -1,4 +1,10 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class ReportedUserEmailPayload {
   @IsNotEmpty()
@@ -22,4 +28,12 @@ export class ReportedUserEmailPayload {
     BAN: 'BAN',
   })
   actionTaken: string;
+
+  @IsOptional()
+  @IsString()
+  emailSubject?: string;
+
+  @IsOptional()
+  @IsString()
+  emailBody?: string;
 }
