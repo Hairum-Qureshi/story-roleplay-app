@@ -145,8 +145,8 @@ export default function ModerationEmailPanel({
                       ) {
                         sendApologyModeratorEmailMutation({
                           reportedUserEmail: reportData?.reported?.email,
-                          reportedUserUsername:
-                            reportData?.reported?.username || "",
+                          reportedUserUsername: reportData?.reported?.username,
+                          reportID: reportData?._id,
                           actionTaken: moderatorAction,
                         });
                         alert("Apology email sent successfully!");
