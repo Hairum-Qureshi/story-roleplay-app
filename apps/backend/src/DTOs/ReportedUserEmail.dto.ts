@@ -13,8 +13,8 @@ export class ReportedUserEmailPayload {
   @IsNotEmpty()
   @IsString()
   @IsEnum({
-    SUSPENSION: 'SUSPENSION',
-    WARNING: 'WARNING',
+    SUSPENSION: 'SUSPEND',
+    WARNING: 'WARN',
     BAN: 'BAN',
   })
   actionTaken: string;
