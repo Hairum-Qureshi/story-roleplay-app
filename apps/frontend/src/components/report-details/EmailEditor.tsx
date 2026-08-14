@@ -289,22 +289,27 @@ export default function EmailEditor({
                   </div>
 
                   <div className="flex gap-3">
-                    {emailContent
-                      .replace(username, "{{User}}")
-                      .replace(
-                        suspensionDuration.toString(),
-                        "{{suspensionDuration}}",
-                      )
-                      .replace(
-                        new Date(
-                          Date.now() + suspensionDuration * 24 * 60 * 60 * 1000,
-                        ).toLocaleDateString(),
-                        "{{date}}",
-                      ) !== EMAIL_DRAFTS[moderatorAction].body && (
-                      <button className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white hover:cursor-pointer" onClick = {() => alert("Feature coming soon!")}>
-                        Save Draft
-                      </button>
-                    )}
+                    {!emailContent ||
+                      (emailContent
+                        .replace(username, "{{User}}")
+                        .replace(
+                          suspensionDuration.toString(),
+                          "{{suspensionDuration}}",
+                        )
+                        .replace(
+                          new Date(
+                            Date.now() +
+                              suspensionDuration * 24 * 60 * 60 * 1000,
+                          ).toLocaleDateString(),
+                          "{{date}}",
+                        ) !== EMAIL_DRAFTS[moderatorAction].body && (
+                        <button
+                          className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white hover:cursor-pointer"
+                          onClick={() => alert("Feature coming soon!")}
+                        >
+                          Save Draft
+                        </button>
+                      ))}
 
                     {/* disable send email if the textarea and input field are empty */}
                     <button
