@@ -7,6 +7,8 @@ interface ModerationState {
   setUsername: (username: string) => void;
   name: string;
   setName: (name: string) => void;
+  sentEmail: boolean;
+  setSentEmail: (sent: boolean) => void;
 }
 
 export const moderationStore = create<ModerationState>((set) => ({
@@ -18,4 +20,7 @@ export const moderationStore = create<ModerationState>((set) => ({
   username: "",
   setName: (name: string) => set((state) => ({ ...state, name: name })),
   name: "",
+  sentEmail: false,
+  setSentEmail: (sent: boolean) =>
+    set((state) => ({ ...state, sentEmail: sent })),
 }));
