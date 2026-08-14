@@ -33,6 +33,12 @@ export class Report {
   @Prop({ type: String, required: true })
   adLink: string;
 
+  @Prop({ type: Boolean, default: false })
+  sentNoticeEmail: boolean;
+
+  @Prop({ type: Boolean, default: false })
+  sentApologyEmail: boolean;
+
   @Prop({ default: Date.now })
   createdAt: Date;
 
