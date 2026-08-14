@@ -115,30 +115,31 @@ export default function useReport() {
     mutationFn: async ({
       reportedUserEmail,
       reportedUserUsername,
+      reportID,
       actionTaken,
     }: {
       reportedUserEmail: string;
       reportedUserUsername: string;
+      reportID: string;
       actionTaken: "WARN" | "SUSPEND" | "BAN";
     }) => {
-      try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_BASE_URL}/email/moderator-apology/send`,
-          {
-            reportedUserEmail,
-            reportedUserUsername,
-            actionTaken,
-          },
-          {
-            withCredentials: true,
-          },
-        );
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/email/moderator-apology/send`,
+        {
+          reportedUserEmail,
+          reportedUserUsername,
+          reportID,
+          actionTaken,
+        },
+        {
+          withCredentials: true,
+        },
+      );
 
-        return response;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["report", reportID] });
     },
   });
 
