@@ -1,16 +1,22 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { UserPayload } from '../types';
+import { Model } from 'mongoose';
 import { ProfanityEngine } from '@coffeeandfun/google-profanity-words';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
 import { SendEmail } from '../DTOs/SendEmail.dto';
 import { ReportedUserEmailPayload } from 'src/DTOs/ReportedUserEmail.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { ReportDocument } from 'src/schemas/Report';
 
 @Injectable()
 export class EmailService {
   private resend: Resend;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    @InjectModel('Report') private reportModel: Model<ReportDocument>,
+  ) {
     this.resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
   }
 
@@ -50,7 +56,7 @@ export class EmailService {
     currUser: UserPayload,
     reportedUserDataDto: ReportedUserEmailPayload,
   ) {
-    const { reportedUserEmail, reportedUserUsername, actionTaken } =
+    const { reportedUserEmail, reportedUserUsername, reportID, actionTaken } =
       reportedUserDataDto;
 
     const caseOfAction =
@@ -62,38 +68,42 @@ export class EmailService {
 
     const apologySubject = 'Apology for the Inconvenience';
     const apologyMessage = `
-<p>Dear ${reportedUserUsername},</p>
+      <p>Dear ${reportedUserUsername},</p>
 
-<p>
-  We sincerely apologize for any inconvenience caused by the recent moderation action.
-  One of our moderators accidentally ${caseOfAction} you for violating our community guidelines.
-  After reviewing the situation, we have taken the appropriate steps to rectify the issue.
-</p>
+      <p>
+        We sincerely apologize for any inconvenience caused by the recent moderation action.
+        One of our moderators accidentally ${caseOfAction} you for violating our community guidelines.
+        After reviewing the situation, we have taken the appropriate steps to rectify the issue.
+      </p>
 
-<p>
-  If you have any questions or concerns, please feel free to reach out to us through our
-  <a href="${this.configService.get<string>('FRONTEND_URL')}/contact">Contact Us</a> page.
-</p>
+      <p>
+        If you have any questions or concerns, please feel free to reach out to us through our
+        <a href="${this.configService.get<string>('FRONTEND_URL')}/contact">Contact Us</a> page.
+      </p>
 
-<p>
-  Best regards,<br>
-  ${currUser.firstName} ${currUser.lastName}<br>
-  TaleWeaver Moderation Team
-</p>
+      <p>
+        Best regards,<br>
+        ${currUser.firstName} ${currUser.lastName}<br>
+        TaleWeaver Moderation Team
+      </p>
 
-<p>
-  <i>
-    Please note that responses to this email will not receive a response.
-    If you have any questions or concerns, please use the Contact Us page linked above.
-  </i>
-</p>
-`;
+      <p>
+        <i>
+          Please note that responses to this email will not receive a response.
+          If you have any questions or concerns, please use the Contact Us page linked above.
+        </i>
+      </p>
+      `;
 
     await this.resend.emails.send({
       from: `TaleWeaver <${this.configService.get<string>('RESEND_SENDER_EMAIL')}>`,
       to: reportedUserEmail,
       subject: apologySubject,
       html: apologyMessage,
+    });
+
+    await this.reportModel.findByIdAndUpdate(reportID, {
+      sentApologyEmail: true,
     });
   }
 }
