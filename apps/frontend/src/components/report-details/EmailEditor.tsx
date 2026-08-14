@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { moderationStore } from "../../store/useModerationStore";
 import SuspensionDuration from "./SuspensionDuration";
 import { FaArrowRight } from "react-icons/fa6";
+import { CiWarning } from "react-icons/ci";
 
 const EMAIL_DRAFTS = {
   WARN: {
@@ -107,19 +108,7 @@ export default function EmailEditor({
           <div
             className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${action.iconBackground} ${action.icon}`}
           >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v2m0 4h.01M5.07 19h13.86a2 2 0 001.73-3L13.73 4a2 2 0 00-3.46 0L3.34 16a2 2 0 001.73 3z"
-              />
-            </svg>
+            <CiWarning className="h-4 w-4" />
           </div>
 
           <div className="min-w-0">
