@@ -244,9 +244,35 @@ export default function EmailEditor({
 
               {/* Message */}
               <div className="p-6">
-                <label className="mb-3 block text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Message
-                </label>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Message
+                  </label>
+
+                  <button
+                    type="button"
+                    className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:cursor-pointer hover:text-white"
+                    onClick={() =>
+                      setEmailContent(
+                        EMAIL_DRAFTS[moderatorAction].body
+                          .replace(
+                            "{{suspensionDuration}}",
+                            suspensionDuration.toString(),
+                          )
+                          .replace(
+                            "{{date}}",
+                            new Date(
+                              Date.now() +
+                                suspensionDuration * 24 * 60 * 60 * 1000,
+                            ).toLocaleDateString(),
+                          )
+                          .replace("{{User}}", username),
+                      )
+                    }
+                  >
+                    Refetch Template Email
+                  </button>
+                </div>
 
                 <div className="overflow-hidden rounded-xl border border-slate-600 bg-slate-800 shadow-lg shadow-black/10 transition focus-within:border-blue-500/70 focus-within:ring-2 focus-within:ring-blue-500/10">
                   <textarea
