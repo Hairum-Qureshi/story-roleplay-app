@@ -3,6 +3,7 @@ import { moderationStore } from "../../store/useModerationStore";
 import SuspensionDuration from "./SuspensionDuration";
 import { FaArrowRight } from "react-icons/fa6";
 import { CiWarning } from "react-icons/ci";
+import { CiMail } from "react-icons/ci";
 
 const EMAIL_DRAFTS = {
   WARN: {
@@ -144,19 +145,7 @@ export default function EmailEditor({
             <div className="flex items-center justify-between px-6 py-5">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
+                 <CiMail className="h-5 w-5" />
                 </div>
 
                 <div>
@@ -260,19 +249,7 @@ export default function EmailEditor({
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <div className="flex items-center gap-2">
-                      <svg
-                        className="h-4 w-4 text-slate-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 9v2m0 4h.01M5.07 19h13.86a2 2 0 001.73-3L13.73 4a2 2 0 00-3.46 0L3.34 16a2 2 0 001.73 3z"
-                        />
-                      </svg>
+                      <CiWarning className="h-4 w-4 text-slate-400" />
 
                       <p className="text-sm text-slate-400">
                         This email will be sent immediately once you hit the
