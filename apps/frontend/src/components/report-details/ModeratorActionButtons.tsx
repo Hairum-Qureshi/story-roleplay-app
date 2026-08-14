@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import EmailEditor from "./EmailEditor";
+import ModerationEmailPanel from "./ModerationEmailPanel";
 import { moderationStore } from "../../store/useModerationStore";
 
 export default function ModeratorActionButtons() {
@@ -84,7 +84,7 @@ export default function ModeratorActionButtons() {
             <IoMdArrowRoundBack />
             <span>Go Back</span>
           </button>
-          <EmailEditor moderatorAction={action} />
+          <ModerationEmailPanel moderatorAction={action} />
         </div>
       )}
     </div>
