@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import ModeratorActionButtons from "../components/report-details/ModeratorActionButtons";
 import useReport from "../hooks/useReport";
 import { moderationStore } from "../store/useModerationStore";
 import { useEffect } from "react";
+import { FaArrowLeft } from "react-icons/fa6";
 
 export default function ReportDetails() {
   const { reportData } = useReport();
+  const navigate = useNavigate();
 
   const { setName, setUsername, sentEmail, setProfilePicture } =
     moderationStore();
@@ -23,6 +26,13 @@ export default function ReportDetails() {
     <div className="min-h-screen bg-slate-950 p-6 text-white">
       <div className="mx-auto max-w-4xl">
         <div className="mb-6">
+          <button
+            className="flex my-3 items-center gap-2 font-medium text-sky-300 hover:text-sky-400 hover:cursor-pointer"
+            onClick={() => navigate(-1)}
+          >
+            <FaArrowLeft />
+            <span>Go Back</span>
+          </button>
           <p className="text-sm font-medium text-blue-400">Report Details</p>
 
           <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
