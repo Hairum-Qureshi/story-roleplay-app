@@ -12,6 +12,10 @@ export class ReportedUserEmailPayload {
 
   @IsNotEmpty()
   @IsString()
+  reportID: string;
+
+  @IsNotEmpty()
+  @IsString()
   @IsEnum({
     SUSPENSION: 'SUSPEND',
     WARNING: 'WARN',
