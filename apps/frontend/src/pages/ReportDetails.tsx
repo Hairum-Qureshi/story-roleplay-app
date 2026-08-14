@@ -1,8 +1,21 @@
 import ModeratorActionButtons from "../components/report-details/ModeratorActionButtons";
 import useReport from "../hooks/useReport";
+import { moderationStore } from "../store/useModerationStore";
+import { useEffect } from "react";
 
 export default function ReportDetails() {
   const { reportData } = useReport();
+
+  const { setName, setUsername } = moderationStore();
+
+  useEffect(() => {
+    if (reportData) {
+      setUsername(reportData.reported.username);
+      setName(
+        `${reportData.reported.firstName} ${reportData.reported.lastName}`,
+      );
+    }
+  }, [reportData]);
 
   return (
     <div className="min-h-screen bg-slate-950 p-6 text-white">
