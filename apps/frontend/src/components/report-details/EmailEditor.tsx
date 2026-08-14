@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { moderationStore } from "../../store/useModerationStore";
 import { FaArrowRight } from "react-icons/fa6";
 import { CiWarning } from "react-icons/ci";
+import useReport from "../../hooks/useReport";
 
 const EMAIL_DRAFTS = {
   WARN: {
@@ -25,8 +26,9 @@ export default function EmailEditor({
 }: {
   moderatorAction: "WARN" | "SUSPEND" | "BAN";
 }) {
-  const { suspensionDuration, username, name, setSentEmail, profilePicture } =
+  const { suspensionDuration, username, name, profilePicture } =
     moderationStore();
+  const { reportData } = useReport();
 
   const [emailContent, setEmailContent] = useState(
     EMAIL_DRAFTS[moderatorAction].body
@@ -112,6 +114,9 @@ export default function EmailEditor({
             type="button"
             className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:cursor-pointer hover:text-white"
             onClick={() =>
+              confirm(
+                "Are you sure you want to refetch the original template? This will overwrite any work you've written.",
+              ) &&
               setEmailContent(
                 EMAIL_DRAFTS[moderatorAction].body
                   .replace(
@@ -198,7 +203,7 @@ export default function EmailEditor({
             <button
               className="group flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-500 active:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:bg-blue-500 hover:cursor-pointer"
               disabled={!emailContent.trim() || !emailSubject.trim()}
-              onClick={() => setSentEmail(true)}
+              onClick={() => alert("Feature coming soon!")}
             >
               Send Email
               <FaArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
