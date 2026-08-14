@@ -1,6 +1,5 @@
 import { HydratedDocument, Types } from 'mongoose';
 import Role from './enums/roles.enum';
-import { ModerationStatus } from './enums/moderation.enum';
 import { ReportReason } from './enums/reason.enum';
 
 type CharacterBio = {
