@@ -54,9 +54,9 @@ export class EmailService {
       reportedUserDataDto;
 
     const caseOfAction =
-      actionTaken.toLowerCase() === 'suspension'
+      actionTaken.toLowerCase() === 'suspend'
         ? 'suspended'
-        : actionTaken.toLowerCase() === 'warning'
+        : actionTaken.toLowerCase() === 'warn'
           ? 'warned'
           : 'banned';
 
