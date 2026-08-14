@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { moderationStore } from "../../store/useModerationStore";
 import SuspensionDuration from "./SuspensionDuration";
+import { FaArrowRight } from "react-icons/fa6";
 
 const EMAIL_DRAFTS = {
   WARN: {
@@ -24,7 +25,8 @@ export default function EmailEditor({
 }: {
   moderatorAction: "WARN" | "SUSPEND" | "BAN";
 }) {
-  const { suspensionDuration, username, name } = moderationStore();
+  const { suspensionDuration, username, name, setSentEmail, profilePicture } =
+    moderationStore();
   const [emailContent, setEmailContent] = useState(
     EMAIL_DRAFTS[moderatorAction].body
       .replace("{{suspensionDuration}}", suspensionDuration.toString())
@@ -35,6 +37,9 @@ export default function EmailEditor({
         ).toLocaleDateString(),
       )
       .replace("{{User}}", username),
+  );
+  const [emailSubject, setEmailSubject] = useState(
+    EMAIL_DRAFTS[moderatorAction].subject,
   );
 
   const actionStyles = {
@@ -181,9 +186,12 @@ export default function EmailEditor({
               </p>
 
               <div className="mt-2 flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/10 text-xs font-semibold text-blue-400">
-                  JD
-                </div>
+                <img
+                  src={profilePicture}
+                  alt="User Avatar"
+                  className="h-8 w-8 rounded-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
 
                 <div>
                   <p className="text-sm font-medium text-slate-200">{name}</p>
@@ -207,6 +215,8 @@ export default function EmailEditor({
                 type="text"
                 defaultValue="Important notice regarding your account"
                 className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-sm font-medium text-slate-200 outline-none transition placeholder:text-slate-600 focus:border-blue-500/70 focus:ring-2 focus:ring-blue-500/10"
+                value={emailSubject}
+                onChange={(e) => setEmailSubject(e.target.value)}
               />
             </div>
           </div>
@@ -270,25 +280,18 @@ export default function EmailEditor({
               </div>
 
               <div className="flex gap-3">
-                <button className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white">
+                <button className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white hover:cursor-pointer">
                   Save Draft
                 </button>
 
-                <button className="group flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-500 active:bg-blue-700">
+                {/* disable send email if the textarea and input field are empty */}
+                <button
+                  className="group flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-500 active:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:bg-blue-500 hover:cursor-pointer"
+                  disabled={!emailContent.trim() || !emailSubject.trim()}
+                  onClick={() => setSentEmail(true)}
+                >
                   Send Email
-                  <svg
-                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 12h14M13 6l6 6-6 6"
-                    />
-                  </svg>
+                  <FaArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </button>
               </div>
             </div>
