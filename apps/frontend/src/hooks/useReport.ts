@@ -111,6 +111,37 @@ export default function useReport() {
     queryClient.invalidateQueries({ queryKey: ["all-reports"] });
   }, [query]);
 
+  const { mutate: sendApologyModeratorEmailMutation } = useMutation({
+    mutationFn: async ({
+      reportedUserEmail,
+      reportedUserUsername,
+      actionTaken,
+    }: {
+      reportedUserEmail: string;
+      reportedUserUsername: string;
+      actionTaken: "WARN" | "SUSPEND" | "BAN";
+    }) => {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_BASE_URL}/email/moderator-apology/send`,
+          {
+            reportedUserEmail,
+            reportedUserUsername,
+            actionTaken,
+          },
+          {
+            withCredentials: true,
+          },
+        );
+
+        return response;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+  });
+
   return {
     createReportMutation,
     isReportLoading,
@@ -119,5 +150,6 @@ export default function useReport() {
     allReports,
     isAllReportsLoading,
     reportData,
+    sendApologyModeratorEmailMutation,
   };
 }
