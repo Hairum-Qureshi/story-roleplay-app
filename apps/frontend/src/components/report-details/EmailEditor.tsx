@@ -11,7 +11,7 @@ const EMAIL_DRAFTS = {
 
   SUSPEND: {
     subject: "Account Suspension Notice",
-    body: "Dear {{User}},\n\nYour account has been temporarily suspended for {{suspensionDuration}} days ({{date}}) due to a violation of our Community Guidelines.\n\nDuring the suspension period, you will not be able to access or use your account. We encourage you to review our Community Guidelines before returning to the platform to help ensure that future activity remains compliant.\n\nIf you believe this suspension was issued in error or would like to request a review, please contact our support team through the appropriate appeal process.\n\nBest regards,\nThe Moderation Team",
+    body: "Dear {{User}},\n\nYour account has been temporarily suspended for {{suspensionDuration}} days (until {{date}}) due to a violation of our Community Guidelines.\n\nDuring the suspension period, you will not be able to access or use your account. We encourage you to review our Community Guidelines before returning to the platform to help ensure that future activity remains compliant.\n\nIf you believe this suspension was issued in error or would like to request a review, please contact our support team through the appropriate appeal process.\n\nBest regards,\nThe Moderation Team",
   },
 
   BAN: {
