@@ -12,7 +12,7 @@ export class ReportedUserEmailPayload {
   @IsEmail()
   reportedUserEmail: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   reportedUserUsername: string;
 
@@ -20,7 +20,7 @@ export class ReportedUserEmailPayload {
   @IsString()
   reportID: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @IsEnum({
     SUSPENSION: 'SUSPEND',
