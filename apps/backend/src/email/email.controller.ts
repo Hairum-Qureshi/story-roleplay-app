@@ -35,4 +35,14 @@ export class EmailController {
       reportedUserDataDto,
     );
   }
+
+  @Post('/moderator-notice/send')
+  @UseGuards(AuthGuard(), ModerationGuard)
+  @Roles([Role.ADMIN, Role.MODERATOR])
+  async sendNoticeModeratorEmail(
+    @CurrentUser() currUser: UserPayload,
+    @Body() reportedUserDataDto: ReportedUserEmailPayload,
+  ) {
+    await this.emailService.sendModeratorNoticeEmail(reportedUserDataDto);
+  }
 }
