@@ -71,6 +71,11 @@ export class EmailService {
       );
     }
 
+    if (!reportedUserUsername?.trim() || !actionTaken.trim())
+      throw new NotFoundException(
+        'Reported user username and action taken are required',
+      );
+
     const caseOfAction =
       actionTaken.toLowerCase() === 'suspend'
         ? 'suspended'
@@ -116,6 +121,40 @@ export class EmailService {
 
     await this.reportModel.findByIdAndUpdate(reportID, {
       sentApologyEmail: true,
+    });
+  }
+
+  async sendModeratorNoticeEmail(
+    currUser: UserPayload,
+    reportedUserDataDto: ReportedUserEmailPayload,
+  ) {
+    const { reportedUserEmail, reportID, emailSubject, emailBody } =
+      reportedUserDataDto;
+
+    const report = await this.reportModel.findById(reportID);
+
+    if (!report)
+      throw new NotFoundException(`Report with ID ${reportID} not found`);
+
+    if (report?.sentNoticeEmail) {
+      throw new HttpException(
+        'Notice email has already been sent for this report',
+        400,
+      );
+    }
+
+    if (!emailSubject?.trim() || !emailBody?.trim())
+      throw new NotFoundException('Email subject and body are required');
+
+    await this.resend.emails.send({
+      from: `TaleWeaver <${this.configService.get<string>('RESEND_SENDER_EMAIL')}>`,
+      to: reportedUserEmail,
+      subject: emailSubject,
+      text: emailBody,
+    });
+
+    await this.reportModel.findByIdAndUpdate(reportID, {
+      sentNoticeEmail: true,
     });
   }
 }
