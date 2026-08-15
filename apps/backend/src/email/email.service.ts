@@ -125,7 +125,6 @@ export class EmailService {
   }
 
   async sendModeratorNoticeEmail(
-    currUser: UserPayload,
     reportedUserDataDto: ReportedUserEmailPayload,
   ) {
     const { reportedUserEmail, reportID, emailSubject, emailBody } =
