@@ -1,4 +1,3 @@
-import { moderationStore } from "../../store/useModerationStore";
 import SuspensionDuration from "./SuspensionDuration";
 import { CiWarning } from "react-icons/ci";
 import { CiMail } from "react-icons/ci";
@@ -11,7 +10,6 @@ export default function ModerationEmailPanel({
 }: {
   moderatorAction: "WARN" | "SUSPEND" | "BAN";
 }) {
-  const { sentEmail } = moderationStore();
   const { sendApologyModeratorEmailMutation, reportData } = useReport();
 
   const actionStyles = {
@@ -82,7 +80,7 @@ export default function ModerationEmailPanel({
         </div>
       </div>
 
-      {moderatorAction === "SUSPEND" && !sentEmail && (
+      {moderatorAction === "SUSPEND" && (
         <div className="my-4">
           <SuspensionDuration />
         </div>
@@ -111,7 +109,7 @@ export default function ModerationEmailPanel({
             </div>
           </div>
 
-          {sentEmail ? (
+          {reportData?.sentNoticeEmail ? (
             <div className="border-t border-slate-800 bg-slate-900/60 p-6">
               <div className="flex flex-col items-center text-center">
                 {/* Success Icon */}
@@ -129,33 +127,36 @@ export default function ModerationEmailPanel({
                 </p>
 
                 {/* Apology Action */}
-                <div className="mt-5 flex flex-col items-center gap-2 sm:flex-row">
-                  <p className="text-xs text-slate-500">
-                    Sent something by mistake?
-                  </p>
+                {!reportData?.sentApologyEmail && (
+                  <div className="mt-5 flex flex-col items-center gap-2 sm:flex-row">
+                    <p className="text-xs text-slate-500">
+                      Sent something by mistake?
+                    </p>
 
-                  <button
-                    type="button"
-                    className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white hover:cursor-pointer"
-                    onClick={() => {
-                      if (
-                        confirm(
-                          "Are you sure you want to send an apology email to the user? This action cannot be undone.",
-                        )
-                      ) {
-                        sendApologyModeratorEmailMutation({
-                          reportedUserEmail: reportData?.reported?.email,
-                          reportedUserUsername: reportData?.reported?.username,
-                          reportID: reportData?._id,
-                          actionTaken: moderatorAction,
-                        });
-                        alert("Apology email sent successfully!");
-                      }
-                    }}
-                  >
-                    Send Apology Email
-                  </button>
-                </div>
+                    <button
+                      type="button"
+                      className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-600 hover:bg-slate-700 hover:text-white hover:cursor-pointer"
+                      onClick={() => {
+                        if (
+                          confirm(
+                            "Are you sure you want to send an apology email to the user? This action cannot be undone.",
+                          )
+                        ) {
+                          sendApologyModeratorEmailMutation({
+                            reportedUserEmail: reportData?.reported?.email,
+                            reportedUserUsername:
+                              reportData?.reported?.username,
+                            reportID: reportData?._id,
+                            actionTaken: moderatorAction,
+                          });
+                          alert("Apology email sent successfully!");
+                        }
+                      }}
+                    >
+                      Send Apology Email
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ) : (

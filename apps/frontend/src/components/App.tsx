@@ -33,6 +33,8 @@ export default function App() {
   const connectSocket = useSocketStore((state) => state.connectSocket);
   const disconnectSocket = useSocketStore((state) => state.disconnectSocket);
   const { data: userData } = useCurrentUser();
+  const googleClientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID as
+    string | undefined;
 
   useEffect(() => {
     if (!userData) return;
@@ -44,128 +46,134 @@ export default function App() {
     };
   }, [userData]);
 
+  const routes = (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/role-play-ads" element={<Advertisements />} />
+      <Route path="/guidelines" element={<Guidelines />} />
+      <Route
+        path="/contact"
+        element={
+          <ProtectedRoutesGuard>
+            <Contact />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/new-ad"
+        element={
+          <ProtectedRoutesGuard>
+            <AdForm />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/character-bios"
+        element={
+          <ProtectedRoutesGuard>
+            <CharacterBios />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/new-character"
+        element={
+          <ProtectedRoutesGuard>
+            <CharacterBioForm />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/inbox"
+        element={
+          <ProtectedRoutesGuard>
+            <Inbox />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/inbox/:chatID"
+        element={
+          <ProtectedRoutesGuard>
+            <IsMemberRoutesGuard>
+              <Inbox />
+            </IsMemberRoutesGuard>
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoutesGuard>
+            <Profile />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/favorited-ads"
+        element={
+          <ProtectedRoutesGuard>
+            <FavoritedAds />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/role-play-ad/:adID/edit"
+        element={
+          <ProtectedRoutesGuard>
+            <OwnerRoutesGuard>
+              <AdForm />
+            </OwnerRoutesGuard>
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/role-play-ad/:adID"
+        element={
+          <ProtectedRoutesGuard>
+            <AdDetails />
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoutesGuard>
+            <IsModerator>
+              <ModeratorDashboard />
+            </IsModerator>
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route
+        path="/report/:reportID"
+        element={
+          <ProtectedRoutesGuard>
+            <IsModerator>
+              <ReportDetails />
+            </IsModerator>
+          </ProtectedRoutesGuard>
+        }
+      />
+      <Route path="/updates-changelog" element={<UpdatesAndChangelog />} />
+      <Route path="/faq" element={<FAQ />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-of-service" element={<TermsOfService />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+
   return (
     <BrowserRouter>
       <Navbar />
-      <GoogleOAuthProvider
-        clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID}
-      >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/role-play-ads" element={<Advertisements />} />
-          <Route path="/guidelines" element={<Guidelines />} />
-          <Route
-            path="/contact"
-            element={
-              <ProtectedRoutesGuard>
-                <Contact />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/new-ad"
-            element={
-              <ProtectedRoutesGuard>
-                <AdForm />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/character-bios"
-            element={
-              <ProtectedRoutesGuard>
-                <CharacterBios />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/new-character"
-            element={
-              <ProtectedRoutesGuard>
-                <CharacterBioForm />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/inbox"
-            element={
-              <ProtectedRoutesGuard>
-                <Inbox />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/inbox/:chatID"
-            element={
-              <ProtectedRoutesGuard>
-                <IsMemberRoutesGuard>
-                  <Inbox />
-                </IsMemberRoutesGuard>
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoutesGuard>
-                <Profile />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/favorited-ads"
-            element={
-              <ProtectedRoutesGuard>
-                <FavoritedAds />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/role-play-ad/:adID/edit"
-            element={
-              <ProtectedRoutesGuard>
-                <OwnerRoutesGuard>
-                  <AdForm />
-                </OwnerRoutesGuard>
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/role-play-ad/:adID"
-            element={
-              <ProtectedRoutesGuard>
-                <AdDetails />
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoutesGuard>
-                <IsModerator>
-                  <ModeratorDashboard />
-                </IsModerator>
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route
-            path="/report/:reportID"
-            element={
-              <ProtectedRoutesGuard>
-                <IsModerator>
-                  <ReportDetails />
-                </IsModerator>
-              </ProtectedRoutesGuard>
-            }
-          />
-          <Route path="/updates-changelog" element={<UpdatesAndChangelog />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </GoogleOAuthProvider>
+      {googleClientId ? (
+        <GoogleOAuthProvider clientId={googleClientId}>
+          {routes}
+        </GoogleOAuthProvider>
+      ) : (
+        routes
+      )}
     </BrowserRouter>
   );
 }

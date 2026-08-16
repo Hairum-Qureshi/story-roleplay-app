@@ -9,8 +9,7 @@ export default function ReportDetails() {
   const { reportData } = useReport();
   const navigate = useNavigate();
 
-  const { setName, setUsername, sentEmail, setProfilePicture } =
-    moderationStore();
+  const { setName, setUsername, setProfilePicture } = moderationStore();
 
   useEffect(() => {
     if (reportData) {
@@ -141,13 +140,13 @@ export default function ReportDetails() {
 
           <button
             className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium transition hover:bg-blue-500"
-            onClick={() =>
-              !sentEmail
-                ? alert(
-                    "Please send an email to the user before resolving the report.",
-                  )
-                : alert("Report resolved successfully!")
-            }
+            // onClick={() =>
+            //   !sentEmail
+            //     ? alert(
+            //         "Please send an email to the user before resolving the report.",
+            //       )
+            //     : alert("Report resolved successfully!")
+            // }
           >
             Resolve Report
           </button>

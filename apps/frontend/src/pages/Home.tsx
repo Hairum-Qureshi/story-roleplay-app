@@ -7,6 +7,9 @@ import DiscordOAuthButton from "../components/DiscordOAuthButton";
 
 export default function Home() {
   const { data: currUserData } = useCurrentUser();
+  const hasGoogleOAuthClientId = Boolean(
+    import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID,
+  );
 
   return (
     <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden flex flex-col">
@@ -51,7 +54,7 @@ export default function Home() {
         <div className="flex flex-col items-center gap-4">
           {!currUserData && (
             <div className="flex flex-col md:flex-row items-center gap-4">
-              <GoogleOAuthButton />
+              {hasGoogleOAuthClientId && <GoogleOAuthButton />}
               <DiscordOAuthButton />
             </div>
           )}
