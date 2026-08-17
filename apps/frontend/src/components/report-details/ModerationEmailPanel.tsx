@@ -163,6 +163,21 @@ export default function ModerationEmailPanel({
             <EmailEditor moderatorAction={moderatorAction} />
           )}
         </div>
+        <div className="flex flex-col items-center gap-3 my-5 px-2 w-full">
+          <h4 className="mr-auto text-lg font-semibold text-red-500">
+            Delete Ad?
+          </h4>
+          <button className="rounded-lg border border-red-700 bg-red-800 px-4 py-2.5 font-medium text-white transition hover:border-red-600 hover:bg-red-700 w-full hover:cursor-pointer">
+            Delete Ad
+          </button>
+          <p className="text-base text-slate-500 mr-auto">
+            If you choose to delete their ad,{" "}
+            <span className="font-semibold text-sky-600">
+              @{reportData?.reported?.username}
+            </span>{" "}
+            will receive an email notification regarding their ad's deletion.
+          </p>
+        </div>
       </div>
     </div>
   );
