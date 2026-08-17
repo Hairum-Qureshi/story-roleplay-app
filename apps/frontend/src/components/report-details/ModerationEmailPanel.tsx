@@ -163,6 +163,20 @@ export default function ModerationEmailPanel({
             <EmailEditor moderatorAction={moderatorAction} />
           )}
         </div>
+        <div className="flex flex-col items-center gap-1 my-5 px-2 w-full">
+          <h4 className="mr-auto text-lg font-semibold text-slate-300">
+            Moderator Notes
+          </h4>
+          <p className="text-sm text-slate-500 mr-auto mb-2">
+            These notes will only be visible to moderators.
+          </p>
+          <textarea
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm text-slate-300 placeholder:text-slate-500 focus:border-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-600"
+            placeholder="Add any notes or comments regarding the moderation action..."
+            rows={4}
+          ></textarea>
+        </div>
+
         <div className="flex flex-col items-center gap-3 my-5 px-2 w-full">
           <h4 className="mr-auto text-lg font-semibold text-red-500">
             Delete Ad?
