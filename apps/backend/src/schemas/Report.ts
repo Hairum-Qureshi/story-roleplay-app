@@ -3,6 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import { RolePlayAd, RolePlayAdSchema } from './RolePlayAd';
 import { ReportReason } from 'src/enums/reason.enum';
 import { AdStatus } from 'src/enums/adStatus.enum';
+import { ModerationStatus } from 'src/enums/moderation.enum';
 
 @Schema()
 export class Report {
@@ -38,6 +39,15 @@ export class Report {
 
   @Prop({ type: Boolean, default: false })
   sentApologyEmail: boolean;
+
+  @Prop({ enum: ModerationStatus, default: ModerationStatus.NONE })
+  moderationStatusTaken: ModerationStatus;
+
+  @Prop({ type: String, ref: 'User' })
+  handledBy: string;
+
+  @Prop({ type: String })
+  handledNotes: string;
 
   @Prop({ default: Date.now })
   createdAt: Date;
