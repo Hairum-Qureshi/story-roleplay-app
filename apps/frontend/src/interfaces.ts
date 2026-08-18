@@ -242,6 +242,13 @@ interface ReportAd {
   };
   status: AdStatus;
   adLink: string;
+  moderationStatusTaken: ModerationStatus;
+  handledBy: {
+    _id: string;
+    username: string;
+    profilePicture?: string;
+  };
+  handledNotes: string;
   sentNoticeEmail: boolean;
   sentApologyEmail: boolean;
   createdAt: string;
