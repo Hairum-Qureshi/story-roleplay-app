@@ -17,5 +17,6 @@ import { Report, ReportSchema } from 'src/schemas/Report';
       },
     ]),
   ],
+  exports: [EmailService],
 })
 export class EmailModule {}
