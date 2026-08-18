@@ -96,6 +96,10 @@ export class ReportService {
             path: 'reported',
             select: '_id username profilePicture',
           })
+          .populate({
+            path: 'handledBy',
+            select: '_id username profilePicture',
+          })
       : await this.reportModel
           .find({ status })
           .populate({
@@ -105,7 +109,12 @@ export class ReportService {
           .populate({
             path: 'reported',
             select: '_id username profilePicture',
+          })
+          .populate({
+            path: 'handledBy',
+            select: '_id username profilePicture',
           });
+          
   }
 
   async getReportByID(reportID: string) {
