@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from 'src/schemas/User';
 import { ReportSchema } from 'src/schemas/Report';
 import { Mongoose } from 'mongoose';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
   providers: [ModerationService],
@@ -12,6 +13,7 @@ import { Mongoose } from 'mongoose';
   imports: [
     MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
     MongooseModule.forFeature([{ name: 'Report', schema: ReportSchema }]),
+    EmailModule,  
   ],
   exports: [ModerationService],
 })
