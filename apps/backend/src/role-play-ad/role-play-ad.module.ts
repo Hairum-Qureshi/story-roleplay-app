@@ -11,6 +11,7 @@ import {
 } from '../schemas/inbox/Conversation';
 import { ChatModule } from '../chat/chat.module';
 import { Like, LikeSchema } from '../schemas/Like';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { Like, LikeSchema } from '../schemas/Like';
     ]),
     EventsModule,
     ChatModule,
+    EmailModule,
   ],
   providers: [RolePlayAdService],
   controllers: [RolePlayAdController],
