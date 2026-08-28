@@ -14,6 +14,7 @@ import { CurrentUser } from '../decorators/currentUser.decorator';
 import { type UserPayload } from '../types';
 import { AuthGuard } from '@nestjs/passport';
 import { IsOwnerGuard } from '../guards/IsOwner.guard';
+import { CanDeleteGuard } from '../guards/CanDelete.guard';
 import { ModerationGuard } from 'src/guards/moderation.guard';
 import { EditAd } from '../DTOs/EditAd.dto';
 
@@ -68,7 +69,7 @@ export class RolePlayAdController {
   }
 
   @Delete('delete/:adID')
-  @UseGuards(AuthGuard(), ModerationGuard, IsOwnerGuard)
+  @UseGuards(AuthGuard(), ModerationGuard, CanDeleteGuard)
   deleteAd(@Param('adID') adID: string, @CurrentUser() user: UserPayload) {
     return this.rolePlayAdService.deleteAd(adID, user);
   }
