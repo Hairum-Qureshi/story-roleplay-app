@@ -5,7 +5,6 @@ import { UserSchema } from 'src/schemas/User';
 import { ReportSchema } from 'src/schemas/Report';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolePlayAdSchema } from 'src/schemas/RolePlayAd';
-import { EmailModule } from 'src/email/email.module';
 
 @Module({
   providers: [ReportService],
@@ -15,7 +14,6 @@ import { EmailModule } from 'src/email/email.module';
     MongooseModule.forFeature([
       { name: 'RolePlayAd', schema: RolePlayAdSchema },
     ]),
-    EmailModule,
   ],
   controllers: [ReportController],
   exports: [ReportService],
