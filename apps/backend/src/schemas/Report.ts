@@ -38,6 +38,9 @@ export class Report {
   sentNoticeEmail: boolean;
 
   @Prop({ type: Boolean, default: false })
+  sentPostDeletionNoticeEmail: boolean;
+
+  @Prop({ type: Boolean, default: false })
   sentApologyEmail: boolean;
 
   @Prop({ enum: ModerationStatus, default: ModerationStatus.NONE })
