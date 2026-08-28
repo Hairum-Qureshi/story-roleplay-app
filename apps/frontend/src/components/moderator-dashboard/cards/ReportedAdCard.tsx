@@ -54,7 +54,7 @@ export default function ReportedAdCard({ report }: { report: ReportAd }) {
         <p className="mb-2 text-xs font-medium uppercase tracking-wide text-slate-500">
           Report Reason
         </p>
-        <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-3 wrap-break-words">
+        <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-3 wrap-break-word">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-red-500/10 text-red-400 ring-1 ring-inset ring-red-500/20">
               !
