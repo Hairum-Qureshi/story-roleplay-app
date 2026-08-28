@@ -80,7 +80,7 @@ export default function ModerationEmailPanel({
         </div>
       </div>
 
-      {moderatorAction === "SUSPEND" && (
+      {moderatorAction === "SUSPEND" && reportData?.sentEmail && (
         <div className="my-4">
           <SuspensionDuration />
         </div>
